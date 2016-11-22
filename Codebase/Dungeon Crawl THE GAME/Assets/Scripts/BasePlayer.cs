@@ -12,7 +12,7 @@ public class BasePlayer : MonoBehaviour {
 	void Update () {
         if (Input.GetKey("up") || Input.GetKey("w"))
         {
-            //transform.Translate()
+            transform.Translate(new Vector3(0,0,1));
         }
 
 	}
