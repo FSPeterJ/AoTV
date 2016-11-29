@@ -14,6 +14,8 @@ public enum BossStates
 
 public class Wowser : MonoBehaviour
 {
+    float MarX;
+    float MarY;
     float WowX;
     float WowY;
     float tail;
@@ -52,9 +54,19 @@ public class Wowser : MonoBehaviour
     }
     public void Follow()
     {
-        while(IsStunned == false)
+        if (IsStunned == false)
         {
-
+            while (WowX != MarX || WowY != MarY)
+            {
+                if (MarX > WowX)
+                    ++WowX;
+                else if (MarX < WowX)
+                    --WowX;
+                if (MarY > WowY)
+                    ++WowY;
+                else if (MarY < WowY)
+                    --WowY;
+            }
         }
     }
     void IdleState()
