@@ -1,36 +1,62 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+public enum BossStates
+{
+    Idle,
+    Moving,
+    Stomp,
+    FireBreath,
+    Stunned
+
+}
+
 public class Wowser : MonoBehaviour
 {
-    public float WowX;
-    public float WowY;
-    public float MarX;
-    public float MarY;
-    public int WHealth;
-    public int tail;
-    public bool IsIdle;
-    public bool IsStunned;
-    public bool IsAlive;
-
-    public void Start()
+    float MarX;
+    float MarY;
+    float WowX;
+    float WowY;
+    float tail;
+    bool IsIdle = true;
+    bool IsStunned = false;
+    bool lowHP = false;
+    BossStates CurrentState = BossStates.Idle;
+    float timeElapsed = 0.0f;
+    void Start()
     {
-        WowX = 4.0f;
-        WowY = 5.0f;
-        MarX = 10.0f;
-        MarY = 15.0f;
-        WHealth = 100;
-        IsIdle = true;
-        IsStunned = false;
-        IsAlive = true;
-    }
-	
 
+    }
+
+    void Update()
+    {
+        switch (CurrentState)
+        {
+            case BossStates.Idle:
+                IdleState();
+                break;
+            case BossStates.Moving:
+                MovingState();
+                break;
+            case BossStates.Stomp:
+                StompState();
+                break;
+            case BossStates.FireBreath:
+                FirebreathState();
+                break;
+            case BossStates.Stunned:
+                StunndedState();
+                break;
+            default:
+                break;
+        }
+    }
     public void Follow()
     {
-        if(IsStunned == false)
+        if (IsStunned == false)
         {
-            while(WowX != MarX || WowY != MArY)
+            while (WowX != MarX || WowY != MarY)
             {
                 if (MarX > WowX)
                     ++WowX;
@@ -43,17 +69,44 @@ public class Wowser : MonoBehaviour
             }
         }
     }
-
-    public void Life()
+    void IdleState()
     {
-        while (IsAlive == true)
+        //controls duration of IdleState // change hard coded 1 eventually
+        if(timeElapsed>1)
         {
-            Follow();
+            CurrentState = BossStates.Moving;
+            timeElapsed = 0;
         }
-    }
+       
+        while(timeElapsed<1)
+        {
+            timeElapsed += Time.deltaTime;
+            continue;
+        }
+       
 
-    public void Stun()
+    }
+    void MovingState()
     {
-        
+
+    }
+    void StompState()
+    {
+
+
+    }
+    void FirebreathState()
+    {
+
+
+    }
+    void StunndedState()
+    {
+
+
+    }
+    void SetCurrentState(BossStates NewState)
+    {
+        CurrentState = NewState;
     }
 }

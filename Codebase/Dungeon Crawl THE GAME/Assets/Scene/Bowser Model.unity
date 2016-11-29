@@ -414,7 +414,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 890277644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.64, z: 4.92}
+  m_LocalPosition: {x: 0, y: 2.12, z: 5.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -449,11 +449,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b77b63498389c740af1a465c4f81631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 6
-  JumpSpeed: 8
-  Gravity: 20
-  RotationSpeed: 2
+  speed: 6
+  sprintSpeed: 12
+  jumpSpeed: 8
+  gravity: 20
+  rotationSpeed: 2
   numberOfJumps: 3
+  getTail: {fileID: 1970136217}
 --- !u!1 &999675109
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,7 +880,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1229527589}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.24, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -960,7 +962,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1615475757}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.13, y: 0.59, z: 11.73}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 2.052374, y: 3.2008586, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -1287,6 +1289,7 @@ GameObject:
   - 33: {fileID: 1970136221}
   - 136: {fileID: 1970136220}
   - 23: {fileID: 1970136219}
+  - 65: {fileID: 1970136222}
   m_Layer: 0
   m_Name: Tail
   m_TagString: Untagged
@@ -1356,6 +1359,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1970136217}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &1970136222
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1970136217}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.11, y: 1.9999999, z: 1.0000001}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2014347972
 GameObject:
   m_ObjectHideFlags: 0
