@@ -11,9 +11,10 @@ public class BasePlayer : MonoBehaviour {
 	
 	}
 
-    public float speed = 6.0F;
-    public float jumpSpeed = 8.0F;
-    public float gravity = 20.0F;
+    public float Speed = 6.0F;
+    public float JumpSpeed = 8.0F;
+    public float Gravity = 20.0F;
+    public float RotationSpeed = 2;
     private Vector3 moveDirection = Vector3.zero;
 
     // Update is called once per frame
@@ -22,17 +23,18 @@ public class BasePlayer : MonoBehaviour {
         if (controller.isGrounded)
         {
 
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
+            transform.Rotate(0, Input.GetAxis("Horizontal") * RotationSpeed, 0);
             moveDirection = transform.TransformDirection(moveDirection);
-            moveDirection *= speed;
+            moveDirection *= Speed;
 
 
             if (Input.GetKey("space"))
 
-                moveDirection.y = jumpSpeed;
+                moveDirection.y = JumpSpeed;
 
         }
-        moveDirection.y -= gravity * Time.deltaTime;
+        moveDirection.y -= Gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
     }
 }
