@@ -419,9 +419,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
+  sprintSpeed: 12
   jumpSpeed: 8
   gravity: 20
-  numberOfJumps: 10
+  numberOfJumps: 3
+  getTail: {fileID: 1970136217}
 --- !u!1 &999675109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1255,6 +1257,7 @@ GameObject:
   - 33: {fileID: 1970136221}
   - 136: {fileID: 1970136220}
   - 23: {fileID: 1970136219}
+  - 65: {fileID: 1970136222}
   m_Layer: 0
   m_Name: Tail
   m_TagString: Untagged
@@ -1324,6 +1327,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1970136217}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &1970136222
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1970136217}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.11, y: 1.9999999, z: 1.0000001}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2014347972
 GameObject:
   m_ObjectHideFlags: 0
