@@ -19,11 +19,13 @@ public class Wowser : MonoBehaviour
     float WowX;
     float WowY;
     float tail;
+    float fireball;
     bool IsIdle = true;
     bool IsStunned = false;
     bool lowHP = false;
     BossStates CurrentState = BossStates.Idle;
     float timeElapsed = 0.0f;
+    Vector3 forward;
     void Start()
     {
 
@@ -97,8 +99,10 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
-
-
+        while ()
+        {
+           
+        }
     }
     void StunndedState()
     {
