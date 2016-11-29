@@ -13,6 +13,7 @@ public class BasePlayer : MonoBehaviour
 
     }
 
+    public int HP = 100;
     public float speed = 6.0F;
     public float sprintSpeed = 10.0f;
     public float jumpSpeed = 8.0F;
@@ -54,7 +55,6 @@ public class BasePlayer : MonoBehaviour
             
         }
 
-
         moveDirection.y -= gravity * Time.deltaTime;
         transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
 
@@ -69,5 +69,10 @@ public class BasePlayer : MonoBehaviour
     {
         if (col.gameObject == getTail)
             canGrabTail = false;
+    }
+
+    void TakeDamage(int damage)
+    {
+        HP -= damage;
     }
 }

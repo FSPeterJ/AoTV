@@ -14,16 +14,15 @@ public enum BossStates
 
 public class Wowser : MonoBehaviour
 {
-    float MarX;
-    float MarY;
-    float WowX;
-    float WowY;
+
     float tail;
     bool IsIdle = true;
     bool IsStunned = false;
     bool lowHP = false;
     BossStates CurrentState = BossStates.Idle;
     float timeElapsed = 0.0f;
+    Vector3 Position;
+   public GameObject Mario;
     void Start()
     {
 
@@ -31,7 +30,8 @@ public class Wowser : MonoBehaviour
 
     void Update()
     {
-        switch (CurrentState)
+        Position = transform.position;
+            switch (CurrentState)
         {
             case BossStates.Idle:
                 IdleState();
@@ -50,23 +50,6 @@ public class Wowser : MonoBehaviour
                 break;
             default:
                 break;
-        }
-    }
-    public void Follow()
-    {
-        if (IsStunned == false)
-        {
-            while (WowX != MarX || WowY != MarY)
-            {
-                if (MarX > WowX)
-                    ++WowX;
-                else if (MarX < WowX)
-                    --WowX;
-                if (MarY > WowY)
-                    ++WowY;
-                else if (MarY < WowY)
-                    --WowY;
-            }
         }
     }
     void IdleState()
@@ -88,10 +71,22 @@ public class Wowser : MonoBehaviour
     }
     void MovingState()
     {
-
+     
     }
     void StompState()
     {
+        int r = 1;
+        while (timeElapsed < 1.5)
+        {
+            timeElapsed += Time.deltaTime;
+        }
+       if (timeElapsed >=1.5)
+        {
+           
+            if()
+            //stomp circle code here
+        }
+
 
 
     }
@@ -102,7 +97,19 @@ public class Wowser : MonoBehaviour
     }
     void StunndedState()
     {
+ 
+        int stunDuration = 3;
+        if (timeElapsed > stunDuration )
+        {
+            CurrentState = BossStates.Moving;
+            timeElapsed = 0;
+        }
 
+        while (timeElapsed < 1)
+        {
+            timeElapsed += Time.deltaTime;
+            continue;
+        }
 
     }
     void SetCurrentState(BossStates NewState)
