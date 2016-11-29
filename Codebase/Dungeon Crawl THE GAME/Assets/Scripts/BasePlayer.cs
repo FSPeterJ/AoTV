@@ -15,6 +15,8 @@ public class BasePlayer : MonoBehaviour {
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
     private Vector3 moveDirection = Vector3.zero;
+    public int numberOfJumps = 3;
+    private int currentJump = 3;
 
     // Update is called once per frame
     void Update () {
@@ -26,12 +28,17 @@ public class BasePlayer : MonoBehaviour {
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= speed;
 
-
-            if (Input.GetKey("space"))
-
-                moveDirection.y = jumpSpeed;
+            currentJump = numberOfJumps;            
 
         }
+
+        if (Input.GetKeyDown("space") && currentJump > 0)
+        {
+            currentJump--;
+            moveDirection.y = jumpSpeed;
+            
+        }
+
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
     }
