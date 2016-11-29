@@ -19,7 +19,7 @@ public class Wowser : MonoBehaviour
     bool IsIdle = true;
     bool IsStunned = false;
     bool lowHP = false;
-    BossStates CurrentState = BossStates.Idle;
+    public BossStates CurrentState = BossStates.Idle;
     float timeElapsed = 0.0f;
     Vector3 Position;
    public GameObject Mario;
@@ -82,8 +82,9 @@ public class Wowser : MonoBehaviour
         }
        if (timeElapsed >=1.5)
         {
-           
-            if()
+
+            if (true)
+            { }
             //stomp circle code here
         }
 
@@ -112,7 +113,7 @@ public class Wowser : MonoBehaviour
         }
 
     }
-    void SetCurrentState(BossStates NewState)
+    public void SetCurrentState(BossStates NewState)
     {
         CurrentState = NewState;
     }
