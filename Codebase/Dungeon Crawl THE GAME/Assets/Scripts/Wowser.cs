@@ -76,7 +76,20 @@ public class Wowser : MonoBehaviour
     }
     void MovingState()
     {
-
+        if (IsStunned == false)
+        {
+            while (WowX != MarX || WowY != MarY)
+            {
+                if (MarX > WowX)
+                    ++WowX;
+                else if (MarX < WowX)
+                    --WowX;
+                if (MarY > WowY)
+                    ++WowY;
+                else if (MarY < WowY)
+                    --WowY;
+            }
+        }
     }
     void StompState()
     {
