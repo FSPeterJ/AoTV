@@ -175,7 +175,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 300998140}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.394, y: 1.4923623, z: -0.2529}
+  m_LocalPosition: {x: -0.394, y: 1.4923623, z: -0.25}
   m_LocalScale: {x: 0.05, y: 2, z: 0.05}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -335,7 +335,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 502687797}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.4451, y: 1.4923623, z: -0.1474}
+  m_LocalPosition: {x: 0.396, y: 1.4923623, z: -0.25}
   m_LocalScale: {x: 0.05, y: 2, z: 0.05}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -453,7 +453,7 @@ MonoBehaviour:
   sprintSpeed: 12
   jumpSpeed: 8
   gravity: 20
-  rotationSpeed: 2
+  rotationSpeed: 5
   numberOfJumps: 3
   getTail: {fileID: 1970136217}
 --- !u!1 &999675109
