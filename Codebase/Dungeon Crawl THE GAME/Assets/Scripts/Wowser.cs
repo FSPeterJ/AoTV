@@ -84,9 +84,7 @@ public class Wowser : MonoBehaviour
         {
 
             if (true)
-            {
-
-            }
+            { }
             //stomp circle code here
         }
 
@@ -115,7 +113,7 @@ public class Wowser : MonoBehaviour
         }
 
     }
-    void SetCurrentState(BossStates NewState)
+    public void SetCurrentState(BossStates NewState)
     {
         CurrentState = NewState;
     }
