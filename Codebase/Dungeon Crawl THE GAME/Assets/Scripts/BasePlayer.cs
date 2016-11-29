@@ -11,7 +11,6 @@ public class BasePlayer : MonoBehaviour {
 	
 	}
 
-
     public float Speed = 6.0F;
     public float JumpSpeed = 8.0F;
     public float Gravity = 20.0F;
@@ -36,8 +35,6 @@ public class BasePlayer : MonoBehaviour {
 
 
         }
-
-
 
         if (Input.GetKeyDown("space") && currentJump > 0)
         {
