@@ -7,9 +7,11 @@ public class Wowser : MonoBehaviour
     public float WowY;
     public float MarX;
     public float MarY;
+    public int WHealth;
     public int tail;
-    public bool IsIdle = true;
-    public bool IsStunned = false;
+    public bool IsIdle;
+    public bool IsStunned;
+    public bool IsAlive;
 
     public void Start()
     {
@@ -17,8 +19,10 @@ public class Wowser : MonoBehaviour
         WowY = 5.0f;
         MarX = 10.0f;
         MarY = 15.0f;
+        WHealth = 100;
         IsIdle = true;
         IsStunned = false;
+        IsAlive = true;
     }
 	
 
@@ -38,5 +42,18 @@ public class Wowser : MonoBehaviour
                     --WowY;
             }
         }
+    }
+
+    public void Life()
+    {
+        while (IsAlive == true)
+        {
+            Follow();
+        }
+    }
+
+    public void Stun()
+    {
+        
     }
 }
