@@ -20,15 +20,14 @@ public class Wowser : MonoBehaviour
     bool IsStunned = false;
     bool lowHP = false;
     float timeElapsed = 0.0f;
+    int bHealth = 3;
     Vector3 Position;
     float dist = 0;
-
-
     public BossStates CurrentState = BossStates.Idle;
-
-
-    public GameObject Mario;
-    void Start()
+  public GameObject Mario;
+    public Collider wowser;
+    public GameObject arena;
+    public GameObject Bomb;    void Start()
     {
         
     }
@@ -128,7 +127,7 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
-
+        
 
     }
     void StunndedState()
@@ -147,6 +146,26 @@ public class Wowser : MonoBehaviour
             continue;
         }
 
+    }
+
+    void Follow()
+    {
+        arena.GetComponent<NavMeshAgent>();
+
+        while (CurrentState == BossStates.Idle)
+        {
+            
+
+        }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+      if (col.gameObject.tag == "Explosive")
+      {
+         --bHealth;
+            Destroy(col.gameObject);
+      }
     }
     public void SetCurrentState(BossStates NewState)
     {
