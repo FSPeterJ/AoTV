@@ -110,8 +110,11 @@ public class BasePlayer : MonoBehaviour
     {
         HP -= damage;
     }
+void TakeFireDamage(int damage)
+    {
 
-    IEnumerator tossTime ()
+        TakeDamage(damage);
+    }    IEnumerator tossTime ()
     {
         hasThrown = true;
         Wowser.GetComponent<Rigidbody>().isKinematic = false;
@@ -121,4 +124,3 @@ public class BasePlayer : MonoBehaviour
         hasThrown = false;
 
     }
-}
