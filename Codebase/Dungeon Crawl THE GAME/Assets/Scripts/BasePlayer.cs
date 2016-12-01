@@ -17,7 +17,7 @@ public class BasePlayer : MonoBehaviour
 
     }
 
-    public int HP = 100;
+    public int HP = 3;
     public float speed = 6.0F;
     public float sprintSpeed = 10.0f;
     public float jumpSpeed = 8.0F;
@@ -32,8 +32,13 @@ public class BasePlayer : MonoBehaviour
     public bool canGrabTail = false;
     private bool tailGrabbed = false;
     public float tossSpeed;
+    public float tossSeconds = 1.5f;
     public GameObject getTail;
     public GameObject Wowser;
+    public GameObject Life1;
+    public GameObject Life2;
+    public GameObject Life3;
+
 
     private bool hasThrown = false;
 
@@ -106,21 +111,37 @@ public class BasePlayer : MonoBehaviour
         controller.Move(moveDirection * Time.deltaTime);
     }
 
-    void TakeDamage(int damage)
+    void TakeDamage()
     {
-        HP -= damage;
+        switch(HP)
+        {
+            case 3:
+                Life3.GetComponent<Renderer>().enabled = false;
+                break;
+            case 2:
+                Life2.GetComponent<Renderer>().enabled = false;
+
+                break;
+            case 1:
+                Life1.GetComponent<Renderer>().enabled = false;
+                //KillMario
+                break;
+        }
+        HP -= 1;
+
     }
     void TakeFireDamage(int damage)
     {
 
-        TakeDamage(damage);
+        TakeDamage();
     }
+
     IEnumerator tossTime()
     {
         hasThrown = true;
         Wowser.GetComponent<Rigidbody>().isKinematic = false;
         Wowser.GetComponent<Rigidbody>().velocity = (transform.forward * tossSpeed);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(tossSeconds);
         Wowser.GetComponent<Rigidbody>().isKinematic = true;
         hasThrown = false;
 
