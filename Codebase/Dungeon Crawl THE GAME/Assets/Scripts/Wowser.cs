@@ -27,7 +27,7 @@ public class Wowser : MonoBehaviour
     public GameObject arena;
     void Start()
     {
-
+        
     }
 
     void Update()
@@ -73,6 +73,7 @@ public class Wowser : MonoBehaviour
     }
     void MovingState()
     {
+        
      
     }
     void StompState()
