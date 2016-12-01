@@ -64,7 +64,7 @@ public class Wowser : MonoBehaviour
 
      
        //controls duration of IdleState // change hard coded 1 eventually
-        if (timeElapsed>1)
+        if (timeElapsed>5)
         {
             CurrentState = BossStates.Moving;
             timeElapsed = 0;
@@ -82,9 +82,11 @@ public class Wowser : MonoBehaviour
 
     void MovingState()
     {
-     //   
-       //if (dist < 5f )
-            if (GetComponent<NavMeshAgent>().remainingDistance < 4f)
+        GetComponent<NavMeshAgent>().enabled = true;
+
+        //   
+        //if (dist < 5f )
+        if (GetComponent<NavMeshAgent>().remainingDistance < 4f)
             {
             GetComponent<NavMeshAgent>().speed = 0.5f;
         //    GetComponent<NavMeshAgent>().Warp(transform.position);

@@ -99,6 +99,8 @@ public class BasePlayer : MonoBehaviour
             }
             else
             {
+                Wowser.GetComponent<NavMeshAgent>().enabled = false;
+
                 currentState = playerStates.throwing;
                 Wowser.transform.parent = transform;
                 tailGrabbed = true;
@@ -111,7 +113,7 @@ public class BasePlayer : MonoBehaviour
         controller.Move(moveDirection * Time.deltaTime);
     }
 
-    void TakeDamage()
+    public void TakeDamage()
     {
         switch(HP)
         {
@@ -139,10 +141,14 @@ public class BasePlayer : MonoBehaviour
     IEnumerator tossTime()
     {
         hasThrown = true;
+        Wowser.GetComponent<Wowser>().CurrentState = BossStates.Idle;
         Wowser.GetComponent<Rigidbody>().isKinematic = false;
         Wowser.GetComponent<Rigidbody>().velocity = (transform.forward * tossSpeed);
         yield return new WaitForSeconds(tossSeconds);
         Wowser.GetComponent<Rigidbody>().isKinematic = true;
+
+        //Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
+
         hasThrown = false;
 
     }
