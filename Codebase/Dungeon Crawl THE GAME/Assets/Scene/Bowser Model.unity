@@ -172,11 +172,11 @@ NavMeshAgent:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 205614334}
   m_Enabled: 1
-  m_Radius: 1
+  m_Radius: 2
   m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 60
+  m_AngularSpeed: 200
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 0
@@ -1098,7 +1098,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 1703039126
+  randomSeed: -1000652667
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -1479,7 +1479,7 @@ ParticleSystem:
     m_UseMeshColors: 1
     randomDirection: 0
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 2
     m_Type: 0
     rate:
@@ -2907,7 +2907,7 @@ Transform:
   m_GameObject: {fileID: 1615475757}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.052374, y: 3.2008586, z: 1}
+  m_LocalScale: {x: 2, y: 3.2, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1970136218}
