@@ -21,10 +21,12 @@ public class Wowser : MonoBehaviour
     bool lowHP = false;
     public BossStates CurrentState = BossStates.Idle;
     float timeElapsed = 0.0f;
+    int bHealth = 3;
     Vector3 Position;
     public GameObject Mario;
-    public GameObject wowser;
+    public Collider wowser;
     public GameObject arena;
+    public GameObject Bomb;
     void Start()
     {
         
@@ -123,10 +125,18 @@ public class Wowser : MonoBehaviour
 
         while (CurrentState == BossStates.Idle)
         {
-           
-
+            
 
         }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+      if (col.gameObject.tag == "Explosive")
+      {
+         --bHealth;
+            Destroy(col.gameObject);
+      }
     }
     public void SetCurrentState(BossStates NewState)
     {
