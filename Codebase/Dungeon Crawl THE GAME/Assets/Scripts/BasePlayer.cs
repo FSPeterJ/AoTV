@@ -78,8 +78,10 @@ public class BasePlayer : MonoBehaviour
     }
 
     void TakeFireDamage(int damage)
-    {
 
+    {
+        //TunOnParticle Burn Here.
+        //GameObject.Find("")
         TakeDamage(damage);
     }
 }
