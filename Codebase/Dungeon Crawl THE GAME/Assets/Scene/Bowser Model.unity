@@ -79,15 +79,15 @@ NavMeshSettings:
   m_ObjectHideFlags: 0
   m_BuildSettings:
     serializedVersion: 2
-    agentRadius: 0.5
+    agentRadius: 1
     agentHeight: 2
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 0.6
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     accuratePlacement: 0
     minRegionArea: 2
-    cellSize: 0.16666667
+    cellSize: 0.33333334
     manualCellSize: 0
   m_NavMeshData: {fileID: 23800000, guid: 2f02b399e83f5124caaa18c5da0c2ff0, type: 2}
 --- !u!1 &205614334
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186d5fde3c21bb0459ef84d829c324b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
+  CurrentState: 1
   Mario: {fileID: 890277644}
   wowser: {fileID: 205614340}
   arena: {fileID: 1021897748}
@@ -176,18 +176,18 @@ NavMeshAgent:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 205614334}
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 1
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 1
-  m_AutoTraverseOffMeshLink: 0
-  m_AutoBraking: 1
+  m_AngularSpeed: 60
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 1
   m_BaseOffset: 0
-  m_WalkableMask: 0
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
 --- !u!64 &205614340
 MeshCollider:
@@ -388,6 +388,7 @@ GameObject:
   - 33: {fileID: 547949153}
   - 65: {fileID: 547949152}
   - 54: {fileID: 547949151}
+  - 114: {fileID: 547949154}
   m_Layer: 0
   m_Name: GrabZone
   m_TagString: Untagged
@@ -402,8 +403,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 547949149}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2, y: 0, z: 0.96}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: -2, y: 0, z: 0.65}
+  m_LocalScale: {x: 2, y: 2, z: 2.440741}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 2014347973}
@@ -433,7 +434,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 1, z: 0.6}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &547949153
 MeshFilter:
@@ -442,6 +443,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 547949149}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &547949154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 547949149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 390ded4d5eabb1e42b56176f04f767f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mario: {fileID: 890277644}
 --- !u!1 &568808114
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,7 +528,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 890277644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 5.99}
+  m_LocalPosition: {x: 0, y: 1.5, z: 6.052}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -532,7 +545,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
+  m_Height: 0.93
   m_Radius: 0.6
   m_SlopeLimit: 45
   m_StepOffset: 0.3
@@ -556,7 +569,12 @@ MonoBehaviour:
   jumpSpeed: 8
   gravity: 20
   rotationSpeed: 5
+  marioRb: {fileID: 1229527591}
+  wowserRb: {fileID: 205614337}
+  currentState: 0
   numberOfJumps: 3
+  canGrabTail: 0
+  tossSpeed: 5
   getTail: {fileID: 1970136217}
   Wowser: {fileID: 205614334}
 --- !u!1 &999675109
@@ -1137,7 +1155,7 @@ CharacterController:
   m_GameObject: {fileID: 1615475757}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Height: 0.99999994
   m_Radius: 0.5
@@ -1228,7 +1246,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1861756357}
   m_LocalRotation: {x: 0.5, y: -0, z: -0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 15.84, z: -8.04}
+  m_LocalPosition: {x: 0, y: 15.84, z: -2.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
   m_Children: []
@@ -1494,8 +1512,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.57, y: 2.69, z: 1.0000001}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1.84, y: 2.69, z: 1.84}
+  m_Center: {x: 0, y: 0, z: 0.4}
 --- !u!1 &1988184654
 GameObject:
   m_ObjectHideFlags: 0
@@ -1638,7 +1656,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: -1730417344
+  randomSeed: 244643950
   InitialModule:
     serializedVersion: 2
     enabled: 1

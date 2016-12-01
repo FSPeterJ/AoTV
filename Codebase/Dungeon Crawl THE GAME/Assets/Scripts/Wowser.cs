@@ -19,21 +19,24 @@ public class Wowser : MonoBehaviour
     bool IsIdle = true;
     bool IsStunned = false;
     bool lowHP = false;
-    public BossStates CurrentState = BossStates.Idle;
     float timeElapsed = 0.0f;
     int bHealth = 3;
     Vector3 Position;
-    public GameObject Mario;
+    float dist = 0;
+    public BossStates CurrentState = BossStates.Idle;
+  public GameObject Mario;
     public Collider wowser;
     public GameObject arena;
-    public GameObject Bomb;
-    void Start()
+    public GameObject Bomb;    void Start()
     {
         
     }
 
     void Update()
     {
+        
+        dist = Vector3.Distance(transform.position, Mario.transform.position);
+
         Position = transform.position;
             switch (CurrentState)
         {
@@ -58,10 +61,21 @@ public class Wowser : MonoBehaviour
     }
     void IdleState()
     {
-        //controls duration of IdleState // change hard coded 1 eventually
-        if(timeElapsed>1)
+
+        GetComponent<NavMeshAgent>().updatePosition = false;
+        GetComponent<NavMeshAgent>().Warp(transform.position);
+
+        GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
+
+
+        if (dist > 5f)
+            Mov();
+            //CurrentState = BossStates.Moving;
+            //GetComponent<NavMeshAgent>().;
+            //controls duration of IdleState // change hard coded 1 eventually
+        if (timeElapsed>1)
         {
-            CurrentState = BossStates.Moving;
+            //CurrentState = BossStates.Moving;
             timeElapsed = 0;
         }
        
@@ -73,14 +87,29 @@ public class Wowser : MonoBehaviour
        
 
     }
+
+    private void Mov()
+    {
+        CurrentState = BossStates.Moving;
+        GetComponent<NavMeshAgent>().Warp(transform.position);
+        GetComponent<NavMeshAgent>().updatePosition = true;
+    }
     void MovingState()
     {
+
+        //GetComponent<NavMeshAgent>().updatePosition = true;
+        if (dist < 5f)
+            CurrentState = BossStates.Idle;
         
+        GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
+
+        Debug.Log(dist);
+        Debug.Log(CurrentState.ToString());
      
     }
     void StompState()
     {
-        int r = 1;
+        //int r = 1;
         while (timeElapsed < 1.5)
         {
             timeElapsed += Time.deltaTime;
