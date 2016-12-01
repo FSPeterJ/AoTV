@@ -160,11 +160,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 205614334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b534df707a6bd964b945940065e76d5d, type: 3}
+  m_Script: {fileID: 11500000, guid: 186d5fde3c21bb0459ef84d829c324b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentState: 0
   Mario: {fileID: 890277644}
+  wowser: {fileID: 205614334}
+  arena: {fileID: 1021897748}
 --- !u!1 &300998140
 GameObject:
   m_ObjectHideFlags: 0

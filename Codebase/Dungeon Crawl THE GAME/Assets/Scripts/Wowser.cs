@@ -22,7 +22,9 @@ public class Wowser : MonoBehaviour
     public BossStates CurrentState = BossStates.Idle;
     float timeElapsed = 0.0f;
     Vector3 Position;
-   public GameObject Mario;
+    public GameObject Mario;
+    public GameObject wowser;
+    public GameObject arena;
     void Start()
     {
 
@@ -93,7 +95,7 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
-
+        
 
     }
     void StunndedState()
@@ -112,6 +114,18 @@ public class Wowser : MonoBehaviour
             continue;
         }
 
+    }
+
+    void Follow()
+    {
+        arena.GetComponent<NavMeshAgent>();
+
+        while (CurrentState == BossStates.Idle)
+        {
+           
+
+
+        }
     }
     public void SetCurrentState(BossStates NewState)
     {
