@@ -25,7 +25,7 @@ public class Wowser : MonoBehaviour
    public GameObject Mario;
     void Start()
     {
-
+        
     }
 
     void Update()
@@ -71,6 +71,7 @@ public class Wowser : MonoBehaviour
     }
     void MovingState()
     {
+        
      
     }
     void StompState()
