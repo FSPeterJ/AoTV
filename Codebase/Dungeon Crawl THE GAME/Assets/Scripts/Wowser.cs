@@ -76,7 +76,7 @@ public class Wowser : MonoBehaviour
     }
     void StompState()
     {
-        int r = 1;
+        //int r = 1;
         while (timeElapsed < 1.5)
         {
             timeElapsed += Time.deltaTime;
