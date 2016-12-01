@@ -76,4 +76,10 @@ public class BasePlayer : MonoBehaviour
     {
         HP -= damage;
     }
+
+    void TakeFireDamage(int damage)
+    {
+
+        TakeDamage(damage);
+    }
 }
