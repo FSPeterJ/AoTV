@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -646,6 +646,7 @@ MonoBehaviour:
   rotationSpeed: 5
   numberOfJumps: 3
   getTail: {fileID: 1970136217}
+  Wowser: {fileID: 205614334}
 --- !u!1 &999675109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1703,7 +1704,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2048897160}
-  - 114: {fileID: 2048897163}
   - 33: {fileID: 2048897164}
   - 23: {fileID: 2048897162}
   - 64: {fileID: 2048897161}
@@ -1769,17 +1769,6 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!114 &2048897163
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2048897159}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66d24c50491ff8e42b8db3fb567cae7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &2048897164
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -25,6 +25,7 @@ public class BasePlayer : MonoBehaviour
     private bool canGrabTail = false;
 
     public GameObject getTail;
+    public GameObject Wowser;
 
     // Update is called once per frame
     void Update()
@@ -50,9 +51,9 @@ public class BasePlayer : MonoBehaviour
             moveDirection.y = jumpSpeed;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && canGrabTail)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            
+            Wowser.transform.parent = transform;
         }
 
         moveDirection.y -= gravity * Time.deltaTime;
