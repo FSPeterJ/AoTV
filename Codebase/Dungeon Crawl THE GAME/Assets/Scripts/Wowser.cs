@@ -62,20 +62,11 @@ public class Wowser : MonoBehaviour
     void IdleState()
     {
 
-        GetComponent<NavMeshAgent>().updatePosition = false;
-        GetComponent<NavMeshAgent>().Warp(transform.position);
-
-        GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
-
-
-        if (dist > 5f)
-            Mov();
-            //CurrentState = BossStates.Moving;
-            //GetComponent<NavMeshAgent>().;
-            //controls duration of IdleState // change hard coded 1 eventually
+     
+       //controls duration of IdleState // change hard coded 1 eventually
         if (timeElapsed>1)
         {
-            //CurrentState = BossStates.Moving;
+            CurrentState = BossStates.Moving;
             timeElapsed = 0;
         }
        
@@ -88,24 +79,24 @@ public class Wowser : MonoBehaviour
 
     }
 
-    private void Mov()
-    {
-        CurrentState = BossStates.Moving;
-        GetComponent<NavMeshAgent>().Warp(transform.position);
-        GetComponent<NavMeshAgent>().updatePosition = true;
-    }
+
     void MovingState()
     {
-
-        //GetComponent<NavMeshAgent>().updatePosition = true;
-        if (dist < 5f)
-            CurrentState = BossStates.Idle;
+     //   
+       //if (dist < 5f )
+            if (GetComponent<NavMeshAgent>().remainingDistance < 4f)
+            {
+            GetComponent<NavMeshAgent>().speed = 0.5f;
+        //    GetComponent<NavMeshAgent>().Warp(transform.position);
+           
+       }
+        else if (GetComponent<NavMeshAgent>().remainingDistance >= 5f)
+        {
+            GetComponent<NavMeshAgent>().speed = 3;
+            //   GetComponent<NavMeshAgent>().Warp(transform.position);
         
+        }
         GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
-
-        Debug.Log(dist);
-        Debug.Log(CurrentState.ToString());
-     
     }
     void StompState()
     {
