@@ -114,7 +114,9 @@ void TakeFireDamage(int damage)
     {
 
         TakeDamage(damage);
-    }    IEnumerator tossTime ()
+    }
+
+    IEnumerator tossTime ()
     {
         hasThrown = true;
         Wowser.GetComponent<Rigidbody>().isKinematic = false;
