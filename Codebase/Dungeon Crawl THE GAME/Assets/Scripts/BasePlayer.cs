@@ -49,6 +49,10 @@ public class BasePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (canGrabTail ==true)
+        {
+            Debug.Log("CanGrabTail = true");
+        }
         CharacterController controller = GetComponent<CharacterController>();
 
         switch (currentState)
