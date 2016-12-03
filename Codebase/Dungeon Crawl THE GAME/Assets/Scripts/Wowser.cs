@@ -108,6 +108,8 @@ public class Wowser : MonoBehaviour
 
         }
 
+        Nav.destination = Mario.transform.position;
+
     }
     void StompState()
     {
