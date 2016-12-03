@@ -64,7 +64,6 @@ public class Wowser : MonoBehaviour
     {
 
 
-
         //controls duration of IdleState // change hard coded 1 eventually
         if (timeElapsed > 1)
 
@@ -95,24 +94,25 @@ public class Wowser : MonoBehaviour
         if (GetComponent<NavMeshAgent>().remainingDistance < 4f)
         {
 
-        GetComponent<NavMeshAgent>().enabled = true;
+            GetComponent<NavMeshAgent>().enabled = true;
 
-        //   
-        //if (dist < 5f )
-        if (GetComponent<NavMeshAgent>().remainingDistance < 4f)
+            //   
+            //if (dist < 5f )
+            if (GetComponent<NavMeshAgent>().remainingDistance < 4f)
             {
 
-            GetComponent<NavMeshAgent>().speed = 0.5f;
-            //    GetComponent<NavMeshAgent>().Warp(transform.position);
+                GetComponent<NavMeshAgent>().speed = 0.5f;
+                //    GetComponent<NavMeshAgent>().Warp(transform.position);
 
-        }
-        else if (GetComponent<NavMeshAgent>().remainingDistance >= 5f)
-        {
-            GetComponent<NavMeshAgent>().speed = 3;
-            //   GetComponent<NavMeshAgent>().Warp(transform.position);
+            }
+            else if (GetComponent<NavMeshAgent>().remainingDistance >= 5f)
+            {
+                GetComponent<NavMeshAgent>().speed = 3;
+                //   GetComponent<NavMeshAgent>().Warp(transform.position);
 
+            }
+            GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
         }
-        GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
     }
     void StompState()
     {
