@@ -20,15 +20,14 @@ public class Wowser : MonoBehaviour
     bool IsStunned = false;
     bool lowHP = false;
     float timeElapsed = 0.0f;
+    int bHealth = 3;
     Vector3 Position;
     float dist = 0;
-
-
     public BossStates CurrentState = BossStates.Idle;
-
-
-    public GameObject Mario;
-    void Start()
+  public GameObject Mario;
+    public Collider wowser;
+    public GameObject arena;
+    public GameObject Bomb;    void Start()
     {
         
     }
@@ -63,14 +62,6 @@ public class Wowser : MonoBehaviour
     void IdleState()
     {
 
-        GetComponent<NavMeshAgent>().updatePosition = false;
-        GetComponent<NavMeshAgent>().Warp(transform.position);
-
-        GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
-
-
-        if (dist > 5f)
-            Mov();
             //CurrentState = BossStates.Moving;
             //GetComponent<NavMeshAgent>().;
             //controls duration of IdleState // change hard coded 1 eventually
@@ -89,19 +80,25 @@ public class Wowser : MonoBehaviour
 
     }
 
-    private void Mov()
-    {
-        CurrentState = BossStates.Moving;
-        GetComponent<NavMeshAgent>().Warp(transform.position);
-        GetComponent<NavMeshAgent>().updatePosition = true;
-    }
     void MovingState()
     {
-
-        //GetComponent<NavMeshAgent>().updatePosition = true;
-        if (dist < 5f)
-            CurrentState = BossStates.Idle;
         
+
+        if (dist < 4f && GetComponent<NavMeshAgent>().updatePosition)
+        {
+            GetComponent<NavMeshAgent>().updatePosition = false;
+            GetComponent<NavMeshAgent>().Warp(transform.position);
+
+
+        }
+        else if (dist > 5f && !GetComponent<NavMeshAgent>().updatePosition)
+        {
+
+            GetComponent<NavMeshAgent>().updatePosition = true;
+            GetComponent<NavMeshAgent>().Warp(transform.position);
+
+        }
+
         GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
 
         Debug.Log(dist);
@@ -110,7 +107,7 @@ public class Wowser : MonoBehaviour
     }
     void StompState()
     {
-        int r = 1;
+        //int r = 1;
         while (timeElapsed < 1.5)
         {
             timeElapsed += Time.deltaTime;
@@ -128,7 +125,7 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
-
+        
 
     }
     void StunndedState()
@@ -147,6 +144,26 @@ public class Wowser : MonoBehaviour
             continue;
         }
 
+    }
+
+    void Follow()
+    {
+        arena.GetComponent<NavMeshAgent>();
+
+        while (CurrentState == BossStates.Idle)
+        {
+            
+
+        }
+    }
+
+    void OnTriggerEnter(Collider col)
+    {
+      if (col.gameObject.tag == "Explosive")
+      {
+         --bHealth;
+            Destroy(col.gameObject);
+      }
     }
     public void SetCurrentState(BossStates NewState)
     {
