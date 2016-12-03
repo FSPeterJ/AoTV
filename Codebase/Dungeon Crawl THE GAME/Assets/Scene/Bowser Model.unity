@@ -90,6 +90,34 @@ NavMeshSettings:
     cellSize: 0.33333334
     manualCellSize: 0
   m_NavMeshData: {fileID: 23800000, guid: 2f02b399e83f5124caaa18c5da0c2ff0, type: 2}
+--- !u!1 &139000723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 139000724}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &139000724
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 139000723}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 890277645}
+  m_RootOrder: 1
 --- !u!1 &139475960 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 134674, guid: 8a2b9fe17763d2946ad000498978f6c7, type: 2}
@@ -579,6 +607,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: -43.928, z: 0}
   m_Children:
   - {fileID: 1229527590}
+  - {fileID: 139000724}
   m_Father: {fileID: 0}
   m_RootOrder: 3
 --- !u!143 &890277646
