@@ -38,6 +38,7 @@ public class BasePlayer : MonoBehaviour
     public GameObject Life1;
     public GameObject Life2;
     public GameObject Life3;
+    
 
 
     private bool hasThrown = false;
