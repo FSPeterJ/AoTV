@@ -19,7 +19,7 @@ public class BasePlayer : MonoBehaviour
 
     }
 
-    public int HP = 3;
+    private int HP = 3;
     public float speed = 6.0F;
     public float sprintSpeed = 10.0f;
     public float jumpSpeed = 8.0F;
@@ -100,7 +100,7 @@ public class BasePlayer : MonoBehaviour
                 {
                     StartCoroutine("tossTime");
 
-                    //Need to find wowser's front vector and move him in that direction
+                    //Need to change bowser's rotation to Mario's
                 }
                 currentState = playerStates.normal;
             }
@@ -145,7 +145,7 @@ public class BasePlayer : MonoBehaviour
         HP -= 1;
 
     }
-    void TakeFireDamage(int damage)
+    public void TakeFireDamage()
     {
 
         TakeDamage();
@@ -159,8 +159,8 @@ public class BasePlayer : MonoBehaviour
         Wowser.GetComponent<Rigidbody>().velocity = (transform.forward * tossSpeed);
         yield return new WaitForSeconds(tossSeconds);
         Wowser.GetComponent<Rigidbody>().isKinematic = true;
-
-        //Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
+        Wowser.GetComponent<NavMeshAgent>().enabled = true;
+        Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
 
         hasThrown = false;
 

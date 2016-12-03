@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 public enum BossStates
@@ -9,16 +10,16 @@ public enum BossStates
     Stomp,
     FireBreath,
     Stunned
-
 }
 
 public class Wowser : MonoBehaviour
 {
     bool isCoroutineExecutingone = false;
     bool isCoroutineExecuting = false;
-    float starttime = 0;
+    public float timeToDodgeFire = 1;
     float timeElapsed = 0.0f;
     int bHealth = 3;
+    public bool isFireBreath = false;
     Vector3 Position;
     float dist = 0;
     bool ResetTime;
@@ -26,7 +27,6 @@ public class Wowser : MonoBehaviour
     public GameObject Mario;
     public Collider wowser;
     public GameObject arena;
-    //public GameObject Bomb;
     public BasePlayer mariocontroller;
 
     void Start()
@@ -36,7 +36,10 @@ public class Wowser : MonoBehaviour
 
     void Update()
     {
-
+        if (bHealth <= 0)
+        {
+            SceneManager.LoadScene("KillWowser");
+        }
         dist = Vector3.Distance(transform.position, Mario.transform.position);
 
         Position = transform.position;
@@ -89,24 +92,15 @@ public class Wowser : MonoBehaviour
 
     void MovingState()
     {
-
-        //   
-        //if (dist < 5f )
-
-        //if (dist < 5f )
         if (GetComponent<NavMeshAgent>().remainingDistance < 4f)
         {
             GetComponent<NavMeshAgent>().enabled = true;
             GetComponent<NavMeshAgent>().speed = 0.5f;
-            //    GetComponent<NavMeshAgent>().Warp(transform.position);
-
         }
         else if (GetComponent<NavMeshAgent>().remainingDistance >= 5f)
         {
-            GetComponent<NavMeshAgent>().speed = 3;
-            //   GetComponent<NavMeshAgent>().Warp(transform.position);
-        }
-                
+            GetComponent<NavMeshAgent>().speed = 3;        }
+
         GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
     }
     void StompState()
@@ -115,27 +109,10 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
-        //    starttime = Time.time;
-        //    timeElapsed = 0;
-
-
-
-
         isCoroutineExecuting = false;
-        StartCoroutine(PreFireBreath(0.3f));
-
-   
-        isCoroutineExecuting = false;
-
-        StartCoroutine(PostFireBreath(1.0f));
-       // if (GetComponentInChildren<TriggerFireEvent>().OnCollisionStay(Mario.GetComponent<Collider>()) == true)//oncollisionstay = triggered
-       //      {
-       //          Mario.GetComponent<BasePlayer>().TakeDamage();
-       //      }
-
-
-
+        StartCoroutine(PreFireBreath(timeToDodgeFire));
     }
+
     void StunndedState()
     {
 
@@ -153,17 +130,6 @@ public class Wowser : MonoBehaviour
         }
 
     }
-
-    //void Follow()
-    //{
-    //    arena.GetComponent<NavMeshAgent>();
-
-    //    while (CurrentState == BossStates.Idle)
-    //    {
-
-
-    //    }
-    //}
 
     void OnTriggerEnter(Collider col)
     {
@@ -190,12 +156,9 @@ public class Wowser : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
         Debug.Log("While loop broken");
-       // CurrentState = BossStates.Moving;
+        isFireBreath = false;
         isCoroutineExecutingone = false;
         StartCoroutine(WaitTransitionState(1.5f));
-       
-
-
 
         isCoroutineExecuting = false;
     }
@@ -204,15 +167,17 @@ public class Wowser : MonoBehaviour
         if (isCoroutineExecuting)
             yield break;
         isCoroutineExecuting = true;
-        yield return new WaitForSeconds(seconds);
-
         GetComponentInChildren<TriggerFireEvent>().EnableParticleSystem();
+        yield return new WaitForSeconds(seconds);
+        isFireBreath = true;
 
+        isCoroutineExecuting = false;
+
+        StartCoroutine(PostFireBreath(1.0f));
         isCoroutineExecuting = false;
     }
     IEnumerator WaitTransitionState(float seconds)
     {
-       
         if (isCoroutineExecutingone)
             yield break;
         isCoroutineExecutingone = true;
