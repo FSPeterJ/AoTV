@@ -20,7 +20,6 @@ public class Wowser : MonoBehaviour
     float timeElapsed = 0.0f;
     int bHealth = 3;
     Vector3 Position;
-    float dist = 0;
     bool ResetTime;
     public BossStates CurrentState = BossStates.Idle;
     public GameObject Mario;
@@ -39,7 +38,6 @@ public class Wowser : MonoBehaviour
     void Update()
     {
 
-        dist = Vector3.Distance(transform.position, Mario.transform.position);
 
         Position = transform.position;
         switch (CurrentState)
@@ -194,7 +192,7 @@ public class Wowser : MonoBehaviour
 
         yield return new WaitForSeconds(seconds);
         GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
-        Debug.Log("While loop broken");
+       // Debug.Log("While loop broken");
        // CurrentState = BossStates.Moving;
         isCoroutineExecutingone = false;
         StartCoroutine(WaitTransitionState(1.5f));
