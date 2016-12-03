@@ -20,7 +20,6 @@ public class Wowser : MonoBehaviour
     float timeElapsed = 0.0f;
     int bHealth = 3;
     public bool isFireBreath = false;
-    Vector3 Position;
     bool ResetTime;
     public BossStates CurrentState = BossStates.Idle;
     public GameObject Mario;
@@ -43,9 +42,7 @@ public class Wowser : MonoBehaviour
         {
             SceneManager.LoadScene("KillWowser");
         }
-        dist = Vector3.Distance(transfrm.position, Mario.transform.position);
 
-        Position = transform.position;
         switch (CurrentState)
         {
             case BossStates.Idle:
