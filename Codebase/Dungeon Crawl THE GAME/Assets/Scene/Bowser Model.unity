@@ -193,7 +193,7 @@ MonoBehaviour:
   Mario: {fileID: 890277644}
   wowser: {fileID: 205614340}
   arena: {fileID: 1021897748}
-  Bomb: {fileID: 0}
+  mariocontroller: {fileID: 0}
 --- !u!195 &205614339
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -251,10 +251,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 300998140}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.258819, z: 0, w: 0.9659259}
   m_LocalPosition: {x: -0.398, y: 2.01, z: -0.247}
-  m_LocalScale: {x: 0.052761372, y: 1.8521101, z: 0.046302754}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.05, y: 2, z: 0.1}
+  m_LocalEulerAnglesHint: {x: 0, y: -30, z: 0}
   m_Children: []
   m_Father: {fileID: 1021897749}
   m_RootOrder: 2
@@ -367,10 +367,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 502687797}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.2588191, z: 0, w: 0.9659258}
   m_LocalPosition: {x: 0.396, y: 1.5, z: -0.25}
-  m_LocalScale: {x: 0.05, y: 2, z: 0.05}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.05, y: 2, z: 0.1}
+  m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
   m_Children: []
   m_Father: {fileID: 1021897749}
   m_RootOrder: 1
@@ -959,7 +959,7 @@ Transform:
   m_GameObject: {fileID: 1111594682}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.001474607, y: 1.5, z: 0.4713}
-  m_LocalScale: {x: 0.05, y: 2, z: 0.05}
+  m_LocalScale: {x: 0.1, y: 2, z: 0.05}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1021897749}
@@ -1920,7 +1920,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 2053601666
+  randomSeed: 800897660
   InitialModule:
     serializedVersion: 2
     enabled: 1
