@@ -154,16 +154,16 @@ public class Wowser : MonoBehaviour
 
     }
 
-    //void Follow()
-    //{
-    //    arena.GetComponent<NavMeshAgent>();
+    void Follow()
+    {
+        arena.GetComponent<NavMeshAgent>();
 
-    //    while (CurrentState == BossStates.Idle)
-    //    {
+        while (CurrentState == BossStates.Idle)
+        {
 
 
-    //    }
-    //}
+        }
+    }
 
     void OnTriggerEnter(Collider col)
     {
