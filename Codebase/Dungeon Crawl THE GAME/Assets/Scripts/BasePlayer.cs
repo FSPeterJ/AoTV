@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+
 
 public enum playerStates
 {
@@ -111,6 +113,12 @@ public class BasePlayer : MonoBehaviour
         transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
 
         controller.Move(moveDirection * Time.deltaTime);
+
+        if (transform.position.y < -10)
+        {
+            transform.position = new Vector3(0, 10 ,0);
+            TakeDamage();
+        }
     }
 
     public void TakeDamage()
@@ -126,7 +134,7 @@ public class BasePlayer : MonoBehaviour
                 break;
             case 1:
                 Life1.GetComponent<Renderer>().enabled = false;
-                //KillMario
+                SceneManager.LoadScene("KillMario");
                 break;
         }
         HP -= 1;
