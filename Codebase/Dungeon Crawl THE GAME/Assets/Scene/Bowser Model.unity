@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -234,9 +234,9 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 200
-  m_StoppingDistance: 2
+  m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 0
+  m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 3
   m_BaseOffset: 1.5
@@ -601,10 +601,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 890277644}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0.37466252, z: -0, w: 0.9271613}
   m_LocalPosition: {x: 0, y: 1.5, z: 6.052}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -43.928, z: 0}
   m_Children:
   - {fileID: 1229527590}
   - {fileID: 139000724}
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b77b63498389c740af1a465c4f81631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 100
+  HP: 3
   speed: 6
   sprintSpeed: 12
   jumpSpeed: 8
@@ -656,6 +656,7 @@ MonoBehaviour:
   Life1: {fileID: 139475960}
   Life2: {fileID: 1132426395}
   Life3: {fileID: 427290074}
+  BurnEffect: {fileID: 1000012609475160, guid: f4564ddfff7866b4db09c741f0a631d4, type: 2}
 --- !u!1 &999675109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1494,8 +1495,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1861756357}
-  m_LocalRotation: {x: -0.35599324, y: -0.10287174, z: 0.039463934, w: -0.9279703}
-  m_LocalPosition: {x: -0.9022853, y: 18.161991, z: -7.826462}
+  m_LocalRotation: {x: 0.5, y: -0, z: -0, w: 0.8660254}
+  m_LocalPosition: {x: 0, y: 15.84, z: -2.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
   m_Children:
@@ -1909,7 +1910,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 1702800523
+  randomSeed: 2053601666
   InitialModule:
     serializedVersion: 2
     enabled: 1
