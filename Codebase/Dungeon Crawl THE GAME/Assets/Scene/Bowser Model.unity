@@ -500,6 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 390ded4d5eabb1e42b56176f04f767f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mario: {fileID: 890277644}
 --- !u!1 &568808114
 GameObject:
   m_ObjectHideFlags: 0
@@ -1274,7 +1275,7 @@ CharacterController:
   m_GameObject: {fileID: 1615475757}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Height: 0.99999994
   m_Radius: 0.5
@@ -1879,7 +1880,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 808906342
+  randomSeed: 2053601666
   InitialModule:
     serializedVersion: 2
     enabled: 1
