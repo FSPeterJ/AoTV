@@ -29,9 +29,11 @@ public class Wowser : MonoBehaviour
     public GameObject arena;
     public BasePlayer mariocontroller;
 
+    NavMeshAgent Nav;
+
     void Start()
     {
-
+        Nav = GetComponent<NavMeshAgent>();
     }
 
     void Update()
@@ -64,6 +66,10 @@ public class Wowser : MonoBehaviour
                 break;
         }
     }
+
+
+
+
     void IdleState()
     {
 
@@ -92,16 +98,13 @@ public class Wowser : MonoBehaviour
 
     void MovingState()
     {
-        if (GetComponent<NavMeshAgent>().remainingDistance < 4f)
+        if (Nav.remainingDistance < 4f)
         {
-            GetComponent<NavMeshAgent>().enabled = true;
-            GetComponent<NavMeshAgent>().speed = 0.5f;
+           Nav.speed = 0.5f;
         }
-        else if (GetComponent<NavMeshAgent>().remainingDistance >= 5f)
+        else if (Nav.remainingDistance >= 5f)
         {
-            GetComponent<NavMeshAgent>().speed = 3;        }
-
-        GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
+            Nav.speed = 3;       Nav.SetDestination(Mario.transform.position);
     }
     void StompState()
     {

@@ -40,8 +40,9 @@ public class BasePlayer : MonoBehaviour
     public GameObject Life1;
     public GameObject Life2;
     public GameObject Life3;
-    
-
+    public GameObject BurnEffect;
+    bool burning = false;
+    bool invulnerable = false;
 
     private bool hasThrown = false;
 
@@ -71,6 +72,13 @@ public class BasePlayer : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+        // Press F1 to test taking damage
+        if (Input.GetKey(KeyCode.F1))
+        {
+
+            TakeFireDamage();
         }
 
         if (controller.isGrounded)
@@ -128,13 +136,15 @@ public class BasePlayer : MonoBehaviour
 
     public void TakeDamage()
     {
-        switch(HP)
+        if (!invulnerable)
         {
-            case 3:
-                Life3.GetComponent<Renderer>().enabled = false;
-                break;
-            case 2:
-                Life2.GetComponent<Renderer>().enabled = false;
+            switch (HP)
+            {
+                case 3:
+                    Life3.GetComponent<Renderer>().enabled = false;
+                    break;
+                case 2:
+                    Life2.GetComponent<Renderer>().enabled = false;
 
                 break;
             case 1:
@@ -142,13 +152,18 @@ public class BasePlayer : MonoBehaviour
                 SceneManager.LoadScene("KillMario");
                 break;
         }
-        HP -= 1;
 
+        invulnerable = true;
     }
     public void TakeFireDamage()
     {
+        
+        if (!burning)
+        {
+            TakeDamage();
 
-        TakeDamage();
+            StartCoroutine("Burning");
+        }
     }
 
     IEnumerator tossTime()
@@ -164,5 +179,28 @@ public class BasePlayer : MonoBehaviour
 
         hasThrown = false;
 
+        Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
+
+
+    }
+
+    IEnumerator Burning()
+    {
+
+        burning = true;
+        GameObject go = (GameObject)Instantiate(BurnEffect, transform.position, new Quaternion(0, 45, 45, 0));
+        //Attach to player
+        go.transform.parent = transform;
+
+        yield return new WaitForSeconds(2);
+        Destroy(go);
+        burning = false;
+
+    }
+
+    IEnumerator Invulnerable()
+    {
+        yield return new WaitForSeconds(3);
+        invulnerable = false;
     }
 }
