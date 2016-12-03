@@ -14,20 +14,21 @@ public enum BossStates
 
 public class Wowser : MonoBehaviour
 {
-
-    float tail;
-    bool IsIdle = true;
-    bool IsStunned = false;
-    bool lowHP = false;
-    float timeElapsed = 0.0f;
+    bool isCoroutineExecuting = false;
+    float starttime = 0;
+   float timeElapsed = 0.0f;
     int bHealth = 3;
     Vector3 Position;
     float dist = 0;
+    bool ResetTime;
     public BossStates CurrentState = BossStates.Idle;
     public GameObject Mario;
     public Collider wowser;
     public GameObject arena;
-    public GameObject Bomb; void Start()
+    //public GameObject Bomb;
+    public BasePlayer mariocontroller;
+
+    void Start()
     {
 
     }
@@ -100,32 +101,30 @@ public class Wowser : MonoBehaviour
     }
     void StompState()
     {
-        //int r = 1;
-        while (timeElapsed < 1.5)
-        {
-            timeElapsed += Time.deltaTime;
-        }
-        if (timeElapsed >= 1.5)
-        {
-
-            if (true)
-            { }
-            //stomp circle code here
-        }
-
-
 
     }
     void FirebreathState()
     {
-        while(timeElapsed < .3f)
-        {
-            timeElapsed += Time.deltaTime;
-        }
-        if (timeElapsed > 0.3f)
-        {
-            
-        }
+    //    starttime = Time.time;
+    //    timeElapsed = 0;
+       
+       
+       
+      
+
+            StartCoroutine(PreFireBreath(0.3f));
+
+        //     if (GetComponentInChildren<TriggerFireEvent>().OnCollisionStay(Mario.GetComponent<Collider>()) == true)//oncollisionstay = triggered
+        //     {
+        //         Mario.GetComponent<BasePlayer>().TakeDamage();
+        //     }
+        // }
+        isCoroutineExecuting = false;
+
+            StartCoroutine(PostFireBreath(1.0f));
+          
+   
+
 
     }
     void StunndedState()
@@ -137,7 +136,7 @@ public class Wowser : MonoBehaviour
             CurrentState = BossStates.Moving;
             timeElapsed = 0;
         }
-
+        Mario.GetComponent<BasePlayer>().TakeDamage();
         while (timeElapsed < 1)
         {
             timeElapsed += Time.deltaTime;
@@ -168,5 +167,35 @@ public class Wowser : MonoBehaviour
     public void SetCurrentState(BossStates NewState)
     {
         CurrentState = NewState;
+    }
+    void ResetTimeElapsed()
+    {
+        timeElapsed = 0;
+    }
+    IEnumerator PostFireBreath(float seconds)
+    {
+        if (isCoroutineExecuting)
+            yield break;
+        isCoroutineExecuting = true;
+        
+        yield return new WaitForSeconds(seconds);
+        GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
+        Debug.Log("While loop broken");
+        CurrentState = BossStates.Idle;
+
+
+
+        isCoroutineExecuting = false;
+    }
+    IEnumerator PreFireBreath(float seconds)
+    {
+        if (isCoroutineExecuting)
+            yield break;
+        isCoroutineExecuting = true;
+        yield return new WaitForSeconds(seconds);
+
+        GetComponentInChildren<TriggerFireEvent>().EnableParticleSystem();
+
+        isCoroutineExecuting = false;
     }
 }
