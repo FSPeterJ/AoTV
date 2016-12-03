@@ -24,7 +24,7 @@ public class Wowser : MonoBehaviour
     Vector3 Position;
     float dist = 0;
     public BossStates CurrentState = BossStates.Idle;
-  public GameObject Mario;
+    public GameObject Mario;
     public Collider wowser;
     public GameObject arena;
     public GameObject Bomb;    void Start()
@@ -166,6 +166,14 @@ public class Wowser : MonoBehaviour
          --bHealth;
             Destroy(col.gameObject);
       }
+    }
+
+    void DeadDamage()
+    {
+        while (CurrentState == BossStates.FireBreath)
+        {
+            if (Mario.transform.position)
+        }
     }
     public void SetCurrentState(BossStates NewState)
     {
