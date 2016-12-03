@@ -40,7 +40,7 @@ public class BasePlayer : MonoBehaviour
     public GameObject Life3;
     public GameObject BurnEffect;
     bool burning = false;
-
+    bool invulnerable = false;
 
     private bool hasThrown = false;
 
@@ -128,30 +128,34 @@ public class BasePlayer : MonoBehaviour
 
     public void TakeDamage()
     {
-        switch(HP)
+        if (!invulnerable)
         {
-            case 3:
-                Life3.GetComponent<Renderer>().enabled = false;
-                break;
-            case 2:
-                Life2.GetComponent<Renderer>().enabled = false;
+            switch (HP)
+            {
+                case 3:
+                    Life3.GetComponent<Renderer>().enabled = false;
+                    break;
+                case 2:
+                    Life2.GetComponent<Renderer>().enabled = false;
 
-                break;
-            case 1:
-                Life1.GetComponent<Renderer>().enabled = false;
-                //KillMario
-                break;
+                    break;
+                case 1:
+                    Life1.GetComponent<Renderer>().enabled = false;
+                    //KillMario
+                    break;
+            }
+            HP -= 1;
         }
-        HP -= 1;
 
+        invulnerable = true;
     }
     void TakeFireDamage()
     {
+        
         if (!burning)
         {
-
-
             TakeDamage();
+
             StartCoroutine("Burning");
         }
     }
@@ -165,14 +169,16 @@ public class BasePlayer : MonoBehaviour
         yield return new WaitForSeconds(tossSeconds);
         Wowser.GetComponent<Rigidbody>().isKinematic = true;
 
-        //Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
-
         hasThrown = false;
+
+        Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
+
 
     }
 
     IEnumerator Burning()
     {
+
         burning = true;
         GameObject go = (GameObject)Instantiate(BurnEffect, transform.position, new Quaternion(0, 45, 45, 0));
         //Attach to player
@@ -182,5 +188,11 @@ public class BasePlayer : MonoBehaviour
         Destroy(go);
         burning = false;
 
+    }
+
+    IEnumerator Invulnerable()
+    {
+        yield return new WaitForSeconds(3);
+        invulnerable = false;
     }
 }
