@@ -28,6 +28,8 @@ public class Wowser : MonoBehaviour
     public Collider wowser;
     public GameObject arena;
     public BasePlayer mariocontroller;
+    private Vector3 moveDirection = Vector3.zero;
+
 
     NavMeshAgent Nav;
 
@@ -100,11 +102,13 @@ public class Wowser : MonoBehaviour
     {
         if (Nav.remainingDistance < 4f)
         {
-           Nav.speed = 0.5f;
+            Nav.speed = 0.5f;
         }
         else if (Nav.remainingDistance >= 5f)
         {
-            Nav.speed = 3;       Nav.SetDestination(Mario.transform.position);
+            Nav.speed = 3;
+        }
+            Nav.SetDestination(Mario.transform.position);
     }
     void StompState()
     {
@@ -112,6 +116,7 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
+        
         isCoroutineExecuting = false;
         StartCoroutine(PreFireBreath(timeToDodgeFire));
     }
@@ -167,13 +172,14 @@ public class Wowser : MonoBehaviour
     }
     IEnumerator PreFireBreath(float seconds)
     {
+
         if (isCoroutineExecuting)
             yield break;
+        
         isCoroutineExecuting = true;
         GetComponentInChildren<TriggerFireEvent>().EnableParticleSystem();
         yield return new WaitForSeconds(seconds);
         isFireBreath = true;
-
         isCoroutineExecuting = false;
 
         StartCoroutine(PostFireBreath(1.0f));

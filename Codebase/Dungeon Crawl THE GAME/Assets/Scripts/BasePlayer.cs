@@ -72,14 +72,7 @@ public class BasePlayer : MonoBehaviour
                 break;
             default:
                 break;
-        }
-
-        // Press F1 to test taking damage
-        if (Input.GetKey(KeyCode.F1))
-        {
-
-            TakeFireDamage();
-        }
+        }        
 
         if (controller.isGrounded)
         {
@@ -140,17 +133,17 @@ public class BasePlayer : MonoBehaviour
         {
             switch (HP)
             {
+                case 1:
+                    Life1.GetComponent<Renderer>().enabled = false;
+                    SceneManager.LoadScene("KillMario");
+                    break;
                 case 3:
                     Life3.GetComponent<Renderer>().enabled = false;
                     break;
                 case 2:
                     Life2.GetComponent<Renderer>().enabled = false;
-
-                break;
-            case 1:
-                Life1.GetComponent<Renderer>().enabled = false;
-                SceneManager.LoadScene("KillMario");
-                break;
+                    break;
+            }
         }
 
         invulnerable = true;
