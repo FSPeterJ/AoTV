@@ -14,9 +14,10 @@ public enum BossStates
 
 public class Wowser : MonoBehaviour
 {
+    bool isCoroutineExecutingone = false;
     bool isCoroutineExecuting = false;
     float starttime = 0;
-   float timeElapsed = 0.0f;
+    float timeElapsed = 0.0f;
     int bHealth = 3;
     Vector3 Position;
     float dist = 0;
@@ -27,10 +28,10 @@ public class Wowser : MonoBehaviour
     public GameObject arena;
     //public GameObject Bomb;
     public BasePlayer mariocontroller;
-    NavMeshAgent Nav;
+
     void Start()
     {
-        Nav = GetComponent<NavMeshAgent>();
+
     }
 
     void Update()
@@ -67,14 +68,14 @@ public class Wowser : MonoBehaviour
         //controls duration of IdleState // change hard coded 1 eventually
         if (timeElapsed > 1)
 
-     
-       //controls duration of IdleState // change hard coded 1 eventually
-        if (timeElapsed>5)
 
-        {
-            CurrentState = BossStates.Moving;
-            timeElapsed = 0;
-        }
+            //controls duration of IdleState // change hard coded 1 eventually
+            if (timeElapsed > 5)
+
+            {
+                CurrentState = BossStates.Moving;
+                timeElapsed = 0;
+            }
 
         while (timeElapsed < 1)
         {
@@ -89,37 +90,24 @@ public class Wowser : MonoBehaviour
     void MovingState()
     {
 
-        
-
-
-
         //   
         //if (dist < 5f )
-        if (Nav.remainingDistance < 5f)
+
+        //if (dist < 5f )
+        if (GetComponent<NavMeshAgent>().remainingDistance < 4f)
         {
-            Nav.updateRotation = true;
-            //Nav.enabled = true;
+            GetComponent<NavMeshAgent>().enabled = true;
+            GetComponent<NavMeshAgent>().speed = 0.5f;
+            //    GetComponent<NavMeshAgent>().Warp(transform.position);
 
-
-            ////   
-            ////if (dist < 5f )
-            //if (Nav.remainingDistance < 4f)
-            //{
-
-            //    Nav.speed = 0.5f;
-
-            //    //    GetComponent<NavMeshAgent>().Warp(transform.position);
-
-            //}
-            //else if (Nav.remainingDistance >= 5f)
-            //{
-            //    Nav.speed = 3;
-            //    //   GetComponent<NavMeshAgent>().Warp(transform.position);
-
-            //}
         }
-        Nav.SetDestination(Mario.transform.position);
-
+        else if (GetComponent<NavMeshAgent>().remainingDistance >= 5f)
+        {
+            GetComponent<NavMeshAgent>().speed = 3;
+            //   GetComponent<NavMeshAgent>().Warp(transform.position);
+        }
+                
+        GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
     }
     void StompState()
     {
@@ -127,25 +115,24 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
-    //    starttime = Time.time;
-    //    timeElapsed = 0;
-       
-       
-       
-      
+        //    starttime = Time.time;
+        //    timeElapsed = 0;
 
-            StartCoroutine(PreFireBreath(0.3f));
 
-        //     if (GetComponentInChildren<TriggerFireEvent>().OnCollisionStay(Mario.GetComponent<Collider>()) == true)//oncollisionstay = triggered
-        //     {
-        //         Mario.GetComponent<BasePlayer>().TakeDamage();
-        //     }
-        // }
+
+
+        isCoroutineExecuting = false;
+        StartCoroutine(PreFireBreath(0.3f));
+
+   
         isCoroutineExecuting = false;
 
-            StartCoroutine(PostFireBreath(1.0f));
-          
-   
+        StartCoroutine(PostFireBreath(1.0f));
+       // if (GetComponentInChildren<TriggerFireEvent>().OnCollisionStay(Mario.GetComponent<Collider>()) == true)//oncollisionstay = triggered
+       //      {
+       //          Mario.GetComponent<BasePlayer>().TakeDamage();
+       //      }
+
 
 
     }
@@ -199,11 +186,14 @@ public class Wowser : MonoBehaviour
         if (isCoroutineExecuting)
             yield break;
         isCoroutineExecuting = true;
-        
+
         yield return new WaitForSeconds(seconds);
         GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
         Debug.Log("While loop broken");
-        CurrentState = BossStates.Idle;
+       // CurrentState = BossStates.Moving;
+        isCoroutineExecutingone = false;
+        StartCoroutine(WaitTransitionState(1.5f));
+       
 
 
 
@@ -219,5 +209,15 @@ public class Wowser : MonoBehaviour
         GetComponentInChildren<TriggerFireEvent>().EnableParticleSystem();
 
         isCoroutineExecuting = false;
+    }
+    IEnumerator WaitTransitionState(float seconds)
+    {
+       
+        if (isCoroutineExecutingone)
+            yield break;
+        isCoroutineExecutingone = true;
+        yield return new WaitForSeconds(seconds);
+        CurrentState = BossStates.Moving;
+        isCoroutineExecutingone = false;
     }
 }
