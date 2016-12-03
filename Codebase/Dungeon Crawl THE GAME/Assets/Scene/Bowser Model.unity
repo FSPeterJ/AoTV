@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -609,7 +609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b77b63498389c740af1a465c4f81631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 100
+  HP: 3
   speed: 6
   sprintSpeed: 12
   jumpSpeed: 8
@@ -627,6 +627,7 @@ MonoBehaviour:
   Life1: {fileID: 139475960}
   Life2: {fileID: 1132426395}
   Life3: {fileID: 427290074}
+  BurnEffect: {fileID: 1000012609475160, guid: f4564ddfff7866b4db09c741f0a631d4, type: 2}
 --- !u!1 &999675109
 GameObject:
   m_ObjectHideFlags: 0

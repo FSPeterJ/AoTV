@@ -38,6 +38,8 @@ public class BasePlayer : MonoBehaviour
     public GameObject Life1;
     public GameObject Life2;
     public GameObject Life3;
+    public GameObject BurnEffect;
+    bool burning = false;
 
 
     private bool hasThrown = false;
@@ -64,6 +66,13 @@ public class BasePlayer : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+        // Press F1 to test taking damage
+        if (Input.GetKey(KeyCode.F1))
+        {
+
+            TakeFireDamage();
         }
 
         if (controller.isGrounded)
@@ -132,10 +141,15 @@ public class BasePlayer : MonoBehaviour
         HP -= 1;
 
     }
-    void TakeFireDamage(int damage)
+    void TakeFireDamage()
     {
+        if (!burning)
+        {
 
-        TakeDamage();
+
+            TakeDamage();
+            StartCoroutine("Burning");
+        }
     }
 
     IEnumerator tossTime()
@@ -150,6 +164,19 @@ public class BasePlayer : MonoBehaviour
         //Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
 
         hasThrown = false;
+
+    }
+
+    IEnumerator Burning()
+    {
+        burning = true;
+        GameObject go = (GameObject)Instantiate(BurnEffect, transform.position, new Quaternion(0, 45, 45, 0));
+        //Attach to player
+        go.transform.parent = transform;
+
+        yield return new WaitForSeconds(2);
+        Destroy(go);
+        burning = false;
 
     }
 }
