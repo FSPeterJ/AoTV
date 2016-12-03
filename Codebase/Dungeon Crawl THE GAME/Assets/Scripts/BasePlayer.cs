@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+
 
 public enum playerStates
 {
@@ -17,7 +19,7 @@ public class BasePlayer : MonoBehaviour
 
     }
 
-    public int HP = 3;
+    private int HP = 3;
     public float speed = 6.0F;
     public float sprintSpeed = 10.0f;
     public float jumpSpeed = 8.0F;
@@ -70,14 +72,7 @@ public class BasePlayer : MonoBehaviour
                 break;
             default:
                 break;
-        }
-
-        // Press F1 to test taking damage
-        if (Input.GetKey(KeyCode.F1))
-        {
-
-            TakeFireDamage();
-        }
+        }        
 
         if (controller.isGrounded)
         {
@@ -106,7 +101,7 @@ public class BasePlayer : MonoBehaviour
                 {
                     StartCoroutine("tossTime");
 
-                    //Need to find wowser's front vector and move him in that direction
+                    //Need to change bowser's rotation to Mario's
                 }
                 currentState = playerStates.normal;
             }
@@ -124,6 +119,12 @@ public class BasePlayer : MonoBehaviour
         transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
 
         controller.Move(moveDirection * Time.deltaTime);
+
+        if (transform.position.y < -10)
+        {
+            transform.position = new Vector3(0, 10 ,0);
+            TakeDamage();
+        }
     }
 
     public void TakeDamage()
@@ -132,24 +133,22 @@ public class BasePlayer : MonoBehaviour
         {
             switch (HP)
             {
+                case 1:
+                    Life1.GetComponent<Renderer>().enabled = false;
+                    SceneManager.LoadScene("KillMario");
+                    break;
                 case 3:
                     Life3.GetComponent<Renderer>().enabled = false;
                     break;
                 case 2:
                     Life2.GetComponent<Renderer>().enabled = false;
-
-                    break;
-                case 1:
-                    Life1.GetComponent<Renderer>().enabled = false;
-                    //KillMario
                     break;
             }
-            HP -= 1;
         }
 
         StartCoroutine("Invulnerable");
     }
-    void TakeFireDamage()
+    public void TakeFireDamage()
     {
         
         if (!burning)
@@ -168,6 +167,8 @@ public class BasePlayer : MonoBehaviour
         Wowser.GetComponent<Rigidbody>().velocity = (transform.forward * tossSpeed);
         yield return new WaitForSeconds(tossSeconds);
         Wowser.GetComponent<Rigidbody>().isKinematic = true;
+        Wowser.GetComponent<NavMeshAgent>().enabled = true;
+        Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
 
         hasThrown = false;
 
