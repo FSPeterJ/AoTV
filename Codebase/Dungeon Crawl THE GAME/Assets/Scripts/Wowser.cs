@@ -27,18 +27,18 @@ public class Wowser : MonoBehaviour
     public GameObject Mario;
     public Collider wowser;
     public GameObject arena;
-    public GameObject Bomb;    void Start()
+    public GameObject Bomb; void Start()
     {
-        
+
     }
 
     void Update()
     {
-        
+
         dist = Vector3.Distance(transform.position, Mario.transform.position);
 
         Position = transform.position;
-            switch (CurrentState)
+        switch (CurrentState)
         {
             case BossStates.Idle:
                 IdleState();
@@ -70,21 +70,21 @@ public class Wowser : MonoBehaviour
 
         if (dist > 5f)
             Mov();
-            //CurrentState = BossStates.Moving;
-            //GetComponent<NavMeshAgent>().;
-            //controls duration of IdleState // change hard coded 1 eventually
-        if (timeElapsed>1)
+        //CurrentState = BossStates.Moving;
+        //GetComponent<NavMeshAgent>().;
+        //controls duration of IdleState // change hard coded 1 eventually
+        if (timeElapsed > 1)
         {
             //CurrentState = BossStates.Moving;
             timeElapsed = 0;
         }
-       
-        while(timeElapsed<1)
+
+        while (timeElapsed < 1)
         {
             timeElapsed += Time.deltaTime;
             continue;
         }
-       
+
 
     }
 
@@ -100,12 +100,12 @@ public class Wowser : MonoBehaviour
         //GetComponent<NavMeshAgent>().updatePosition = true;
         if (dist < 5f)
             CurrentState = BossStates.Idle;
-        
+
         GetComponent<NavMeshAgent>().SetDestination(Mario.transform.position);
 
         Debug.Log(dist);
         Debug.Log(CurrentState.ToString());
-     
+
     }
     void StompState()
     {
@@ -114,7 +114,7 @@ public class Wowser : MonoBehaviour
         {
             timeElapsed += Time.deltaTime;
         }
-       if (timeElapsed >=1.5)
+        if (timeElapsed >= 1.5)
         {
 
             if (true)
@@ -127,14 +127,14 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
-        
+
 
     }
     void StunndedState()
     {
- 
+
         int stunDuration = 3;
-        if (timeElapsed > stunDuration )
+        if (timeElapsed > stunDuration)
         {
             CurrentState = BossStates.Moving;
             timeElapsed = 0;
@@ -154,29 +154,30 @@ public class Wowser : MonoBehaviour
 
         while (CurrentState == BossStates.Idle)
         {
-            
+
 
         }
     }
 
     void OnTriggerEnter(Collider col)
     {
-      if (col.gameObject.tag == "Explosive")
-      {
-         --bHealth;
+        if (col.gameObject.tag == "Explosive")
+        {
+            --bHealth;
             Destroy(col.gameObject);
-      }
+        }
     }
 
     void DeadDamage()
     {
         while (CurrentState == BossStates.FireBreath)
         {
-            if (Mario.transform.position)
+            
         }
     }
     public void SetCurrentState(BossStates NewState)
     {
         CurrentState = NewState;
     }
+
 }

@@ -60,7 +60,7 @@ public class BasePlayer : MonoBehaviour
             default:
                 break;
         }
-        
+
         if (controller.isGrounded)
         {
             if (Input.GetKey(KeyCode.LeftShift))
@@ -83,11 +83,11 @@ public class BasePlayer : MonoBehaviour
             {
                 Wowser.transform.parent = null;
                 tailGrabbed = false;
-                
+
                 if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) && !hasThrown)
                 {
                     StartCoroutine("tossTime");
-                    
+
                     //Need to find wowser's front vector and move him in that direction
                 }
                 currentState = playerStates.normal;
@@ -110,11 +110,12 @@ public class BasePlayer : MonoBehaviour
     {
         HP -= damage;
     }
-void TakeFireDamage(int damage)
+    void TakeFireDamage(int damage)
     {
 
         TakeDamage(damage);
-    }    IEnumerator tossTime ()
+    }
+    IEnumerator tossTime()
     {
         hasThrown = true;
         Wowser.GetComponent<Rigidbody>().isKinematic = false;
@@ -124,3 +125,4 @@ void TakeFireDamage(int damage)
         hasThrown = false;
 
     }
+}
