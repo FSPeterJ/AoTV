@@ -8,7 +8,7 @@ public class TriggerFireEvent : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Player")
+        if (col.tag == "Player2")
         {
             if (Wowser.GetComponent<Wowser>().CurrentState == BossStates.Moving)
 
