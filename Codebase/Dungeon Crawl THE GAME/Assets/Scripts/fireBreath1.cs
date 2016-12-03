@@ -14,4 +14,12 @@ public class fireBreath : MonoBehaviour
                 Wowser.GetComponent<Wowser>().CurrentState = BossStates.FireBreath;
         }
     }
+    public bool OnCollisionStay(Collider col)
+    {
+        if (col.tag =="Player")
+        {
+            return true;
+        }
+        return false;
+    }
 }
