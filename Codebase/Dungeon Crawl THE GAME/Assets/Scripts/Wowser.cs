@@ -116,7 +116,8 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
-        
+        GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         isCoroutineExecuting = false;
         StartCoroutine(PreFireBreath(timeToDodgeFire));
     }
