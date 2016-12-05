@@ -11,7 +11,7 @@ public class WowserTrigger : MonoBehaviour
     {
         Debug.Log("test");
     }
-    void OntriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         Debug.Log("test");
         Debug.Log(other);

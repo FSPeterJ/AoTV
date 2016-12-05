@@ -156,6 +156,7 @@ GameObject:
   - 195: {fileID: 205614339}
   - 54: {fileID: 205614337}
   - 64: {fileID: 205614340}
+  - 65: {fileID: 205614341}
   m_Layer: 0
   m_Name: Wowser
   m_TagString: Untagged
@@ -170,10 +171,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 205614334}
   m_LocalRotation: {x: -0, y: 0.67626643, z: -0, w: 0.73665714}
-  m_LocalPosition: {x: -3.2, y: 3.02, z: 2.53}
+  m_LocalPosition: {x: 1.29, y: 3.05, z: -0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 85.244, z: 0}
   m_Children:
+  - {fileID: 594018929}
   - {fileID: 1615475758}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -204,7 +206,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!114 &205614338
 MonoBehaviour:
@@ -219,6 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToDodgeFire: 1
   isFireBreath: 0
+  PlayerInRange: 0
   CurrentState: 1
   Mario: {fileID: 890277644}
   wowser: {fileID: 205614340}
@@ -251,11 +254,23 @@ MeshCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 205614334}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
+  m_IsTrigger: 0
+  m_Enabled: 0
   serializedVersion: 2
-  m_Convex: 1
+  m_Convex: 0
   m_Mesh: {fileID: 0}
+--- !u!65 &205614341
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 205614334}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 2.0850458, y: 3.210743, z: 1}
+  m_Center: {x: -0.005709078, y: 0.015501976, z: -0.0000049732625}
 --- !u!1 &300998140
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +595,85 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 568808114}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &594018928
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 594018929}
+  - 33: {fileID: 594018932}
+  - 54: {fileID: 594018933}
+  - 65: {fileID: 594018931}
+  - 114: {fileID: 594018930}
+  m_Layer: 0
+  m_Name: StompArea
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &594018929
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 594018928}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -1.24, z: 2.32}
+  m_LocalScale: {x: 6, y: 1, z: 6}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 205614335}
+  m_RootOrder: 0
+--- !u!114 &594018930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 594018928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66d24c50491ff8e42b8db3fb567cae7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Wowser: {fileID: 0}
+  Mario: {fileID: 0}
+--- !u!65 &594018931
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 594018928}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1.0000001}
+  m_Center: {x: 0.000000059604638, y: 0, z: -0.00000008940695}
+--- !u!33 &594018932
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 594018928}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &594018933
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 594018928}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &890277644
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +820,7 @@ MeshCollider:
   m_GameObject: {fileID: 999675109}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
@@ -887,7 +981,7 @@ MeshCollider:
   m_GameObject: {fileID: 1069819449}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
@@ -1236,6 +1330,7 @@ GameObject:
   - 4: {fileID: 1615475758}
   - 33: {fileID: 1615475761}
   - 23: {fileID: 1615475759}
+  - 65: {fileID: 1615475760}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -1260,7 +1355,7 @@ Transform:
   - {fileID: 999675110}
   - {fileID: 1988184655}
   m_Father: {fileID: 205614335}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!23 &1615475759
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1290,6 +1385,18 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!65 &1615475760
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1615475757}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.0000001, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &1615475761
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1568,7 +1675,7 @@ BoxCollider:
   m_GameObject: {fileID: 1925992610}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1727,7 +1834,7 @@ MeshCollider:
   m_GameObject: {fileID: 1970136217}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
@@ -1797,7 +1904,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!199 &1988184657
 ParticleSystemRenderer:
@@ -1893,7 +2000,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 2053601666
+  randomSeed: 2128506555
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -3598,7 +3705,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Wowser: {fileID: 205614334}
-  Mario: {fileID: 0}
+  Mario: {fileID: 890277644}
 --- !u!1 &2014347972
 GameObject:
   m_ObjectHideFlags: 0
