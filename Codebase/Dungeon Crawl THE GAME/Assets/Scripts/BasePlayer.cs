@@ -101,7 +101,12 @@ public class BasePlayer : MonoBehaviour
                 {
                     StartCoroutine("tossTime");
 
-                    //Need to change bowser's rotation to Mario's
+                    //Wowser.transform.Rotate(0,0,0);
+                }
+                else
+                {
+                    Wowser.GetComponent<NavMeshAgent>().enabled = true;
+                    Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
                 }
                 currentState = playerStates.normal;
             }
