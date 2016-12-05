@@ -20,8 +20,6 @@ public class Wowser : MonoBehaviour
     float timeElapsed = 0.0f;
     int bHealth = 3;
     public bool isFireBreath = false;
-    Vector3 Position;
-    float dist = 0;
     bool ResetTime;
     public BossStates CurrentState = BossStates.Idle;
     public GameObject Mario;
@@ -44,9 +42,7 @@ public class Wowser : MonoBehaviour
         {
             SceneManager.LoadScene("KillWowser");
         }
-        dist = Vector3.Distance(transform.position, Mario.transform.position);
 
-        Position = transform.position;
         switch (CurrentState)
         {
             case BossStates.Idle:
@@ -100,15 +96,20 @@ public class Wowser : MonoBehaviour
 
     void MovingState()
     {
+
         if (Nav.remainingDistance < 4f)
         {
+
             Nav.speed = 0.5f;
         }
         else if (Nav.remainingDistance >= 5f)
         {
             Nav.speed = 3;
+
         }
-            Nav.SetDestination(Mario.transform.position);
+
+        Nav.destination = Mario.transform.position;
+
     }
     void StompState()
     {
@@ -164,7 +165,8 @@ public class Wowser : MonoBehaviour
 
         yield return new WaitForSeconds(seconds);
         GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
-        Debug.Log("While loop broken");
+
+       // Debug.Log("While loop broken");
         isFireBreath = false;
         isCoroutineExecutingone = false;
         StartCoroutine(WaitTransitionState(1.5f));
