@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿    using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
@@ -14,12 +14,13 @@ public enum BossStates
 
 public class Wowser : MonoBehaviour
 {
-    bool isCoroutineExecutingone = false;
     bool isCoroutineExecuting = false;
     public float timeToDodgeFire = 1;
     float timeElapsed = 0.0f;
     int bHealth = 3;
     public bool isFireBreath = false;
+    public bool PlayerInRange = false;
+    
     bool ResetTime;
     public BossStates CurrentState = BossStates.Idle;
     public GameObject Mario;
@@ -28,12 +29,15 @@ public class Wowser : MonoBehaviour
     public BasePlayer mariocontroller;
     private Vector3 moveDirection = Vector3.zero;
 
-
+    //Components
     NavMeshAgent Nav;
+    Rigidbody Rigid;
 
     void Start()
     {
         Nav = GetComponent<NavMeshAgent>();
+        Rigid = GetComponent<Rigidbody>();
+        Rigid.isKinematic = true;
     }
 
     void Update()
@@ -96,6 +100,7 @@ public class Wowser : MonoBehaviour
 
     void MovingState()
     {
+        
 
         if (Nav.remainingDistance < 4f)
         {
@@ -113,13 +118,15 @@ public class Wowser : MonoBehaviour
     }
     void StompState()
     {
+        //isCoroutineExecuting = false; //?????
+        StartCoroutine(StompAttack(1));
 
     }
     void FirebreathState()
     {
-        
-        isCoroutineExecuting = false;
-        StartCoroutine(PreFireBreath(timeToDodgeFire));
+
+        //isCoroutineExecuting = false;//?????
+        StartCoroutine(FireBreathAttack(timeToDodgeFire));
     }
 
     void StunndedState()
@@ -156,44 +163,80 @@ public class Wowser : MonoBehaviour
     {
         timeElapsed = 0;
     }
-    IEnumerator PostFireBreath(float seconds)
-    {
-        if (isCoroutineExecuting)
-            yield break;
-        isCoroutineExecuting = true;
 
-        yield return new WaitForSeconds(seconds);
-        GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
-
-       // Debug.Log("While loop broken");
-        isFireBreath = false;
-        isCoroutineExecutingone = false;
-        StartCoroutine(WaitTransitionState(1.5f));
-
-        isCoroutineExecuting = false;
-    }
-    IEnumerator PreFireBreath(float seconds)
+    IEnumerator FireBreathAttack(float seconds)
     {
 
         if (isCoroutineExecuting)
             yield break;
-        
+
         isCoroutineExecuting = true;
+
         GetComponentInChildren<TriggerFireEvent>().EnableParticleSystem();
+
         yield return new WaitForSeconds(seconds);
         isFireBreath = true;
-        isCoroutineExecuting = false;
 
-        StartCoroutine(PostFireBreath(1.0f));
+        yield return new WaitForSeconds(1);
+
+        GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
+        isFireBreath = false;
+   
+        yield return new WaitForSeconds(1.5f);
+        CurrentState = BossStates.Moving;
+
         isCoroutineExecuting = false;
     }
-    IEnumerator WaitTransitionState(float seconds)
+
+
+    IEnumerator StompAttack(float seconds)
     {
-        if (isCoroutineExecutingone)
+        if (isCoroutineExecuting)
             yield break;
-        isCoroutineExecutingone = true;
-        yield return new WaitForSeconds(seconds);
+        isCoroutineExecuting = true;
+        //TimeUntil Stomp Starts
+        //yield return new WaitForSeconds(seconds);
+
+        
+        Nav.Stop(true);
+        
+        Nav.enabled = false;
+        
+        Rigid.isKinematic = false;
+
+        Rigid.useGravity = true;
+        yield return new WaitForSeconds(1);
+        Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
+        //
+        Debug.Log("Liftoff");
+        yield return new WaitForSeconds(5);
+        Debug.Log("Land");
+        Rigid.isKinematic = true;
+        Rigid.useGravity = false;
+        //Nav.Warp(transform.position);
+        Nav.enabled = true;
+        
+
+        //time until continues to walk
+        yield return new WaitForSeconds(1.5f);
         CurrentState = BossStates.Moving;
-        isCoroutineExecutingone = false;
+
+        isCoroutineExecuting = false;
+        //
+    }
+
+
+        //From The following:
+        //http://answers.unity3d.com/questions/714835/best-way-to-spawn-prefabs-in-a-circle.html
+        Vector3 RandomCircle(Vector3 center, float radius)
+    {
+        float ang = Random.value * 360;
+        Vector3 pos;
+        pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
+        pos.y = center.y + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
+        pos.z = center.z;
+        return pos;
     }
 }
+
+

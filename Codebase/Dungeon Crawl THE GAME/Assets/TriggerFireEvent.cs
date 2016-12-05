@@ -8,6 +8,7 @@ public class TriggerFireEvent : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
+        return;
         if (col.tag == "Player")
             if (Wowser.GetComponent<Wowser>().CurrentState == BossStates.Moving)
                 Wowser.GetComponent<Wowser>().CurrentState = BossStates.FireBreath;
