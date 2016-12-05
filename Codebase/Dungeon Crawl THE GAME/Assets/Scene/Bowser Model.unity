@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -217,6 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186d5fde3c21bb0459ef84d829c324b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToDodgeFire: 1
+  isFireBreath: 0
   CurrentState: 1
   Mario: {fileID: 890277644}
   wowser: {fileID: 205614340}
@@ -638,7 +640,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b77b63498389c740af1a465c4f81631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 3
   speed: 6
   sprintSpeed: 12
   jumpSpeed: 8
@@ -1235,7 +1236,6 @@ GameObject:
   - 4: {fileID: 1615475758}
   - 33: {fileID: 1615475761}
   - 23: {fileID: 1615475759}
-  - 143: {fileID: 1615475762}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -1297,23 +1297,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1615475757}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!143 &1615475762
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1615475757}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 0.99999994
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1725446963
 Prefab:
   m_ObjectHideFlags: 0
@@ -3615,6 +3598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Wowser: {fileID: 205614334}
+  Mario: {fileID: 0}
 --- !u!1 &2014347972
 GameObject:
   m_ObjectHideFlags: 0

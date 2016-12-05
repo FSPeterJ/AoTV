@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-
+using System;
 
 public enum BossStates
 {
@@ -9,7 +9,8 @@ public enum BossStates
     Moving,
     Stomp,
     FireBreath,
-    Stunned
+    Stunned,
+    Charge
 }
 
 public class Wowser : MonoBehaviour
@@ -27,7 +28,6 @@ public class Wowser : MonoBehaviour
     public GameObject arena;
     public BasePlayer mariocontroller;
     private Vector3 moveDirection = Vector3.zero;
-
 
     NavMeshAgent Nav;
 
@@ -60,6 +60,9 @@ public class Wowser : MonoBehaviour
             case BossStates.Stunned:
                 StunndedState();
                 break;
+            case BossStates.Charge:
+                ChargeState();
+                break;
             default:
                 break;
         }
@@ -67,30 +70,36 @@ public class Wowser : MonoBehaviour
 
 
 
+    //clean upppppp
+    bool hasoccured;
+    float starttime;
+    float distance;
+    Vector3 MarioPos;
+    //
+    private void ChargeState()
+    {
+
+        if (hasoccured == true)
+        {
+            Nav.enabled = false;
+            GetComponentInChildren<Rigidbody>().isKinematic = false;
+            distance = Vector3.Distance(transform.position, MarioPos);
+            MarioPos = Mario.transform.position;
+            hasoccured = false;
+             starttime= Time.time;
+        }
+        //   Vector3.Distance(transform.position, MarioPos)
+        //   float step = 10 * Time.deltaTime;
+        //  Vector3.MoveTowards(transform.position, MarioPos,);
+        float dist = (Time.time - starttime) * 10;
+        float frac = dist / distance;
+        transform.position = Vector3.Lerp(transform.position, MarioPos, frac);
+       
+    }
 
     void IdleState()
     {
-
-
-        //controls duration of IdleState // change hard coded 1 eventually
-        if (timeElapsed > 1)
-
-
-            //controls duration of IdleState // change hard coded 1 eventually
-            if (timeElapsed > 5)
-
-            {
-                CurrentState = BossStates.Moving;
-                timeElapsed = 0;
-            }
-
-        while (timeElapsed < 1)
-        {
-            timeElapsed += Time.deltaTime;
-            continue;
-        }
-
-
+        CurrentState = BossStates.Moving;
     }
 
 
@@ -102,10 +111,14 @@ public class Wowser : MonoBehaviour
 
             Nav.speed = 0.5f;
         }
-        else if (Nav.remainingDistance >= 5f)
+        else if (Nav.remainingDistance >= 5f&& Nav.remainingDistance<11f)
         {
             Nav.speed = 3;
 
+        }
+        else if (Nav.remainingDistance>10f)
+        {
+            CurrentState = BossStates.Charge;
         }
 
         Nav.destination = Mario.transform.position;
@@ -117,6 +130,7 @@ public class Wowser : MonoBehaviour
     }
     void FirebreathState()
     {
+        GetComponent<NavMeshAgent>().enabled = false;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         isCoroutineExecuting = false;
@@ -194,6 +208,7 @@ public class Wowser : MonoBehaviour
             yield break;
         isCoroutineExecutingone = true;
         yield return new WaitForSeconds(seconds);
+        GetComponent<NavMeshAgent>().enabled = true;
         CurrentState = BossStates.Moving;
         isCoroutineExecutingone = false;
     }
