@@ -151,7 +151,7 @@ public class BasePlayer : MonoBehaviour
             }
         }
 
-        invulnerable = true;
+        StartCoroutine("Invulnerable");
     }
     public void TakeFireDamage()
     {
@@ -198,7 +198,12 @@ public class BasePlayer : MonoBehaviour
 
     IEnumerator Invulnerable()
     {
-        yield return new WaitForSeconds(3);
+        invulnerable = true;
+
+
+            yield return new WaitForSeconds(3);
+        
+
         invulnerable = false;
     }
 }
