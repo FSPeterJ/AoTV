@@ -130,10 +130,14 @@ public class BasePlayer : MonoBehaviour
             }
             else
             {
-                Wowser.GetComponent<NavMeshAgent>().enabled = false;
 
+                Wowser.GetComponent<NavMeshAgent>().enabled = false;
+                Wowser.GetComponent<Wowser>().CurrentState = BossStates.Idle;
                 currentState = playerStates.throwing;
                 Wowser.transform.parent = transform;
+                Wowser.transform.rotation = transform.rotation;
+                Wowser.transform.position = transform.position + transform.forward * 3f; ;
+
                 tailGrabbed = true;
             }
         }

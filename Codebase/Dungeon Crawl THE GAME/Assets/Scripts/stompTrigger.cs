@@ -57,7 +57,19 @@ public class stompTrigger : MonoBehaviour
         isCoroutineExecuting = true;
         yield return new WaitForSeconds(2.65f);
         if (Wowser.GetComponent<Wowser>().PlayerInRange)
+        {
+
+       
+            //Vector information subtraction from here:
+            //http://answers.unity3d.com/questions/24830/create-a-vector-from-one-point-to-another-point-.html
+
+            //Adds an impact force
+            if (Mario.GetComponent<CharacterController>().isGrounded)
+            {
+                Mario.GetComponent<BasePlayer>().AddImpact(Mario.transform.position - Wowser.transform.position, 150);
+            }
             Mario.GetComponent<BasePlayer>().TakeDamage();
+        }
         isCoroutineExecuting = false;
 
     }
