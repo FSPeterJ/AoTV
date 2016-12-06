@@ -171,8 +171,11 @@ public class Wowser : MonoBehaviour
     {
         if (col.gameObject.tag == "Explosive")
         {
-            --bHealth;
-            Destroy(col.gameObject);
+            if (wowser.GetComponent<Wowser>().CurrentState == BossStates.Idle)
+            {
+                --bHealth;
+                Destroy(col.gameObject);
+            }
         }
     }
     public void SetCurrentState(BossStates NewState)
@@ -286,8 +289,8 @@ public class Wowser : MonoBehaviour
         Rigid.isKinematic = true;
         Nav.enabled = true;
         GetComponent<ParticleSystem>().enableEmission = false;
-        CurrentState = BossStates.Moving;
         Mario.GetComponent<BasePlayer>().canGrabTail = true;
+        CurrentState = BossStates.Moving;
         isCoroutineExecuting = false;
     }
 }
