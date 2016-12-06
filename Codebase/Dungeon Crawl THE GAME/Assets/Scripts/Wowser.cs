@@ -83,7 +83,8 @@ public class Wowser : MonoBehaviour
     
     //
     private void ChargeState()
-    { 
+    {
+        Mario.GetComponent<BasePlayer>().canGrabTail = false;
         StartCoroutine(ChargeAttack(1));
         //    if (hasoccured == true)
         //    {
@@ -109,7 +110,7 @@ public class Wowser : MonoBehaviour
     }
 
     void IdleState()
-    {
+    {   
         CurrentState = BossStates.Moving;
     }
 
@@ -138,13 +139,13 @@ public class Wowser : MonoBehaviour
     }
     void StompState()
     {
+        Mario.GetComponent<BasePlayer>().canGrabTail = false;
         //isCoroutineExecuting = false; //?????
         StartCoroutine(StompAttack(1));
 
     }
     void FirebreathState()
     {
-
         //isCoroutineExecuting = false;//?????
         StartCoroutine(FireBreathAttack(timeToDodgeFire));
     }
@@ -189,7 +190,7 @@ public class Wowser : MonoBehaviour
 
         if (isCoroutineExecuting)
             yield break;
-
+        Mario.GetComponent<BasePlayer>().canGrabTail = false;
         isCoroutineExecuting = true;
         Nav.enabled = false;
         GetComponentInChildren<TriggerFireEvent>().EnableParticleSystem();
@@ -205,6 +206,7 @@ public class Wowser : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         CurrentState = BossStates.Moving;
         Nav.enabled = true;
+        Mario.GetComponent<BasePlayer>().canGrabTail = true;
         isCoroutineExecuting = false;
     }
 
@@ -217,7 +219,7 @@ public class Wowser : MonoBehaviour
         //TimeUntil Stomp Starts
         //yield return new WaitForSeconds(seconds);
 
-
+        Mario.GetComponent<BasePlayer>().canGrabTail = false;
         Nav.Stop(true);
 
         Nav.enabled = false;
@@ -250,7 +252,6 @@ public class Wowser : MonoBehaviour
         //time until continues to walk
         yield return new WaitForSeconds(1);
         CurrentState = BossStates.Moving;
-
         isCoroutineExecuting = false;
         //
     }
@@ -272,6 +273,7 @@ public class Wowser : MonoBehaviour
     {
         if (isCoroutineExecuting)
             yield break;
+        Mario.GetComponent<BasePlayer>().canGrabTail = false;
         transform.forward = Nav.transform.forward;
         isCoroutineExecuting = true;
         //TimeUntil Stomp Starts
@@ -287,6 +289,7 @@ public class Wowser : MonoBehaviour
         Rigid.isKinematic = true;
         Nav.enabled = true;
         CurrentState = BossStates.Moving;
+        Mario.GetComponent<BasePlayer>().canGrabTail = true;
         isCoroutineExecuting = false;
     }
 }
