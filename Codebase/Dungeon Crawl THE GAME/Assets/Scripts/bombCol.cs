@@ -8,7 +8,7 @@ public class bombCol : MonoBehaviour
     {
         if (col.tag == "Explosive")
         {
-            if (wowser.GetComponent<Wowser>().CurrentState != BossStates.Charge)
+            if (wowser.GetComponent<Wowser>().CurrentState == BossStates.Idle)
             {
                 wowser.GetComponent<Wowser>().bHealth--;
                 destroyBomb(col.gameObject);

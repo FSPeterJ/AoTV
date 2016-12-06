@@ -112,6 +112,7 @@ public class BasePlayer : MonoBehaviour
         {
             if (tailGrabbed)
             {
+                Wowser.GetComponent<Wowser>().CurrentState = BossStates.Idle;
                 Wowser.transform.parent = null;
                 tailGrabbed = false;
 
