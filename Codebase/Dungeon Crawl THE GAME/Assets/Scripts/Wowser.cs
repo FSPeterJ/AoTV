@@ -27,8 +27,7 @@ public class Wowser : MonoBehaviour
     public GameObject Mario;
     public Collider wowser;
     public GameObject arena;
-    public BasePlayer mariocontroller;
-
+    public GameObject StompArea;
     //Components
     NavMeshAgent Nav;
     Rigidbody Rigid;
@@ -219,7 +218,7 @@ public class Wowser : MonoBehaviour
         isCoroutineExecuting = true;
         //TimeUntil Stomp Starts
         //yield return new WaitForSeconds(seconds);
-
+        
         Mario.GetComponent<BasePlayer>().canGrabTail = false;
         Nav.Stop(true);
 
@@ -228,15 +227,17 @@ public class Wowser : MonoBehaviour
         Rigid.isKinematic = false;
 
         Rigid.useGravity = true;
+       
         yield return new WaitForSeconds(0.5f);
         Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
-        //
+        
         //Debug.Log("Liftoff");
         yield return new WaitForSeconds(2f);
         //Debug.Log("Land");
-
-
-
+        StompArea.GetComponent<ParticleSystem>().enableEmission = true;
+        yield return new WaitForSeconds(0.5f);
+        StompArea.GetComponent<ParticleSystem>().enableEmission = false;
+        Mario.GetComponent<BasePlayer>().canGrabTail = true;
         Rigid.isKinematic = true;
         Rigid.useGravity = false;
         //Nav.Warp(transform.position);
@@ -245,6 +246,7 @@ public class Wowser : MonoBehaviour
 
         //time until continues to walk
         yield return new WaitForSeconds(1);
+        
         CurrentState = BossStates.Moving;
         isCoroutineExecuting = false;
         //
@@ -268,6 +270,7 @@ public class Wowser : MonoBehaviour
         if (isCoroutineExecuting)
             yield break;
         Mario.GetComponent<BasePlayer>().canGrabTail = false;
+        GetComponent<ParticleSystem>().enableEmission = true;
         transform.forward = Nav.transform.forward;
         isCoroutineExecuting = true;
         //TimeUntil Stomp Starts
@@ -282,6 +285,7 @@ public class Wowser : MonoBehaviour
         yield return new WaitForSeconds(.9f);
         Rigid.isKinematic = true;
         Nav.enabled = true;
+        GetComponent<ParticleSystem>().enableEmission = false;
         CurrentState = BossStates.Moving;
         Mario.GetComponent<BasePlayer>().canGrabTail = true;
         isCoroutineExecuting = false;
