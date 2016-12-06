@@ -191,7 +191,7 @@ public class Wowser : MonoBehaviour
             yield break;
 
         isCoroutineExecuting = true;
-
+        Nav.enabled = false;
         GetComponentInChildren<TriggerFireEvent>().EnableParticleSystem();
 
         yield return new WaitForSeconds(seconds);
@@ -204,7 +204,7 @@ public class Wowser : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f);
         CurrentState = BossStates.Moving;
-
+        Nav.enabled = true;
         isCoroutineExecuting = false;
     }
 

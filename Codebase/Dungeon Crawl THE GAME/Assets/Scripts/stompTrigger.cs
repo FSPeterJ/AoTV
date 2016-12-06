@@ -15,6 +15,10 @@ public class stompTrigger : MonoBehaviour
         Debug.Log("Entered");
         if (col.tag == "Player")
         {
+            if(Wowser.GetComponent<Wowser>().CurrentState==BossStates.Charge)
+            {
+                Mario.GetComponent<BasePlayer>().TakeDamage();
+            }
             if (Wowser.GetComponent<Wowser>().CurrentState == BossStates.Moving)
             {
                 Wowser.GetComponent<Wowser>().PlayerInRange = true;
