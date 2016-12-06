@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -196,9 +196,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeToDodgeFire: 1
   bHealth: 3
-  isFireBreath: 0
-  PlayerInRange: 0
-  CurrentState: 1
   Mario: {fileID: 890277644}
   wowser: {fileID: 205614340}
   arena: {fileID: 1021897748}
@@ -358,7 +355,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: -405222199
+  randomSeed: 321383530
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -6094,7 +6091,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 450617365
+  randomSeed: -841475448
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -10563,10 +10560,10 @@ ParticleSystem:
   looping: 1
   prewarm: 0
   playOnAwake: 1
-  moveWithTransform: 1
+  moveWithTransform: 0
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 1909053566
+  randomSeed: -508494875
   InitialModule:
     serializedVersion: 2
     enabled: 1
