@@ -13,50 +13,67 @@ public enum playerStates
 public class BasePlayer : MonoBehaviour
 {
 
-    // Use this for initialization
-    void Start()
-    {
 
-    }
 
-    private int HP = 3;
+
+    //Basic Settings
+    int HP = 3;
+    public playerStates currentState = playerStates.normal;
+    public int numberOfJumps = 3;
+    public bool canGrabTail = false;
+    public float tossSpeed;
+    public float tossSeconds = 1.5f;
+
+    //Internal Basic Settings
+    int currentJump = 3;
+    bool tailGrabbed = false;
+    bool burning = false;
+    bool invulnerable = false;
+    CharacterController controller;
+    bool hasThrown = false;
+
+
+    //Physics Settings
     public float speed = 6.0F;
     public float sprintSpeed = 10.0f;
     public float jumpSpeed = 8.0F;
     public float gravity = 20.0F;
+    public float mass = 20.0F;
     public float rotationSpeed = 2.0f;
-    private Vector3 moveDirection = Vector3.zero;
+
+    //Physics Internals
+    Vector3 moveDirection = Vector3.zero;
+    Vector3 Impact = Vector3.zero;
+
+    //External References
     public Rigidbody marioRb;
     public Rigidbody wowserRb;
-    public playerStates currentState = playerStates.normal;
-    public int numberOfJumps = 3;
-    private int currentJump = 3;
-    public bool canGrabTail = false;
-    private bool tailGrabbed = false;
-    public float tossSpeed;
-    public float tossSeconds = 1.5f;
     public GameObject getTail;
     public GameObject Wowser;
     public GameObject Life1;
     public GameObject Life2;
     public GameObject Life3;
     public GameObject BurnEffect;
-    bool burning = false;
-    bool invulnerable = false;
-    public float StompY;
 
-    private bool hasThrown = false;
+
+
+    // Use this for initialization
+    void Start()
+    {
+        controller = GetComponent<CharacterController>();
+
+    }
+
 
 
 
     // Update is called once per frame
     void Update()
     {
-        if (canGrabTail ==true)
+        if (canGrabTail == true)
         {
             Debug.Log("CanGrabTail = true");
         }
-        CharacterController controller = GetComponent<CharacterController>();
 
         switch (currentState)
         {
@@ -73,7 +90,7 @@ public class BasePlayer : MonoBehaviour
                 break;
             default:
                 break;
-        }        
+        }
 
         if (controller.isGrounded)
         {
@@ -95,6 +112,7 @@ public class BasePlayer : MonoBehaviour
         {
             if (tailGrabbed)
             {
+                Wowser.GetComponent<Wowser>().CurrentState = BossStates.Idle;
                 Wowser.transform.parent = null;
                 tailGrabbed = false;
 
@@ -102,28 +120,42 @@ public class BasePlayer : MonoBehaviour
                 {
                     StartCoroutine("tossTime");
 
-                    //Need to change bowser's rotation to Mario's
+                    //Wowser.transform.Rotate(0,0,0);
+                }
+                else
+                {
+                    Wowser.GetComponent<NavMeshAgent>().enabled = true;
+                    Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
                 }
                 currentState = playerStates.normal;
             }
             else
             {
-                Wowser.GetComponent<NavMeshAgent>().enabled = false;
 
+                Wowser.GetComponent<NavMeshAgent>().enabled = false;
+                Wowser.GetComponent<Wowser>().CurrentState = BossStates.Idle;
                 currentState = playerStates.throwing;
                 Wowser.transform.parent = transform;
+                Wowser.transform.rotation = transform.rotation;
+                Wowser.transform.position = transform.position + transform.forward * 3f; ;
+
                 tailGrabbed = true;
             }
         }
-
+        if (Impact.magnitude > 0.2)
+        {
+            
+            moveDirection = transform.TransformDirection(Impact);
+            Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
+        }
+         //consumes the impact energy each cycle: 
         moveDirection.y -= gravity * Time.deltaTime;
         transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
-
         controller.Move(moveDirection * Time.deltaTime);
 
         if (transform.position.y < -10)
         {
-            transform.position = new Vector3(0, 10 ,0);
+            transform.position = new Vector3(0, 10, 0);
             TakeDamage();
         }
     }
@@ -138,34 +170,37 @@ public class BasePlayer : MonoBehaviour
                     Life1.GetComponent<Renderer>().enabled = false;
                     SceneManager.LoadScene("KillMario");
                     break;
-                case 3:
-                    Life3.GetComponent<Renderer>().enabled = false;
-                    break;
                 case 2:
                     Life2.GetComponent<Renderer>().enabled = false;
                     break;
+                case 3:
+                    Life3.GetComponent<Renderer>().enabled = false;
+                    break;
             }
+            HP--;
         }
 
         StartCoroutine("Invulnerable");
     }
+
+    public void AddImpact(Vector3 direction, float force)
+    {
+        direction.Normalize();
+        if (direction.y < 0)
+            direction.y = -direction.y;
+        Impact = direction.normalized * force / mass;
+    }
+
+
+
     public void TakeFireDamage()
     {
-        
+
         if (!burning)
         {
             TakeDamage();
 
             StartCoroutine("Burning");
-        }
-    }
-
-   public void OnTriggerEnter(Collider Col)
-    {
-        StompY = Col.transform.localPosition.y;
-        if (Col.gameObject.tag == "Trigger")
-        {
-            StompY += 3;
         }
     }
 
@@ -183,20 +218,19 @@ public class BasePlayer : MonoBehaviour
         hasThrown = false;
 
         Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
-
-
     }
 
     IEnumerator Burning()
     {
 
         burning = true;
-        GameObject go = (GameObject)Instantiate(BurnEffect, transform.position, new Quaternion(0, 45, 45, 0));
+        //Generate Burn Flames
+        GameObject Flames = (GameObject)Instantiate(BurnEffect, transform.position, new Quaternion(0, 45, 45, 0));
         //Attach to player
-        go.transform.parent = transform;
+        Flames.transform.parent = transform;
 
         yield return new WaitForSeconds(2);
-        Destroy(go);
+        Destroy(Flames);
         burning = false;
 
     }
@@ -205,9 +239,7 @@ public class BasePlayer : MonoBehaviour
     {
         invulnerable = true;
 
-
-            yield return new WaitForSeconds(3);
-        
+        yield return new WaitForSeconds(1);
 
         invulnerable = false;
     }

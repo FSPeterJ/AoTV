@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-
+using System;
 
 public enum BossStates
 {
@@ -9,31 +9,33 @@ public enum BossStates
     Moving,
     Stomp,
     FireBreath,
-    Stunned
+    Stunned,
+    Charge
 }
 
 public class Wowser : MonoBehaviour
 {
-    bool isCoroutineExecutingone = false;
     bool isCoroutineExecuting = false;
     public float timeToDodgeFire = 1;
     float timeElapsed = 0.0f;
-    int bHealth = 3;
+    public int bHealth = 3;
     public bool isFireBreath = false;
+    public bool PlayerInRange = false;
+
     bool ResetTime;
     public BossStates CurrentState = BossStates.Idle;
     public GameObject Mario;
     public Collider wowser;
     public GameObject arena;
-    public BasePlayer mariocontroller;
-    private Vector3 moveDirection = Vector3.zero;
-
-
+    public GameObject StompArea;
+    //Components
     NavMeshAgent Nav;
+    Rigidbody Rigid;
 
     void Start()
     {
         Nav = GetComponent<NavMeshAgent>();
+        Rigid = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -42,6 +44,13 @@ public class Wowser : MonoBehaviour
         {
             SceneManager.LoadScene("KillWowser");
         }
+
+
+        //Animator shit that doesn't work
+        //if (Mathf.Abs(transform.position.x) + Math.Abs(transform.position.z) > 21)
+        //{
+        //    wowser.GetComponent<Animator>().SetTrigger("Falling");
+        //}
 
         switch (CurrentState)
         {
@@ -60,52 +69,68 @@ public class Wowser : MonoBehaviour
             case BossStates.Stunned:
                 StunndedState();
                 break;
+            case BossStates.Charge:
+                ChargeState();
+                break;
             default:
                 break;
         }
     }
 
+    
+
+    
+    //
+    private void ChargeState()
+    {
+        Mario.GetComponent<BasePlayer>().canGrabTail = false;
+        StartCoroutine(ChargeAttack(1));
+        //    if (hasoccured == true)
+        //    {
+        //        Nav.enabled = false;
+        //        GetComponentInChildren<Rigidbody>().isKinematic = false;
+        //        distance = Vector3.Distance(transform.position, MarioPos);
+        //        MarioPos = Mario.transform.position;
+        //        hasoccured = false;
+        //        Rigid.useGravity = true;
+        //        starttime = Time.time;
+        //    }
+        //
+        //    Vector3 heading = MarioPos - transform.position;
+        //    Vector3 startlocation = transform.forward;
+        //    Rigid.AddForce(transform.forward, ForceMode.VelocityChange);
+        //    if (transform.position == heading)
+        //    {
+        //        CurrentState = BossStates.Moving;
+        //    }
+        // to break we need to check collision with mario or a set distance
 
 
+    }
 
     void IdleState()
-    {
-
-
-        //controls duration of IdleState // change hard coded 1 eventually
-        if (timeElapsed > 1)
-
-
-            //controls duration of IdleState // change hard coded 1 eventually
-            if (timeElapsed > 5)
-
-            {
-                CurrentState = BossStates.Moving;
-                timeElapsed = 0;
-            }
-
-        while (timeElapsed < 1)
-        {
-            timeElapsed += Time.deltaTime;
-            continue;
-        }
-
-
+    {   
+     
     }
 
 
     void MovingState()
     {
 
+
         if (Nav.remainingDistance < 4f)
         {
 
             Nav.speed = 0.5f;
         }
-        else if (Nav.remainingDistance >= 5f)
+        else if (Nav.remainingDistance >= 5f && Nav.remainingDistance < 11f)
         {
             Nav.speed = 3;
 
+        }
+        else if (Nav.remainingDistance > 10f)
+        {
+            CurrentState = BossStates.Charge;
         }
 
         Nav.destination = Mario.transform.position;
@@ -113,24 +138,15 @@ public class Wowser : MonoBehaviour
     }
     void StompState()
     {
+        Mario.GetComponent<BasePlayer>().canGrabTail = false;
+        //isCoroutineExecuting = false; //?????
+        StartCoroutine(StompAttack(1));
 
-        while (CurrentState == BossStates.Moving || CurrentState == BossStates.Idle)
-        {
-            //if (wowser.bounds.Contains(Mario.transform.position))
-            //{
-
-            //}
-
-            mariocontroller.OnTriggerEnter(wowser);
-        }
     }
-
-    
     void FirebreathState()
     {
-        
-        isCoroutineExecuting = false;
-        StartCoroutine(PreFireBreath(timeToDodgeFire));
+        //isCoroutineExecuting = false;//?????
+        StartCoroutine(FireBreathAttack(timeToDodgeFire));
     }
 
     void StunndedState()
@@ -155,11 +171,13 @@ public class Wowser : MonoBehaviour
     {
         if (col.gameObject.tag == "Explosive")
         {
-            --bHealth;
-            Destroy(col.gameObject);
+            if (wowser.GetComponent<Wowser>().CurrentState == BossStates.Idle)
+            {
+                --bHealth;
+                Destroy(col.gameObject);
+            }
         }
     }
-
     public void SetCurrentState(BossStates NewState)
     {
         CurrentState = NewState;
@@ -168,47 +186,112 @@ public class Wowser : MonoBehaviour
     {
         timeElapsed = 0;
     }
-    
-    IEnumerator PostFireBreath(float seconds)
-    {
-        if (isCoroutineExecuting)
-            yield break;
-        isCoroutineExecuting = true;
 
-        yield return new WaitForSeconds(seconds);
-        GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
-
-       // Debug.Log("While loop broken");
-        isFireBreath = false;
-        isCoroutineExecutingone = false;
-        StartCoroutine(WaitTransitionState(1.5f));
-
-        isCoroutineExecuting = false;
-    }
-    IEnumerator PreFireBreath(float seconds)
+    IEnumerator FireBreathAttack(float seconds)
     {
 
         if (isCoroutineExecuting)
             yield break;
-        
         isCoroutineExecuting = true;
+        Nav.enabled = false;
         GetComponentInChildren<TriggerFireEvent>().EnableParticleSystem();
+
         yield return new WaitForSeconds(seconds);
         isFireBreath = true;
-        isCoroutineExecuting = false;
 
-        StartCoroutine(PostFireBreath(1.0f));
+        yield return new WaitForSeconds(1);
+
+        GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
+        isFireBreath = false;
+
+        yield return new WaitForSeconds(1.5f);
+        if (CurrentState != BossStates.Idle)
+        {
+            CurrentState = BossStates.Moving;
+            Nav.enabled = true;
+        }
         isCoroutineExecuting = false;
     }
 
-    
-    IEnumerator WaitTransitionState(float seconds)
+
+    IEnumerator StompAttack(float seconds)
     {
-        if (isCoroutineExecutingone)
+        if (isCoroutineExecuting)
             yield break;
-        isCoroutineExecutingone = true;
-        yield return new WaitForSeconds(seconds);
+        isCoroutineExecuting = true;
+        //TimeUntil Stomp Starts
+        //yield return new WaitForSeconds(seconds);
+        
+        Mario.GetComponent<BasePlayer>().canGrabTail = false;
+        Nav.Stop(true);
+
+        Nav.enabled = false;
+
+        Rigid.isKinematic = false;
+
+        Rigid.useGravity = true;
+       
+        yield return new WaitForSeconds(0.5f);
+        Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
+        
+        //Debug.Log("Liftoff");
+        yield return new WaitForSeconds(2f);
+        //Debug.Log("Land");
+        StompArea.GetComponent<ParticleSystem>().enableEmission = true;
+        yield return new WaitForSeconds(0.5f);
+        StompArea.GetComponent<ParticleSystem>().enableEmission = false;
+        Mario.GetComponent<BasePlayer>().canGrabTail = true;
+        Rigid.isKinematic = true;
+        Rigid.useGravity = false;
+        //Nav.Warp(transform.position);
+        Nav.enabled = true;
+
+
+        //time until continues to walk
+        yield return new WaitForSeconds(1);
+        
         CurrentState = BossStates.Moving;
-        isCoroutineExecutingone = false;
+        isCoroutineExecuting = false;
+        //
+    }
+
+
+    //From The following:
+    //http://answers.unity3d.com/questions/714835/best-way-to-spawn-prefabs-in-a-circle.html
+    Vector3 RandomCircle(Vector3 center, float radius)
+    {
+
+        float ang = UnityEngine.Random.value * 360;
+        Vector3 pos;
+        pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
+        pos.y = center.y + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
+        pos.z = center.z;
+        return pos;
+    }
+    IEnumerator ChargeAttack(float seconds)
+    {
+        if (isCoroutineExecuting)
+            yield break;
+        Mario.GetComponent<BasePlayer>().canGrabTail = false;
+        GetComponent<ParticleSystem>().enableEmission = true;
+        transform.forward = Nav.transform.forward;
+        isCoroutineExecuting = true;
+        //TimeUntil Stomp Starts
+        yield return new WaitForSeconds(seconds);
+        Rigid.useGravity = true;
+        Rigid.isKinematic = false;
+        
+        Nav.enabled = false;
+        
+        Rigid.AddForce(transform.forward*25, ForceMode.Impulse);
+
+        yield return new WaitForSeconds(.9f);
+        Rigid.isKinematic = true;
+        Nav.enabled = true;
+        GetComponent<ParticleSystem>().enableEmission = false;
+        Mario.GetComponent<BasePlayer>().canGrabTail = true;
+        CurrentState = BossStates.Moving;
+        isCoroutineExecuting = false;
     }
 }
+
