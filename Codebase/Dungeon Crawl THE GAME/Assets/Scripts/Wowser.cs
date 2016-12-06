@@ -18,7 +18,7 @@ public class Wowser : MonoBehaviour
     bool isCoroutineExecuting = false;
     public float timeToDodgeFire = 1;
     float timeElapsed = 0.0f;
-    int bHealth = 3;
+    public int bHealth = 3;
     public bool isFireBreath = false;
     public bool PlayerInRange = false;
 
@@ -224,11 +224,11 @@ public class Wowser : MonoBehaviour
         Rigid.isKinematic = false;
 
         Rigid.useGravity = true;
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.5f);
         Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
         //
         Debug.Log("Liftoff");
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(2);
         Debug.Log("Land");
         Rigid.isKinematic = true;
         Rigid.useGravity = false;
@@ -237,7 +237,7 @@ public class Wowser : MonoBehaviour
 
 
         //time until continues to walk
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1);
         CurrentState = BossStates.Moving;
 
         isCoroutineExecuting = false;
