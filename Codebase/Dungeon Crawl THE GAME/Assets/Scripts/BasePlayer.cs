@@ -51,7 +51,7 @@ public class BasePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (canGrabTail ==true)
+        if (canGrabTail == true)
         {
             Debug.Log("CanGrabTail = true");
         }
@@ -72,7 +72,7 @@ public class BasePlayer : MonoBehaviour
                 break;
             default:
                 break;
-        }        
+        }
 
         if (controller.isGrounded)
         {
@@ -101,7 +101,12 @@ public class BasePlayer : MonoBehaviour
                 {
                     StartCoroutine("tossTime");
 
-                    //Need to change bowser's rotation to Mario's
+                    //Wowser.transform.Rotate(0,0,0);
+                }
+                else
+                {
+                    Wowser.GetComponent<NavMeshAgent>().enabled = true;
+                    Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
                 }
                 currentState = playerStates.normal;
             }
@@ -122,7 +127,7 @@ public class BasePlayer : MonoBehaviour
 
         if (transform.position.y < -10)
         {
-            transform.position = new Vector3(0, 10 ,0);
+            transform.position = new Vector3(0, 10, 0);
             TakeDamage();
         }
     }
@@ -137,20 +142,21 @@ public class BasePlayer : MonoBehaviour
                     Life1.GetComponent<Renderer>().enabled = false;
                     SceneManager.LoadScene("KillMario");
                     break;
-                case 3:
-                    Life3.GetComponent<Renderer>().enabled = false;
-                    break;
                 case 2:
                     Life2.GetComponent<Renderer>().enabled = false;
                     break;
+                case 3:
+                    Life3.GetComponent<Renderer>().enabled = false;
+                    break;
             }
+            HP--;
         }
 
         StartCoroutine("Invulnerable");
     }
     public void TakeFireDamage()
     {
-        
+
         if (!burning)
         {
             TakeDamage();
@@ -173,8 +179,6 @@ public class BasePlayer : MonoBehaviour
         hasThrown = false;
 
         Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
-
-
     }
 
     IEnumerator Burning()
@@ -195,9 +199,8 @@ public class BasePlayer : MonoBehaviour
     {
         invulnerable = true;
 
+        yield return new WaitForSeconds(1);
 
-            yield return new WaitForSeconds(3);
-        
 
         invulnerable = false;
     }

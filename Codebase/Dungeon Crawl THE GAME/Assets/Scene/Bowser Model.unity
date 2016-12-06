@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692492, g: 0.4967869, b: 0.57508546, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692534, g: 0.49678725, b: 0.5750856, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -171,7 +171,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 205614334}
   m_LocalRotation: {x: -0, y: 0.67626643, z: -0, w: 0.73665714}
-  m_LocalPosition: {x: -12.61, y: 4.2, z: 1.72}
+  m_LocalPosition: {x: 1.29, y: 3.05, z: -0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 85.244, z: 0}
   m_Children:
@@ -296,10 +296,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 300998140}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.5, z: 0, w: 0.8660254}
   m_LocalPosition: {x: -0.398, y: 2.01, z: -0.247}
-  m_LocalScale: {x: 0.052761372, y: 1.8521101, z: 0.046302754}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 2, z: 0.05}
+  m_LocalEulerAnglesHint: {x: 0, y: 60, z: 0}
   m_Children: []
   m_Father: {fileID: 1021897749}
   m_RootOrder: 2
@@ -412,10 +412,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 502687797}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -0.5, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0.396, y: 1.5, z: -0.25}
-  m_LocalScale: {x: 0.05, y: 2, z: 0.05}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 2, z: 0.05}
+  m_LocalEulerAnglesHint: {x: 0, y: -60, z: 0}
   m_Children: []
   m_Father: {fileID: 1021897749}
   m_RootOrder: 1
@@ -638,8 +638,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66d24c50491ff8e42b8db3fb567cae7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Wowser: {fileID: 205614334}
-  Mario: {fileID: 890277644}
+  Wowser: {fileID: 0}
+  Mario: {fileID: 0}
 --- !u!65 &594018931
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1068,7 +1068,7 @@ Transform:
   m_GameObject: {fileID: 1111594682}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.001474607, y: 1.5, z: 0.4713}
-  m_LocalScale: {x: 0.05, y: 2, z: 0.05}
+  m_LocalScale: {x: 0.1, y: 2, z: 0.05}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1021897749}
@@ -2000,7 +2000,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 110287022
+  randomSeed: 2103114963
   InitialModule:
     serializedVersion: 2
     enabled: 1

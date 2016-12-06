@@ -1,7 +1,7 @@
 ﻿    using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-
+using System;
 
 public enum BossStates
 {
@@ -9,7 +9,8 @@ public enum BossStates
     Moving,
     Stomp,
     FireBreath,
-    Stunned
+    Stunned,
+    Charge
 }
 
 public class Wowser : MonoBehaviour
@@ -20,7 +21,7 @@ public class Wowser : MonoBehaviour
     int bHealth = 3;
     public bool isFireBreath = false;
     public bool PlayerInRange = false;
-    
+
     bool ResetTime;
     public BossStates CurrentState = BossStates.Idle;
     public GameObject Mario;
@@ -63,6 +64,9 @@ public class Wowser : MonoBehaviour
             case BossStates.Stunned:
                 StunndedState();
                 break;
+            case BossStates.Charge:
+                ChargeState();
+                break;
             default:
                 break;
         }
@@ -70,46 +74,61 @@ public class Wowser : MonoBehaviour
 
 
 
+    //clean upppppp
+    bool hasoccured = true;
+    float starttime;
+    float distance;
+    Vector3 MarioPos;
+    //
+    private void ChargeState()
+    {
+        StartCoroutine(ChargeAttack(1));
+   //    if (hasoccured == true)
+   //    {
+   //        Nav.enabled = false;
+   //        GetComponentInChildren<Rigidbody>().isKinematic = false;
+   //        distance = Vector3.Distance(transform.position, MarioPos);
+   //        MarioPos = Mario.transform.position;
+   //        hasoccured = false;
+   //        Rigid.useGravity = true;
+   //        starttime = Time.time;
+   //    }
+   //
+   //    Vector3 heading = MarioPos - transform.position;
+   //    Vector3 startlocation = transform.forward;
+   //    Rigid.AddForce(transform.forward, ForceMode.VelocityChange);
+   //    if (transform.position == heading)
+   //    {
+   //        CurrentState = BossStates.Moving;
+   //    }
+        // to break we need to check collision with mario or a set distance
+
+
+    }
 
     void IdleState()
     {
-
-
-        //controls duration of IdleState // change hard coded 1 eventually
-        if (timeElapsed > 1)
-
-
-            //controls duration of IdleState // change hard coded 1 eventually
-            if (timeElapsed > 5)
-
-            {
-                CurrentState = BossStates.Moving;
-                timeElapsed = 0;
-            }
-
-        while (timeElapsed < 1)
-        {
-            timeElapsed += Time.deltaTime;
-            continue;
-        }
-
-
+        CurrentState = BossStates.Moving;
     }
 
 
     void MovingState()
     {
-        
+
 
         if (Nav.remainingDistance < 4f)
         {
 
             Nav.speed = 0.5f;
         }
-        else if (Nav.remainingDistance >= 5f)
+        else if (Nav.remainingDistance >= 5f && Nav.remainingDistance < 11f)
         {
             Nav.speed = 3;
 
+        }
+        else if (Nav.remainingDistance > 10f)
+        {
+            CurrentState = BossStates.Charge;
         }
 
         Nav.destination = Mario.transform.position;
@@ -180,7 +199,7 @@ public class Wowser : MonoBehaviour
 
         GetComponentInChildren<TriggerFireEvent>().DisableParticleSystem();
         isFireBreath = false;
-   
+
         yield return new WaitForSeconds(1.5f);
         CurrentState = BossStates.Moving;
 
@@ -196,11 +215,11 @@ public class Wowser : MonoBehaviour
         //TimeUntil Stomp Starts
         //yield return new WaitForSeconds(seconds);
 
-        
+
         Nav.Stop(true);
-        
+
         Nav.enabled = false;
-        
+
         Rigid.isKinematic = false;
 
         Rigid.useGravity = true;
@@ -214,7 +233,7 @@ public class Wowser : MonoBehaviour
         Rigid.useGravity = false;
         //Nav.Warp(transform.position);
         Nav.enabled = true;
-        
+
 
         //time until continues to walk
         yield return new WaitForSeconds(1.5f);
@@ -225,17 +244,45 @@ public class Wowser : MonoBehaviour
     }
 
 
-        //From The following:
-        //http://answers.unity3d.com/questions/714835/best-way-to-spawn-prefabs-in-a-circle.html
-        Vector3 RandomCircle(Vector3 center, float radius)
+    //From The following:
+    //http://answers.unity3d.com/questions/714835/best-way-to-spawn-prefabs-in-a-circle.html
+    Vector3 RandomCircle(Vector3 center, float radius)
     {
-        float ang = Random.value * 360;
+
+        float ang = UnityEngine.Random.value * 360;
         Vector3 pos;
         pos.x = center.x + radius * Mathf.Sin(ang * Mathf.Deg2Rad);
         pos.y = center.y + radius * Mathf.Cos(ang * Mathf.Deg2Rad);
         pos.z = center.z;
         return pos;
     }
-}
+    IEnumerator ChargeAttack(float seconds)
+    {
+        if (isCoroutineExecuting)
+            yield break;
+        isCoroutineExecuting = true;
+        //TimeUntil Stomp Starts
+        //yield return new WaitForSeconds(seconds);
 
+
+        Nav.Stop(true);
+
+
+        Nav.enabled = false;
+        Rigid.isKinematic = false;
+        Rigid.useGravity = true;
+
+        Vector3 forcedirection = transform.forward * 1.2f;
+        Rigid.AddForce(forcedirection, ForceMode.Impulse);
+        yield return new WaitForSeconds(1);
+       
+        yield return new WaitForSeconds(1);
+        Rigid.isKinematic = true;
+        Rigid.useGravity = false;
+        Nav.enabled = true;
+        yield return new WaitForSeconds(1);
+        CurrentState = BossStates.Moving;
+        isCoroutineExecuting = false;
+    }
+}
 
