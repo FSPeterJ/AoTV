@@ -28,7 +28,6 @@ public class Wowser : MonoBehaviour
     public Collider wowser;
     public GameObject arena;
     public BasePlayer mariocontroller;
-    private Vector3 moveDirection = Vector3.zero;
 
     //Components
     NavMeshAgent Nav;
@@ -38,7 +37,6 @@ public class Wowser : MonoBehaviour
     {
         Nav = GetComponent<NavMeshAgent>();
         Rigid = GetComponent<Rigidbody>();
-        Rigid.isKinematic = true;
     }
 
     void Update()
@@ -227,9 +225,16 @@ public class Wowser : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
         //
-        Debug.Log("Liftoff");
-        yield return new WaitForSeconds(2);
-        Debug.Log("Land");
+        //Debug.Log("Liftoff");
+        yield return new WaitForSeconds(1.5f);
+        //Debug.Log("Land");
+
+
+        //Vector information subtraction from here:
+        //http://answers.unity3d.com/questions/24830/create-a-vector-from-one-point-to-another-point-.html
+        
+        //Adds an impact force
+        Mario.GetComponent<BasePlayer>().AddImpact(Mario.transform.position - transform.position, 150);
         Rigid.isKinematic = true;
         Rigid.useGravity = false;
         //Nav.Warp(transform.position);
