@@ -73,36 +73,14 @@ public class Wowser : MonoBehaviour
         }
     }
 
+    
 
-
-    //clean upppppp
-    bool hasoccured = true;
-    float starttime;
-    float distance;
-    Vector3 MarioPos;
+    
     //
     private void ChargeState()
-    {
+    { 
         StartCoroutine(ChargeAttack(1));
-   //    if (hasoccured == true)
-   //    {
-   //        Nav.enabled = false;
-   //        GetComponentInChildren<Rigidbody>().isKinematic = false;
-   //        distance = Vector3.Distance(transform.position, MarioPos);
-   //        MarioPos = Mario.transform.position;
-   //        hasoccured = false;
-   //        Rigid.useGravity = true;
-   //        starttime = Time.time;
-   //    }
-   //
-   //    Vector3 heading = MarioPos - transform.position;
-   //    Vector3 startlocation = transform.forward;
-   //    Rigid.AddForce(transform.forward, ForceMode.VelocityChange);
-   //    if (transform.position == heading)
-   //    {
-   //        CurrentState = BossStates.Moving;
-   //    }
-        // to break we need to check collision with mario or a set distance
+          
 
 
     }
@@ -228,7 +206,7 @@ public class Wowser : MonoBehaviour
         Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
         //
         Debug.Log("Liftoff");
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(1.5f);
         Debug.Log("Land");
         Rigid.isKinematic = true;
         Rigid.useGravity = false;
@@ -261,27 +239,20 @@ public class Wowser : MonoBehaviour
     {
         if (isCoroutineExecuting)
             yield break;
+        transform.forward = Nav.transform.forward;
         isCoroutineExecuting = true;
         //TimeUntil Stomp Starts
-        //yield return new WaitForSeconds(seconds);
-
-
-        Nav.Stop(true);
-
-
-        Nav.enabled = false;
-        Rigid.isKinematic = false;
+        yield return new WaitForSeconds(seconds);
         Rigid.useGravity = true;
+        Rigid.isKinematic = false;
+        
+        Nav.enabled = false;
+        
+        Rigid.AddForce(transform.forward*25, ForceMode.Impulse);
 
-        Vector3 forcedirection = transform.forward * 1.2f;
-        Rigid.AddForce(forcedirection, ForceMode.Impulse);
-        yield return new WaitForSeconds(1);
-       
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(.9f);
         Rigid.isKinematic = true;
-        Rigid.useGravity = false;
         Nav.enabled = true;
-        yield return new WaitForSeconds(1);
         CurrentState = BossStates.Moving;
         isCoroutineExecuting = false;
     }
