@@ -9,13 +9,8 @@ public enum playerStates
     throwing
 }
 
-
 public class BasePlayer : MonoBehaviour
 {
-
-
-
-
     //Basic Settings
     int HP = 3;
     public playerStates currentState = playerStates.normal;
@@ -31,7 +26,6 @@ public class BasePlayer : MonoBehaviour
     bool invulnerable = false;
     CharacterController controller;
     bool hasThrown = false;
-
 
     //Physics Settings
     public float speed = 6.0F;
@@ -55,26 +49,14 @@ public class BasePlayer : MonoBehaviour
     public GameObject Life3;
     public GameObject BurnEffect;
 
-
-
     // Use this for initialization
     void Start()
     {
         controller = GetComponent<CharacterController>();
-
     }
-
-
-
-
     // Update is called once per frame
     void Update()
     {
-        if (canGrabTail == true)
-        {
-            Debug.Log("CanGrabTail = true");
-        }
-
         switch (currentState)
         {
             case playerStates.normal:
@@ -117,11 +99,8 @@ public class BasePlayer : MonoBehaviour
                 tailGrabbed = false;
 
                 if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) && !hasThrown)
-                {
                     StartCoroutine("tossTime");
 
-                    //Wowser.transform.Rotate(0,0,0);
-                }
                 else
                 {
                     Wowser.GetComponent<NavMeshAgent>().enabled = true;
@@ -153,10 +132,11 @@ public class BasePlayer : MonoBehaviour
         transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
         controller.Move(moveDirection * Time.deltaTime);
 
-        if (transform.position.y < -10)
+        if (transform.position.y < 0.7f)
         {
             transform.position = new Vector3(0, 10, 0);
             TakeDamage();
+            StartCoroutine("Burning");
         }
     }
 
