@@ -1,4 +1,4 @@
-﻿    using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using System;
@@ -46,6 +46,13 @@ public class Wowser : MonoBehaviour
             SceneManager.LoadScene("KillWowser");
         }
 
+
+        //Animator shit that doesn't work
+        //if (Mathf.Abs(transform.position.x) + Math.Abs(transform.position.z) > 21)
+        //{
+        //    wowser.GetComponent<Animator>().SetTrigger("Falling");
+        //}
+
         switch (CurrentState)
         {
             case BossStates.Idle:
@@ -82,24 +89,24 @@ public class Wowser : MonoBehaviour
     private void ChargeState()
     {
         StartCoroutine(ChargeAttack(1));
-   //    if (hasoccured == true)
-   //    {
-   //        Nav.enabled = false;
-   //        GetComponentInChildren<Rigidbody>().isKinematic = false;
-   //        distance = Vector3.Distance(transform.position, MarioPos);
-   //        MarioPos = Mario.transform.position;
-   //        hasoccured = false;
-   //        Rigid.useGravity = true;
-   //        starttime = Time.time;
-   //    }
-   //
-   //    Vector3 heading = MarioPos - transform.position;
-   //    Vector3 startlocation = transform.forward;
-   //    Rigid.AddForce(transform.forward, ForceMode.VelocityChange);
-   //    if (transform.position == heading)
-   //    {
-   //        CurrentState = BossStates.Moving;
-   //    }
+        //    if (hasoccured == true)
+        //    {
+        //        Nav.enabled = false;
+        //        GetComponentInChildren<Rigidbody>().isKinematic = false;
+        //        distance = Vector3.Distance(transform.position, MarioPos);
+        //        MarioPos = Mario.transform.position;
+        //        hasoccured = false;
+        //        Rigid.useGravity = true;
+        //        starttime = Time.time;
+        //    }
+        //
+        //    Vector3 heading = MarioPos - transform.position;
+        //    Vector3 startlocation = transform.forward;
+        //    Rigid.AddForce(transform.forward, ForceMode.VelocityChange);
+        //    if (transform.position == heading)
+        //    {
+        //        CurrentState = BossStates.Moving;
+        //    }
         // to break we need to check collision with mario or a set distance
 
 
@@ -226,15 +233,18 @@ public class Wowser : MonoBehaviour
         Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
         //
         //Debug.Log("Liftoff");
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
         //Debug.Log("Land");
 
 
         //Vector information subtraction from here:
         //http://answers.unity3d.com/questions/24830/create-a-vector-from-one-point-to-another-point-.html
-        
+
         //Adds an impact force
-        Mario.GetComponent<BasePlayer>().AddImpact(Mario.transform.position - transform.position, 150);
+        if (Mario.GetComponent<CharacterController>().isGrounded)
+        {
+            Mario.GetComponent<BasePlayer>().AddImpact(Mario.transform.position - transform.position, 150);
+        }
         Rigid.isKinematic = true;
         Rigid.useGravity = false;
         //Nav.Warp(transform.position);
@@ -281,7 +291,7 @@ public class Wowser : MonoBehaviour
         Vector3 forcedirection = transform.forward * 1.2f;
         Rigid.AddForce(forcedirection, ForceMode.Impulse);
         yield return new WaitForSeconds(1);
-       
+
         yield return new WaitForSeconds(1);
         Rigid.isKinematic = true;
         Rigid.useGravity = false;

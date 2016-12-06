@@ -157,6 +157,7 @@ GameObject:
   - 54: {fileID: 205614337}
   - 64: {fileID: 205614340}
   - 65: {fileID: 205614341}
+  - 95: {fileID: 205614342}
   m_Layer: 0
   m_Name: Wowser
   m_TagString: Untagged
@@ -173,7 +174,7 @@ Transform:
   m_LocalRotation: {x: -0, y: 0.67626643, z: -0, w: 0.73665714}
   m_LocalPosition: {x: 1.29, y: 3.05, z: -0.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 85.244, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 52.15744, z: 0}
   m_Children:
   - {fileID: 594018929}
   - {fileID: 1615475758}
@@ -272,6 +273,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.0850458, y: 3.210743, z: 1}
   m_Center: {x: -0.005709078, y: 0.015501976, z: -0.0000049732625}
+--- !u!95 &205614342
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 205614334}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f338c69704f89554cb3696963377fb6b, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &300998140
 GameObject:
   m_ObjectHideFlags: 0
@@ -4329,18 +4347,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b77b63498389c740af1a465c4f81631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  sprintSpeed: 12
-  jumpSpeed: 8
-  gravity: 20
-  rotationSpeed: 5
-  marioRb: {fileID: 1229527591}
-  wowserRb: {fileID: 205614337}
   currentState: 0
   numberOfJumps: 3
   canGrabTail: 0
   tossSpeed: 20
   tossSeconds: 0.75
+  speed: 6
+  sprintSpeed: 12
+  jumpSpeed: 8
+  gravity: 20
+  mass: 20
+  rotationSpeed: 5
+  marioRb: {fileID: 1229527591}
+  wowserRb: {fileID: 205614337}
   getTail: {fileID: 1970136217}
   Wowser: {fileID: 205614334}
   Life1: {fileID: 139475960}
