@@ -233,14 +233,7 @@ public class Wowser : MonoBehaviour
         //Debug.Log("Land");
 
 
-        //Vector information subtraction from here:
-        //http://answers.unity3d.com/questions/24830/create-a-vector-from-one-point-to-another-point-.html
 
-        //Adds an impact force
-        if (Mario.GetComponent<CharacterController>().isGrounded)
-        {
-            Mario.GetComponent<BasePlayer>().AddImpact(Mario.transform.position - transform.position, 150);
-        }
         Rigid.isKinematic = true;
         Rigid.useGravity = false;
         //Nav.Warp(transform.position);
