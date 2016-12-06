@@ -114,7 +114,18 @@ public class Wowser : MonoBehaviour
     void StompState()
     {
 
+        while (CurrentState == BossStates.Moving || CurrentState == BossStates.Idle)
+        {
+            //if (wowser.bounds.Contains(Mario.transform.position))
+            //{
+
+            //}
+
+            mariocontroller.OnTriggerEnter(wowser);
+        }
     }
+
+    
     void FirebreathState()
     {
         
@@ -148,6 +159,7 @@ public class Wowser : MonoBehaviour
             Destroy(col.gameObject);
         }
     }
+
     public void SetCurrentState(BossStates NewState)
     {
         CurrentState = NewState;
@@ -156,6 +168,7 @@ public class Wowser : MonoBehaviour
     {
         timeElapsed = 0;
     }
+    
     IEnumerator PostFireBreath(float seconds)
     {
         if (isCoroutineExecuting)
@@ -187,6 +200,8 @@ public class Wowser : MonoBehaviour
         StartCoroutine(PostFireBreath(1.0f));
         isCoroutineExecuting = false;
     }
+
+    
     IEnumerator WaitTransitionState(float seconds)
     {
         if (isCoroutineExecutingone)

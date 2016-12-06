@@ -43,6 +43,7 @@ public class BasePlayer : MonoBehaviour
     public GameObject BurnEffect;
     bool burning = false;
     bool invulnerable = false;
+    public float StompY;
 
     private bool hasThrown = false;
 
@@ -156,6 +157,15 @@ public class BasePlayer : MonoBehaviour
             TakeDamage();
 
             StartCoroutine("Burning");
+        }
+    }
+
+   public void OnTriggerEnter(Collider Col)
+    {
+        StompY = Col.transform.localPosition.y;
+        if (Col.gameObject.tag == "Trigger")
+        {
+            StompY += 3;
         }
     }
 
