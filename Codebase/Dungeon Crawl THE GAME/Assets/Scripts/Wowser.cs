@@ -111,7 +111,7 @@ public class Wowser : MonoBehaviour
 
     void IdleState()
     {   
-        CurrentState = BossStates.Moving;
+     
     }
 
 
@@ -190,7 +190,6 @@ public class Wowser : MonoBehaviour
 
         if (isCoroutineExecuting)
             yield break;
-        Mario.GetComponent<BasePlayer>().canGrabTail = false;
         isCoroutineExecuting = true;
         Nav.enabled = false;
         GetComponentInChildren<TriggerFireEvent>().EnableParticleSystem();
@@ -204,9 +203,11 @@ public class Wowser : MonoBehaviour
         isFireBreath = false;
 
         yield return new WaitForSeconds(1.5f);
-        CurrentState = BossStates.Moving;
-        Nav.enabled = true;
-        Mario.GetComponent<BasePlayer>().canGrabTail = true;
+        if (CurrentState != BossStates.Idle)
+        {
+            CurrentState = BossStates.Moving;
+            Nav.enabled = true;
+        }
         isCoroutineExecuting = false;
     }
 
