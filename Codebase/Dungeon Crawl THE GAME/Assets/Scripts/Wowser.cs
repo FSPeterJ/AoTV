@@ -37,7 +37,6 @@ public class Wowser : MonoBehaviour
     {
         Nav = GetComponent<NavMeshAgent>();
         Rigid = GetComponent<Rigidbody>();
-        Rigid.isKinematic = true;
     }
 
     void Update()
