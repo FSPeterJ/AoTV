@@ -26,6 +26,7 @@ public class Wowser : MonoBehaviour
     public Collider wowser;
     public GameObject arena;
     public GameObject StompArea;
+    public GameObject FireBreath;
 
 
     //Internal Systems
@@ -294,14 +295,19 @@ public class Wowser : MonoBehaviour
     {
 
         Nav.enabled = false;
-        FireEvent.EnableParticleSystem();
+        //FireEvent.EnableParticleSystem();
+        GameObject Flames = Instantiate(FireBreath);
+        Flames.transform.parent = transform;
+
+        Flames.transform.rotation = transform.rotation;
+        Flames.transform.position = transform.position + transform.forward * 3f;
 
         yield return new WaitForSeconds(seconds);
         isFireBreath = true;
 
         yield return new WaitForSeconds(1);
 
-        FireEvent.DisableParticleSystem();
+        //FireEvent.DisableParticleSystem();
         isFireBreath = false;
 
         yield return new WaitForSeconds(1.5f);

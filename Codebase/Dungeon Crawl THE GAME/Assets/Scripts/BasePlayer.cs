@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+
 public enum playerStates
 {
     normal,
@@ -42,18 +45,14 @@ public class BasePlayer : MonoBehaviour
     public Rigidbody wowserRb;
     public GameObject getTail;
     public GameObject Wowser;
-    public GameObject Life1;
-    public GameObject Life2;
-    public GameObject Life3;
     public GameObject BurnEffect;
-    public GameObject Fireball;
+
     //References
     Wowser WowserScript;
 
 
-    //fireball stuff
-    ArrayList ActiveFireBalls = new ArrayList();
-
+    [SerializeField]
+    private Image heart1, heart2, heart3;
 
     // Use this for initialization
     void Start()
@@ -62,13 +61,9 @@ public class BasePlayer : MonoBehaviour
         WowserScript = Wowser.GetComponent<Wowser>();
     }
 
-
-
-
     // Update is called once per frame
     void Update()
     {
-        
         switch (currentState)
         {
             case playerStates.normal:
@@ -129,17 +124,9 @@ public class BasePlayer : MonoBehaviour
                 Wowser.transform.parent = transform;
                 Wowser.transform.rotation = transform.rotation;
                 Wowser.transform.position = transform.position + transform.forward * 3f;
-   
+
                 tailGrabbed = true;
             }
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            
-            Vector3 position = transform.position + transform.forward * 1.5f;
-            GameObject fireBall = Instantiate(Fireball, position, Quaternion.identity) as GameObject;
-            fireBall.GetComponent<Rigidbody>().AddForce(transform.forward * 700);
-            
         }
         if (Impact.magnitude > 0.2)
         {
@@ -167,14 +154,14 @@ public class BasePlayer : MonoBehaviour
             switch (HP)
             {
                 case 1:
-                    Life1.GetComponent<Renderer>().enabled = false;
+                    heart1.enabled = false;
                     SceneManager.LoadScene("KillMario");
                     break;
                 case 2:
-                    Life2.GetComponent<Renderer>().enabled = false;
+                    heart2.enabled = false;
                     break;
                 case 3:
-                    Life3.GetComponent<Renderer>().enabled = false;
+                    heart3.enabled = false;
                     break;
             }
             HP--;
