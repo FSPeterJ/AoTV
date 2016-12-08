@@ -19,6 +19,7 @@ public class Wowser : MonoBehaviour
     //Basic Settings
     public float timeToDodgeFire = 1;
     public int bHealth = 3;
+    public bool StartStompAnimation = false;
 
     //Object Plugin
     public GameObject Mario;
@@ -329,15 +330,16 @@ public class Wowser : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
-
-        //Debug.Log("Liftoff");
+        StartStompAnimation = true;
+        
         yield return new WaitForSeconds(2f);
-        //Debug.Log("Land");
+        
         StompEM.enabled = true;
         yield return new WaitForSeconds(0.5f);
         StompEM.enabled = false;
         canGrabTail = true;
         //Physics Off
+        StartStompAnimation = false;
         Rigid.isKinematic = true;
         Rigid.useGravity = false;
         //Nav.Warp(transform.position);

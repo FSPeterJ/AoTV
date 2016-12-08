@@ -3,10 +3,10 @@ using System.Collections;
 
 public class grabTail : MonoBehaviour
 {
-    Wowser WowserScript;
+    public Wowser WowserScript;
     private void Start()
     {
-        WowserScript = GetComponent<Wowser>().GetComponent<Wowser>();
+        WowserScript = GetComponent<Wowser>();
     }
     void OnTriggerStay(Collider col)
     {
@@ -17,7 +17,5 @@ public class grabTail : MonoBehaviour
     {
         if (col.gameObject.tag == "Tail")
             WowserScript.canGrabTail = false;
-
     }
-
 }

@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-
-
 public enum playerStates
 {
     normal,
@@ -48,9 +46,13 @@ public class BasePlayer : MonoBehaviour
     public GameObject Life2;
     public GameObject Life3;
     public GameObject BurnEffect;
-
+    public GameObject Fireball;
     //References
     Wowser WowserScript;
+
+
+    //fireball stuff
+    ArrayList ActiveFireBalls = new ArrayList();
 
 
     // Use this for initialization
@@ -66,6 +68,7 @@ public class BasePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         switch (currentState)
         {
             case playerStates.normal:
@@ -125,10 +128,18 @@ public class BasePlayer : MonoBehaviour
                 //Move wowser to me;
                 Wowser.transform.parent = transform;
                 Wowser.transform.rotation = transform.rotation;
-                Wowser.transform.position = transform.position + transform.forward * 3f; ;
-
+                Wowser.transform.position = transform.position + transform.forward * 3f;
+   
                 tailGrabbed = true;
             }
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            
+            Vector3 position = transform.position + transform.forward * 1.5f;
+            GameObject fireBall = Instantiate(Fireball, position, Quaternion.identity) as GameObject;
+            fireBall.GetComponent<Rigidbody>().AddForce(transform.forward * 700);
+            
         }
         if (Impact.magnitude > 0.2)
         {
