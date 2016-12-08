@@ -147,14 +147,42 @@ public class BasePlayer : MonoBehaviour
             switch (HP)
             {
                 case 1:
-                    Life1.GetComponent<Renderer>().enabled = false;
-                    SceneManager.LoadScene("KillMario");
+                    //Life1.GetComponent<Renderer>().enabled = false;
+                    if (HP == 3)
+                    {
+                        Life1.gameObject.SetActive(true);
+                        Life2.gameObject.SetActive(true);
+                        Life3.gameObject.SetActive(true);
+                    }
+                    
                     break;
                 case 2:
-                    Life2.GetComponent<Renderer>().enabled = false;
+                    //Life2.GetComponent<Renderer>().enabled = false;
+                    if (HP == 2)
+                    {
+                        Life1.gameObject.SetActive(false);
+                        Life2.gameObject.SetActive(true);
+                        Life3.gameObject.SetActive(true);
+                    }
                     break;
                 case 3:
-                    Life3.GetComponent<Renderer>().enabled = false;
+                    //Life3.GetComponent<Renderer>().enabled = false;
+                    if (HP == 1)
+                    {
+                        Life1.gameObject.SetActive(false);
+                        Life2.gameObject.SetActive(false);
+                        Life3.gameObject.SetActive(true);
+                    }
+                    
+                    break;
+                case 4:
+                    if (HP == 0)
+                    {
+                        Life1.gameObject.SetActive(false);
+                        Life2.gameObject.SetActive(false);
+                        Life3.gameObject.SetActive(false);
+                    }
+                    SceneManager.LoadScene("KillMario");
                     break;
             }
             HP--;

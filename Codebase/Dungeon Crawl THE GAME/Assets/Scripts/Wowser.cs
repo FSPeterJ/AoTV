@@ -28,6 +28,9 @@ public class Wowser : MonoBehaviour
     public Collider wowser;
     public GameObject arena;
     public GameObject StompArea;
+    public GameObject WLife1;
+    public GameObject WLife2;
+    public GameObject Wlife3;
     //Components
     NavMeshAgent Nav;
     Rigidbody Rigid;
@@ -169,6 +172,14 @@ public class Wowser : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
+        if (col.gameObject.tag == "Nav Platform")
+        {
+            SceneManager.LoadScene("Bowser Model");
+            WLife1.gameObject.SetActive(true);
+            WLife2.gameObject.SetActive(true);
+            Wlife3.gameObject.SetActive(true);
+        }
+
         if (col.gameObject.tag == "Explosive")
         {
             if (wowser.GetComponent<Wowser>().CurrentState == BossStates.Idle)
@@ -177,7 +188,38 @@ public class Wowser : MonoBehaviour
                 Destroy(col.gameObject);
             }
         }
+
+        if (bHealth == 3)
+        {
+            WLife1.gameObject.SetActive(true);
+            WLife2.gameObject.SetActive(true);
+            Wlife3.gameObject.SetActive(true);
+        }
+
+        if (bHealth == 2)
+        {
+            WLife1.gameObject.SetActive(false);
+            WLife2.gameObject.SetActive(true);
+            Wlife3.gameObject.SetActive(true);
+        }
+
+        if (bHealth == 1)
+        {
+            WLife1.gameObject.SetActive(false);
+            WLife2.gameObject.SetActive(false);
+            Wlife3.gameObject.SetActive(true);
+        }
+
+        if (bHealth == 0)
+        {
+            WLife1.gameObject.SetActive(false);
+            WLife2.gameObject.SetActive(false);
+            Wlife3.gameObject.SetActive(false);
+            SceneManager.LoadScene("KillWowser");
+        }
     }
+
+    
     public void SetCurrentState(BossStates NewState)
     {
         CurrentState = NewState;

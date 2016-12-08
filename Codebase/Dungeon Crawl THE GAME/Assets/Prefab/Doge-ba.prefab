@@ -37,6 +37,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000014193125236}
+  - 195: {fileID: 195000014215411112}
   m_Layer: 0
   m_Name: Doge-ba
   m_TagString: Untagged
@@ -323,6 +324,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a251f3d41a9934e4e92853ad0e2d41d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DogeSpeed: 5
+  attack: 0
+  IsAlive: 1
+  AttackMode: 0
+  thing: {fileID: 0}
 --- !u!135 &135000010335928612
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -374,3 +380,23 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!195 &195000014215411112
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011186455408}
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
