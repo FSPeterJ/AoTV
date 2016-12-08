@@ -3,10 +3,10 @@ using System.Collections;
 
 public class grabTail : MonoBehaviour
 {
-    Wowser WowserScript;
+    public Wowser WowserScript;
     private void Start()
     {
-        WowserScript = GetComponent<Wowser>().GetComponent<Wowser>();
+        //WowserScript = GetComponent<Wowser>();
     }
     void OnTriggerStay(Collider col)
     {

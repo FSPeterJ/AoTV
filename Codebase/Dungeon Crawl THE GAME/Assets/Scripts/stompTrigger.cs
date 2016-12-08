@@ -13,10 +13,11 @@ public class stompTrigger : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
 
-        Debug.Log("Entered");
+        
         if (col.tag == "Player")
         {
-            if(Wowser.GetComponent<Wowser>().CurrentState==BossStates.Charge)
+            Debug.Log("Entered");
+            if (Wowser.GetComponent<Wowser>().CurrentState==BossStates.Charge)
             {
                 Mario.GetComponent<BasePlayer>().TakeDamage();
             }
