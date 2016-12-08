@@ -25,6 +25,9 @@ public class Wowser : MonoBehaviour
     public Collider wowser;
     public GameObject arena;
     public GameObject StompArea;
+    public GameObject WLife1;
+    public GameObject WLife2;
+    public GameObject WLife3;
 
 
     //Internal Systems
@@ -276,7 +279,7 @@ public class Wowser : MonoBehaviour
             SceneManager.LoadScene("Bowser Model");
             WLife1.gameObject.SetActive(true);
             WLife2.gameObject.SetActive(true);
-            Wlife3.gameObject.SetActive(true);
+            WLife3.gameObject.SetActive(true);
         }
 
         if (col.gameObject.tag == "Explosive")
@@ -292,28 +295,28 @@ public class Wowser : MonoBehaviour
         {
             WLife1.gameObject.SetActive(true);
             WLife2.gameObject.SetActive(true);
-            Wlife3.gameObject.SetActive(true);
+            WLife3.gameObject.SetActive(true);
         }
 
         if (bHealth == 2)
         {
             WLife1.gameObject.SetActive(false);
             WLife2.gameObject.SetActive(true);
-            Wlife3.gameObject.SetActive(true);
+            WLife3.gameObject.SetActive(true);
         }
 
         if (bHealth == 1)
         {
             WLife1.gameObject.SetActive(false);
             WLife2.gameObject.SetActive(false);
-            Wlife3.gameObject.SetActive(true);
+            WLife3.gameObject.SetActive(true);
         }
 
         if (bHealth == 0)
         {
             WLife1.gameObject.SetActive(false);
             WLife2.gameObject.SetActive(false);
-            Wlife3.gameObject.SetActive(false);
+            WLife3.gameObject.SetActive(false);
             SceneManager.LoadScene("KillWowser");
         }
     }

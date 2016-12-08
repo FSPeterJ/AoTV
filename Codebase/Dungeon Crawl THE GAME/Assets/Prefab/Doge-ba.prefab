@@ -38,6 +38,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000014193125236}
   - 195: {fileID: 195000014215411112}
+  - 114: {fileID: 114000013476337226}
   m_Layer: 0
   m_Name: Doge-ba
   m_TagString: Untagged
@@ -161,9 +162,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011186455408}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5859272, y: 2.1071486, z: 6.933142}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.5859282, y: 2.1071486, z: 20.79174}
+  m_LocalScale: {x: 0.22948042, y: 0.25020227, z: 0.25925446}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 4000011770079188}
@@ -328,7 +329,31 @@ MonoBehaviour:
   attack: 0
   IsAlive: 1
   AttackMode: 0
-  thing: {fileID: 0}
+  i: 0
+  Destination1: {fileID: 0}
+  Destination2: {fileID: 0}
+  Destination3: {fileID: 0}
+  Destination4: {fileID: 0}
+--- !u!114 &114000013476337226
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011186455408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a251f3d41a9934e4e92853ad0e2d41d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DogeSpeed: 5
+  attack: 0
+  IsAlive: 1
+  AttackMode: 0
+  i: 0
+  Destination1: {fileID: 0}
+  Destination2: {fileID: 0}
+  Destination3: {fileID: 0}
+  Destination4: {fileID: 0}
 --- !u!135 &135000010335928612
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -387,16 +412,16 @@ NavMeshAgent:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000011186455408}
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 1
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
+  m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
