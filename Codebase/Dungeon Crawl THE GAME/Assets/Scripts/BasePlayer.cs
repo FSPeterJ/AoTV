@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public enum playerStates
@@ -44,14 +45,14 @@ public class BasePlayer : MonoBehaviour
     public Rigidbody wowserRb;
     public GameObject getTail;
     public GameObject Wowser;
-    public GameObject Life1;
-    public GameObject Life2;
-    public GameObject Life3;
     public GameObject BurnEffect;
 
     //References
     Wowser WowserScript;
 
+
+    [SerializeField]
+    private Image heart1, heart2, heart3;
 
     // Use this for initialization
     void Start()
@@ -59,9 +60,6 @@ public class BasePlayer : MonoBehaviour
         controller = GetComponent<CharacterController>();
         WowserScript = Wowser.GetComponent<Wowser>();
     }
-
-
-
 
     // Update is called once per frame
     void Update()
@@ -156,14 +154,14 @@ public class BasePlayer : MonoBehaviour
             switch (HP)
             {
                 case 1:
-                    Life1.GetComponent<Renderer>().enabled = false;
+                    heart1.enabled = false;
                     SceneManager.LoadScene("KillMario");
                     break;
                 case 2:
-                    Life2.GetComponent<Renderer>().enabled = false;
+                    heart2.enabled = false;
                     break;
                 case 3:
-                    Life3.GetComponent<Renderer>().enabled = false;
+                    heart3.enabled = false;
                     break;
             }
             HP--;
