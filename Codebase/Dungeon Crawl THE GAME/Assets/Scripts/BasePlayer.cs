@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public enum playerStates
@@ -44,14 +45,14 @@ public class BasePlayer : MonoBehaviour
     public Rigidbody wowserRb;
     public GameObject getTail;
     public GameObject Wowser;
-    public GameObject Life1;
-    public GameObject Life2;
-    public GameObject Life3;
     public GameObject BurnEffect;
 
     //References
     Wowser WowserScript;
 
+
+    [SerializeField]
+    private Image heart1, heart2, heart3;
 
     // Use this for initialization
     void Start()
@@ -59,9 +60,6 @@ public class BasePlayer : MonoBehaviour
         controller = GetComponent<CharacterController>();
         WowserScript = Wowser.GetComponent<Wowser>();
     }
-
-
-
 
     // Update is called once per frame
     void Update()
@@ -125,7 +123,7 @@ public class BasePlayer : MonoBehaviour
                 //Move wowser to me;
                 Wowser.transform.parent = transform;
                 Wowser.transform.rotation = transform.rotation;
-                Wowser.transform.position = transform.position + transform.forward * 3f; ;
+                Wowser.transform.position = transform.position + transform.forward * 3f;
 
                 tailGrabbed = true;
             }
@@ -156,42 +154,14 @@ public class BasePlayer : MonoBehaviour
             switch (HP)
             {
                 case 1:
-                    //Life1.GetComponent<Renderer>().enabled = false;
-                    if (HP == 3)
-                    {
-                        Life1.gameObject.SetActive(true);
-                        Life2.gameObject.SetActive(true);
-                        Life3.gameObject.SetActive(true);
-                    }
-                    
+                    heart1.enabled = false;
+                    SceneManager.LoadScene("KillMario");
                     break;
                 case 2:
-                    //Life2.GetComponent<Renderer>().enabled = false;
-                    if (HP == 2)
-                    {
-                        Life1.gameObject.SetActive(false);
-                        Life2.gameObject.SetActive(true);
-                        Life3.gameObject.SetActive(true);
-                    }
+                    heart2.enabled = false;
                     break;
                 case 3:
-                    //Life3.GetComponent<Renderer>().enabled = false;
-                    if (HP == 1)
-                    {
-                        Life1.gameObject.SetActive(false);
-                        Life2.gameObject.SetActive(false);
-                        Life3.gameObject.SetActive(true);
-                    }
-                    
-                    break;
-                case 4:
-                    if (HP == 0)
-                    {
-                        Life1.gameObject.SetActive(false);
-                        Life2.gameObject.SetActive(false);
-                        Life3.gameObject.SetActive(false);
-                    }
-                    SceneManager.LoadScene("KillMario");
+                    heart3.enabled = false;
                     break;
             }
             HP--;
