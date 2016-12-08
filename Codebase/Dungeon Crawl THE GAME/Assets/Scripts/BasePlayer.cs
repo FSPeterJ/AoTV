@@ -123,7 +123,7 @@ public class BasePlayer : MonoBehaviour
                 //Move wowser to me;
                 Wowser.transform.parent = transform;
                 Wowser.transform.rotation = transform.rotation;
-                Wowser.transform.position = transform.position + transform.forward * 3f; ;
+                Wowser.transform.position = transform.position + transform.forward * 3f;
 
                 tailGrabbed = true;
             }
