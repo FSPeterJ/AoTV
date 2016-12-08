@@ -9,13 +9,8 @@ public enum playerStates
     throwing
 }
 
-
 public class BasePlayer : MonoBehaviour
 {
-
-
-
-
     //Basic Settings
     int HP = 3;
     public playerStates currentState = playerStates.normal;
@@ -30,7 +25,6 @@ public class BasePlayer : MonoBehaviour
     bool invulnerable = false;
     bool hasThrown = false;
     CharacterController controller;
-
 
 
     //Physics Settings
@@ -72,11 +66,6 @@ public class BasePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (canGrabTail == true)
-        //{
-        //    Debug.Log("CanGrabTail = true");
-        //}
-
         switch (currentState)
         {
             case playerStates.normal:
@@ -152,10 +141,11 @@ public class BasePlayer : MonoBehaviour
         transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
         controller.Move(moveDirection * Time.deltaTime);
 
-        if (transform.position.y < -10)
+        if (transform.position.y < 0.7f)
         {
             transform.position = new Vector3(0, 10, 0);
             TakeDamage();
+            StartCoroutine("Burning");
         }
     }
 

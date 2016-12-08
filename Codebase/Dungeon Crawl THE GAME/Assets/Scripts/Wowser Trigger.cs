@@ -20,6 +20,7 @@ public class WowserTrigger : MonoBehaviour
             Debug.Log("test2");
             transform.parent.GetComponent<Wowser>().CurrentState = BossStates.Stomp;
             transform.parent.GetComponent<GameObject>().transform.Translate(0,10,0);
+
         }
     }
 }

@@ -17,6 +17,7 @@ public class grabTail : MonoBehaviour
     {
         if (col.gameObject.tag == "Tail")
             WowserScript.canGrabTail = false;
+
     }
 
 }
