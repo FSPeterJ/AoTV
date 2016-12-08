@@ -15,7 +15,6 @@ public class BasePlayer : MonoBehaviour
     int HP = 3;
     public playerStates currentState = playerStates.normal;
     public int numberOfJumps = 3;
-    public bool canGrabTail = false;
     public float tossSpeed;
     public float tossSeconds = 1.5f;
 
@@ -24,8 +23,9 @@ public class BasePlayer : MonoBehaviour
     bool tailGrabbed = false;
     bool burning = false;
     bool invulnerable = false;
-    CharacterController controller;
     bool hasThrown = false;
+    CharacterController controller;
+
 
     //Physics Settings
     public float speed = 6.0F;
@@ -39,7 +39,7 @@ public class BasePlayer : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     Vector3 Impact = Vector3.zero;
 
-    //External References
+    //Public References
     public Rigidbody marioRb;
     public Rigidbody wowserRb;
     public GameObject getTail;
@@ -49,11 +49,20 @@ public class BasePlayer : MonoBehaviour
     public GameObject Life3;
     public GameObject BurnEffect;
 
+    //References
+    Wowser WowserScript;
+
+
     // Use this for initialization
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        WowserScript = Wowser.GetComponent<Wowser>();
     }
+
+
+
+
     // Update is called once per frame
     void Update()
     {
@@ -90,30 +99,30 @@ public class BasePlayer : MonoBehaviour
             moveDirection.y = jumpSpeed;
         }
 
-        if (Input.GetKeyDown(KeyCode.E) && canGrabTail)
+        if (Input.GetKeyDown(KeyCode.E) && WowserScript.canGrabTail)
         {
             if (tailGrabbed)
             {
-                Wowser.GetComponent<Wowser>().CurrentState = BossStates.Idle;
+               WowserScript.CurrentState = BossStates.Idle;
                 Wowser.transform.parent = null;
                 tailGrabbed = false;
 
                 if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) && !hasThrown)
+                {
                     StartCoroutine("tossTime");
-
+                }
                 else
                 {
-                    Wowser.GetComponent<NavMeshAgent>().enabled = true;
-                    Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
+                    WowserScript.CurrentState = BossStates.Moving;
                 }
                 currentState = playerStates.normal;
             }
             else
             {
 
-                Wowser.GetComponent<NavMeshAgent>().enabled = false;
-                Wowser.GetComponent<Wowser>().CurrentState = BossStates.Idle;
+                WowserScript.CurrentState = BossStates.Idle;
                 currentState = playerStates.throwing;
+                //Move wowser to me;
                 Wowser.transform.parent = transform;
                 Wowser.transform.rotation = transform.rotation;
                 Wowser.transform.position = transform.position + transform.forward * 3f; ;
@@ -215,17 +224,14 @@ public class BasePlayer : MonoBehaviour
     IEnumerator tossTime()
     {
         hasThrown = true;
-        Wowser.GetComponent<Wowser>().CurrentState = BossStates.Idle;
-        Wowser.GetComponent<Rigidbody>().isKinematic = false;
-        Wowser.GetComponent<Rigidbody>().velocity = (transform.forward * tossSpeed);
+        WowserScript.CurrentState = BossStates.Idle;
+        wowserRb.velocity = (transform.forward * tossSpeed);
         yield return new WaitForSeconds(tossSeconds);
-        Wowser.GetComponent<Rigidbody>().isKinematic = true;
-        Wowser.GetComponent<NavMeshAgent>().enabled = true;
-        Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
-
         hasThrown = false;
 
-        Wowser.GetComponent<Wowser>().CurrentState = BossStates.Moving;
+        WowserScript.CurrentState = BossStates.Moving;
+
+
     }
 
     IEnumerator Burning()

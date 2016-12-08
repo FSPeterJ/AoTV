@@ -5,7 +5,12 @@ public class TriggerFireEvent : MonoBehaviour
 {
     public GameObject Wowser;
     public GameObject Mario;
+    ParticleSystem.EmissionModule em;
 
+    private void Start()
+    {
+         em = GetComponent<ParticleSystem>().emission;
+    }
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "Player")
@@ -22,10 +27,14 @@ public class TriggerFireEvent : MonoBehaviour
     }
     public void EnableParticleSystem()
     {
-        GetComponent<ParticleSystem>().enableEmission = true;
+        em.enabled = true;
     }
     public void DisableParticleSystem()
     {
-        GetComponent<ParticleSystem>().enableEmission = false;
+
+
+        
+        em.enabled = false;
+
     }
 }

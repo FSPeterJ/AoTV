@@ -12,6 +12,7 @@ public class stompTrigger : MonoBehaviour
     bool isCoroutineExecuting = false;
     void OnTriggerEnter(Collider col)
     {
+
         Debug.Log("Entered");
         if (col.tag == "Player")
         {

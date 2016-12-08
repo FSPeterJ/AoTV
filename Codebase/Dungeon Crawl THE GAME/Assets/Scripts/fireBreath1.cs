@@ -19,6 +19,7 @@ public class fireBreath : MonoBehaviour
         if (col.tag =="Player")
         {
             return true;
+
         }
         return false;
     }
