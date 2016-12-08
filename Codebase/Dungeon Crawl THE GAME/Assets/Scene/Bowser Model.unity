@@ -1034,7 +1034,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 205614335}
-  - 114: {fileID: 205614336}
   - 114: {fileID: 205614338}
   - 195: {fileID: 205614339}
   - 54: {fileID: 205614337}
@@ -1065,20 +1064,6 @@ Transform:
   - {fileID: 1615475758}
   m_Father: {fileID: 0}
   m_RootOrder: 6
---- !u!114 &205614336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 205614334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 5
 --- !u!54 &205614337
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1111,6 +1096,7 @@ MonoBehaviour:
   wowser: {fileID: 205614340}
   arena: {fileID: 1021897748}
   StompArea: {fileID: 594018928}
+  FireBreath: {fileID: 163286, guid: 50daa816369323b42b56093bb108296f, type: 2}
 --- !u!195 &205614339
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1266,7 +1252,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 809656243
+  randomSeed: -1084978134
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -5064,7 +5050,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 353462227
+  randomSeed: -1157674075
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -7205,6 +7191,7 @@ RectTransform:
   m_Children:
   - {fileID: 414745576}
   - {fileID: 1676995713}
+  - {fileID: 1358810762}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_AnchorMin: {x: 0, y: 0}
@@ -11252,6 +11239,68 @@ Light:
   m_BounceIntensity: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &1358810761
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1358810762}
+  - 114: {fileID: 1358810764}
+  - 114: {fileID: 1358810763}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1358810762
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1358810761}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 668366896}
+  m_RootOrder: 2
+--- !u!114 &1358810763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1358810761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &1358810764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1358810761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
 --- !u!4 &1374351911 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400002, guid: 68cbf13e667e309489732c1a030b28a9, type: 3}
