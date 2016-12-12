@@ -52,13 +52,15 @@ public class BasePlayer : MonoBehaviour
 
 
     [SerializeField]
-    private Image heart1, heart2, heart3;
+    private Image heart1, heart2, heart3, heart4, heart5;
 
     // Use this for initialization
     void Start()
     {
         controller = GetComponent<CharacterController>();
         WowserScript = Wowser.GetComponent<Wowser>();
+        heart4.enabled = false;
+        heart5.enabled = false;
     }
 
     // Update is called once per frame
@@ -163,6 +165,12 @@ public class BasePlayer : MonoBehaviour
                 case 3:
                     heart3.enabled = false;
                     break;
+                case 4:
+                    heart4.enabled = false;
+                    break;
+                case 5:
+                    heart5.enabled = false;
+                    break;
             }
             HP--;
         }
@@ -200,8 +208,30 @@ public class BasePlayer : MonoBehaviour
         hasThrown = false;
 
         WowserScript.CurrentState = BossStates.Moving;
+    }
 
-
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Powerup")
+        {
+            HP++;
+            Destroy(col.gameObject);
+            switch (HP)
+            {
+                case 2:
+                    heart2.enabled = true;
+                    break;
+                case 3:
+                    heart3.enabled = true;
+                    break;
+                case 4:
+                    heart4.enabled = true;
+                    break;
+                case 5:
+                    heart5.enabled = true;
+                    break;
+            }
+        }
     }
 
     IEnumerator Burning()

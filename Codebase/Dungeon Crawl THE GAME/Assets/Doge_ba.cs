@@ -17,13 +17,13 @@ public class Doge_ba : MonoBehaviour
 
 
     //Movement variables
-    NavMeshAgent dogeba; //GameObject that will be moving
+    UnityEngine.AI.NavMeshAgent dogeba; //GameObject that will be moving
 
     //take a vector of waypoints(gameobjects)
     //inside start function, use function FindGameObjectsWithtag
     void Start()
     {
-         dogeba = GetComponent<NavMeshAgent>();
+         dogeba = GetComponent<UnityEngine.AI.NavMeshAgent>();
         //  Vector3[] destinations = { Destination1.transform.position, Destination2.transform.position, Destination3.transform.position };
         dogeba.SetDestination(Destination1.transform.position);
         
