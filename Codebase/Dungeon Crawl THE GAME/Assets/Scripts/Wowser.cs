@@ -10,7 +10,8 @@ public enum BossStates
     Stomp,
     FireBreath,
     Stunned,
-    Charge
+    Charge,
+    Falling
 }
 
 public class Wowser : MonoBehaviour
@@ -22,14 +23,13 @@ public class Wowser : MonoBehaviour
 
     //Object Plugin
     public GameObject Mario;
-    public Collider wowser;
-    public GameObject arena;
     public GameObject StompArea;
     public GameObject FireBreath;
 
 
     //Internal Systems
     float timeElapsed = 0.0f;
+    bool IsFalling = false;
 
 
     BossStates _cs;
@@ -46,26 +46,33 @@ public class Wowser : MonoBehaviour
                 switch (value)
                 {
                     case BossStates.Idle:
-                        FireEvent.DisableParticleSystem();
                         StompEM.enabled = false;
                         ChargeEM.enabled = false;
                         canGrabTail = true;
                         Nav.enabled = false;
                         Rigid.isKinematic = false;
+                        _cs = value;
                         break;
                     case BossStates.Moving:
-                        Nav.enabled = true;
-                        Rigid.isKinematic = true;
+                        if (IsFalling)
+                        {
+                            CurrentState = BossStates.Idle;
+
+                        }
+                        else
+                        {
+                            Nav.enabled = true;
+                            Rigid.isKinematic = true;
+                            _cs = value;
+                        }
                         break;
                     default:
+                        _cs = value;
                         break;
 
                 }
-                if (value == BossStates.Idle)
-                {
-
-                }
-                _cs = value;
+ 
+               
             }
         }
     }
@@ -89,6 +96,11 @@ public class Wowser : MonoBehaviour
     {
         get { return _pr; }
         set { _pr = value; }
+    }
+
+    void SetFalling(bool tf)
+    {
+        IsFalling = tf;
     }
 
     //Internal Components   
@@ -116,7 +128,9 @@ public class Wowser : MonoBehaviour
 
     void Update()
     {
-        if (bHealth <= 0)
+
+
+            if (bHealth <= 0)
         {
             SceneManager.LoadScene("KillWowser");
         }
@@ -223,7 +237,7 @@ public class Wowser : MonoBehaviour
     /// </summary>
     void MovingState()
     {
-
+        
 
         if (Nav.remainingDistance < 4f)
         {
@@ -310,10 +324,13 @@ public class Wowser : MonoBehaviour
         isFireBreath = false;
 
         yield return new WaitForSeconds(1.5f);
-        if (CurrentState != BossStates.Idle)
+        if (IsFalling)
+        {
+            CurrentState = BossStates.Idle;
+        }
+        else
         {
             CurrentState = BossStates.Moving;
-            Nav.enabled = true;
         }
     }
 
@@ -331,7 +348,6 @@ public class Wowser : MonoBehaviour
 
         //Physics On
         Rigid.isKinematic = false;
-        Rigid.useGravity = true;
 
         yield return new WaitForSeconds(0.5f);
         Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
@@ -344,17 +360,21 @@ public class Wowser : MonoBehaviour
         StompEM.enabled = false;
         canGrabTail = true;
         //Physics Off
-        Rigid.isKinematic = true;
-        Rigid.useGravity = false;
+        
         //Nav.Warp(transform.position);
-        Nav.enabled = true;
 
 
         //time until continues to walk
         yield return new WaitForSeconds(1);
 
-        CurrentState = BossStates.Moving;
-
+        if (IsFalling)
+        {
+            CurrentState = BossStates.Idle;
+        }
+        else
+        {
+            CurrentState = BossStates.Moving;
+        }
     }
 
 
@@ -368,7 +388,6 @@ public class Wowser : MonoBehaviour
         transform.forward = Nav.transform.forward;
         //TimeUntil Stomp Starts
         yield return new WaitForSeconds(seconds);
-        Rigid.useGravity = true;
         Rigid.isKinematic = false;
 
         Nav.enabled = false;
@@ -376,11 +395,21 @@ public class Wowser : MonoBehaviour
         Rigid.AddForce(transform.forward * 25, ForceMode.Impulse);
 
         yield return new WaitForSeconds(.9f);
-        Rigid.isKinematic = true;
-        Nav.enabled = true;
         ChargeEM.enabled = false;
         canGrabTail = true;
-        CurrentState = BossStates.Moving;
+
+        if (IsFalling)
+        {
+            CurrentState = BossStates.Idle;
+        }
+        else
+        {
+            CurrentState = BossStates.Moving;
+        }
+      
     }
+
+
+
 }
 
