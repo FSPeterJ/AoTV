@@ -46,27 +46,37 @@ public class Wowser : MonoBehaviour
                 switch (value)
                 {
                     case BossStates.Idle:
-                        StompEM.enabled = false;
-                        ChargeEM.enabled = false;
-                        canGrabTail = true;
-                        Nav.enabled = false;
-                        Rigid.isKinematic = false;
-                        _cs = value;
+                        if (!IsFalling)
+                        {
+                            StompEM.enabled = false;
+                            ChargeEM.enabled = false;
+                            canGrabTail = true;
+                            Nav.enabled = false;
+                            Rigid.isKinematic = false;
+                            _cs = value;
+                        }
                         break;
                     case BossStates.Falling:
+                        IsFalling = true;
                         Nav.enabled = false;
                         Rigid.isKinematic = false;
                         _cs = value;
                         break;
                     case BossStates.Spawning:
+                        canGrabTail = false;
+                        lerpTime = 0;
                         Nav.enabled = false;
+                        Rigid.isKinematic = true;
                         transform.position = new Vector3(0, 0, 0);
                         _cs = value;
                         break;
                     case BossStates.Moving:
-                        Nav.enabled = true;
-                        Rigid.isKinematic = true;
-                        _cs = value;
+                        if (!IsFalling)
+                        {
+                            Nav.enabled = true;
+                            Rigid.isKinematic = true;
+                            _cs = value;
+                        }
                         break;
                     default:
                         _cs = value;
@@ -205,11 +215,13 @@ public class Wowser : MonoBehaviour
     /// </summary>
     void KillCoroutine()
     {
+        FireEvent.DisableParticleSystem();
         if (ACR != null)
         {
             StopCoroutine(ACR);
             ACR = null;
         }
+   
     }
 
     //ToDo:
@@ -273,7 +285,7 @@ public class Wowser : MonoBehaviour
     }
 
 
-    float rspeed = 0.5F;
+    float rspeed = 0.3F;
     float lerpTime = 0f;
 
     //Slowly increase the fraction/lerpTime
@@ -291,6 +303,8 @@ public class Wowser : MonoBehaviour
         if (transform.position.y == 6)
         {
             CurrentState = BossStates.Moving;
+            IsFalling = false;
+            canGrabTail = true;
         }
     }
     void FallingState()
@@ -298,7 +312,7 @@ public class Wowser : MonoBehaviour
         if (transform.position.y < -5)
         {
 
-
+            
             CurrentState = BossStates.Spawning;
 
         }
@@ -356,19 +370,19 @@ public class Wowser : MonoBehaviour
     {
 
         Nav.enabled = false;
-        //FireEvent.EnableParticleSystem();
-        GameObject Flames = Instantiate(FireBreath);
-        Flames.transform.parent = transform;
+        FireEvent.EnableParticleSystem();
+        //GameObject Flames = Instantiate(FireBreath);
+        //Flames.transform.parent = transform;
 
-        Flames.transform.rotation = transform.rotation;
-        Flames.transform.position = transform.position + transform.forward * 3f;
+        //Flames.transform.rotation = transform.rotation;
+        //Flames.transform.position = transform.position + transform.forward * 3f;
 
         yield return new WaitForSeconds(seconds);
         isFireBreath = true;
 
         yield return new WaitForSeconds(1);
 
-        //FireEvent.DisableParticleSystem();
+        FireEvent.DisableParticleSystem();
         isFireBreath = false;
 
         yield return new WaitForSeconds(1.5f);
