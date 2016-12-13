@@ -1056,7 +1056,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 205614334}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 10.6, z: 12.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children:
@@ -1250,7 +1250,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: -1263123330
+  randomSeed: 606748916
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -4362,9 +4362,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 527222166}
   - 33: {fileID: 527222165}
-  - 64: {fileID: 527222164}
   - 23: {fileID: 527222163}
   - 114: {fileID: 527222167}
+  - 61: {fileID: 527222164}
   m_Layer: 0
   m_Name: Lava
   m_TagString: Untagged
@@ -4401,18 +4401,20 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!64 &527222164
-MeshCollider:
+--- !u!61 &527222164
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 527222162}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Convex: 0
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Size: {x: 1, y: 1}
 --- !u!33 &527222165
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5032,7 +5034,7 @@ ParticleSystem:
   moveWithTransform: 1
   autoRandomSeed: 1
   scalingMode: 1
-  randomSeed: 1439258442
+  randomSeed: 2102194695
   InitialModule:
     serializedVersion: 2
     enabled: 1
@@ -12641,7 +12643,7 @@ GameObject:
   - 65: {fileID: 1615475760}
   m_Layer: 0
   m_Name: Body
-  m_TagString: Untagged
+  m_TagString: Wowser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13155,6 +13157,7 @@ GameObject:
   - 4: {fileID: 1724580840}
   - 33: {fileID: 1724580842}
   - 64: {fileID: 1724580841}
+  - 114: {fileID: 1724580843}
   m_Layer: 0
   m_Name: StageBounds
   m_TagString: StageBoundary
@@ -13194,6 +13197,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1724580839}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1724580843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724580839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1e04a6c2d1ad043bda53c8dc304ce3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wowserScript: {fileID: 205614338}
 --- !u!1 &1724757646 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: b0e423cf233360742ab46b41ef7c1aa3, type: 3}

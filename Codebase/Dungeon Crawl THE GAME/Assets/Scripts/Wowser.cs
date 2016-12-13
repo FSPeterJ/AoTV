@@ -11,7 +11,8 @@ public enum BossStates
     FireBreath,
     Stunned,
     Charge,
-    Falling
+    Falling,
+    Spawning
 }
 
 public class Wowser : MonoBehaviour
@@ -29,7 +30,6 @@ public class Wowser : MonoBehaviour
 
     //Internal Systems
     float timeElapsed = 0.0f;
-    bool IsFalling = false;
 
 
     BossStates _cs;
@@ -53,26 +53,25 @@ public class Wowser : MonoBehaviour
                         Rigid.isKinematic = false;
                         _cs = value;
                         break;
+                    case BossStates.Falling:
+                        Nav.enabled = false;
+                        Rigid.isKinematic = false;
+                        _cs = value;
+                        break;
+                    case BossStates.Spawning:
+                        Nav.enabled = false;
+                        transform.position = new Vector3(0, 0, 0);
+                        _cs = value;
+                        break;
                     case BossStates.Moving:
-                        if (IsFalling)
-                        {
-                            CurrentState = BossStates.Idle;
-
-                        }
-                        else
-                        {
-                            Nav.enabled = true;
-                            Rigid.isKinematic = true;
-                            _cs = value;
-                        }
+                        Nav.enabled = true;
+                        Rigid.isKinematic = true;
+                        _cs = value;
                         break;
                     default:
                         _cs = value;
                         break;
-
                 }
- 
-               
             }
         }
     }
@@ -97,14 +96,17 @@ public class Wowser : MonoBehaviour
         get { return _pr; }
         set { _pr = value; }
     }
-
-    void SetFalling(bool tf)
+    bool _if = false;
+    public bool IsFalling
     {
-        IsFalling = tf;
+
+        get { return _if; }
+        set { _if = value; }
     }
 
+
     //Internal Components   
-    NavMeshAgent Nav;
+    UnityEngine.AI.NavMeshAgent Nav;
     Rigidbody Rigid;
     ParticleSystem.EmissionModule ChargeEM;
     ParticleSystem.EmissionModule StompEM;
@@ -118,22 +120,28 @@ public class Wowser : MonoBehaviour
 
     void Start()
     {
-        Nav = GetComponent<NavMeshAgent>();
+        Nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
         Rigid = GetComponent<Rigidbody>();
-        CurrentState = BossStates.Moving;
+
         ChargeEM = GetComponent<ParticleSystem>().emission;
         StompEM = StompArea.GetComponent<ParticleSystem>().emission;
         FireEvent = GetComponentInChildren<TriggerFireEvent>();
+
+
+        Nav.enabled = false;
+        CurrentState = BossStates.Idle;
     }
 
     void Update()
     {
 
 
-            if (bHealth <= 0)
+        if (bHealth <= 0)
         {
             SceneManager.LoadScene("KillWowser");
         }
+
+
         //Animator shit that doesn't work
         //if (Mathf.Abs(transform.position.x) + Math.Abs(transform.position.z) > 21)
         //{
@@ -159,6 +167,12 @@ public class Wowser : MonoBehaviour
                 break;
             case BossStates.Charge:
                 ChargeState();
+                break;
+            case BossStates.Spawning:
+                SpawnningState();
+                break;
+            case BossStates.Falling:
+                FallingState();
                 break;
             default:
                 break;
@@ -237,7 +251,7 @@ public class Wowser : MonoBehaviour
     /// </summary>
     void MovingState()
     {
-        
+
 
         if (Nav.remainingDistance < 4f)
         {
@@ -255,6 +269,40 @@ public class Wowser : MonoBehaviour
         }
 
         Nav.destination = Mario.transform.position;
+
+    }
+
+
+    float rspeed = 0.5F;
+    float lerpTime = 0f;
+
+    //Slowly increase the fraction/lerpTime
+    void SpawnningState()
+    {
+        lerpTime += rspeed * Time.deltaTime;
+        float tempangle = Mathf.LerpAngle(0, 1080, lerpTime);
+        //transform.rotation;
+        //Quaternion = rotat
+
+        // Vector3(0, tempangle, 0);
+        float temppos = Mathf.Lerp(0, 6, lerpTime);
+
+        transform.position = new Vector3(0, temppos, 0);
+        if (transform.position.y == 6)
+        {
+            CurrentState = BossStates.Moving;
+        }
+    }
+    void FallingState()
+    {
+        if (transform.position.y < -5)
+        {
+
+
+            CurrentState = BossStates.Spawning;
+
+        }
+
 
     }
     void StompState()
@@ -324,14 +372,9 @@ public class Wowser : MonoBehaviour
         isFireBreath = false;
 
         yield return new WaitForSeconds(1.5f);
-        if (IsFalling)
-        {
-            CurrentState = BossStates.Idle;
-        }
-        else
-        {
-            CurrentState = BossStates.Moving;
-        }
+
+        CurrentState = BossStates.Moving;
+
     }
 
 
@@ -360,21 +403,16 @@ public class Wowser : MonoBehaviour
         StompEM.enabled = false;
         canGrabTail = true;
         //Physics Off
-        
+
         //Nav.Warp(transform.position);
 
 
         //time until continues to walk
         yield return new WaitForSeconds(1);
 
-        if (IsFalling)
-        {
-            CurrentState = BossStates.Idle;
-        }
-        else
-        {
+
             CurrentState = BossStates.Moving;
-        }
+
     }
 
 
@@ -398,17 +436,24 @@ public class Wowser : MonoBehaviour
         ChargeEM.enabled = false;
         canGrabTail = true;
 
-        if (IsFalling)
-        {
-            CurrentState = BossStates.Idle;
-        }
-        else
-        {
+
             CurrentState = BossStates.Moving;
-        }
-      
+
+
     }
 
+
+    IEnumerator Respawn()
+    {
+
+        Nav.enabled = false;
+        transform.position = new Vector3(0, 0, 0);
+
+        yield return new WaitForSeconds(.9f);
+
+        CurrentState = BossStates.Moving;
+
+    }
 
 
 }
