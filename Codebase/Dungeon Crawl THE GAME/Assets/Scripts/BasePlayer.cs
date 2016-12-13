@@ -13,7 +13,7 @@ public enum playerStates
 public class BasePlayer : MonoBehaviour
 {
     //Basic Settings
-    int HP = 3;
+    int HP = 300;
     public playerStates currentState = playerStates.normal;
     public int numberOfJumps = 3;
     public float tossSpeed;
@@ -25,6 +25,7 @@ public class BasePlayer : MonoBehaviour
     bool burning = false;
     bool invulnerable = false;
     bool hasThrown = false;
+    bool inBossFight = false;
     CharacterController controller;
 
 
@@ -149,7 +150,7 @@ public class BasePlayer : MonoBehaviour
 
         if (transform.position.y < 0.7f)
         {
-            transform.position = new Vector3(0, 10, 0);
+            transform.position = new Vector3(2.6f, 10, 81.51f);
             TakeDamage();
             StartCoroutine("Burning");
         }
@@ -238,6 +239,18 @@ public class BasePlayer : MonoBehaviour
                     break;
             }
         }
+    }
+
+    void OnTriggerStay(Collider col)
+    {
+        if (col.tag == "MovePlatform")
+            transform.parent = col.transform;
+    }
+
+    void OnTriggerExit(Collider col)
+    {
+        if (col.tag == "MovePlatform")
+            transform.parent = null;
     }
 
     IEnumerator Burning()
