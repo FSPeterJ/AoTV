@@ -151,8 +151,7 @@ public class BasePlayer : MonoBehaviour
         if (transform.position.y < 0.7f)
         {
             transform.position = new Vector3(2.6f, 10, 81.51f);
-            TakeDamage();
-            StartCoroutine("Burning");
+            TakeFireDamage();
         }
     }
 
@@ -238,6 +237,11 @@ public class BasePlayer : MonoBehaviour
                     heart5.enabled = true;
                     break;
             }
+        }
+        if (col.tag == "Fireball")
+        {
+            TakeFireDamage();
+            Destroy(col.gameObject);
         }
     }
 

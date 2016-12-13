@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class FireballController : MonoBehaviour
+public class CannonBallScript : MonoBehaviour
 {
 
     float SpawnTime;
@@ -10,18 +11,16 @@ public class FireballController : MonoBehaviour
     {
         SpawnTime = Time.time;
     }
-    void OnCollisionEnter(Collision col)
-    {
-        Debug.Log("Fireball Collision");
-        Destroy(gameObject);
-    }
     void OnTriggerEnter(Collider col)
     {
-        if (col.tag == "Dogeba")
-        {
+        if (col.tag == "BigWall")
             Destroy(gameObject);
-        }
+        //if (col.tag == "Mario")
+        //{
+        //    Destroy(gameObject);
+        //}
     }
+
     // Update is called once per frame
     void Update()
     {

@@ -30,11 +30,7 @@ public class TriggerFireEvent : MonoBehaviour
         em.enabled = true;
     }
     public void DisableParticleSystem()
-    {
-
-
-        
+    {        
         em.enabled = false;
-
     }
 }
