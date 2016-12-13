@@ -60,6 +60,7 @@ public class Wowser : MonoBehaviour
                         break;
                     case BossStates.Falling:
                         IsFalling = true;
+                        Rigid.useGravity = true;
                         Nav.enabled = false;
                         Rigid.isKinematic = false;
                         _cs = value;
@@ -451,7 +452,7 @@ public class Wowser : MonoBehaviour
         canGrabTail = true;
 
 
-            CurrentState = BossStates.Moving;
+        CurrentState = BossStates.Moving;
 
 
     }
