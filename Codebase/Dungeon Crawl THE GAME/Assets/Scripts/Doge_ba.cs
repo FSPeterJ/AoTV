@@ -31,4 +31,5 @@ public class Doge_ba : MonoBehaviour
             dogeba.destination = mario.transform.position;
         }
     }
+
 }

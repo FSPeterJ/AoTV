@@ -13,7 +13,13 @@ public class FireballController : MonoBehaviour {
         Debug.Log("Fireball Collision");
         Destroy(gameObject);
     }
-
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Dogeba")
+        {
+            Destroy(gameObject);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
