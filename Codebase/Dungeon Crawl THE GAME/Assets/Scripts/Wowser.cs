@@ -93,7 +93,7 @@ public class Wowser : MonoBehaviour
     }
 
     //Internal Components   
-    NavMeshAgent Nav;
+    UnityEngine.AI.NavMeshAgent Nav;
     Rigidbody Rigid;
     ParticleSystem.EmissionModule ChargeEM;
     ParticleSystem.EmissionModule StompEM;
@@ -107,7 +107,7 @@ public class Wowser : MonoBehaviour
 
     void Start()
     {
-        Nav = GetComponent<NavMeshAgent>();
+        Nav = GetComponent<UnityEngine.AI.NavMeshAgent>();
         Rigid = GetComponent<Rigidbody>();
         CurrentState = BossStates.Moving;
         ChargeEM = GetComponent<ParticleSystem>().emission;
