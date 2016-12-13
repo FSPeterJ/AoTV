@@ -369,7 +369,6 @@ public class Wowser : MonoBehaviour
         FireEvent.EnableParticleSystem();
         //GameObject Flames = Instantiate(FireBreath);
         //Flames.transform.parent = transform;
-
         //Flames.transform.rotation = transform.rotation;
         //Flames.transform.position = transform.position + transform.forward * 3f;
 

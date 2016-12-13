@@ -47,7 +47,7 @@ public class BasePlayer : MonoBehaviour
     public GameObject getTail;
     public GameObject Wowser;
     public GameObject BurnEffect;
-
+    public GameObject Fireball;
     //References
     Wowser WowserScript;
 
@@ -131,12 +131,18 @@ public class BasePlayer : MonoBehaviour
                 tailGrabbed = true;
             }
         }
-        if (Impact.magnitude > 0.2)
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            
+            Vector3 position = transform.position + transform.forward * 1.5f;
+            GameObject fireBall = Instantiate(Fireball, position, Quaternion.identity) as GameObject;
+            fireBall.GetComponent<Rigidbody>().AddForce(transform.forward * 700);
+        }
+
+            if (Impact.magnitude > 0.2)
+            {
             moveDirection = transform.TransformDirection(Impact);
             Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
-        }
+            }
          //consumes the impact energy each cycle: 
         moveDirection.y -= gravity * Time.deltaTime;
         transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
