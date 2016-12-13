@@ -52,6 +52,7 @@ public class Wowser : MonoBehaviour
                             StompEM.enabled = false;
                             ChargeEM.enabled = false;
                             canGrabTail = true;
+                            Rigid.useGravity = true;
                             Nav.enabled = false;
                             Rigid.isKinematic = false;
                             _cs = value;
@@ -400,6 +401,7 @@ public class Wowser : MonoBehaviour
 
         //Physics On
         Rigid.isKinematic = false;
+        Rigid.useGravity = true;
 
         yield return new WaitForSeconds(0.5f);
         Rigid.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
