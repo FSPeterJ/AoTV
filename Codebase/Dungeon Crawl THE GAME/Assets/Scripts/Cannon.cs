@@ -28,7 +28,7 @@ public class Cannon : MonoBehaviour
             {
                 nextfire = Time.time + firerate;
                 Destroy(cannonball);
-                GameObject clone = (GameObject)Instantiate(Cannonball, transform.position, transform.rotation);
+                //GameObject clone = (GameObject)Instantiate(Cannonball, transform.position, transform.rotation);
             }
         }
 	}
