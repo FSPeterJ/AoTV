@@ -13,7 +13,7 @@ public class StompEffect1 : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         StartingSize = new Vector3(0, 0, 0);
-        EndingSize = new Vector3(1,1,1);
+        EndingSize = new Vector3(3,3,3);
 
 	}
 	
@@ -23,6 +23,16 @@ public class StompEffect1 : MonoBehaviour {
         if (Wowser.GetComponent<Wowser>().StartStompAnimation == true)
         {
             IncreaseSize();
+            Vector3 sphereend = new Vector3(Sphere.transform.position.x, Sphere.transform.position.y,0);
+            Sphere.transform.position = Vector3.Lerp(Sphere.transform.position, sphereend, 2.5f * Time.deltaTime);
+
+        }
+        else
+        {
+            
+            transform.position = new Vector3(Wowser.transform.position.x,Wowser.transform.position.y - 2,Wowser.transform.position.z);
+            Vector3 sphereend = new Vector3(Sphere.transform.position.x, Sphere.transform.position.y,10);
+            transform.localScale = new Vector3(0, 0, 0);
         }
 
     }
