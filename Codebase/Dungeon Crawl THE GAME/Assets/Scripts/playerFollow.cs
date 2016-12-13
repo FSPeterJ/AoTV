@@ -43,6 +43,7 @@ public class playerFollow : MonoBehaviour
                 {
                     lerpTime = 0f;
                     StartingView = false;
+                    player.GetComponent<BasePlayer>().DisableControls = false;
                 }
                     
             }

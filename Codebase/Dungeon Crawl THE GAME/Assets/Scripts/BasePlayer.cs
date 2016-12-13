@@ -18,6 +18,7 @@ public class BasePlayer : MonoBehaviour
     public int numberOfJumps = 3;
     public float tossSpeed;
     public float tossSeconds = 1.5f;
+    public bool DisableControls = true;
 
     //Internal Basic Settings
     int currentJump = 3;
@@ -67,92 +68,97 @@ public class BasePlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch (currentState)
+        if (!DisableControls)
         {
-            case playerStates.normal:
-                if (controller.isGrounded)
-                {
-                    moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
-                    moveDirection = transform.TransformDirection(moveDirection);
-                }
-                break;
-            case playerStates.throwing:
-                moveDirection = new Vector3(0, 0, 0);
-                moveDirection = transform.TransformDirection(moveDirection);
-                break;
-            default:
-                break;
-        }
 
-        if (controller.isGrounded)
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-                moveDirection *= sprintSpeed;
-            else
-                moveDirection *= speed;
 
-            currentJump = numberOfJumps;
-        }
-
-        if (Input.GetKeyDown("space") && currentJump > 0)
-        {
-            currentJump--;
-            moveDirection.y = jumpSpeed;
-        }
-
-        if (Input.GetKeyDown(KeyCode.E) && WowserScript.canGrabTail)
-        {
-            if (tailGrabbed)
+            switch (currentState)
             {
-               WowserScript.CurrentState = BossStates.Idle;
-                Wowser.transform.parent = null;
-                tailGrabbed = false;
+                case playerStates.normal:
+                    if (controller.isGrounded)
+                    {
+                        moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
+                        moveDirection = transform.TransformDirection(moveDirection);
+                    }
+                    break;
+                case playerStates.throwing:
+                    moveDirection = new Vector3(0, 0, 0);
+                    moveDirection = transform.TransformDirection(moveDirection);
+                    break;
+                default:
+                    break;
+            }
 
-                if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) && !hasThrown)
+            if (controller.isGrounded)
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                    moveDirection *= sprintSpeed;
+                else
+                    moveDirection *= speed;
+
+                currentJump = numberOfJumps;
+            }
+
+            if (Input.GetKeyDown("space") && currentJump > 0)
+            {
+                currentJump--;
+                moveDirection.y = jumpSpeed;
+            }
+
+            if (Input.GetKeyDown(KeyCode.E) && WowserScript.canGrabTail)
+            {
+                if (tailGrabbed)
                 {
-                    StartCoroutine("tossTime");
+                    WowserScript.CurrentState = BossStates.Idle;
+                    Wowser.transform.parent = null;
+                    tailGrabbed = false;
+
+                    if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) && !hasThrown)
+                    {
+                        StartCoroutine("tossTime");
+                    }
+                    else
+                    {
+                        WowserScript.CurrentState = BossStates.Moving;
+                    }
+                    currentState = playerStates.normal;
                 }
                 else
                 {
-                    WowserScript.CurrentState = BossStates.Moving;
+
+                    WowserScript.CurrentState = BossStates.Idle;
+                    currentState = playerStates.throwing;
+                    //Move wowser to me;
+                    Wowser.transform.parent = transform;
+                    Wowser.transform.rotation = transform.rotation;
+                    Wowser.transform.position = transform.position + transform.forward * 3f;
+
+                    tailGrabbed = true;
                 }
-                currentState = playerStates.normal;
             }
-            else
+            if (Input.GetKeyDown(KeyCode.P))
             {
-
-                WowserScript.CurrentState = BossStates.Idle;
-                currentState = playerStates.throwing;
-                //Move wowser to me;
-                Wowser.transform.parent = transform;
-                Wowser.transform.rotation = transform.rotation;
-                Wowser.transform.position = transform.position + transform.forward * 3f;
-
-                tailGrabbed = true;
+                Vector3 position = transform.position + transform.forward * 1.5f;
+                GameObject fireBall = Instantiate(Fireball, position, Quaternion.identity) as GameObject;
+                fireBall.GetComponent<Rigidbody>().AddForce(transform.forward * 700);
             }
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            Vector3 position = transform.position + transform.forward * 1.5f;
-            GameObject fireBall = Instantiate(Fireball, position, Quaternion.identity) as GameObject;
-            fireBall.GetComponent<Rigidbody>().AddForce(transform.forward * 700);
-        }
 
             if (Impact.magnitude > 0.2)
             {
-            moveDirection = transform.TransformDirection(Impact);
-            Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
+                moveDirection = transform.TransformDirection(Impact);
+                Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
             }
-         //consumes the impact energy each cycle: 
-        moveDirection.y -= gravity * Time.deltaTime;
-        transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
-        controller.Move(moveDirection * Time.deltaTime);
+            //consumes the impact energy each cycle: 
+            moveDirection.y -= gravity * Time.deltaTime;
+            transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
+            controller.Move(moveDirection * Time.deltaTime);
 
-        if (transform.position.y < 0.7f)
-        {
-            transform.position = new Vector3(2.6f, 10, 81.51f);
-            TakeDamage();
-            StartCoroutine("Burning");
+            if (transform.position.y < 0.7f)
+            {
+                transform.position = new Vector3(2.6f, 10, 81.51f);
+                TakeDamage();
+                StartCoroutine("Burning");
+            }
         }
     }
 
