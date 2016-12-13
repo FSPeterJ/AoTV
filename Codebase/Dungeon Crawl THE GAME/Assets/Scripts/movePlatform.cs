@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class movePlatform : MonoBehaviour
 {
-    Transform start;
-    public Transform destination;
+    [SerializeField]
+    Transform start, destination;
     bool swap;
 
     public float speed;
@@ -13,16 +13,15 @@ public class movePlatform : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        start = transform;
         swap = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x <= destination.position.x + 0.5 && transform.position.x >= destination.position.x - 0.5)
+        if (transform.position.x <= destination.position.x + 1 && transform.position.x >= destination.position.x - 1)
             swap = false;
-        else if (transform.position.x <= start.position.x + 0.5 && transform.position.x >= start.position.x - 0.5)
+        else if (transform.position.x <= start.position.x + 1 && transform.position.x >= start.position.x - 1)
             swap = true;
         Move();
     }
@@ -32,6 +31,6 @@ public class movePlatform : MonoBehaviour
         if (swap)
             transform.position = Vector3.Lerp(transform.position, destination.position, speed * Time.deltaTime);
         else
-            transform.position = Vector3.Lerp(destination.position, start.position, speed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, start.position, speed * Time.deltaTime);
     }
 }
