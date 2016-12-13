@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FireballController : MonoBehaviour {
+public class FireballController : MonoBehaviour
+{
 
     float SpawnTime;
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         SpawnTime = Time.time;
-	}
+    }
     void OnCollisionEnter(Collision col)
     {
         Debug.Log("Fireball Collision");
@@ -18,8 +20,6 @@ public class FireballController : MonoBehaviour {
     void Update()
     {
         if (Time.time - SpawnTime >= 4)
-        {
             Destroy(gameObject);
-        }
     }
 }
