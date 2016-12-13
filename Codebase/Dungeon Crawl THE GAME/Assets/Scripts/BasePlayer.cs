@@ -153,10 +153,11 @@ public class BasePlayer : MonoBehaviour
             transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
             controller.Move(moveDirection * Time.deltaTime);
 
-        if (transform.position.y < 0.7f)
-        {
-            transform.position = new Vector3(2.6f, 10, 81.51f);
-            TakeFireDamage();
+            if (transform.position.y < 0.7f)
+            {
+                transform.position = new Vector3(2.6f, 10, 81.51f);
+                TakeFireDamage();
+            }
         }
     }
 

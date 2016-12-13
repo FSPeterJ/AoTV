@@ -10,7 +10,7 @@ public class playerFollow : MonoBehaviour
 
     
 
-    float rspeed = 0.4F;
+    float rspeed = 0.9F;
     float lerpTime = 0f;
     Vector3 startpoint;
     int target = 0;
@@ -19,7 +19,7 @@ public class playerFollow : MonoBehaviour
     void Start()
     {
         startpoint = transform.position;
-        offset = transform.position - player.transform.position;
+        offset = StartCameraWaypoints[StartCameraWaypoints.Length - 1].transform.position - player.transform.position;
     }
 
     // Update is called once per frame
@@ -33,7 +33,7 @@ public class playerFollow : MonoBehaviour
             newPos = Vector3.Lerp(startpoint, StartCameraWaypoints[target].transform.position, lerpTime);
             if (Vector3.Distance(StartCameraWaypoints[target].transform.position, transform.position) < 0.1f)
             {
-                if (target < StartCameraWaypoints.Length)
+                if (target < StartCameraWaypoints.Length - 1)
                 {
                     target++;
                     startpoint = transform.position;
