@@ -27,8 +27,8 @@ public class Doge_ba : MonoBehaviour
     void Update()
     {
         if (IsAlive)
-        {
-            if (dogeba.remainingDistance < 30)
+        {            
+            if (dogeba.remainingDistance < 20)
                 dogeba.speed = 3;
             else
                 dogeba.speed = 0f;
