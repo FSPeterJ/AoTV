@@ -9,10 +9,7 @@ public class Doge_ba : MonoBehaviour
     public bool IsAlive = true;
     public bool AttackMode = false;
     public int i = 0;
-    public GameObject Destination1;
-    public GameObject Destination2;
-    public GameObject Destination3;
-    public GameObject Destination4;
+    public GameObject mario;
     float distance;
 
 
@@ -25,40 +22,13 @@ public class Doge_ba : MonoBehaviour
     {
          dogeba = GetComponent<UnityEngine.AI.NavMeshAgent>();
         //  Vector3[] destinations = { Destination1.transform.position, Destination2.transform.position, Destination3.transform.position };
-        dogeba.SetDestination(Destination1.transform.position);
-        
+       
     }
-    void Movement()
-    {
-        distance = dogeba.remainingDistance;
-        
-        if (distance < 1.5f)
-        {
-            dogeba.SetDestination(Destination4.transform.position);
-
-            if (distance > 1.0f)
-            {
-                dogeba.SetDestination(Destination1.transform.position);
-            }
-        }
-        
-        
-           
-        
-        ////while (IsAlive)
-        //{
-        //    for (int i = 0; i < destinations.Length; ++i)
-        //    {
-        //        currDes = destinations[i];
-        //    }
-        //}
-    }
-
     void Update()
     {
         if (IsAlive)
         {
-            Movement();
+            dogeba.destination = mario.transform.position;
         }
     }
 }
