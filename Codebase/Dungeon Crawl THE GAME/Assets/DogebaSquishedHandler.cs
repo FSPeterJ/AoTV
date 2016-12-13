@@ -8,8 +8,11 @@ public class DogebaSquishedHandler : MonoBehaviour {
     {
         if (col.tag=="Player")
         {
-            Debug.Log("Player kill dogeba");
-            
+            //Debug.Log("Player kill dogeba");
+
+            col.GetComponent<BasePlayer>().AddImpact(col.transform.position - transform.position, 150);
+
+            //Debug.Log("Player pop");
             Destroy(_this.gameObject);
            
         }
