@@ -19,7 +19,7 @@ public class playerFollow : MonoBehaviour
     void Start()
     {
         startpoint = transform.position;
-        offset = StartCameraWaypoints[StartCameraWaypoints.Length - 1].transform.position - player.transform.position;
+        offset = new Vector3(0, 20f, -13f);
     }
 
     // Update is called once per frame

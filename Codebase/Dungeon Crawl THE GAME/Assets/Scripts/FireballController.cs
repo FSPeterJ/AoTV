@@ -12,7 +12,7 @@ public class FireballController : MonoBehaviour
     }
     void OnCollisionEnter(Collision col)
     {
-        Debug.Log("Fireball Collision");
+        //Debug.Log("Fireball Collision");
         Destroy(gameObject);
     }
     void OnTriggerEnter(Collider col)
