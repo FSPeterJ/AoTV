@@ -13,7 +13,7 @@ public enum playerStates
 public class BasePlayer : MonoBehaviour
 {
     //Basic Settings
-    int HP = 300;
+    int HP = 3;
     public playerStates currentState = playerStates.normal;
     public int numberOfJumps = 3;
     public float tossSpeed;
@@ -70,8 +70,6 @@ public class BasePlayer : MonoBehaviour
     {
         if (!DisableControls)
         {
-
-
             switch (currentState)
             {
                 case playerStates.normal:
@@ -155,7 +153,10 @@ public class BasePlayer : MonoBehaviour
 
             if (transform.position.y < 0.7f)
             {
-                transform.position = new Vector3(2.6f, 10, 81.51f);
+                if (inBossFight)
+                    transform.position = new Vector3(0, 10, 0);
+                else
+                    transform.position = new Vector3(2.6f, 10, 81.51f);
                 TakeFireDamage();
             }
         }
@@ -197,8 +198,6 @@ public class BasePlayer : MonoBehaviour
             direction.y = -direction.y;
         Impact = direction.normalized * force / mass;
     }
-
-
 
     public void TakeFireDamage()
     {
@@ -254,7 +253,10 @@ public class BasePlayer : MonoBehaviour
     void OnTriggerStay(Collider col)
     {
         if (col.tag == "MovePlatform")
+        {
             transform.parent = col.transform;
+            inBossFight = true;
+        }
     }
 
     void OnTriggerExit(Collider col)
