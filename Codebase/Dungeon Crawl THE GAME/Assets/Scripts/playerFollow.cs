@@ -25,6 +25,13 @@ public class playerFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            transform.position = new Vector3(0, 5, 0);
+            StartingView = false;
+            player.GetComponent<BasePlayer>().DisableControls = false;
+        }
+
         Vector3 newPos;
         if (StartingView)
         {

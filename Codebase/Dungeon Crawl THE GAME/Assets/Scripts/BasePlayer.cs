@@ -102,6 +102,10 @@ public class BasePlayer : MonoBehaviour
                 currentJump--;
                 moveDirection.y = jumpSpeed;
             }
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                transform.position = new Vector3(0, 5, 0);
+            }
 
             if (Input.GetKeyDown(KeyCode.E) && WowserScript.canGrabTail)
             {
