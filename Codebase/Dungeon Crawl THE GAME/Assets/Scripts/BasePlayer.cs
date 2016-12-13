@@ -13,7 +13,7 @@ public enum playerStates
 public class BasePlayer : MonoBehaviour
 {
     //Basic Settings
-    int HP = 3;
+    int HP = 300;
     public playerStates currentState = playerStates.normal;
     public int numberOfJumps = 3;
     public float tossSpeed;
