@@ -22,12 +22,16 @@ public class Doge_ba : MonoBehaviour
     {
          dogeba = GetComponent<UnityEngine.AI.NavMeshAgent>();
         //  Vector3[] destinations = { Destination1.transform.position, Destination2.transform.position, Destination3.transform.position };
-       
+        dogeba.destination = mario.transform.position;
     }
     void Update()
     {
         if (IsAlive)
         {
+            if (dogeba.remainingDistance < 30)
+                dogeba.speed = 3;
+            else
+                dogeba.speed = 0f;
             dogeba.destination = mario.transform.position;
         }
     }
