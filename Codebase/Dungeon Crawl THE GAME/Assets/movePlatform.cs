@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
-public class movePlatform : MonoBehaviour
+public class togglePlatform : MonoBehaviour
 {
     Transform start;
     public Transform destination;
@@ -10,28 +10,28 @@ public class movePlatform : MonoBehaviour
     public float speed;
 
 
-    // Use this for initialization
     void Start()
     {
         start = transform;
-        swap = true;
+        destination.parent = null;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if (transform.position.x <= destination.position.x + 0.5 && transform.position.x >= destination.position.x - 0.5)
-            swap = false;
-        else if (transform.position.x <= start.position.x + 0.5 && transform.position.x >= start.position.x - 0.5)
-            swap = true;
         Move();
     }
 
     void Move()
     {
+        if (transform.position.x < start.position.x + 0.1 && transform.position.x > start.position.x - 0.1)
+            swap = true;
+        else if (transform.position.x < destination.position.x + 0.1 && transform.position.x > destination.position.x + 0.1)
+            swap = false;
+
         if (swap)
             transform.position = Vector3.Lerp(transform.position, destination.position, speed * Time.deltaTime);
         else
             transform.position = Vector3.Lerp(destination.position, start.position, speed * Time.deltaTime);
+
+        //transform.position = Vector3.Lerp(transform.position, startVector, speed * Time.deltaTime);
     }
 }
