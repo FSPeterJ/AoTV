@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.AI;
 public class Boar_Controller : MonoBehaviour {
 
 enum BoarState
@@ -9,7 +9,8 @@ enum BoarState
         Idle,Walk,Jump,Run,BiteAttack,TuskAttack,CastSpell,Defend,TakeDamage
     }
 
-
+    //nav agent
+    NavMeshAgent navAgent;
     //variables
     Animator anim;
     BoarState currentState;
@@ -17,7 +18,10 @@ enum BoarState
     //wandering variarables;
     Vector3 wanderingSphere;
     Vector3 originPos;
+    Vector3 randDirection;
     UnityEngine.AI.NavMeshHit navHitPos;
+    float timer;
+    float stopTimer = 1.8f;
     //Stat variables
     int health;
 
@@ -27,7 +31,11 @@ enum BoarState
     { 
         anim = GetComponent<Animator>();
         originPos= transform.position;
-	}
+        randDirection = originPos;
+        navHitPos.hit = true;
+        navHitPos.position = transform.position;
+        navAgent = GetComponent<NavMeshAgent>();
+    }
 	
 
 
@@ -36,7 +44,7 @@ enum BoarState
 	void Update ()
     {
         //targetPos = //eventmanager passed pos
-
+        timer += Time.deltaTime;
 
 
         //StateMachine
@@ -44,19 +52,40 @@ enum BoarState
         {
             case BoarState.Idle:
                 {
-                    anim.SetBool("Walk", true);
-                    currentState = BoarState.Walk;
+                    if (timer >= stopTimer)
+                    {
+                        
+                        anim.SetBool("Walk", true);
+                        currentState = BoarState.Walk;
+                    }
+                    
                 }
                 break;
             case BoarState.Walk:
                 {
-                    if (navHitPos.hit == true || navHitPos.position == Vector3.zero)
+                    navAgent.enabled = true;
+                    if (navHitPos.hit == true)
                     {
+                        while (Vector3.Distance(navHitPos.position, transform.position) < 5)
+                        {
+                            float x = originPos.x + (-10 + Random.Range(0, 20));
+                            float z = originPos.z + (-10 + Random.Range(0, 20));
+                            Vector3 randDirection = new Vector3(x, transform.position.y, z);
+                            navHitPos.position = randDirection;
+                        }
+                        navAgent.SetDestination(navHitPos.position);
                         navHitPos.hit = false;
-                        Vector3 randDirection = UnityEngine.Random.insideUnitSphere * 4f;
-                        UnityEngine.AI.NavMesh.SamplePosition(randDirection, out navHitPos, 4f,2);
-                        GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(navHitPos.position);
+                        
                     }
+                    if (navAgent.remainingDistance < .1)
+                    {
+                            navAgent.enabled = false;
+                            anim.SetBool("Walk", false);
+                            currentState = BoarState.Idle;
+                            timer = 0;
+                            navHitPos.hit = true;
+                    }
+                    
                     break;
                 }
                 
