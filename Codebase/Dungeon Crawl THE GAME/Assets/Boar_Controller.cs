@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class Boar_Controller : MonoBehaviour {
+public class Boar_Controller : MonoBehaviour
+{
 
-enum BoarState
+
+    enum BoarState
     {
-        Idle,Walk,Jump,Run,BiteAttack,TuskAttack,CastSpell,Defend,TakeDamage
+        Idle, Walk, Jump, Run, BiteAttack, TuskAttack, CastSpell, Defend, TakeDamage, Wander
     }
 
 
@@ -14,28 +17,60 @@ enum BoarState
     Animator anim;
     BoarState currentState;
     Vector3 targetPos;
+    float targetdistance;
+
+
     //wandering variarables;
     Vector3 wanderingSphere;
     Vector3 originPos;
-    UnityEngine.AI.NavMeshHit navHitPos;
+    NavMeshHit navHitPos;
+
+
+
     //Stat variables
     int health;
 
+    //References
+    NavMeshAgent navAgent;
 
-	// Use this for initialization
-	void Start ()
-    { 
+    float idleTime = 0;
+
+
+    void OnEnable()
+    {
+        EventDelegates.onPlayerPositionUpdate += UpdateTargetPosition;
+    }
+    //unsubscribe from player movement
+    void OnDisable()
+    {
+        EventDelegates.onPlayerPositionUpdate -= UpdateTargetPosition;
+    }
+
+
+    // Use this for initialization
+    void Start()
+    {
         anim = GetComponent<Animator>();
-        originPos= transform.position;
-	}
-	
+        originPos = transform.position;
+        navAgent = GetComponent<NavMeshAgent>();
+        currentState = BoarState.Idle;
+        navHitPos.hit = true;
+    }
 
 
 
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
         //targetPos = //eventmanager passed pos
+        targetdistance = Vector3.Distance(targetPos, transform.position);
+        if (targetdistance < 10 )
+        {
+            currentState = BoarState.Walk;
+            anim.SetBool("Walk", true);
+            navAgent.enabled = true;
+        }
 
 
 
@@ -44,22 +79,51 @@ enum BoarState
         {
             case BoarState.Idle:
                 {
-                    anim.SetBool("Walk", true);
-                    currentState = BoarState.Walk;
+                    navAgent.enabled = false;
+                    if (idleTime > 4)
+                    {
+                        
+                        currentState = BoarState.Wander;
+                        navAgent.enabled = true;
+                        idleTime = 0;
+                    }
+                    idleTime += Time.deltaTime;
+                }
+                break;
+            case BoarState.Wander:
+                {
+
+                    if (navHitPos.hit == true)
+                    {
+                        navHitPos.hit = false;
+                        float x = originPos.x + (-10 + Random.Range(0, 20));
+                        float z = originPos.z + (-10 + Random.Range(0, 20));
+                        Vector3 randDirection = new Vector3(x, transform.position.y, z);
+                        navHitPos.position = randDirection;
+                        anim.SetBool("Walk", true);
+                    }
+                    else if(navAgent.remainingDistance < 2)
+                    {
+                        navHitPos.hit = true;
+                        anim.SetBool("Walk", false);
+                        currentState = BoarState.Idle;
+                    }
+                    navAgent.SetDestination(navHitPos.position);
+
                 }
                 break;
             case BoarState.Walk:
                 {
-                    if (navHitPos.hit == true || navHitPos.position == Vector3.zero)
+                    
+                    navAgent.SetDestination(targetPos);
+                    if (targetdistance > 20)
                     {
-                        navHitPos.hit = false;
-                        Vector3 randDirection = UnityEngine.Random.insideUnitSphere * 4f;
-                        UnityEngine.AI.NavMesh.SamplePosition(randDirection, out navHitPos, 4f,2);
-                        GetComponent<UnityEngine.AI.NavMeshAgent>().SetDestination(navHitPos.position);
+                        currentState = BoarState.Idle;
+                        anim.SetBool("Walk", false);
                     }
                     break;
                 }
-                
+
             case BoarState.Jump:
                 {
 
@@ -96,6 +160,12 @@ enum BoarState
                 }
                 break;
         }
-       
+
     }
+
+    void UpdateTargetPosition(Vector3 pos)
+    {
+        targetPos = pos;
+    }
+
 }
