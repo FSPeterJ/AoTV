@@ -91,6 +91,11 @@ NavMeshSettings:
     cellSize: 0.16666667
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &133014853 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1295359980428104, guid: e807c6d05d353fa49be99f4b232b846c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1284006911}
 --- !u!1001 &134174787
 Prefab:
   m_ObjectHideFlags: 0
@@ -134,6 +139,17 @@ Prefab:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 114000010965247204, guid: d086dcf3ff493304a9b959a3d7d57aa5,
+        type: 2}
+      propertyPath: Wowser
+      value: 
+      objectReference: {fileID: 1002290469451610, guid: e807c6d05d353fa49be99f4b232b846c,
+        type: 2}
+    - target: {fileID: 114000010965247204, guid: d086dcf3ff493304a9b959a3d7d57aa5,
+        type: 2}
+      propertyPath: getTail
+      value: 
+      objectReference: {fileID: 133014853}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d086dcf3ff493304a9b959a3d7d57aa5, type: 2}
   m_IsPrefabParent: 0
