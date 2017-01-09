@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-
-
     //Basic Settings
     public int maxJump = 1;
 
@@ -23,8 +21,6 @@ public class Player : MonoBehaviour {
     //Physics Internals
     Vector3 moveDirection = Vector3.zero;
     Vector3 Impact = Vector3.zero;
-
-
 
     // Use this for initialization
     void Start () {
@@ -49,8 +45,6 @@ public class Player : MonoBehaviour {
         transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
         controller.Move(moveDirection * Time.deltaTime);
         //Tell subscribers the player has moved
-        EventDelegates.PlayerPositionUpdate(transform.position);
+        EventSystem.PlayerPositionUpdate(transform.position);
     }
-
-
 }

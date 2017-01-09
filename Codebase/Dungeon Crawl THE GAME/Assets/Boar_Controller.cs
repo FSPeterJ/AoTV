@@ -6,7 +6,35 @@ using UnityEngine.AI;
 public class Boar_Controller : MonoBehaviour
 {
 
+    //Use for executing commands on when first entering a state
+    //Can also be used to prevent states from changing under certain conditions
+    BoarState _cs;
+    BoarState currentState
+    {
+        get { return _cs; }
+        set
+        {
+            switch (value)
+            {
+                case BoarState.Idle:
+                    _cs = value;
+                    break;
+                case BoarState.Wander:
+                    _cs = value;
+                    break;
+                case BoarState.Jump:
+                    _cs = value;
+                    break;
+                case BoarState.Run:
+                    _cs = value;
+                    break;
+                default:
+                    _cs = value;
+                    break;
+            }
+        }
 
+    }
     enum BoarState
     {
         Idle, Walk, Jump, Run, BiteAttack, TuskAttack, CastSpell, Defend, TakeDamage, Wander
@@ -15,7 +43,6 @@ public class Boar_Controller : MonoBehaviour
 
     //variables
     Animator anim;
-    BoarState currentState;
     Vector3 targetPos;
     float targetdistance;
 
@@ -38,12 +65,12 @@ public class Boar_Controller : MonoBehaviour
 
     void OnEnable()
     {
-        EventDelegates.onPlayerPositionUpdate += UpdateTargetPosition;
+        EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
     }
     //unsubscribe from player movement
     void OnDisable()
     {
-        EventDelegates.onPlayerPositionUpdate -= UpdateTargetPosition;
+        EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
     }
 
 
@@ -67,8 +94,8 @@ public class Boar_Controller : MonoBehaviour
         targetdistance = Vector3.Distance(targetPos, transform.position);
         if (targetdistance < 10 )
         {
-            currentState = BoarState.Walk;
-            anim.SetBool("Walk", true);
+            currentState = BoarState.Run;
+            anim.SetBool("Run", true);
             navAgent.enabled = true;
         }
 
@@ -115,15 +142,9 @@ public class Boar_Controller : MonoBehaviour
             case BoarState.Walk:
                 {
                     
-                    navAgent.SetDestination(targetPos);
-                    if (targetdistance > 20)
-                    {
-                        currentState = BoarState.Idle;
-                        anim.SetBool("Walk", false);
-                    }
-                    break;
+                   
                 }
-
+                break;
             case BoarState.Jump:
                 {
 
@@ -131,7 +152,13 @@ public class Boar_Controller : MonoBehaviour
                 break;
             case BoarState.Run:
                 {
-
+                    navAgent.SetDestination(targetPos);
+                    if (targetdistance > 20)
+                    {
+                        currentState = BoarState.Idle;
+                        anim.SetBool("Walk", false);
+                    }
+                    
                 }
                 break;
             case BoarState.BiteAttack:
