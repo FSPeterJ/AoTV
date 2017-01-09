@@ -65,25 +65,23 @@ public class Boar_Controller : MonoBehaviour
     {
         //targetPos = //eventmanager passed pos
         targetdistance = Vector3.Distance(targetPos, transform.position);
-        if (targetdistance < 20f && currentState== BoarState.Idle && targetdistance>10f)
-        {
-            currentState = BoarState.Run;
-            anim.SetBool("Run", true);
-            navAgent.enabled = true;
-        }
-        if (targetdistance < 8f && currentState == BoarState.Idle)
-        {
-            currentState = BoarState.Walk;
-            anim.SetBool("Walk", true);
-            navAgent.enabled = true;
-        }
             //StateMachine
             switch (currentState)
         {
             case BoarState.Idle:
                 {
-                    navAgent.speed = 0;
-                    navAgent.enabled = true;
+                    if (targetdistance < 8f && idleTime >1f)
+                    {
+                        currentState = BoarState.Walk;
+                        anim.SetBool("Walk", true);
+                        navAgent.enabled = true;
+                    }
+                    if (targetdistance < 20f && targetdistance > 10f && idleTime > 1f)
+                    {
+                        currentState = BoarState.Run;
+                        anim.SetBool("Run", true);
+                        navAgent.enabled = true;
+                    }
                     navAgent.enabled = false;
                     navAgent.speed = 3.5f;
                     if (idleTime > 4)
