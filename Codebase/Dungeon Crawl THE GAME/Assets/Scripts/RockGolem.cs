@@ -154,16 +154,6 @@ public class RockGolem : MonoBehaviour
 
                 }
                 break;
-            case AI.BiteAttack:
-                {
-
-                }
-                break;
-            case AI.TuskAttack:
-                {
-
-                }
-                break;
             case AI.CastSpell:
                 {
 
@@ -175,6 +165,11 @@ public class RockGolem : MonoBehaviour
                 }
                 break;
             case AI.TakeDamage:
+                {
+
+                }
+                break;
+            case AI.Die:
                 {
 
                 }
