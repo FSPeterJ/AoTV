@@ -92,21 +92,27 @@ public class Boar_Controller : MonoBehaviour
     {
         //targetPos = //eventmanager passed pos
         targetdistance = Vector3.Distance(targetPos, transform.position);
-        if (targetdistance < 10 )
+        if (targetdistance < 20f && currentState== BoarState.Idle && targetdistance>10f)
         {
             currentState = BoarState.Run;
             anim.SetBool("Run", true);
             navAgent.enabled = true;
         }
-
-
-
-        //StateMachine
-        switch (currentState)
+        if (targetdistance < 8f && currentState == BoarState.Idle)
+        {
+            currentState = BoarState.Walk;
+            anim.SetBool("Walk", true);
+            navAgent.enabled = true;
+        }
+            //StateMachine
+            switch (currentState)
         {
             case BoarState.Idle:
                 {
+                    navAgent.speed = 0;
+                    navAgent.enabled = true;
                     navAgent.enabled = false;
+                    navAgent.speed = 3.5f;
                     if (idleTime > 4)
                     {
                         
@@ -141,10 +147,20 @@ public class Boar_Controller : MonoBehaviour
                 break;
             case BoarState.Walk:
                 {
-                    
-                   
+                    navAgent.speed = 3.5f;
+                    navAgent.SetDestination(targetPos);
+                    if (targetdistance < 1.8f)
+                    {
+                        navAgent.speed = 0;
+                        navAgent.enabled = false;
+                        currentState = BoarState.BiteAttack;
+                        anim.SetBool("Walk", false);
+                        idleTime = 0;
+                    }
+                        break;
+
                 }
-                break;
+
             case BoarState.Jump:
                 {
 
@@ -152,23 +168,46 @@ public class Boar_Controller : MonoBehaviour
                 break;
             case BoarState.Run:
                 {
+                    navAgent.speed = 10;
                     navAgent.SetDestination(targetPos);
-                    if (targetdistance > 20)
+                    if (targetdistance < 1.8f)
                     {
-                        currentState = BoarState.Idle;
-                        anim.SetBool("Walk", false);
+                        
+                        navAgent.speed = 0;
+                        navAgent.enabled = false;
+                        currentState = BoarState.TuskAttack;
+                        anim.SetBool("Run", false);
+                        idleTime = 0;
                     }
-                    
                 }
                 break;
             case BoarState.BiteAttack:
                 {
-
+                    anim.SetBool("Bite Attack", true);
+                    GetComponent<Collider>().enabled = true;
+                    if (idleTime > 1f)
+                    {
+                        currentState = BoarState.Idle;
+                        anim.SetBool("Bite Attack", false);
+                        GetComponent<Collider>().enabled = false;
+                    }
+                    else
+                        idleTime += Time.deltaTime;
                 }
                 break;
             case BoarState.TuskAttack:
                 {
-
+                   
+                    anim.SetBool("Tusk Attack", true);
+                    GetComponent<Collider>().enabled =true;
+                    if (idleTime > 1f)
+                    {
+                        currentState = BoarState.Idle;
+                        anim.SetBool("Tusk Attack", false);
+                        GetComponent<Collider>().enabled = false;
+                    }
+                    else
+                    idleTime += Time.deltaTime;
                 }
                 break;
             case BoarState.CastSpell:
