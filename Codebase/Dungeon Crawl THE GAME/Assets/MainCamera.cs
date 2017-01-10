@@ -6,12 +6,12 @@ public class MainCamera : MonoBehaviour {
     //subscribe to player movement
     void OnEnable()
     {
-        EventDelegates.onPlayerPositionUpdate += UpdateTargetPosition;
+        EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
     }
     //unsubscribe from player movement
     void OnDisable()
     {
-        EventDelegates.onPlayerPositionUpdate -= UpdateTargetPosition;
+        EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
     }
 
 
