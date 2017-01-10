@@ -252,6 +252,18 @@ public class BasePlayer : MonoBehaviour
             TakeFireDamage();
             Destroy(col.gameObject);
         }
+
+        if (col.tag == "trigger")
+        {
+            int sTime = 600;
+            int rTime;
+            int eTime = 0;
+
+            ++eTime;
+            rTime = sTime - eTime;
+
+            print("Time: " + rTime);
+        }
     }
 
     void OnTriggerStay(Collider col)
