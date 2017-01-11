@@ -69,6 +69,7 @@ GameObject:
   m_Component:
   - component: {fileID: 405032}
   - component: {fileID: 9588148}
+  - component: {fileID: 114470258772366370}
   m_Layer: 0
   m_Name: Toon Skeleton Knight-Red
   m_TagString: Untagged
@@ -1159,7 +1160,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138380}
-  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.0074100643, w: 0.010324803}
+  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.0074100634, w: 0.010324802}
   m_LocalPosition: {x: -0.07770801, y: -0.08016613, z: -0.007227639}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children:
@@ -3997,3 +3998,14 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 115210}
   m_IsPrefabParent: 1
+--- !u!114 &114470258772366370
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8bb3afd2a453284fb5f84da0d1f399d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
