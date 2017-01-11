@@ -21,6 +21,7 @@ public class SpawnManager : MonoBehaviour {
         {
             Instantiate(Skeleton_Knight, GraveOne.transform.position, Quaternion.identity);
             Instantiate(Skeleton_Knight, GraveTwo.transform.position, Quaternion.identity);
+                        
             yield return new WaitForSeconds(5);
             EnemiesHaveSpawned = true;
         }
