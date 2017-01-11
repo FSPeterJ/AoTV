@@ -5,30 +5,50 @@ using UnityEngine;
 public class SkeletonKnight : MonoBehaviour{
 
     Animator anim;
-    AnimatorControllerParameter direction;
+    bool asleep = true;
     StatePatternEnemy unitedStatePattern;
+    double lengthOfClip = 0;
 	// Use this for initialization
 	void Start ()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
-        anim.SetBool("Die", true);
-        unitedStatePattern.navMeshAgent.enabled = false;
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
+        anim = GetComponent<Animator>();
+       //StartCoroutine(WakeMeUpInside());
+    }
 
-    //IEnumerator EnemySpawn()
+    // Update is called once per frame
+    void Update ()
+    {
+        while (!asleep)
+        {
+            if (unitedStatePattern.currentState.ToString() == "PatrolState")
+            {
+                anim.SetBool("Run", false);
+                anim.SetBool("Defend", false);
+                anim.SetBool("Walk", true);
+            }
+            if (unitedStatePattern.currentState.ToString() == "AlertState")
+            {
+                anim.SetBool("Walk", false);
+                anim.SetBool("Run", false);
+                anim.SetBool("Defend", true);
+            }
+            if (unitedStatePattern.currentState.ToString() == "ChaseState")
+            {
+                anim.SetBool("Defend", false);
+                anim.SetBool("Walk", false);
+                anim.SetBool("Run", true);
+            }
+        }
+    }
+
+    //IEnumerator WakeMeUpInside()
     //{
-    //    while (true)
+    //    while (asleep)
     //    {
-    //        Instantiate(SkeletonKnight, GraveOne.transform.position, Quaternion.identity);
-    //        Instantiate(SkeletonKnight, GraveTwo.transform.position, Quaternion.identity);
+    //        anim.SetBool("Die", true);
     //        yield return new WaitForSeconds(5);
-    //        EnemiesHaveSpawned = true;
+    //        asleep = false;
     //    }
     //}
 }
