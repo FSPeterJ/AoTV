@@ -142,7 +142,7 @@ public class Boar_Controller : MonoBehaviour
                             currentState = BoarState.Walk;
                         }
                     }
-                    else if (idleTime > 4f)
+                    if (idleTime > 3f)
                     {
 
                         currentState = BoarState.Wander;

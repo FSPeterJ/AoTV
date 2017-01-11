@@ -11,9 +11,9 @@ public class Player : MonoBehaviour {
     CharacterController controller;
 
     //Physics Settings
-    public float speed = 6.0F;
-    public float sprintSpeed = 10.0f;
-    public float jumpSpeed = 8.0F;
+    public float speed = 3.0F;
+    public float sprintSpeed = 6.0f;
+    public float jumpSpeed = 6.0F;
     public float gravity = 20.0F;
     public float mass = 20.0F;
     public float rotationSpeed = 2.0f;
