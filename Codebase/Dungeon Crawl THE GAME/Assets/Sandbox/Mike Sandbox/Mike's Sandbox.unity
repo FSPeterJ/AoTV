@@ -660,6 +660,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 0.010324802
       objectReference: {fileID: 0}
+    - target: {fileID: 115210, guid: 1fece27cede4f5249919831277773b01, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1fece27cede4f5249919831277773b01, type: 2}
   m_IsPrefabParent: 0
@@ -1054,7 +1058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ef2eebee4959cd40b2e0a6c9f301b7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkeletonKnight: {fileID: 115210, guid: 39650552b74cc38499a2032584bb6778, type: 2}
+  Skeleton_Knight: {fileID: 115210, guid: 1fece27cede4f5249919831277773b01, type: 2}
   GraveOne: {fileID: 170907155}
   GraveTwo: {fileID: 1725739077}
   Graveryard: {fileID: 1186618099}
@@ -1274,6 +1278,10 @@ Prefab:
     - target: {fileID: 115210, guid: 1fece27cede4f5249919831277773b01, type: 2}
       propertyPath: m_Name
       value: Toon Skeleton Knight-Red 1 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 115210, guid: 1fece27cede4f5249919831277773b01, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1fece27cede4f5249919831277773b01, type: 2}

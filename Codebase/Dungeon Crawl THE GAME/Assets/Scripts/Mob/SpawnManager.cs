@@ -4,23 +4,25 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour {
 
-    public GameObject SkeletonKnight;
+    public GameObject Skeleton_Knight;
     public GameObject GraveOne;
     public GameObject GraveTwo;
     public Collider Graveryard;
+    bool EnemiesHaveSpawned = false;
 	// Use this for initialization
 	void Start ()
     {
-        StartCoroutine(EnemySpawn());
+        //StartCoroutine(EnemySpawn());
 	}
 	
     IEnumerator EnemySpawn()
     {
-        while (true)
+        while (!EnemiesHaveSpawned)
         {
-            Instantiate(SkeletonKnight, GraveOne.transform.position, Quaternion.identity);
-            Instantiate(SkeletonKnight, GraveTwo.transform.position, Quaternion.identity);
+            Instantiate(Skeleton_Knight, GraveOne.transform.position, Quaternion.identity);
+            Instantiate(Skeleton_Knight, GraveTwo.transform.position, Quaternion.identity);
             yield return new WaitForSeconds(5);
+            EnemiesHaveSpawned = true;
         }
     }
 
@@ -29,6 +31,7 @@ public class SpawnManager : MonoBehaviour {
         if (other.tag == "Player")
         {
             StartCoroutine(EnemySpawn());
+            
         }
     }
 }

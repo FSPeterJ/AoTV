@@ -9,7 +9,7 @@ public class PatrolState : IEnemyState
     public float sightDistance = 10;
     public PatrolState(StatePatternEnemy statePatternEnemy)//constructor
     {
-        enemy = statePatternEnemy;//when an instance is created pass in the current enemy state pattern.
+        enemy = statePatternEnemy;//when an instance is created pass in the current enemy state pattern.        
     }
 
     public void UpdateState()

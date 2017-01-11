@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonKnight : MonoBehaviour {
+public class SkeletonKnight : MonoBehaviour{
 
-    Animation Born;
-
+    Animator anim;
+    AnimatorControllerParameter direction;
+    StatePatternEnemy unitedStatePattern;
 	// Use this for initialization
 	void Start ()
     {
-        Born = GetComponent<Animation>();
+        unitedStatePattern = GetComponent<StatePatternEnemy>();
+        anim.SetBool("Die", true);
+        unitedStatePattern.navMeshAgent.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -17,4 +20,15 @@ public class SkeletonKnight : MonoBehaviour {
     {
 		
 	}
+
+    //IEnumerator EnemySpawn()
+    //{
+    //    while (true)
+    //    {
+    //        Instantiate(SkeletonKnight, GraveOne.transform.position, Quaternion.identity);
+    //        Instantiate(SkeletonKnight, GraveTwo.transform.position, Quaternion.identity);
+    //        yield return new WaitForSeconds(5);
+    //        EnemiesHaveSpawned = true;
+    //    }
+    //}
 }
