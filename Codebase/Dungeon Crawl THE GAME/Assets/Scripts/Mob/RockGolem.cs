@@ -15,10 +15,28 @@ public class RockGolem : MonoBehaviour
             switch (value)
             {
                 case AI.Idle:
-
+                    idleTime = 0;
+                    navAgent.enabled = false;
+                    //You can prevent a state assignment with a check here
+                    _cs = value;
                     break;
                 case AI.Wander:
-
+                    anim.SetBool("Walk", true);
+                    navAgent.enabled = true;
+                    navAgent.speed = 3.5f;
+                    _cs = value;
+                    break;
+                case AI.Walk:
+                    anim.SetBool("FlyForward", true);
+                    navAgent.enabled = true;
+                    navAgent.speed = 4f;
+                    _cs = value;
+                    break;
+                case AI.RightPunch:
+                    anim.SetBool("RightPunch", true);
+                    navAgent.enabled = true;
+                    navAgent.speed = 4f;
+                    _cs = value;
                     break;
                 default:
                     _cs = value;
@@ -48,6 +66,7 @@ public class RockGolem : MonoBehaviour
     //Stat variables
     public int health;
     public float idleTime = 0;
+    public float aggroRange = 20f;
 
 
     //Component References
@@ -85,22 +104,20 @@ public class RockGolem : MonoBehaviour
     {
         //targetPos = //eventmanager passed pos
         targetdistance = Vector3.Distance(targetPos, transform.position);
-        if (targetdistance < 10)
-        {
-            currentState = AI.Walk;
-            anim.SetBool("Walk", true);
-            navAgent.enabled = true;
-        }
-
-
 
         //StateMachine
         switch (currentState)
         {
             case AI.Idle:
                 {
-                    navAgent.enabled = false;
-                    if (idleTime > 4)
+                    if (idleTime > 1f)
+                    {
+                        if (targetdistance < aggroRange)
+                        {
+                            currentState = AI.Walk;
+                        }
+                    }
+                    else if (idleTime > 4f)
                     {
 
                         currentState = AI.Wander;
@@ -136,9 +153,14 @@ public class RockGolem : MonoBehaviour
                 {
 
                     navAgent.SetDestination(targetPos);
-                    if (targetdistance > 20)
+                    if (targetdistance > 20f)
                     {
                         currentState = AI.Idle;
+                        anim.SetBool("Walk", false);
+                    }
+                    else if (targetdistance < 1.5f)
+                    {
+                        currentState = AI.TakeDamage;
                         anim.SetBool("Walk", false);
                     }
                     break;
@@ -166,10 +188,15 @@ public class RockGolem : MonoBehaviour
                 break;
             case AI.TakeDamage:
                 {
-
+                    
                 }
                 break;
             case AI.Die:
+                {
+
+                }
+                break;
+            case AI.RightPunch:
                 {
 
                 }
