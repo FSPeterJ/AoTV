@@ -33,11 +33,12 @@ public class ChaseState : IEnemyState
     public void ToAlertState()
     {
         enemy.currentState = enemy.alertState;//transfer to alert state
+        Debug.Log("Chase -> Alert");//Can't transition to same state, but must have this function for the interface
     }
 
     public void ToChaseState()
     {
-        Debug.Log("Can't transition to same state");//Can't transition to same state, but must have this function for the interface
+        Debug.Log("In Chase State");//Can't transition to same state, but must have this function for the interface
     }
 
     private void Look()//In patrol state, ray cast 20 units from his eyes
@@ -58,10 +59,9 @@ public class ChaseState : IEnemyState
 
     private void Chase()
     {
-        enemy.meshRendererFlag.material.color = Color.red;//While in the alert state turn red(not imperative)
+        //enemy.meshRendererFlag.material.color = Color.red;//While in the alert state turn red(not imperative)
         enemy.navMeshAgent.destination = enemy.chaseTarget.position;//set destination to the position of the target being chased
         enemy.navMeshAgent.Resume();//resume going into the direction of the chase target
     }
-
 
 }

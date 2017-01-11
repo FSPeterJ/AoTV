@@ -32,11 +32,14 @@ public class PatrolState : IEnemyState
     public void ToAlertState()
     {
         enemy.currentState = enemy.alertState;//change current state to alert state
+        Debug.Log("Patrol -> Alert");//Can't transition to same state, but must have this function for the interface
+
     }
 
     public void ToChaseState()
     {
         enemy.currentState = enemy.chaseState;//change current state to chase state
+        Debug.Log("Patrol -> Chase");//Can't transition to same state, but must have this function for the interface
     }
 
     private void Look()//In patrol state, ray cast 20 units from his eyes
@@ -75,7 +78,7 @@ public class PatrolState : IEnemyState
 
     private void Patrol()
     {
-        enemy.meshRendererFlag.material.color = Color.green;//While in the patrol state turn green(not imperative)
+        //enemy.meshRendererFlag.material.color = Color.green;//While in the patrol state turn green(not imperative)
         enemy.navMeshAgent.destination = enemy.wayPoints[nextWayPoint].transform.position;//Destination is equal to next way point in the array
         enemy.navMeshAgent.Resume();//Start walking towards new destination
 

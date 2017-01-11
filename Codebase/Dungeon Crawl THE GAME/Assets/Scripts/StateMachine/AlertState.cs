@@ -26,16 +26,19 @@ public class AlertState : IEnemyState
     {
         enemy.currentState = enemy.patrolState;//change to patrol state
         searchTimer = 0f;//set the current of amount of time searched to zero
+        Debug.Log("Alert -> Patrol");//Can't transition to same state, but must have this function for the interface
     }
 
     public void ToAlertState()
     {
-        Debug.Log("Can't transition to same state");//Can't transition to same state, but must have this function for the interface
+        Debug.Log("In Alert State");//Can't transition to same state, but must have this function for the interface
     }
 
     public void ToChaseState()
     {
         enemy.currentState = enemy.chaseState;//change current state to chase state
+        Debug.Log("Alert -> Chase");//Can't transition to same state, but must have this function for the interface
+
     }
 
     private void Look()//In patrol state, ray cast 20 units from his eyes
@@ -74,7 +77,7 @@ public class AlertState : IEnemyState
 
     private void Search()
     {
-        enemy.meshRendererFlag.material.color = Color.yellow;//While in the alert state turn yellow(not imperative)
+        //enemy.meshRendererFlag.material.color = Color.yellow;//While in the alert state turn yellow(not imperative)
         enemy.navMeshAgent.Stop();//stop moving
         enemy.transform.Rotate(0, enemy.searchingTurnSpeed * Time.deltaTime, 0);//rotate around the y axis for the amount of search time
         searchTimer += Time.deltaTime;//increase searchTimer
