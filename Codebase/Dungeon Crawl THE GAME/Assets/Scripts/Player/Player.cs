@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
 
     //Basic Settings
     public int maxJump = 1;
+    public int maxJumpStored;
 
     //References
     CharacterController controller;
@@ -22,19 +23,21 @@ public class Player : MonoBehaviour
     //Physics Settings
     public float speed = 3.0F;
     public float sprintSpeed = 6.0f;
-    public float jumpSpeed = 6.0F;
-    public float gravity = 20.0F;
+    public float jumpSpeed = 10.0F;
+    public float gravity = 9.8F;
     public float mass = 20.0F;
     public float rotationSpeed = 2.0f;
 
     //Physics Internals
     Vector3 moveDirection = Vector3.zero;
     Vector3 Impact = Vector3.zero;
+    float verticalVel = 0;
 
     // Use this for initialization
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        maxJumpStored = maxJump;
     }
 
     // Update is called once per frame
@@ -47,16 +50,29 @@ public class Player : MonoBehaviour
         moveDirection *= sprintSpeed;
         moveDirection *= speed;
 
-        if (Input.GetKeyDown("space") && maxJump > 0)
+        if (controller.isGrounded)
+        {
+            verticalVel = 0; // grounded character has vSpeed = 0...
+            maxJump = maxJumpStored;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
         {
             maxJump--;
-            moveDirection.y = jumpSpeed;
+            verticalVel -= jumpSpeed;
         }
-        moveDirection.y -= gravity * Time.deltaTime;
-        //transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
+
+        verticalVel += gravity * Time.deltaTime;
+        moveDirection.y -= verticalVel;
+        
+        //mousePosition = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z - GetComponent<Camera>().transform.position.z));
+        //GetComponent<Rigidbody>().transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((mousePosition.y - transform.position.y), (mousePosition.x - transform.position.x)) * Mathf.Rad2Deg - 90);
+
+        //transform.Rotate(0, 0, 0);
+        
         controller.Move(moveDirection * Time.deltaTime);
         //Tell subscribers the player has moved
         EventSystem.PlayerPositionUpdate(transform.position);
+
     }
 }
 
@@ -84,10 +100,8 @@ public class Player : MonoBehaviour
 //        {
 
 //            //Grab the current mouse position on the screen
-//            mousePosition = camera.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z - camera.transform.position.z));
 
 //            //Rotates toward the mouse
-//            rigidbody.transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((mousePosition.y - transform.position.y), (mousePosition.x - transform.position.x)) * Mathf.Rad2Deg - 90);
 
 //            //Judge the distance from the object and the mouse
 //            distanceFromObject = (Input.mousePosition - camera.WorldToScreenPoint(transform.position)).magnitude;
