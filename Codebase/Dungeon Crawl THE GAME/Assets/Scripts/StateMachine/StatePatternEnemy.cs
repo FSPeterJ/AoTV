@@ -27,6 +27,7 @@ public class StatePatternEnemy : MonoBehaviour
     [HideInInspector]
     public UnityEngine.AI.NavMeshAgent navMeshAgent;//
 
+    Animator anim;
 
     private void Awake()//Before Start, initializes states and gets component reference for NavMeshAgent attached to enemy
     {
@@ -35,6 +36,7 @@ public class StatePatternEnemy : MonoBehaviour
         patrolState = new PatrolState(this);
 
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        anim = GetComponent<Animator>();
     }
 
     // Use this for initialization
@@ -48,9 +50,6 @@ public class StatePatternEnemy : MonoBehaviour
     {
         currentState.UpdateState();//Each class has an updateState. This function behavior will differ depending on the current state
         Debug.Log(currentState.ToString());
-        if (currentState.ToString() == "PatrolState")
-        {
-            gameObject.GetComponent<Animation>().Play("Walk");
-        }
+
     }
 }

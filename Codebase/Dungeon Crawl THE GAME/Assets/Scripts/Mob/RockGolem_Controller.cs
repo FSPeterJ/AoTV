@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RockGolem : MonoBehaviour
+public class RockGolem_Controller : MonoBehaviour
 {
 
     AI _cs;
