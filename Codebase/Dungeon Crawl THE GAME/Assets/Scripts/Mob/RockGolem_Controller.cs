@@ -188,7 +188,7 @@ public class RockGolem_Controller : MonoBehaviour
                 break;
             case AI.TakeDamage:
                 {
-                    
+
                 }
                 break;
             case AI.Die:
