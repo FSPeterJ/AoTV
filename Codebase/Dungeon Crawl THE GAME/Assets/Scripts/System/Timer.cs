@@ -5,7 +5,7 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     //defining the variables needed
-    float time = 0;
+    float time = -10.5f;
     int x = Screen.width / 2;
     int y = 0;
 
