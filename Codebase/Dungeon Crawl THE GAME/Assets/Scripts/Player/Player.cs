@@ -33,6 +33,21 @@ public class Player : MonoBehaviour
     Vector3 Impact = Vector3.zero;
     float verticalVel = 0;
 
+    //Control Settings
+    private Vector3 mousePosition;
+    private Vector3 direction;
+
+
+    void OnEnable()
+    {
+        EventSystem.onMousePositionUpdate += UpdateMousePosition;
+    }
+    //unsubscribe from player movement
+    void OnDisable()
+    {
+        EventSystem.onMousePositionUpdate -= UpdateMousePosition;
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -63,55 +78,30 @@ public class Player : MonoBehaviour
 
         verticalVel += gravity * Time.deltaTime;
         moveDirection.y -= verticalVel;
-        
-        //mousePosition = GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Input.mousePosition.z - GetComponent<Camera>().transform.position.z));
-        //GetComponent<Rigidbody>().transform.eulerAngles = new Vector3(0, 0, Mathf.Atan2((mousePosition.y - transform.position.y), (mousePosition.x - transform.position.x)) * Mathf.Rad2Deg - 90);
 
-        //transform.Rotate(0, 0, 0);
-        
+
+        //GetComponent<Rigidbody>().transform.eulerAngles = ;
+        transform.Rotate(
+            0,
+          0,
+               0);
+
+        //Debug.Log((float)-((Mathf.Atan2((mousePosition.y - transform.position.y), (mousePosition.x - transform.position.x)) * Mathf.Rad2Deg) - transform.rotation.y));
+        Debug.Log((float)transform.rotation.y);
+        Debug.Log((float)(Mathf.Atan2((mousePosition.y - transform.position.y), (mousePosition.x - transform.position.x)) * Mathf.Rad2Deg)-90 );
+
         controller.Move(moveDirection * Time.deltaTime);
         //Tell subscribers the player has moved
         EventSystem.PlayerPositionUpdate(transform.position);
-
     }
+
+    void UpdateMousePosition(Vector3 MousePos)
+    {
+        mousePosition = MousePos;
+    }
+
+
 }
 
 
 
-// using UnityEngine;
-// using System.Collections;
- 
-// public class Bacteria_Controller : MonoBehaviour
-//{
-
-//    //Public Vars
-//    public Camera camera;
-//    public float speed;
-
-//    //Private Vars
-//    private Vector3 mousePosition;
-//    private Vector3 direction;
-//    private float distanceFromObject;
-
-//    void FixedUpdate()
-//    {
-
-//        if (Input.GetButton("Fire2"))
-//        {
-
-//            //Grab the current mouse position on the screen
-
-//            //Rotates toward the mouse
-
-//            //Judge the distance from the object and the mouse
-//            distanceFromObject = (Input.mousePosition - camera.WorldToScreenPoint(transform.position)).magnitude;
-
-//            //Move towards the mouse
-//            rigidbody.AddForce(direction * speed * distanceFromObject * Time.deltaTime);
-
-//        }//End Move Towards If Case
-
-//    }//End Fire3 If case
-//}
-     
-// }

@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainCamera : MonoBehaviour {
+public class MainCamera : MonoBehaviour
+{
+
+    Camera camera;
+
     //subscribe to player movement
     void OnEnable()
     {
@@ -21,9 +25,20 @@ public class MainCamera : MonoBehaviour {
 
     private Vector3 velocity = Vector3.zero;
 
+
+    private void Start()
+    {
+        camera = GetComponent<Camera>();
+    }
+
     void Update()
     {
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
+        Vector3 mouse = Input.mousePosition;
+        mouse.z = 10;
+
+        EventSystem.MousePositionUpdate(camera.ScreenToWorldPoint(mouse));
+
     }
 
     void UpdateTargetPosition(Vector3 pos)
