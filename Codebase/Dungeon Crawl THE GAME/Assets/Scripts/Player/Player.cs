@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     public float jumpSpeed = 10.0F;
     public float gravity = 9.8F;
     public float mass = 20.0F;
-    public float rotationSpeed = 2.0f;
+    public float rotationSpeed = 5.0f;
 
     //Physics Internals
     Vector3 moveDirection = Vector3.zero;
@@ -48,6 +48,9 @@ public class Player : MonoBehaviour
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
     }
 
+
+
+
     // Use this for initialization
     void Start()
     {
@@ -61,7 +64,7 @@ public class Player : MonoBehaviour
 
         //Re-used a lot of Harrison's movement code
         moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        moveDirection = transform.TransformDirection(moveDirection);
+        //moveDirection = transform.TransformDirection(moveDirection);
         moveDirection *= sprintSpeed;
         moveDirection *= speed;
 
@@ -80,15 +83,13 @@ public class Player : MonoBehaviour
         moveDirection.y -= verticalVel;
 
 
-        //GetComponent<Rigidbody>().transform.eulerAngles = ;
-        transform.Rotate(
-            0,
-          0,
-               0);
+        // Determine the target rotation.  This is the rotation if the transform looks at the target point.
+        Quaternion targetRotation = Quaternion.LookRotation(mousePosition - transform.position);
 
-        //Debug.Log((float)-((Mathf.Atan2((mousePosition.y - transform.position.y), (mousePosition.x - transform.position.x)) * Mathf.Rad2Deg) - transform.rotation.y));
-        Debug.Log((float)transform.rotation.y);
-        Debug.Log((float)(Mathf.Atan2((mousePosition.y - transform.position.y), (mousePosition.x - transform.position.x)) * Mathf.Rad2Deg)-90 );
+        Vector3 lookPos = (transform.position - mousePosition);
+        float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
+        transform.rotation = Quaternion.AngleAxis(angle, new Vector3( 0,1,0));
+
 
         controller.Move(moveDirection * Time.deltaTime);
         //Tell subscribers the player has moved
@@ -100,8 +101,13 @@ public class Player : MonoBehaviour
         mousePosition = MousePos;
     }
 
-
+    //http://answers.unity3d.com/comments/1202706/view.html
+    private float AngleYBetween2V3(Vector3 vec1, Vector3 vec2)
+    {
+        float sign = (vec2.z < vec1.z) ? -1.0f : 1.0f;
+        //Debug.Log(vec1.x - vec2.x);
+        return (Mathf.Atan2((vec1.z - vec2.z), (vec1.x - vec2.x)) - Mathf.PI/2) * Mathf.Rad2Deg;
+    }
 }
-
 
 

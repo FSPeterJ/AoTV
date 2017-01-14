@@ -5,7 +5,9 @@ using UnityEngine;
 public class MainCamera : MonoBehaviour
 {
 
-    Camera camera;
+    Camera cam;
+    RaycastHit hitInfo;
+    int layerMask = 31;
 
     //subscribe to player movement
     void OnEnable()
@@ -28,7 +30,7 @@ public class MainCamera : MonoBehaviour
 
     private void Start()
     {
-        camera = GetComponent<Camera>();
+        cam = GetComponent<Camera>();
     }
 
     void Update()
@@ -37,8 +39,17 @@ public class MainCamera : MonoBehaviour
         Vector3 mouse = Input.mousePosition;
         mouse.z = 10;
 
-        EventSystem.MousePositionUpdate(camera.ScreenToWorldPoint(mouse));
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        
+        if (Physics.Raycast(ray, out hitInfo, layerMask))
+        {
+            //Transform objectHit = hit.transform;
+            // Do something with the object that was hit by the raycast.
+            EventSystem.MousePositionUpdate(hitInfo.point);
+        }
 
+
+        
     }
 
     void UpdateTargetPosition(Vector3 pos)
