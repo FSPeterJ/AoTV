@@ -2,10 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
+
+    //States
+
+    enum States
+    {
+
+    }
+
 
     //Basic Settings
     public int maxJump = 1;
+    public int maxJumpStored;
 
     //References
     CharacterController controller;
@@ -13,38 +23,91 @@ public class Player : MonoBehaviour {
     //Physics Settings
     public float speed = 3.0F;
     public float sprintSpeed = 6.0f;
-    public float jumpSpeed = 6.0F;
-    public float gravity = 20.0F;
+    public float jumpSpeed = 10.0F;
+    public float gravity = 9.8F;
     public float mass = 20.0F;
-    public float rotationSpeed = 2.0f;
+    public float rotationSpeed = 5.0f;
 
     //Physics Internals
     Vector3 moveDirection = Vector3.zero;
     Vector3 Impact = Vector3.zero;
+    float verticalVel = 0;
+
+    //Control Settings
+    private Vector3 mousePosition;
+    private Vector3 direction;
+
+
+    void OnEnable()
+    {
+        EventSystem.onMousePositionUpdate += UpdateMousePosition;
+    }
+    //unsubscribe from player movement
+    void OnDisable()
+    {
+        EventSystem.onMousePositionUpdate -= UpdateMousePosition;
+    }
+
+
+
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         controller = GetComponent<CharacterController>();
+        maxJumpStored = maxJump;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         //Re-used a lot of Harrison's movement code
-        moveDirection = new Vector3(0, 0, Input.GetAxis("Vertical"));
-        moveDirection = transform.TransformDirection(moveDirection);
+        moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        //moveDirection = transform.TransformDirection(moveDirection);
         moveDirection *= sprintSpeed;
         moveDirection *= speed;
 
-        if (Input.GetKeyDown("space") && maxJump > 0)
+        if (controller.isGrounded)
+        {
+            verticalVel = 0; // grounded character has vSpeed = 0...
+            maxJump = maxJumpStored;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
         {
             maxJump--;
-            moveDirection.y = jumpSpeed;
+            verticalVel -= jumpSpeed;
         }
-        moveDirection.y -= gravity * Time.deltaTime;
-        transform.Rotate(0, Input.GetAxis("Horizontal") * rotationSpeed, 0);
+
+        verticalVel += gravity * Time.deltaTime;
+        moveDirection.y -= verticalVel;
+
+
+        // Determine the target rotation.  This is the rotation if the transform looks at the target point.
+        Quaternion targetRotation = Quaternion.LookRotation(mousePosition - transform.position);
+
+        Vector3 lookPos = (transform.position - mousePosition);
+        float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
+        transform.rotation = Quaternion.AngleAxis(angle, new Vector3( 0,1,0));
+
+
         controller.Move(moveDirection * Time.deltaTime);
         //Tell subscribers the player has moved
         EventSystem.PlayerPositionUpdate(transform.position);
     }
+
+    void UpdateMousePosition(Vector3 MousePos)
+    {
+        mousePosition = MousePos;
+    }
+
+    //http://answers.unity3d.com/comments/1202706/view.html
+    private float AngleYBetween2V3(Vector3 vec1, Vector3 vec2)
+    {
+        float sign = (vec2.z < vec1.z) ? -1.0f : 1.0f;
+        //Debug.Log(vec1.x - vec2.x);
+        return (Mathf.Atan2((vec1.z - vec2.z), (vec1.x - vec2.x)) - Mathf.PI/2) * Mathf.Rad2Deg;
+    }
 }
+
+
