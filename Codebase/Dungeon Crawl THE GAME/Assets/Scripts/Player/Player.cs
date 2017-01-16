@@ -9,13 +9,13 @@ public class Player : MonoBehaviour
 
     enum States
     {
-
     }
 
 
     //Basic Settings
     public int maxJump = 1;
-    public int maxJumpStored;
+    int maxJumpStored;
+    public float movementModfier = .75f;
 
     //References
     CharacterController controller;
@@ -68,8 +68,20 @@ public class Player : MonoBehaviour
         moveDirection *= sprintSpeed;
         moveDirection *= speed;
 
+        //Strafe and reverse modified
+        var localVel = transform.InverseTransformDirection(moveDirection);
+        if (localVel.z < 0)
+        {
+            localVel.z = localVel.z * movementModfier;
+        }
+        localVel.x = localVel.x * movementModfier;
+        moveDirection = transform.TransformDirection(localVel);
+        // ^^^ Probably could be done better than this.
+
+
         if (controller.isGrounded)
         {
+            //anim.SetBool("Jump", false);
             verticalVel = 0; 
             maxJump = maxJumpStored;
         }
@@ -81,7 +93,6 @@ public class Player : MonoBehaviour
 
         verticalVel += gravity * Time.deltaTime;
         moveDirection.y -= verticalVel;
-
 
         // Determine the target rotation.  This is the rotation if the transform looks at the target point.
         Vector3 lookPos = (transform.position - mousePosition);
