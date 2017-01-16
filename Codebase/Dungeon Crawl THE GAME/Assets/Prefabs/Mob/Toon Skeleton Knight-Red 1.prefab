@@ -4054,7 +4054,7 @@ BoxCollider:
   m_GameObject: {fileID: 115210}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -4088,6 +4088,7 @@ MonoBehaviour:
   - {fileID: 1800342867393288, guid: 66ceb1be21eeacb408b4497f118a6ffe, type: 2}
   eyes: {fileID: 4488859854562302}
   offset: {x: 0, y: 0.5, z: 0}
+  DistanceToPlayer: 0
   chaseTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}
 --- !u!195 &195998922085926188

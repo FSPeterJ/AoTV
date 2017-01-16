@@ -8,7 +8,7 @@ public class StatePatternEnemy : MonoBehaviour
     public Transform eyes;//Raycast origin
     public Vector3 offset = new Vector3(0, .5f, 0);//Lift raycast to look at players head
     //public MeshRenderer meshRendererFlag;//Cube above enemies head
-
+    public float DistanceToPlayer = 0;
     [HideInInspector]
     public Transform chaseTarget;//reference players transform
 
@@ -33,8 +33,7 @@ public class StatePatternEnemy : MonoBehaviour
     {
         chaseState = new ChaseState(this);
         alertState = new AlertState(this);
-        patrolState = new PatrolState(this);
-
+        patrolState = new PatrolState(this);        
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         anim = GetComponent<Animator>();
     }
@@ -47,9 +46,13 @@ public class StatePatternEnemy : MonoBehaviour
 
     // Update is called once per frame
     private void Update()
-    {
+    {                
         currentState.UpdateState();//Each class has an updateState. This function behavior will differ depending on the current state
         Debug.Log(currentState.ToString());
-
+        DistanceToPlayer = chaseState.DistanceToTarget;
+        if (currentState.ToString() == "ChaseState")
+        {
+            Debug.Log("Distance from knight to player: " + DistanceToPlayer);
+        }
     }
 }

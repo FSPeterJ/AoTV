@@ -17,13 +17,12 @@ public class SpawnManager : MonoBehaviour {
 	
     IEnumerator EnemySpawn()
     {
-        while (!EnemiesHaveSpawned)
+        if (!EnemiesHaveSpawned)
         {
             Instantiate(Skeleton_Knight, GraveOne.transform.position, Quaternion.identity);
             Instantiate(Skeleton_Knight, GraveTwo.transform.position, Quaternion.identity);
-                        
-            yield return new WaitForSeconds(5);
             EnemiesHaveSpawned = true;
+            yield return new WaitForSeconds(5);
         }
     }
 
@@ -32,7 +31,6 @@ public class SpawnManager : MonoBehaviour {
         if (other.tag == "Player")
         {
             StartCoroutine(EnemySpawn());
-            
         }
     }
 }

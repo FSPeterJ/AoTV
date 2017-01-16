@@ -4,7 +4,7 @@ public class PatrolState : IEnemyState
 
 {
     private readonly StatePatternEnemy enemy;//Keeps track of the current enemy state
-    private int nextWayPoint;//Count through the way points
+    public int nextWayPoint;//Count through the way points
     public float heightMultiplier;
     public float sightDistance = 10;
     public PatrolState(StatePatternEnemy statePatternEnemy)//constructor
