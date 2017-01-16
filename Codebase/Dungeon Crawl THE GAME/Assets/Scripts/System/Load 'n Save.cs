@@ -8,6 +8,8 @@ using System;
 using System.Runtime.Serialization;
 using System.Reflection;
 
+
+//The code in here was taken from this URL -> http://answers.unity3d.com/questions/8480/how-to-scrip-a-saveload-game-option.html
 public class LoadnSave : MonoBehaviour
 {
 
