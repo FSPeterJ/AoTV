@@ -9,15 +9,70 @@ public class Player : MonoBehaviour
 
     enum States
     {
+        Idle, MoveForward, Attack1, Attack2, SpinAttack, Dying, TakeDamage, Teleport
+    }
+    States _cs;
+    States currentState
+    {
+        get { return _cs; }
+        set
+        {
+            switch (value)
+            {
+                case States.Idle:
+                    //You can prevent a state assignment with a check here
+                    anim.SetBool("Move Forward", false);
+                    _cs = value;
+                    break;
+                case States.MoveForward:
+                    if(_cs == States.Idle)
+                    {
+                        anim.SetBool("Move Forward", true);
+                        _cs = value;
+                    }
+                    break;
+                case States.Attack1:
+                    anim.SetBool("Attack2", true);
+                    _cs = value;
+                    break;
+                case States.Attack2:
+                    anim.SetBool("Attack2", true);
+                    _cs = value;
+                    break;
+                case States.SpinAttack:
+                    anim.SetBool("SpinAttack", true);
+                    _cs = value;
+                    break;
+                case States.Dying:
+                    anim.SetBool("Die", true);
+                    _cs = value;
+                    break;
+                case States.TakeDamage:
+                    anim.SetBool("TakeDamage", true);
+                    _cs = value;
+                    break;
+                case States.Teleport:
+                    anim.SetBool("Teleport", true);
+                    _cs = value;
+                    break;
+                default:
+                    _cs = value;
+                    break;
+            }
+        }
     }
 
 
-    //Basic Settings
+    //Basic Settings - Edit in Unity
     public int maxJump = 1;
     int maxJumpStored;
     public float movementModfier = .75f;
+    public int health = 3;
+    bool invulnerable = false;
+    bool burning = false;
 
-    //References
+    //Component References
+    Animator anim;
     CharacterController controller;
 
     //Physics Settings
@@ -49,13 +104,13 @@ public class Player : MonoBehaviour
     }
 
 
-
-
     // Use this for initialization
     void Start()
     {
+        anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         maxJumpStored = maxJump;
+        currentState = States.Idle;
     }
 
     // Update is called once per frame
@@ -64,43 +119,56 @@ public class Player : MonoBehaviour
 
         //Re-used a lot of Harrison's movement code
         moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
+        //Alternate Control Scheme - bad imo
         //moveDirection = transform.TransformDirection(moveDirection);
         moveDirection *= sprintSpeed;
         moveDirection *= speed;
 
-        //Strafe and reverse modified
+
+        //Strafe and reverse modified with multiplier
         var localVel = transform.InverseTransformDirection(moveDirection);
         if (localVel.z < 0)
         {
             localVel.z = localVel.z * movementModfier;
+        }
+        else if(localVel.z > 0)
+        {
+            currentState = States.MoveForward;
         }
         localVel.x = localVel.x * movementModfier;
         moveDirection = transform.TransformDirection(localVel);
         // ^^^ Probably could be done better than this.
 
 
+
+        //Landed / Grounded
         if (controller.isGrounded)
         {
             //anim.SetBool("Jump", false);
             verticalVel = 0; 
             maxJump = maxJumpStored;
         }
+
+        //Jump
         if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
         {
             maxJump--;
             verticalVel -= jumpSpeed;
         }
 
+        //Gravity
         verticalVel += gravity * Time.deltaTime;
         moveDirection.y -= verticalVel;
 
-        // Determine the target rotation.  This is the rotation if the transform looks at the target point.
+        //Turn player to face cursor on terrain
         Vector3 lookPos = (transform.position - mousePosition);
         float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
         transform.rotation = Quaternion.AngleAxis(angle, new Vector3( 0,1,0));
 
-
+        //Move
         controller.Move(moveDirection * Time.deltaTime);
+
         //Tell subscribers the player has moved
         EventSystem.PlayerPositionUpdate(transform.position);
     }
@@ -110,6 +178,60 @@ public class Player : MonoBehaviour
         mousePosition = MousePos;
     }
 
+
+    public void TakeDamage(int dmg = 1)
+    {
+        if (!invulnerable)
+        {
+            StartCoroutine("Invulnerable");
+            EventSystem.PlayerHealthUpdate(-dmg);
+            health--;
+        }
+    }
+    //Use this to send the character flying with a force from a given direction
+    public void AddImpact(Vector3 direction, float force)
+    {
+        direction.Normalize();
+        if (direction.y < 0)
+            direction.y = -direction.y;
+        Impact = direction.normalized * force / mass;
+    }
+
+    public void TakeFireDamage()
+    {
+
+        if (!burning)
+        {
+            TakeDamage();
+
+            StartCoroutine("Burning");
+        }
+    }
+
+
+    IEnumerator Burning()
+    {
+
+        burning = true;
+        //Generate Burn Flames
+        //GameObject Flames = (GameObject)Instantiate(BurnEffect, transform.position, new Quaternion(0, 45, 45, 0));
+        //Attach to player
+        //Flames.transform.parent = transform;
+
+        yield return new WaitForSeconds(2);
+        //Destroy(Flames);
+        burning = false;
+
+    }
+
+    IEnumerator Invulnerable()
+    {
+        invulnerable = true;
+
+        yield return new WaitForSeconds(1);
+
+        invulnerable = false;
+    }
 }
 
 
