@@ -9,13 +9,13 @@ public class Player : MonoBehaviour
 
     enum States
     {
-
     }
 
 
     //Basic Settings
     public int maxJump = 1;
-    public int maxJumpStored;
+    int maxJumpStored;
+    public float movementModfier = .75f;
 
     //References
     CharacterController controller;
@@ -68,9 +68,21 @@ public class Player : MonoBehaviour
         moveDirection *= sprintSpeed;
         moveDirection *= speed;
 
+        //Strafe and reverse modified
+        var localVel = transform.InverseTransformDirection(moveDirection);
+        if (localVel.z < 0)
+        {
+            localVel.z = localVel.z * movementModfier;
+        }
+        localVel.x = localVel.x * movementModfier;
+        moveDirection = transform.TransformDirection(localVel);
+        // ^^^ Probably could be done better than this.
+
+
         if (controller.isGrounded)
         {
-            verticalVel = 0; // grounded character has vSpeed = 0...
+            //anim.SetBool("Jump", false);
+            verticalVel = 0; 
             maxJump = maxJumpStored;
         }
         if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
@@ -82,10 +94,7 @@ public class Player : MonoBehaviour
         verticalVel += gravity * Time.deltaTime;
         moveDirection.y -= verticalVel;
 
-
         // Determine the target rotation.  This is the rotation if the transform looks at the target point.
-        Quaternion targetRotation = Quaternion.LookRotation(mousePosition - transform.position);
-
         Vector3 lookPos = (transform.position - mousePosition);
         float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
         transform.rotation = Quaternion.AngleAxis(angle, new Vector3( 0,1,0));
@@ -101,13 +110,6 @@ public class Player : MonoBehaviour
         mousePosition = MousePos;
     }
 
-    //http://answers.unity3d.com/comments/1202706/view.html
-    private float AngleYBetween2V3(Vector3 vec1, Vector3 vec2)
-    {
-        float sign = (vec2.z < vec1.z) ? -1.0f : 1.0f;
-        //Debug.Log(vec1.x - vec2.x);
-        return (Mathf.Atan2((vec1.z - vec2.z), (vec1.x - vec2.x)) - Mathf.PI/2) * Mathf.Rad2Deg;
-    }
 }
 
 
