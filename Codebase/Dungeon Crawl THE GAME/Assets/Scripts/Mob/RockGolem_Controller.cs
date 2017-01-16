@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RockGolem_Controller : MonoBehaviour
+public class RockGolem_Controller :  MonoBehaviour, IEnemyBehavior
 {
 
     AI _cs;
@@ -210,4 +210,21 @@ public class RockGolem_Controller : MonoBehaviour
         targetPos = pos;
     }
 
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if(health < 0)
+        {
+            Kill();
+        }
+    }
+
+    public int RemainingHealth()
+    {
+        return health;
+    }
+    public void Kill()
+    {
+
+    }
 }

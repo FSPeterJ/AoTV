@@ -21,4 +21,13 @@ public static class EventSystem {
        
     }
 
+    //player damage events
+    public delegate void PlayerHealthUpdateHandler(int hp);
+    public static event PlayerHealthUpdateHandler onPlayerHealthUpdate;
+    public static void PlayerHealthUpdate(int hp)
+    {
+        if (onPlayerHealthUpdate != null) onPlayerHealthUpdate(hp);
+
+    }
+
 }
