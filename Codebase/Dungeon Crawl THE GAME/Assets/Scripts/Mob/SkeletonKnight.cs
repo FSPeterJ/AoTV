@@ -10,11 +10,14 @@ public class SkeletonKnight : MonoBehaviour{
     bool attacking = false;
     float attackDistance = 1.5f;
     int health = 10;
+    Collider AttackRegionCollider;
+    Animator playerAnim;
     // Use this for initialization
 	void Start ()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
+        AttackRegionCollider = GetComponent<Collider>();
         //StartCoroutine(WakeMeUpInside());
 
         asleep = false;
@@ -53,18 +56,11 @@ public class SkeletonKnight : MonoBehaviour{
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            health -= 5;
-            CancelCurrentAnimation();
-            //anim.SetBool("TakeDamage", true);
-        }
-
-        if (health <= 0)
+        if (unitedStatePattern.health_GetHealth() <= 0)
         {
             CancelCurrentAnimation();
             unitedStatePattern.enabled = false;
-            anim.SetTrigger("Die");
+            anim.SetBool("Die", true);
         }
     }
 
@@ -84,6 +80,14 @@ public class SkeletonKnight : MonoBehaviour{
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player") // && anim.GetCurrentAnimatorStateInfo(0).IsName("Double Attack"))
+        {
+            other.gameObject.GetComponent<Player>().TakeDamage(3);
+            other.gameObject.GetComponent<Animator>().SetTrigger("Take Damage");
+        }
+    }   
 
     IEnumerator WakeMeUpInside()
     {
@@ -94,4 +98,5 @@ public class SkeletonKnight : MonoBehaviour{
             yield return new WaitForSeconds(5);
         }
     }
+
 }

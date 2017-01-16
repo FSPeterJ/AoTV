@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 public class StatePatternEnemy : MonoBehaviour
 {
+    int Health = 10;
     public float searchingTurnSpeed = 120f;//Speed at which the enemy is going to turn to meet the player
     public float searchingDuration = 4f;//How long the enemy will search for the player in alert mode
     public float sightRange = 20f;//How far to raycast to see the player
@@ -27,7 +28,6 @@ public class StatePatternEnemy : MonoBehaviour
     [HideInInspector]
     public UnityEngine.AI.NavMeshAgent navMeshAgent;//
 
-    Animator anim;
 
     private void Awake()//Before Start, initializes states and gets component reference for NavMeshAgent attached to enemy
     {
@@ -35,7 +35,6 @@ public class StatePatternEnemy : MonoBehaviour
         alertState = new AlertState(this);
         patrolState = new PatrolState(this);        
         navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        anim = GetComponent<Animator>();
     }
 
     // Use this for initialization
@@ -52,7 +51,16 @@ public class StatePatternEnemy : MonoBehaviour
         DistanceToPlayer = chaseState.DistanceToTarget;
         if (currentState.ToString() == "ChaseState")
         {
-            Debug.Log("Distance from knight to player: " + DistanceToPlayer);
+            Debug.Log("Distance from skeleton knight to player: " + DistanceToPlayer);
         }
+    }
+
+    public void health_SetHealth(int modHealth)
+    {
+        Health += modHealth;
+    }
+    public int health_GetHealth()
+    {
+        return Health;
     }
 }
