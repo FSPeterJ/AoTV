@@ -40,4 +40,9 @@ public class ScytheDamage : MonoBehaviour, IWeaponBehavior {
         damagedUnits.Clear();
         
     }
+
+    public void ResetAttack()
+    {
+        damagedUnits.Clear();
+    }
 }

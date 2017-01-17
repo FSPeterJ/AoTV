@@ -6,6 +6,8 @@ public interface IWeaponBehavior
     void AttackStart();
 
     void AttackEnd();
+
+    void ResetAttack();
 }
 
 
