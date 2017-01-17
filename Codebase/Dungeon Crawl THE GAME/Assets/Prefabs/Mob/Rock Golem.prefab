@@ -391,9 +391,11 @@ GameObject:
   - component: {fileID: 95389602098846216}
   - component: {fileID: 114550226187555446}
   - component: {fileID: 195531328462978092}
-  m_Layer: 0
+  - component: {fileID: 65074895163804342}
+  - component: {fileID: 54676732123833480}
+  m_Layer: 20
   m_Name: Rock Golem
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -568,8 +570,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1770781739364110}
-  m_LocalRotation: {x: 0, y: 0.15347336, z: 0, w: 0.9881528}
-  m_LocalPosition: {x: 4.6515226, y: -14.008887, z: -4.9607706}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.4963665, y: -12.27, z: -14.873303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4643271565418022}
@@ -950,7 +952,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1883268936283918}
-  m_LocalRotation: {x: 0.15862136, y: 0.15990525, z: -0.6577317, w: 0.71878976}
+  m_LocalRotation: {x: 0.15862134, y: 0.15990524, z: -0.65773165, w: 0.7187897}
   m_LocalPosition: {x: -0.45621774, y: 0.00000001173671, z: 0.0000000013381096}
   m_LocalScale: {x: 1.000004, y: 0.9999985, z: 0.99999875}
   m_Children:
@@ -1087,6 +1089,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1391579255273038}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54676732123833480
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1770781739364110}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65074895163804342
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1770781739364110}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5, y: 3, z: 1}
+  m_Center: {x: 0, y: 0.929966, z: 0}
 --- !u!65 &65437231474859518
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1150,7 +1179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12d5df2524b6b63449effca4db0e12ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 3
   idleTime: 1.0106767
   aggroRange: 20
 --- !u!114 &114957130907581584

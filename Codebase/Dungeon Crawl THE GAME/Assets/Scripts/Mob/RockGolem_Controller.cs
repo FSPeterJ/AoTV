@@ -21,22 +21,28 @@ public class RockGolem_Controller :  MonoBehaviour, IEnemyBehavior
                     _cs = value;
                     break;
                 case AI.Wander:
-                    anim.SetBool("Walk", true);
+                    anim.SetBool("Fly Forward", true);
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
                 case AI.Walk:
-                    anim.SetBool("FlyForward", true);
+                    anim.SetBool("Fly Forward", true);
                     navAgent.enabled = true;
                     navAgent.speed = 4f;
                     _cs = value;
                     break;
                 case AI.RightPunch:
-                    anim.SetBool("RightPunch", true);
+                    anim.SetBool("Right Punch Attack", true);
                     navAgent.enabled = true;
                     navAgent.speed = 4f;
                     _cs = value;
+                    break;
+                case AI.TakeDamage:
+                    anim.SetBool("Take Damage", true);
+                    break;
+                case AI.Die:
+                    anim.SetBool("Die", true);
                     break;
                 default:
                     _cs = value;
@@ -137,12 +143,12 @@ public class RockGolem_Controller :  MonoBehaviour, IEnemyBehavior
                         float z = originPos.z + (-10 + Random.Range(0, 20));
                         Vector3 randDirection = new Vector3(x, transform.position.y, z);
                         navHitPos.position = randDirection;
-                        anim.SetBool("Walk", true);
+                        anim.SetBool("Fly Forward", true);
                     }
                     else if (navAgent.remainingDistance < 2)
                     {
                         navHitPos.hit = true;
-                        anim.SetBool("Walk", false);
+                        anim.SetBool("Fly Forward", false);
                         currentState = AI.Idle;
                     }
                     navAgent.SetDestination(navHitPos.position);
@@ -156,12 +162,12 @@ public class RockGolem_Controller :  MonoBehaviour, IEnemyBehavior
                     if (targetdistance > 20f)
                     {
                         currentState = AI.Idle;
-                        anim.SetBool("Walk", false);
+                        anim.SetBool("Fly Forward", false);
                     }
                     else if (targetdistance < 1.5f)
                     {
-                        currentState = AI.TakeDamage;
-                        anim.SetBool("Walk", false);
+                        //urrentState = AI.TakeDamage;
+                        anim.SetBool("Fly Forward", false);
                     }
                     break;
                 }
@@ -188,12 +194,12 @@ public class RockGolem_Controller :  MonoBehaviour, IEnemyBehavior
                 break;
             case AI.TakeDamage:
                 {
-
+                    
                 }
                 break;
             case AI.Die:
                 {
-
+                    
                 }
                 break;
             case AI.RightPunch:
@@ -201,7 +207,19 @@ public class RockGolem_Controller :  MonoBehaviour, IEnemyBehavior
 
                 }
                 break;
+            default:
+                {
+
+                }
+                break;
         }
+
+    }
+
+
+    public void ResetToIdle()
+    {
+        currentState = AI.Idle;
 
     }
 
@@ -212,6 +230,7 @@ public class RockGolem_Controller :  MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        currentState = AI.TakeDamage;
         health -= damage;
         if(health < 0)
         {
@@ -225,6 +244,6 @@ public class RockGolem_Controller :  MonoBehaviour, IEnemyBehavior
     }
     public void Kill()
     {
-
+        currentState = AI.Die;
     }
 }
