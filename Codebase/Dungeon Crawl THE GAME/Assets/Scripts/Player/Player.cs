@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
     enum States
     {
-        Idle, MoveForward, Attack1, Attack2, SpinAttack, Dying, TakeDamage, Teleport
+        Idle, MoveForward, Attack, SpinAttack, Die, TakeDamage, Teleport, LowPriorityIdle
     }
     States _cs;
     States currentState
@@ -17,6 +17,12 @@ public class Player : MonoBehaviour
         get { return _cs; }
         set
         {
+
+            if(_cs == States.SpinAttack)
+            {
+                anim.SetBool("Spin Attack", false);
+                weaponScript.AttackEnd();
+            }
             switch (value)
             {
                 case States.Idle:
@@ -31,20 +37,19 @@ public class Player : MonoBehaviour
                         _cs = value;
                     }
                     break;
-                case States.Attack1:
-                    anim.SetBool("Attack2", true);
-                    _cs = value;
-                    break;
-                case States.Attack2:
-                    anim.SetBool("Attack2", true);
+                case States.Attack:
+                    anim.SetBool("Slash Attack 01", true);
+                    weaponScript.AttackStart();
                     _cs = value;
                     break;
                 case States.SpinAttack:
-                    anim.SetBool("SpinAttack", true);
+                    anim.SetBool("Spin Attack", true);
+                    weaponScript.AttackStart();
                     _cs = value;
                     break;
-                case States.Dying:
+                case States.Die:
                     anim.SetBool("Die", true);
+                    dead = true;
                     _cs = value;
                     break;
                 case States.TakeDamage:
@@ -54,6 +59,12 @@ public class Player : MonoBehaviour
                 case States.Teleport:
                     anim.SetBool("Teleport", true);
                     _cs = value;
+                    break;
+                case States.LowPriorityIdle:
+                    if (_cs == States.MoveForward)
+                    {
+                        currentState = States.Idle;
+                    }
                     break;
                 default:
                     _cs = value;
@@ -74,6 +85,9 @@ public class Player : MonoBehaviour
     //Component References
     Animator anim;
     CharacterController controller;
+    //This is a temporary hack.
+    public GameObject weapon;
+    IWeaponBehavior weaponScript;
 
     //Physics Settings
     public float speed = 3.0F;
@@ -87,6 +101,7 @@ public class Player : MonoBehaviour
     Vector3 moveDirection = Vector3.zero;
     Vector3 Impact = Vector3.zero;
     float verticalVel = 0;
+    bool dead = false;
 
     //Control Settings
     private Vector3 mousePosition;
@@ -111,67 +126,105 @@ public class Player : MonoBehaviour
         controller = GetComponent<CharacterController>();
         maxJumpStored = maxJump;
         currentState = States.Idle;
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Re-used a lot of Harrison's movement code
-        moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
-        //Alternate Control Scheme - bad imo
-        //moveDirection = transform.TransformDirection(moveDirection);
-        moveDirection *= sprintSpeed;
-        moveDirection *= speed;
-
-
-        //Strafe and reverse modified with multiplier
-        var localVel = transform.InverseTransformDirection(moveDirection);
-        if (localVel.z < 0)
+        if (!dead)
         {
-            localVel.z = localVel.z * movementModfier;
+            //Re-used a lot of Harrison's movement code
+            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
+            //Alternate Control Scheme - bad imo
+            //moveDirection = transform.TransformDirection(moveDirection);
+            moveDirection *= sprintSpeed;
+            moveDirection *= speed;
+
+
+
+            if (currentState == States.Idle || currentState == States.MoveForward)
+            {
+                if (Input.GetMouseButton(0))
+                {
+                    currentState = States.Attack;
+
+                }
+                else if (Input.GetMouseButton(1))
+                {
+                    currentState = States.SpinAttack;
+
+                }
+
+            }
+
+            if (currentState == States.SpinAttack)
+            {
+                if (!Input.GetMouseButton(1))
+                {
+                    currentState = States.Idle;
+                    weaponScript.AttackEnd();
+                }
+            }
+            else
+            {
+                //Strafe and reverse modified with multiplier
+                var localVel = transform.InverseTransformDirection(moveDirection);
+                if (localVel.z > 0 && localVel.z > localVel.x)
+                {
+                    currentState = States.MoveForward;
+                }
+                else
+                {
+                    currentState = States.LowPriorityIdle;
+                    if (localVel.z < 0)
+                    {
+                        localVel.z = localVel.z * movementModfier;
+                    }
+                }
+                localVel.x = localVel.x * movementModfier;
+                moveDirection = transform.TransformDirection(localVel);
+
+                //Turn player to face cursor on terrain
+                Vector3 lookPos = (transform.position - mousePosition);
+                float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
+                transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+            }
+
+            
+            // ^^^ Probably could be done better than this.
+
+            //Landed / Grounded
+            if (controller.isGrounded)
+            {
+                //anim.SetBool("Jump", false);
+                verticalVel = 0;
+                maxJump = maxJumpStored;
+            }
+
+            //Jump
+            if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
+            {
+                maxJump--;
+                verticalVel -= jumpSpeed;
+            }
+
+            
+
+            //Gravity
+            verticalVel += gravity * Time.deltaTime;
+            moveDirection.y -= verticalVel;
+
+            
+
+            //Move
+            controller.Move(moveDirection * Time.deltaTime);
+
+            //Tell subscribers the player has moved
+            EventSystem.PlayerPositionUpdate(transform.position);
         }
-        else if(localVel.z > 0)
-        {
-            currentState = States.MoveForward;
-        }
-        localVel.x = localVel.x * movementModfier;
-        moveDirection = transform.TransformDirection(localVel);
-        // ^^^ Probably could be done better than this.
-
-
-
-        //Landed / Grounded
-        if (controller.isGrounded)
-        {
-            //anim.SetBool("Jump", false);
-            verticalVel = 0; 
-            maxJump = maxJumpStored;
-        }
-
-        //Jump
-        if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
-        {
-            maxJump--;
-            verticalVel -= jumpSpeed;
-        }
-
-
-
-        //Gravity
-        verticalVel += gravity * Time.deltaTime;
-        moveDirection.y -= verticalVel;
-
-        //Turn player to face cursor on terrain
-        Vector3 lookPos = (transform.position - mousePosition);
-        float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
-        transform.rotation = Quaternion.AngleAxis(angle, new Vector3( 0,1,0));
-
-        //Move
-        controller.Move(moveDirection * Time.deltaTime);
-
-        //Tell subscribers the player has moved
-        EventSystem.PlayerPositionUpdate(transform.position);
+        
     }
 
     void UpdateMousePosition(Vector3 MousePos)
@@ -186,7 +239,11 @@ public class Player : MonoBehaviour
         {
             StartCoroutine("Invulnerable");
             EventSystem.PlayerHealthUpdate(-dmg);
-            health -= dmg;
+            health--;
+            if(health < 1)
+            {
+                currentState = States.Die;
+            }
         }
     }
     //Use this to send the character flying with a force from a given direction
@@ -233,6 +290,37 @@ public class Player : MonoBehaviour
 
         invulnerable = false;
     }
+
+
+
+
+    public void AttackFinished(int attack)
+    {
+        if(currentState == States.Attack)
+        {
+
+            if(attack == 1)
+            {
+                anim.SetBool("Slash Attack 01", false);
+                
+            }
+            else
+            {
+                anim.SetBool("Slash Attack 02", false);
+                
+            }
+            currentState = States.Idle;
+            weaponScript.AttackEnd();
+        }
+    }
+
+    public void ResetAttackStack()
+    {
+        weaponScript.ResetAttack();
+    }
+
+
+
 }
 
 

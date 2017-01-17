@@ -23,6 +23,7 @@ public class TuskAttackTrigger : MonoBehaviour {
             {
                 playerHit = true;
                 Debug.Log("Player Hit");
+                
             }
         }
     }
