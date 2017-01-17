@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Boar_Controller : MonoBehaviour
+public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 {
 
     //Use for executing commands on when first entering a state
@@ -59,7 +59,14 @@ public class Boar_Controller : MonoBehaviour
                     idleTime = 0;
                     _cs = value;
                     break;
+                case BoarState.TakeDamage:
+                    anim.SetBool("Take Damage", true);
+                    break;
                 case BoarState.Die:
+                    dead = true;
+                    GetComponent<BoxCollider>().enabled = false;
+                    anim.SetBool("Die", true);
+                    Destroy(gameObject);
                     break;
                 default:
                     _cs = value;
@@ -88,7 +95,7 @@ public class Boar_Controller : MonoBehaviour
 
 
     //Stat variables
-    int health;
+    public int health;
     bool dead = false;
 
     //References
@@ -258,6 +265,11 @@ public class Boar_Controller : MonoBehaviour
         }
 
     }
+    public void ResetToIdle()
+    {
+        currentState = BoarState.Idle;
+
+    }
     public void TakeDamage(int damage = 1)
     {
         if (!dead)
@@ -272,6 +284,10 @@ public class Boar_Controller : MonoBehaviour
                 currentState = BoarState.TakeDamage;
             }
         }
+    }
+    public int RemainingHealth()
+    {
+        return health;
     }
     public void Kill()
     {
