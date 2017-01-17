@@ -186,7 +186,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine("Invulnerable");
             EventSystem.PlayerHealthUpdate(-dmg);
-            health--;
+            health -= dmg;
         }
     }
     //Use this to send the character flying with a force from a given direction

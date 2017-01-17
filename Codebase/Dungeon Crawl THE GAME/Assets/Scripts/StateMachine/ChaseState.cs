@@ -7,14 +7,14 @@ public class ChaseState : IEnemyState
     private GameObject projectile;
     [SerializeField]
     private GameObject player;
-
+    bool attack = true;
     [SerializeField]
     private float speed;
 
     public float DistanceToTarget = 0;
-    public ChaseState(StatePatternEnemy statePatternEnemy)//constructor
+    public ChaseState(StatePatternEnemy unitedStatePattern)//constructor
     {
-        enemy = statePatternEnemy;//when an instance is created pass in the current enemy state pattern.
+        enemy = unitedStatePattern;//when an instance is created pass in the current enemy state pattern.
     }
 
     public void UpdateState()
@@ -64,7 +64,7 @@ public class ChaseState : IEnemyState
     {
         //enemy.meshRendererFlag.material.color = Color.red;//While in the alert state turn red(not imperative)
         enemy.navMeshAgent.destination = enemy.chaseTarget.position;//set destination to the position of the target being chased
-        //enemy.navMeshAgent.Resume();//resume going into the direction of the chase target
+        //enemy.navMeshAgent.Resume();
     }
 
 }
