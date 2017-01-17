@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour {
 
-    public GameObject Skeleton_Knight;
-    public GameObject GraveOne;
-    public GameObject GraveTwo;
+    public GameObject EnemyOne;
+    public GameObject[] SpawnPoints;
     public Collider Graveryard;
     bool EnemiesHaveSpawned = false;
 	// Use this for initialization
@@ -17,12 +16,14 @@ public class SpawnManager : MonoBehaviour {
 	
     IEnumerator EnemySpawn()
     {
-        while (!EnemiesHaveSpawned)
+        if (!EnemiesHaveSpawned)
         {
-            Instantiate(Skeleton_Knight, GraveOne.transform.position, Quaternion.identity);
-            Instantiate(Skeleton_Knight, GraveTwo.transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(5);
+            for (int i = 0; i < SpawnPoints.Length; i++)
+            {
+                Instantiate(EnemyOne, SpawnPoints[i].transform.position, Quaternion.identity);
+            }
             EnemiesHaveSpawned = true;
+            yield return new WaitForSeconds(5);
         }
     }
 
@@ -31,7 +32,6 @@ public class SpawnManager : MonoBehaviour {
         if (other.tag == "Player")
         {
             StartCoroutine(EnemySpawn());
-            
         }
     }
 }

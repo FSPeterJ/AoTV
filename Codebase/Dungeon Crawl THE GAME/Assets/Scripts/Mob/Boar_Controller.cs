@@ -59,6 +59,8 @@ public class Boar_Controller : MonoBehaviour
                     idleTime = 0;
                     _cs = value;
                     break;
+                case BoarState.Die:
+                    break;
                 default:
                     _cs = value;
                     break;
@@ -68,7 +70,7 @@ public class Boar_Controller : MonoBehaviour
     }
     enum BoarState
     {
-        Idle, Walk, Jump, Run, BiteAttack, TuskAttack, CastSpell, Defend, TakeDamage, Wander
+        Idle, Walk, Jump, Run, BiteAttack, TuskAttack, CastSpell, Defend, TakeDamage, Wander, Die
     }
 
 
@@ -87,6 +89,7 @@ public class Boar_Controller : MonoBehaviour
 
     //Stat variables
     int health;
+    bool dead = false;
 
     //References
     NavMeshAgent navAgent;
@@ -250,10 +253,31 @@ public class Boar_Controller : MonoBehaviour
 
                 }
                 break;
+            case BoarState.Die:
+                break;
         }
 
     }
+    public void TakeDamage(int damage = 1)
+    {
+        if (!dead)
+        {
+            health -= damage;
+            if (health < 1)
+            {
+                Kill();
+            }
+            else
+            {
+                currentState = BoarState.TakeDamage;
+            }
+        }
+    }
+    public void Kill()
+    {
+        currentState = BoarState.Die;
 
+    }
     void UpdateTargetPosition(Vector3 pos)
     {
         targetPos = pos;

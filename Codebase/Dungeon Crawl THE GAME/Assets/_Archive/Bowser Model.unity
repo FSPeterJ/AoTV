@@ -4784,6 +4784,10 @@ Prefab:
       propertyPath: m_NavMeshLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 5b8044e6f6d48d34d9b22b9c5eb6e799, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5b8044e6f6d48d34d9b22b9c5eb6e799, type: 3}
   m_IsPrefabParent: 0
@@ -12280,6 +12284,7 @@ GameObject:
   - component: {fileID: 1861756359}
   - component: {fileID: 1861756358}
   - component: {fileID: 1861756363}
+  - component: {fileID: 1861756364}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -12377,6 +12382,17 @@ MonoBehaviour:
   - {fileID: 221299864}
   - {fileID: 1008476505}
   player: {fileID: 890277644}
+--- !u!114 &1861756364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1861756357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f8f1d848c422649ae89839a2abb1f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1864582791
 Prefab:
   m_ObjectHideFlags: 0

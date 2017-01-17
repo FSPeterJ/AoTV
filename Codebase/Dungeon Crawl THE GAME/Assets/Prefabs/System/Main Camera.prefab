@@ -103,6 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bdabb36a09d06642ac089d39a68e7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minFov: 15
+  maxFov: 90
+  sensitivity: 10
   smoothTime: 0.05
 --- !u!124 &124517800756254288
 Behaviour:
