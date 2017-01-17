@@ -32,7 +32,8 @@ public class Player : MonoBehaviour
                     }
                     break;
                 case States.Attack:
-                    //anim.SetBool("Attack2", true);
+                    anim.SetBool("Slash Attack 01", true);
+                    weaponScript.AttackStart();
                     _cs = value;
                     break;
                 case States.SpinAttack:
@@ -76,8 +77,9 @@ public class Player : MonoBehaviour
     //Component References
     Animator anim;
     CharacterController controller;
-    GameObject weapon;
-    GameObject weaponScript;
+    //This is a temporary hack.
+    public GameObject weapon;
+    IWeaponBehavior weaponScript;
 
     //Physics Settings
     public float speed = 3.0F;
@@ -115,6 +117,7 @@ public class Player : MonoBehaviour
         controller = GetComponent<CharacterController>();
         maxJumpStored = maxJump;
         currentState = States.Idle;
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
     }
 
     // Update is called once per frame
@@ -163,11 +166,12 @@ public class Player : MonoBehaviour
             verticalVel -= jumpSpeed;
         }
 
-        if(currentState == States.Idle)
+        if(currentState == States.Idle || currentState == States.MoveForward)
         {
             if (Input.GetMouseButton(0))
             {
                 currentState = States.Attack;
+
             }
 
         }
@@ -255,14 +259,19 @@ public class Player : MonoBehaviour
     {
         if(currentState == States.Attack)
         {
+
             if(attack == 1)
             {
-                anim.SetBool("Attack1", false);
+                anim.SetBool("Slash Attack 01", false);
+                
             }
             else
             {
-                anim.SetBool("Attack2", false);
+                anim.SetBool("Slash Attack 02", false);
+                
             }
+            currentState = States.Idle;
+            weaponScript.AttackEnd();
         }
     }
 

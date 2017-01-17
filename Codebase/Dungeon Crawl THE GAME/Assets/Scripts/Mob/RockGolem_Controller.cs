@@ -210,7 +210,7 @@ public class RockGolem_Controller :  MonoBehaviour, IEnemyBehavior
         targetPos = pos;
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage = 1)
     {
         health -= damage;
         if(health < 0)

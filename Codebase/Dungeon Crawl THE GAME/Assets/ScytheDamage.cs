@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScytheDamage : MonoBehaviour {
+public class ScytheDamage : MonoBehaviour, IWeaponBehavior {
 
     bool attacking = false;
 	// Use this for initialization
@@ -19,17 +19,18 @@ public class ScytheDamage : MonoBehaviour {
     {
         if(attacking && other.gameObject.layer == LayerMask.NameToLayer("ENEMY"))
         {
-            other.gameObject.GetComponent<IEnemyBehavior>().TakeDamage(5);
+            other.gameObject.GetComponent<IEnemyBehavior>().TakeDamage();
         }
     }
 
 
-    public void AttackInactive()
+    public void AttackStart()
     {
+        attacking = true;
 
     }
-    public void AttackActive()
+    public void AttackEnd()
     {
-
+        attacking = false;
     }
 }

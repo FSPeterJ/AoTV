@@ -2,7 +2,7 @@
 
 public interface IEnemyBehavior {
 
-    void TakeDamage(int damage);
+    void TakeDamage(int damage = 1);
 
     int RemainingHealth();
 
