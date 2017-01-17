@@ -8,7 +8,9 @@ public class StatePatternEnemy : MonoBehaviour
     public GameObject[] wayPoints;//Points to patrol to
     public Transform eyes;//Raycast origin
     public Vector3 offset = new Vector3(0, .5f, 0);//Lift raycast to look at players head
+    public float attackDistance = 0;
     //public MeshRenderer meshRendererFlag;//Cube above enemies head
+    [HideInInspector]
     public float DistanceToPlayer = 0;
     [HideInInspector]
     public Transform chaseTarget;//reference players transform
@@ -51,7 +53,7 @@ public class StatePatternEnemy : MonoBehaviour
         DistanceToPlayer = chaseState.DistanceToTarget;
         if (currentState.ToString() == "ChaseState")
         {
-            Debug.Log("Distance from skeleton knight to player: " + DistanceToPlayer);
+            Debug.Log("Distance from skeleton knight to player: " + DistanceToPlayer + " ft.");
         }
     }
 

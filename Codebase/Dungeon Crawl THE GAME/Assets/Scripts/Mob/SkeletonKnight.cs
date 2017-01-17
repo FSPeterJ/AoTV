@@ -8,16 +8,13 @@ public class SkeletonKnight : MonoBehaviour{
     bool asleep = true;
     StatePatternEnemy unitedStatePattern;
     bool attacking = false;
-    float attackDistance = 1.5f;
     int health = 10;
-    Collider AttackRegionCollider;
     Animator playerAnim;
     // Use this for initialization
 	void Start ()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
-        AttackRegionCollider = GetComponent<Collider>();
         //StartCoroutine(WakeMeUpInside());
 
         asleep = false;
@@ -41,7 +38,7 @@ public class SkeletonKnight : MonoBehaviour{
             if (unitedStatePattern.currentState.ToString() == "ChaseState") //&& unitedStatePattern.DistanceToPlayer > stopToAttackDistance)
             {
                 CancelCurrentAnimation();
-                if(unitedStatePattern.navMeshAgent.remainingDistance < attackDistance)
+                if(unitedStatePattern.navMeshAgent.remainingDistance < unitedStatePattern.attackDistance)
                 {
                     unitedStatePattern.navMeshAgent.Stop();
                     anim.SetBool("Run", false);
@@ -50,8 +47,8 @@ public class SkeletonKnight : MonoBehaviour{
                 else
                 {
                     unitedStatePattern.navMeshAgent.Resume();
-                    anim.ResetTrigger("Double Attack");                    
-                    anim.SetBool("Run", true);                    
+                    anim.ResetTrigger("Double Attack");
+                    anim.SetBool("Run", true);
                 }
             }
         }
@@ -84,7 +81,7 @@ public class SkeletonKnight : MonoBehaviour{
     {
         if (other.gameObject.tag == "Player") // && anim.GetCurrentAnimatorStateInfo(0).IsName("Double Attack"))
         {
-            other.gameObject.GetComponent<Player>().TakeDamage(3);
+            other.gameObject.GetComponent<Player>().TakeDamage(2);
             other.gameObject.GetComponent<Animator>().SetTrigger("Take Damage");
         }
     }   
