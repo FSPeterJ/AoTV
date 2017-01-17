@@ -10,6 +10,8 @@ public class ChaseState : IEnemyState
 
     [SerializeField]
     private float speed;
+
+    public float DistanceToTarget = 0;
     public ChaseState(StatePatternEnemy statePatternEnemy)//constructor
     {
         enemy = statePatternEnemy;//when an instance is created pass in the current enemy state pattern.
@@ -50,6 +52,7 @@ public class ChaseState : IEnemyState
             enemy.chaseTarget = hit.transform;//Make the target of the chase the thing the ray cast hit
             ToChaseState();//transfer to chase state
             Debug.DrawRay(enemy.eyes.transform.position, enemyToTarget, Color.blue);
+            DistanceToTarget = hit.distance;
         }
         else//If out of line of sight
         {
@@ -61,7 +64,7 @@ public class ChaseState : IEnemyState
     {
         //enemy.meshRendererFlag.material.color = Color.red;//While in the alert state turn red(not imperative)
         enemy.navMeshAgent.destination = enemy.chaseTarget.position;//set destination to the position of the target being chased
-        enemy.navMeshAgent.Resume();//resume going into the direction of the chase target
+        //enemy.navMeshAgent.Resume();//resume going into the direction of the chase target
     }
 
 }

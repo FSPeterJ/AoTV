@@ -123,7 +123,6 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //Re-used a lot of Harrison's movement code
         moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
