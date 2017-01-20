@@ -7,48 +7,93 @@ public class SkeletonKnight : MonoBehaviour{
     Animator anim;
     bool asleep = true;
     StatePatternEnemy unitedStatePattern;
-    double lengthOfClip = 0;
-	// Use this for initialization
+    bool attacking = false;
+    int health = 10;
+    Animator playerAnim;
+    // Use this for initialization
 	void Start ()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
-       //StartCoroutine(WakeMeUpInside());
+        //StartCoroutine(WakeMeUpInside());
+
+        asleep = false;
     }
 
     // Update is called once per frame
     void Update ()
     {
-        while (!asleep)
+        if (!asleep)
         {
             if (unitedStatePattern.currentState.ToString() == "PatrolState")
             {
-                anim.SetBool("Run", false);
-                anim.SetBool("Defend", false);
+                CancelCurrentAnimation();
                 anim.SetBool("Walk", true);
             }
             if (unitedStatePattern.currentState.ToString() == "AlertState")
             {
-                anim.SetBool("Walk", false);
-                anim.SetBool("Run", false);
+                CancelCurrentAnimation();
                 anim.SetBool("Defend", true);
             }
-            if (unitedStatePattern.currentState.ToString() == "ChaseState")
+            if (unitedStatePattern.currentState.ToString() == "ChaseState") //&& unitedStatePattern.DistanceToPlayer > stopToAttackDistance)
             {
-                anim.SetBool("Defend", false);
-                anim.SetBool("Walk", false);
-                anim.SetBool("Run", true);
+                CancelCurrentAnimation();
+                if(unitedStatePattern.navMeshAgent.remainingDistance < unitedStatePattern.attackDistance)
+                {
+                    unitedStatePattern.navMeshAgent.Stop();
+                    anim.SetBool("Run", false);
+                    anim.SetTrigger("Double Attack");
+                }
+                else
+                {
+                    unitedStatePattern.navMeshAgent.Resume();
+                    anim.ResetTrigger("Double Attack");
+                    anim.SetBool("Run", true);
+                }
             }
+        }
+
+        if (unitedStatePattern.health_GetHealth() <= 0)
+        {
+            CancelCurrentAnimation();
+            unitedStatePattern.enabled = false;
+            anim.SetBool("Die", true);
         }
     }
 
-    //IEnumerator WakeMeUpInside()
-    //{
-    //    while (asleep)
-    //    {
-    //        anim.SetBool("Die", true);
-    //        yield return new WaitForSeconds(5);
-    //        asleep = false;
-    //    }
-    //}
+    void CancelCurrentAnimation()
+    {
+        if (unitedStatePattern.currentState.ToString() != "PatrolState")
+        {
+            anim.SetBool("Walk", false);
+        }
+        if (unitedStatePattern.currentState.ToString() != "AlertState")
+        {
+            anim.SetBool("Defend", false);
+        }
+        if (unitedStatePattern.currentState.ToString() != "ChaseState") //|| unitedStatePattern.DistanceToPlayer < stopToAttackDistance)
+        {
+            anim.SetBool("Run", false);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player") // && anim.GetCurrentAnimatorStateInfo(0).IsName("Double Attack"))
+        {
+            other.gameObject.GetComponent<Player>().TakeDamage(2);
+            other.gameObject.GetComponent<Animator>().SetTrigger("Take Damage");
+        }
+    }   
+
+    IEnumerator WakeMeUpInside()
+    {
+        while (asleep)
+        {
+            unitedStatePattern.navMeshAgent.Stop();
+            anim.SetBool("Die", true);
+            yield return new WaitForSeconds(5);
+        }
+    }
+
 }

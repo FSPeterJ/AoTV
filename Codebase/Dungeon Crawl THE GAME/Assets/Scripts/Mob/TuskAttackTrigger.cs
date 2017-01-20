@@ -22,7 +22,8 @@ public class TuskAttackTrigger : MonoBehaviour {
             if (playerHit == false)
             {
                 playerHit = true;
-                Debug.Log("Player Hit");
+                //Debug.Log("Player Hit");
+                col.GetComponent<Player>().TakeDamage();
             }
         }
     }
