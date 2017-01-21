@@ -223,7 +223,7 @@ public class Player : MonoBehaviour
 
             //Move
             controller.Move(moveDirection * Time.deltaTime);
-
+            EventSystem.PlayerPositionUpdate(transform.position);
 
         }
         

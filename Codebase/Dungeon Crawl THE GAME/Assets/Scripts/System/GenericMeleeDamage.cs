@@ -10,7 +10,7 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
         Enemy, Ally, Neutral
     }
         
-    public teams attackTeam;
+    public teams team;
 
     bool attacking = false;
     List<int> damagedUnits = new List<int>();
@@ -20,7 +20,7 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
     {
         if (attacking)
         {
-            if (attackTeam != teams.Enemy)
+            if (team != teams.Enemy)
             {
                 if (other.gameObject.tag == "Enemy" && !damagedUnits.Contains(other.gameObject.GetInstanceID()))
                 {
@@ -30,7 +30,7 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
                 }
             }
 
-            else
+            if(team != teams.Ally) 
             {
                 if (other.gameObject.tag == "Player" && !damagedUnits.Contains(other.gameObject.GetInstanceID()))
                 {
