@@ -197,6 +197,7 @@ public class Player : MonoBehaviour
 
             
             // ^^^ Probably could be done better than this.
+            // Agreed
 
             //Landed / Grounded
             if (controller.isGrounded)
@@ -302,15 +303,10 @@ public class Player : MonoBehaviour
         {
 
             if(attack == 1)
-            {
                 anim.SetBool("Slash Attack 01", false);
-                
-            }
             else
-            {
                 anim.SetBool("Slash Attack 02", false);
-                
-            }
+
             currentState = States.Idle;
             weaponScript.AttackEnd();
         }
@@ -321,8 +317,18 @@ public class Player : MonoBehaviour
         weaponScript.ResetAttack();
     }
 
-
-
+    void OnTriggerStay (Collider col)
+    {
+        if (col.tag == "Trapdoor")
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                //LoadNextLevel
+            }
+        }
+        if (col.tag == "LastDoor")
+        {
+            //Load Next Level
+        }
+    }
 }
-
-
