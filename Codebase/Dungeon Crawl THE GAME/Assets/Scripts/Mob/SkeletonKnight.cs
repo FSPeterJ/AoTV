@@ -1,15 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonKnight : MonoBehaviour{
+public class SkeletonKnight : MonoBehaviour, IEnemyBehavior{
 
     Animator anim;
     bool asleep = true;
     StatePatternEnemy unitedStatePattern;
     bool attacking = false;
+    [SerializeField]
     int health = 10;
     Animator playerAnim;
+    bool dead = false;
     // Use this for initialization
 	void Start ()
     {
@@ -77,7 +80,7 @@ public class SkeletonKnight : MonoBehaviour{
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "Player") // && anim.GetCurrentAnimatorStateInfo(0).IsName("Double Attack"))
         {
@@ -96,4 +99,35 @@ public class SkeletonKnight : MonoBehaviour{
         }
     }
 
+    public void TakeDamage(int damage = 1)
+    {
+        if (!dead)
+        {
+            health -= damage;
+            if (RemainingHealth() < 1)
+            {
+                Kill();
+            }
+            else
+            {
+                CancelCurrentAnimation();
+                anim.SetTrigger("Take Damage");
+            }
+        }
+    }
+
+    public int RemainingHealth()
+    {
+        return health;
+    }
+
+    public void Kill()
+    {
+        anim.SetBool("Die", true);
+    }
+
+    public void ResetToIdle()
+    {
+        //targetPos = pos;
+    }
 }

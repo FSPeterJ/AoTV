@@ -125,6 +125,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4269169898893664}
+  - component: {fileID: 65489939198388506}
   m_Layer: 0
   m_Name: RigRArmPalmGizmo
   m_TagString: Untagged
@@ -1128,6 +1129,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65489939198388506
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1254607743607580}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8205252, y: 0.5748562, z: 0.5280965}
+  m_Center: {x: -0.18498491, y: -0.021084685, z: 0.03934009}
 --- !u!65 &65830777970028382
 BoxCollider:
   m_ObjectHideFlags: 1

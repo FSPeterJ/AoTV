@@ -76,16 +76,19 @@ public class Player : MonoBehaviour
 
     //Basic Settings - Edit in Unity
     public int maxJump = 1;
-    int maxJumpStored;
+    
     public float movementModfier = .75f;
     public int health = 3;
+
+    //Variables
     bool invulnerable = false;
     bool burning = false;
+    int maxJumpStored;
 
     //Component References
     Animator anim;
     CharacterController controller;
-    //This is a temporary hack.
+    //This is a hack together way to get the weapon.
     public GameObject weapon;
     IWeaponBehavior weaponScript;
 
@@ -194,6 +197,7 @@ public class Player : MonoBehaviour
 
             
             // ^^^ Probably could be done better than this.
+            // Agreed
 
             //Landed / Grounded
             if (controller.isGrounded)
@@ -220,9 +224,8 @@ public class Player : MonoBehaviour
 
             //Move
             controller.Move(moveDirection * Time.deltaTime);
-
-            //Tell subscribers the player has moved
             EventSystem.PlayerPositionUpdate(transform.position);
+
         }
         
     }
@@ -300,15 +303,10 @@ public class Player : MonoBehaviour
         {
 
             if(attack == 1)
-            {
                 anim.SetBool("Slash Attack 01", false);
-                
-            }
             else
-            {
                 anim.SetBool("Slash Attack 02", false);
-                
-            }
+
             currentState = States.Idle;
             weaponScript.AttackEnd();
         }
@@ -319,8 +317,18 @@ public class Player : MonoBehaviour
         weaponScript.ResetAttack();
     }
 
-
-
+    void OnTriggerStay (Collider col)
+    {
+        if (col.tag == "Trapdoor")
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                //LoadNextLevel
+            }
+        }
+        if (col.tag == "LastDoor")
+        {
+            //Load Next Level
+        }
+    }
 }
-
-
