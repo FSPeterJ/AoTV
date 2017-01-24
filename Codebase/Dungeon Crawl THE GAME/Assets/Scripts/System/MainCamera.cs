@@ -67,4 +67,10 @@ public class MainCamera : MonoBehaviour
         targetpos.y = targetpos.y + 14;
         targetpos.z = targetpos.z - 10;
     }
+
+    void PlayerDied()
+    {
+        
+    } 
+
 }
