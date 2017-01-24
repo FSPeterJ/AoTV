@@ -188,7 +188,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
                         float x = originPos.x + (-10 + Random.Range(0, 20));
                         float z = originPos.z + (-10 + Random.Range(0, 20));
                         wanderTarget = new Vector3(x, transform.position.y, z);
-                        anim.SetBool("Walk", true);
+                        //anim.SetBool("Walk", true);
                         wanderTargetSet = true;
                         navAgent.SetDestination(wanderTarget);
 
@@ -197,7 +197,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
                     {
                         
                         currentState = AI.Idle;
-                        anim.SetBool("Walk", false);
+                        //anim.SetBool("Walk", false);
 
                     }
                 }
@@ -210,7 +210,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
                     {
                         
                         currentState = AI.Idle;
-                        anim.SetBool("Walk", false);
+                        //anim.SetBool("Walk", false);
                     }
                     else if (targetdistance < attackRange)
                     {
