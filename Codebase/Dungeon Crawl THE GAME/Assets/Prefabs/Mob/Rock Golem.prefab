@@ -953,7 +953,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1883268936283918}
-  m_LocalRotation: {x: 0.15862134, y: 0.15990524, z: -0.65773165, w: 0.7187897}
+  m_LocalRotation: {x: 0.15862136, y: 0.15990525, z: -0.6577317, w: 0.71878976}
   m_LocalPosition: {x: -0.45621774, y: 0.00000001173671, z: 0.0000000013381096}
   m_LocalScale: {x: 1.000004, y: 0.9999985, z: 0.99999875}
   m_Children:
@@ -1178,9 +1178,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1391579255273038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8876018a64b418747b51a4c6d96d816d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 0
 --- !u!114 &114550226187555446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1204,9 +1205,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1697969153585392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8876018a64b418747b51a4c6d96d816d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 0
 --- !u!137 &137907138565466520
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

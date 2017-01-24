@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonKnight : MonoBehaviour, IEnemyBehavior{
+public class SkeletonKnight : MonoBehaviour{
 
     Animator anim;
     bool asleep = true;
     StatePatternEnemy unitedStatePattern;
     bool attacking = false;
-    [SerializeField]
-    int health = 10;
     Animator playerAnim;
     bool dead = false;
     // Use this for initialization
@@ -56,12 +54,12 @@ public class SkeletonKnight : MonoBehaviour, IEnemyBehavior{
             }
         }
 
-        if (unitedStatePattern.health_GetHealth() <= 0)
-        {
-            CancelCurrentAnimation();
-            unitedStatePattern.enabled = false;
-            anim.SetBool("Die", true);
-        }
+        //if (unitedStatePattern.health_GetHealth() <= 0)
+        //{
+        //    CancelCurrentAnimation();
+        //    unitedStatePattern.enabled = false;
+        //    anim.SetBool("Die", true);
+        //}
     }
 
     void CancelCurrentAnimation()
@@ -80,15 +78,6 @@ public class SkeletonKnight : MonoBehaviour, IEnemyBehavior{
         }
     }
 
-    void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Player") // && anim.GetCurrentAnimatorStateInfo(0).IsName("Double Attack"))
-        {
-            other.gameObject.GetComponent<Player>().TakeDamage(2);
-            other.gameObject.GetComponent<Animator>().SetTrigger("Take Damage");
-        }
-    }   
-
     IEnumerator WakeMeUpInside()
     {
         while (asleep)
@@ -99,35 +88,4 @@ public class SkeletonKnight : MonoBehaviour, IEnemyBehavior{
         }
     }
 
-    public void TakeDamage(int damage = 1)
-    {
-        if (!dead)
-        {
-            health -= damage;
-            if (RemainingHealth() < 1)
-            {
-                Kill();
-            }
-            else
-            {
-                CancelCurrentAnimation();
-                anim.SetTrigger("Take Damage");
-            }
-        }
-    }
-
-    public int RemainingHealth()
-    {
-        return health;
-    }
-
-    public void Kill()
-    {
-        anim.SetBool("Die", true);
-    }
-
-    public void ResetToIdle()
-    {
-        //targetPos = pos;
-    }
 }
