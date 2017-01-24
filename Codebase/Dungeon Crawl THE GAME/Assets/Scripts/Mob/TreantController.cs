@@ -14,7 +14,8 @@ public class TreantController : MonoBehaviour
         CastSpell,
         Projectile,
         Shockwave,
-        TakeDamage
+        TakeDamage,
+        Death
     }
 
     TreantState _cs;
@@ -31,6 +32,12 @@ public class TreantController : MonoBehaviour
                     _cs = value;
                     break;
                 case TreantState.Wander:
+                    anim.SetBool("Walk", true);
+                    navAgent.enabled = true;
+                    navAgent.speed = 3.5f;
+                    _cs = value;
+                    break;
+                case TreantState.Walk:
                     anim.SetBool("Walk", true);
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
@@ -68,6 +75,17 @@ public class TreantController : MonoBehaviour
                     idleTime = 0;
                     _cs = value;
                     break;
+                case TreantState.TakeDamage:
+                    navAgent.speed = 0;
+                    navAgent.enabled = false;
+                    anim.SetBool("Take Damage", true);
+                    break;
+                case TreantState.Death:
+                    navAgent.speed = 0;
+                    navAgent.enabled = false;
+                    GetComponent<BoxCollider>().enabled = false;
+                    anim.SetBool("Die", true);
+                    break;
                 default:
                     _cs = value;
                     break;
@@ -86,12 +104,13 @@ public class TreantController : MonoBehaviour
     NavMeshHit navHit;
 
     int health;
+    //bool dead = false;
 
     NavMeshAgent navAgent;
     Collider attackRangeCol;
 
     float idleTime = 0;
-
+    bool dead = false;
 
     void OnEnable()
     {
@@ -161,6 +180,22 @@ public class TreantController : MonoBehaviour
                         currentState = TreantState.Bite;
                         anim.SetBool("Walk", false);
                     }
+                    else if (targetDis < 4f)
+                    {
+                        currentState = TreantState.Shockwave;
+                        anim.SetBool("Walk", false);
+                    }
+                    else if (targetDis < 7f)
+                    {
+                        currentState = TreantState.CastSpell;
+                        anim.SetBool("Walk", false);
+                    }
+                    else if (targetDis < 10f)
+                    {
+                        currentState = TreantState.Projectile;
+                        anim.SetBool("Walk", false);
+                    }
+
                 }
                 break;
             case TreantState.Bite:
@@ -169,17 +204,68 @@ public class TreantController : MonoBehaviour
                     {
                         currentState = TreantState.Idle;
                         anim.SetBool("Bite Attack", false);
-
                     }
                     else
                         idleTime += Time.deltaTime;
                 }
+                break;
+            case TreantState.Projectile:
+                if (idleTime > 1f)
+                {
+                    currentState = TreantState.Idle;
+                    anim.SetBool("Projectile Attack", false);
+                }
+                else
+                    idleTime += Time.deltaTime;
+                break;
+            case TreantState.Shockwave:
+                if (idleTime > 1f)
+                {
+                    currentState = TreantState.Idle;
+                    anim.SetBool("Shockwave Attack", false);
+                }
+                else
+                    idleTime += Time.deltaTime;
+                break;
+            case TreantState.CastSpell:
+                if (idleTime > 1f)
+                {
+                    currentState = TreantState.Idle;
+                    anim.SetBool("Cast Spell", false);
+                }
+                else
+                    idleTime += Time.deltaTime;
+                break;
+            case TreantState.TakeDamage:
+                break;
+            case TreantState.Death:
                 break;
             default:
                 break;
         }
     }
 
+    public void TakeDamage(int damage = 1)
+    {
+        if (!dead)
+        {
+            health -= damage;
+            if (health < 1)
+                Kill();
+            else
+                currentState = TreantState.TakeDamage;
+        }
+    }
+    
+    public int RemainingHealth()
+    {
+        return health;
+    }
+
+    public void Kill()
+    {
+        currentState = TreantState.Death;
+    }
     void UpdateTargetPosition(Vector3 pos)
     {
         targetPos = pos;
