@@ -30,4 +30,15 @@ public static class EventSystem {
 
     }
 
+    //player Died
+    public delegate void PlayerDeathHandler();
+    public static event PlayerDeathHandler onPlayerDeath;
+    public static void PlayerDeath()
+    {
+        if (onPlayerDeath != null) onPlayerDeath();
+
+    }
+
+
+
 }
