@@ -116,17 +116,18 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.2954955
-        functionName: NewEvent
+      - time: 0.930904
+        functionName: AttackFinished
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 1884588712973740, guid: f165a7d2816d4d84f8e4f5cbc06c661e,
+          type: 2}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.46507666
-        functionName: EnableArea
+      - time: 0.4251701
+        functionName: AttackStart
         data: 
-        objectReferenceParameter: {fileID: 1727505330346018, guid: bea8637e2e0d1bd4a9c264902f913ac3,
+        objectReferenceParameter: {fileID: 1884588712973740, guid: f165a7d2816d4d84f8e4f5cbc06c661e,
           type: 2}
         floatParameter: 0
         intParameter: 0

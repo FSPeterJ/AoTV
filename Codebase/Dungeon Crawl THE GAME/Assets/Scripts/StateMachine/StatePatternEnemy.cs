@@ -57,10 +57,16 @@ public class StatePatternEnemy : MonoBehaviour
         }
     }
 
-    public void health_SetHealth(int modHealth)
+    public void health_TakeDamage(int modHealth)
+    {
+        Health -= modHealth;
+    }
+
+    public void health_Heal(int modHealth)
     {
         Health += modHealth;
     }
+
     public int health_GetHealth()
     {
         return Health;

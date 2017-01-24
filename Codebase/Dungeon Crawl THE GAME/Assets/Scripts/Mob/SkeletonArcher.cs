@@ -9,7 +9,7 @@ public class SkeletonArcher : MonoBehaviour {
     StatePatternEnemy unitedStatePattern;
     bool attacking = false;
     float attackDistance = 15;
-    int health = 10;
+    float reloadTime = 2;
     Animator playerAnim;
     public GameObject arrow;
     public GameObject arrowSpawn;
@@ -22,7 +22,7 @@ public class SkeletonArcher : MonoBehaviour {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
         asleep = false;
-        arrowQuat = new Quaternion(0, transform.rotation.y, gameObject.transform.rotation.z, transform.rotation.w);
+        arrowQuat = new Quaternion(90, transform.rotation.y, gameObject.transform.rotation.z, transform.rotation.w);
     }
 
     // Update is called once per frame
@@ -51,7 +51,10 @@ public class SkeletonArcher : MonoBehaviour {
                     unitedStatePattern.transform.Rotate(unitedStatePattern.chaseTarget.transform.position, 0f);
                     anim.SetBool("Run", false);
                     anim.SetTrigger("Arrow Attack");
-                    StartCoroutine(ShootArrow());
+                    if (reloadTime <= .025)
+                    {
+                        StartCoroutine(ShootArrow());
+                    }
                 }
                 else
                 {
@@ -60,7 +63,11 @@ public class SkeletonArcher : MonoBehaviour {
                     anim.SetBool("Run", true);
                 }
             }
-
+            reloadTime -= Time.deltaTime;
+            if (reloadTime < 0)
+            {
+                reloadTime = 2;
+            }
         }
 
         if (unitedStatePattern.health_GetHealth() <= 0)
@@ -90,11 +97,12 @@ public class SkeletonArcher : MonoBehaviour {
     {
         Vector3 towardsPlayer = unitedStatePattern.chaseTarget.position - gameObject.transform.position;
 
-        yield return new WaitForSeconds(0.4f);
 
         //AudioSource.PlayClipAtPoint(shootSound, transform.position, PlayerPrefs.GetFloat("SFXVolume"));
         GameObject tempBullet = Instantiate(arrow, arrowSpawn.transform.position, arrowQuat);
         tempBullet.GetComponent<Rigidbody>().velocity = towardsPlayer;
-        Destroy(tempBullet, 2.0f);
+        tempBullet.GetComponent<Rigidbody>().AddForce(towardsPlayer, ForceMode.Acceleration);
+        yield return new WaitForSeconds(0.4f);
+
     }
 }

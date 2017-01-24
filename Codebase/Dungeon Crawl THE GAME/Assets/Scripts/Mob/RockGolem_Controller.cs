@@ -17,6 +17,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                 case AI.Idle:
                     idleTime = 0;
                     navAgent.enabled = false;
+                    wanderTargetSet = false;
                     //You can prevent a state assignment with a check here
                     _cs = value;
                     break;
@@ -32,20 +33,29 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                     navAgent.speed = 4f;
                     _cs = value;
                     break;
-                case AI.RightPunch:
-                    anim.SetBool("Right Punch Attack", true);
-                    navAgent.enabled = true;
-                    navAgent.speed = 4f;
+                case AI.Attack:
+                    if (attack == 1)
+                    {
+                        anim.SetBool("Right Punch Attack", true);
+                    }
+                    else
+                    {
+                        anim.SetBool("Left Punch Attack", true);
+                    }
+                    navAgent.enabled = false;
+                    navAgent.speed = 0;
                     _cs = value;
                     break;
                 case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
+                    //_cs = value;
                     break;
                 case AI.Die:
-                    dead = true;
+                    navAgent.enabled = false;
+                    navAgent.speed = 0;
                     bCollider.enabled = false;
                     anim.SetBool("Die", true);
-                    
+                    _cs = value;
                     break;
                 default:
                     _cs = value;
@@ -57,7 +67,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
 
     public enum AI
     {
-        Idle, Wander, Walk, Jump, Run, CastSpell, Defend, TakeDamage, Die, RightPunch
+        Idle, Wander, Walk, Jump, Run, CastSpell, Defend, TakeDamage, Die, Attack
     }
 
 
@@ -70,6 +80,8 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     //Wandering variarables;
     Vector3 originPos;
     NavMeshHit navHitPos;
+    Vector3 wanderTarget;
+    bool wanderTargetSet = false;
 
 
 
@@ -84,16 +96,25 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     Animator anim;
     NavMeshAgent navAgent;
     BoxCollider bCollider;
+    //This is a hack together way to get the weapon.
+    public GameObject weaponR;
+    public GameObject weaponL;
+    IWeaponBehavior weaponScriptR;
+    IWeaponBehavior weaponScriptL;
 
+    int attack;
 
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
+        EventSystem.onPlayerDeath += PlayerDied;
     }
     //unsubscribe from player movement
     void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        EventSystem.onPlayerDeath -= PlayerDied;
+
     }
 
 
@@ -104,8 +125,11 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
+        weaponScriptR = weaponR.GetComponent<IWeaponBehavior>();
+        weaponScriptL = weaponL.GetComponent<IWeaponBehavior>();
         currentState = AI.Idle;
         navHitPos.hit = true;
+        attack = Random.Range(0, 1);
     }
 
 
@@ -114,111 +138,124 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     // Update is called once per frame
     void Update()
     {
-        if (!dead)
+
+        //targetPos = //eventmanager passed pos
+        targetdistance = Vector3.Distance(targetPos, transform.position);
+
+        //StateMachine
+        switch (currentState)
         {
-            //targetPos = //eventmanager passed pos
-            targetdistance = Vector3.Distance(targetPos, transform.position);
-
-            //StateMachine
-            switch (currentState)
-            {
-                case AI.Idle:
+            case AI.Idle:
+                {
+                    if (idleTime > 4f)
                     {
-                        if (idleTime > 1f)
+
+                        currentState = AI.Wander;
+                        navAgent.enabled = true;
+                        idleTime = 0;
+                    }
+                    else if (idleTime > 1f)
+                    {
+                        if (targetdistance < aggroRange)
                         {
-                            if (targetdistance < aggroRange)
-                            {
-                                currentState = AI.Walk;
-                            }
+                            currentState = AI.Walk;
                         }
-                        else if (idleTime > 4f)
+                    }
+                     
+                    else
+                    {
+                        if (targetdistance < 2f)
                         {
-
-                            currentState = AI.Wander;
-                            navAgent.enabled = true;
-                            idleTime = 0;
+                            currentState = AI.Attack;
                         }
-                        idleTime += Time.deltaTime;
                     }
-                    break;
-                case AI.Wander:
-                    {
+                    idleTime += Time.deltaTime;
+                }
+                break;
+            case AI.Wander:
+                {
 
-                        if (navHitPos.hit == true)
-                        {
-                            navHitPos.hit = false;
-                            float x = originPos.x + (-10 + Random.Range(0, 20));
-                            float z = originPos.z + (-10 + Random.Range(0, 20));
-                            Vector3 randDirection = new Vector3(x, transform.position.y, z);
-                            navHitPos.position = randDirection;
-                            anim.SetBool("Fly Forward", true);
-                        }
-                        else if (navAgent.remainingDistance < 2)
-                        {
-                            navHitPos.hit = true;
-                            anim.SetBool("Fly Forward", false);
-                            currentState = AI.Idle;
-                        }
-                        navAgent.SetDestination(navHitPos.position);
-                    }
-                    break;
-                case AI.Walk:
+                    if (wanderTargetSet == false)
                     {
-                        navAgent.SetDestination(targetPos);
-                        if (targetdistance > 20f)
-                        {
-                            currentState = AI.Idle;
-                            anim.SetBool("Fly Forward", false);
-                        }
-                        else if (targetdistance < 1.5f)
-                        {
-                            //urrentState = AI.TakeDamage;
-                            anim.SetBool("Fly Forward", false);
-                        }
-                        break;
-                    }
-
-                case AI.Jump:
-                    {
-                        //Probably not
-                    }
-                    break;
-                case AI.Run:
-                    {
+                        float x = originPos.x + (-10 + Random.Range(0, 20));
+                        float z = originPos.z + (-10 + Random.Range(0, 20));
+                        wanderTarget = new Vector3(x, transform.position.y, z);
+                        anim.SetBool("Fly Forward", true);
+                        wanderTargetSet = true;
+                        navAgent.SetDestination(wanderTarget);
 
                     }
-                    break;
-                case AI.CastSpell:
+                    else if (navAgent.remainingDistance < 2)
                     {
-
+                        anim.SetBool("Fly Forward", false);
+                        currentState = AI.Idle;
+                    }
+                }
+                break;
+            case AI.Walk:
+                {
+                    navAgent.SetDestination(targetPos);
+                    if (targetdistance > aggroRange)
+                    {
+                        currentState = AI.Idle;
+                        anim.SetBool("Fly Forward", false);
+                    }
+                    else if (targetdistance < 1.9f)
+                    {
+                        anim.SetBool("Fly Forward", false);
+                        currentState = AI.Attack;
                     }
                     break;
-                case AI.Defend:
-                    {
+                }
 
-                    }
-                    break;
-                case AI.TakeDamage:
-                    {
+            case AI.Jump:
+                {
+                    //Probably not
+                }
+                break;
+            case AI.Run:
+                {
 
-                    }
-                    break;
-                case AI.Die:
-                    {
+                }
+                break;
+            case AI.CastSpell:
+                {
+                    //Probably not
+                }
+                break;
+            case AI.Defend:
+                {
 
-                    }
-                    break;
-                case AI.RightPunch:
-                    {
+                }
+                break;
+            case AI.TakeDamage:
+                {
 
-                    }
-                    break;
-                default:
-                    {
+                }
+                break;
+            case AI.Die:
+                {
 
+                }
+                break;
+            case AI.Attack:
+                {
+                    //Target Track
+                    Vector3 lookPos = (transform.position - targetPos);
+                    float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
+                    transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+
+                    if (targetdistance > 2f)
+                    {
+                        currentState = AI.Idle;
                     }
-                    break;
-            }
+                }
+                break;
+            default:
+                {
+
+                }
+                break;
         }
     }
 
@@ -226,7 +263,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     public void ResetToIdle()
     {
         currentState = AI.Idle;
-
     }
 
     void UpdateTargetPosition(Vector3 pos)
@@ -248,8 +284,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                 currentState = AI.TakeDamage;
             }
         }
-
-
     }
 
     public int RemainingHealth()
@@ -259,6 +293,45 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     public void Kill()
     {
         currentState = AI.Die;
-        
+
+    }
+
+    public void AttackFinished()
+    {
+        if (currentState == AI.Attack)
+        {
+            if (attack == 1)
+            {
+                anim.SetBool("Right Punch Attack", false);
+                weaponScriptR.AttackEnd();
+                attack = 0;
+            }
+            else
+            {
+                anim.SetBool("Left Punch Attack", false);
+                weaponScriptL.AttackEnd();
+                attack = 1;
+            }
+            currentState = AI.Idle;
+        }
+    }
+
+    public void AttackStart()
+    {
+        if (attack == 1)
+        {
+            weaponScriptR.AttackStart();
+        }
+        else
+        {
+            weaponScriptL.AttackStart();
+        }
+    }
+
+
+    void PlayerDied()
+    {
+        EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        targetPos = new Vector3(targetPos.x, 999999,targetPos.z);
     }
 }
