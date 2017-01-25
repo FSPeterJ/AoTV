@@ -165,7 +165,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
                     {
                         if (targetdistance < aggroRange)
                         {
-
+                        
                             currentState = AI.Walk;
                         }
                     }
@@ -182,23 +182,22 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
                 break;
             case AI.Wander:
                 {
-
-                    if (wanderTargetSet == false)
+                    if (targetdistance < aggroRange)
+                    {
+                        currentState = AI.Walk;
+                    }
+                    else if (wanderTargetSet == false)
                     {
                         float x = originPos.x + (-10 + Random.Range(0, 20));
                         float z = originPos.z + (-10 + Random.Range(0, 20));
                         wanderTarget = new Vector3(x, transform.position.y, z);
-                        //anim.SetBool("Walk", true);
                         wanderTargetSet = true;
                         navAgent.SetDestination(wanderTarget);
-
                     }
                     else if (navAgent.remainingDistance < 2)
-                    {
-                        
+                    { 
                         currentState = AI.Idle;
-                        //anim.SetBool("Walk", false);
-
+                        anim.SetBool("Walk", false);
                     }
                 }
                 break;
@@ -210,17 +209,19 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
                     {
                         
                         currentState = AI.Idle;
-                        //anim.SetBool("Walk", false);
+                        anim.SetBool("Walk", false);
                     }
                     else if (targetdistance < attackRange)
                     {
                         currentState = AI.Attack;
-                        
+                        anim.SetBool("Walk", false);
+
                     }
                     else if (targetdistance < aggroRange && targetdistance > minrunRange)
                     {
                         
                         currentState = AI.Run;
+                        anim.SetBool("Walk", false);
                     }
                 }
                 break;

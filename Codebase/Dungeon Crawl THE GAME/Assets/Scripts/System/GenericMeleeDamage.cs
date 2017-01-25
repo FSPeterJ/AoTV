@@ -5,6 +5,8 @@ using UnityEngine;
 public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
 {
 
+
+
     public enum teams
     {
         Enemy, Ally, Neutral
@@ -14,6 +16,11 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
 
     bool attacking = false;
     List<int> damagedUnits = new List<int>();
+
+    private void Start()
+    {
+        enabled = false;
+    }
 
 
     private void OnTriggerStay(Collider other)

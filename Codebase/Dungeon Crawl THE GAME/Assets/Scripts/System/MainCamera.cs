@@ -38,7 +38,7 @@ public class MainCamera : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    void Update()
+    void LateUpdate()
     {
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
