@@ -128,7 +128,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         weaponScriptR = weaponR.GetComponent<IWeaponBehavior>();
         weaponScriptL = weaponL.GetComponent<IWeaponBehavior>();
         currentState = AI.Idle;
-        navHitPos.hit = true;
         attack = Random.Range(0, 1);
     }
 
