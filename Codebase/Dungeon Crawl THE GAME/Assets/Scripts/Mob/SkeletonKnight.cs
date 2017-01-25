@@ -11,13 +11,15 @@ public class SkeletonKnight : MonoBehaviour{
     bool attacking = false;
     Animator playerAnim;
     bool dead = false;
+    public GameObject sword;
+    IWeaponBehavior weaponBehavior;
     // Use this for initialization
 	void Start ()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
         //StartCoroutine(WakeMeUpInside());
-
+        weaponBehavior = sword.GetComponent<IWeaponBehavior>();
         asleep = false;
     }
 
@@ -53,13 +55,16 @@ public class SkeletonKnight : MonoBehaviour{
                 }
             }
         }
+    }
 
-        //if (unitedStatePattern.health_GetHealth() <= 0)
-        //{
-        //    CancelCurrentAnimation();
-        //    unitedStatePattern.enabled = false;
-        //    anim.SetBool("Die", true);
-        //}
+    void BeginAttacking()
+    {
+        weaponBehavior.AttackStart();
+    }
+
+    void EndAttacking()
+    {
+        weaponBehavior.AttackEnd();
     }
 
     void CancelCurrentAnimation()
