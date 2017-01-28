@@ -48,9 +48,12 @@ public class Player : MonoBehaviour
                     _cs = value;
                     break;
                 case States.Die:
-                    anim.SetBool("Die", true);
-                    dead = true;
-                    _cs = value;
+                    if (!dead) { 
+                        anim.SetBool("Die", true);
+                        dead = true;
+                        EventSystem.PlayerDeath();
+                        _cs = value;
+                    }
                     break;
                 case States.TakeDamage:
                     anim.SetBool("TakeDamage", true);
@@ -79,6 +82,7 @@ public class Player : MonoBehaviour
     
     public float movementModfier = .75f;
     public int health = 3;
+    public int lives = 3;
 
     //Variables
     bool invulnerable = false;
@@ -188,11 +192,25 @@ public class Player : MonoBehaviour
                 }
                 localVel.x = localVel.x * movementModfier;
                 moveDirection = transform.TransformDirection(localVel);
+                
 
-                //Turn player to face cursor on terrain
-                Vector3 lookPos = (transform.position - mousePosition);
-                float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
-                transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+                if (Impact.magnitude > 0.2)
+                {
+                    moveDirection += Impact;
+                    Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
+                }
+                
+
+                //The character still twitches a bit in very specific positions due to his vertical bobbing
+                if ( Vector3.Distance(mousePosition, transform.position) > .9f)
+                {
+                    //Turn player to face cursor on terrain
+                    Vector3 lookPos = (transform.position - mousePosition);
+                    float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y,-(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90, .2f);
+                    //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
+                    transform.rotation =  Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+                }
+                
             }
 
             
@@ -233,6 +251,7 @@ public class Player : MonoBehaviour
     void UpdateMousePosition(Vector3 MousePos)
     {
         mousePosition = MousePos;
+        mousePosition.y = transform.position.y;
     }
 
 
@@ -314,7 +333,7 @@ public class Player : MonoBehaviour
 
     public void ResetAttackStack()
     {
-        weaponScript.ResetAttack();
+      weaponScript.ResetAttack();
     }
 
     void OnTriggerStay (Collider col)

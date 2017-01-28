@@ -38,7 +38,7 @@ public class MainCamera : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    void Update()
+    void LateUpdate()
     {
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
@@ -67,4 +67,10 @@ public class MainCamera : MonoBehaviour
         targetpos.y = targetpos.y + 14;
         targetpos.z = targetpos.z - 10;
     }
+
+    void PlayerDied()
+    {
+        
+    } 
+
 }
