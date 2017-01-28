@@ -5,6 +5,10 @@ using UnityEngine.AI;
 
 public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 {
+    //Score variables
+    int pScore;
+    int sX = Screen.width - 7;
+    int sY = 0;
 
     //Use for executing commands on when first entering a state
     //Can also be used to prevent states from changing under certain conditions
@@ -279,6 +283,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
             if (health < 1)
             {
                 Kill();
+                Scoreinc();
             }
             else
             {
@@ -304,5 +309,14 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
+    }
+    void OnGUI()
+    {
+        GUI.Label(new Rect(sX, sY, 75f, 75f), pScore.ToString());
+    }
+
+    void Scoreinc()
+    {
+        ++pScore;
     }
 }
