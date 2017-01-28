@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonArcher : MonoBehaviour {
+public class SkeletonArcher : MonoBehaviour
+{
 
     Animator anim;
     bool asleep = true;
@@ -22,7 +23,6 @@ public class SkeletonArcher : MonoBehaviour {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
         asleep = false;
-        arrowQuat = new Quaternion(90, transform.rotation.y, gameObject.transform.rotation.z, transform.rotation.w);
     }
 
     // Update is called once per frame
@@ -48,8 +48,8 @@ public class SkeletonArcher : MonoBehaviour {
                 {
 
                     unitedStatePattern.navMeshAgent.Stop();
-                    unitedStatePattern.transform.Rotate(unitedStatePattern.chaseTarget.transform.position, 0f);
                     anim.SetBool("Run", false);
+                    anim.SetLookAtPosition(unitedStatePattern.chaseTarget.transform.position);
                     anim.SetTrigger("Arrow Attack");
                     if (reloadTime <= .025)
                     {
@@ -70,12 +70,12 @@ public class SkeletonArcher : MonoBehaviour {
             }
         }
 
-        if (unitedStatePattern.health_GetHealth() <= 0)
-        {
-            CancelCurrentAnimation();
-            unitedStatePattern.enabled = false;
-            anim.SetBool("Die", true);
-        }
+        //if (unitedStatePattern.health_GetHealth() <= 0)
+        //{
+        //    CancelCurrentAnimation();
+        //    unitedStatePattern.enabled = false;
+        //    anim.SetBool("Die", true);
+        //}
     }
 
     void CancelCurrentAnimation()
@@ -96,6 +96,7 @@ public class SkeletonArcher : MonoBehaviour {
     IEnumerator ShootArrow()
     {
         Vector3 towardsPlayer = unitedStatePattern.chaseTarget.position - gameObject.transform.position;
+        arrowQuat = new Quaternion(-3.14f / 2, transform.rotation.y, gameObject.transform.rotation.z, transform.rotation.w);
 
 
         //AudioSource.PlayClipAtPoint(shootSound, transform.position, PlayerPrefs.GetFloat("SFXVolume"));

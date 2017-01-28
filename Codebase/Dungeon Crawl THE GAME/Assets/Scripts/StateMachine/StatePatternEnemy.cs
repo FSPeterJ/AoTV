@@ -1,7 +1,10 @@
-﻿using UnityEngine;
-public class StatePatternEnemy : MonoBehaviour
+﻿using System;
+using UnityEngine;
+public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 {
-    int Health = 10;
+    
+    public int Health = 10;
+    Animator anim;
     public float searchingTurnSpeed = 120f;//Speed at which the enemy is going to turn to meet the player
     public float searchingDuration = 4f;//How long the enemy will search for the player in alert mode
     public float sightRange = 20f;//How far to raycast to see the player
@@ -42,6 +45,7 @@ public class StatePatternEnemy : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        anim = GetComponent<Animator>();
         currentState = patrolState;//Initializes first state to patrolling
     }
 
@@ -53,22 +57,37 @@ public class StatePatternEnemy : MonoBehaviour
         DistanceToPlayer = chaseState.DistanceToTarget;
         if (currentState.ToString() == "ChaseState")
         {
-            Debug.Log("Distance from skeleton knight to player: " + DistanceToPlayer + " ft.");
+            Debug.Log("Distance from enemy to player: " + DistanceToPlayer + " ft.");
         }
     }
 
-    public void health_TakeDamage(int modHealth)
+    public void TakeDamage(int damage = 1)
     {
-        Health -= modHealth;
+        if (RemainingHealth() <= 0)
+        {
+            Kill();
+        }
+        else
+        {
+            anim.SetBool("Take Damage", true);
+            Health -= damage;
+        }
     }
 
-    public void health_Heal(int modHealth)
-    {
-        Health += modHealth;
-    }
-
-    public int health_GetHealth()
+    public int RemainingHealth()
     {
         return Health;
+    }
+
+    public void Kill()
+    {
+        navMeshAgent.enabled = false;
+        navMeshAgent.speed = 0;
+        anim.SetBool("Die", true);
+    }
+
+    public void ResetToIdle()
+    {
+        anim.SetBool("Idle", true);
     }
 }

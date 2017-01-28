@@ -16,7 +16,7 @@ public class Projectile : MonoBehaviour
     void Update () {
         time += Time.deltaTime;
         body.AddForce(transform.forward);
-        body.freezeRotation = true;
+        //body.freezeRotation = true;
         if (time > 4)
         {
             Destroy(gameObject);
