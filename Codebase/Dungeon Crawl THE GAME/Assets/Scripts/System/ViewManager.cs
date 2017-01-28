@@ -7,7 +7,7 @@ public class ViewManager : MonoBehaviour
 {
     public void NewGame()
     {
-        //SceneManager.LoadScene("NewGame");
+        SceneManager.LoadScene("NewGame");
     }
     public void Continue()
     {
@@ -15,7 +15,7 @@ public class ViewManager : MonoBehaviour
     }
     public void LoadInstructions()
     {
-        //SceneManager.LoadScene("Instructions");
+        SceneManager.LoadScene("Instructions");
     }
     public void LoadHighscores()
     {
@@ -31,9 +31,16 @@ public class ViewManager : MonoBehaviour
     }
 
 
-    //Options Menu
+    //SubMenus
     public void Return()
     {
         SceneManager.LoadScene("Main Menu");
+    }
+
+
+    //New Game
+    public void StartGame()
+    {
+        SceneManager.LoadScene("Forest");
     }
 }
