@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HUD : MonoBehaviour
+public class HUD : Boar_Controller
 {
-    //Score variables
-    int pScore;
-    int sX = Screen.width - 1;
-    int sY = 0;
-    bool killEnemy = false;
+    
 
     //Timer variables
     int x = Screen.width / 2;
@@ -20,10 +16,11 @@ public class HUD : MonoBehaviour
     int lX = 0;
     int lY = 0;
 
+    
+
     // Use this for initialization
     void Start()
     {
-        pScore = 0;
         pLives = 5;
 	}
 	
@@ -36,6 +33,6 @@ public class HUD : MonoBehaviour
     void OnGUI()
     {
         GUI.Label(new Rect(x, y, 200f, 200f), Timer.ToString());
-        GUI.Label(new Rect(sX, sY, 75f, 75f), pScore.ToString());
+        
     }
 }
