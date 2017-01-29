@@ -6,6 +6,7 @@ public class SkeletonMage : MonoBehaviour {
     SpawnManager spawn;
     Animator anim;
     StatePatternEnemy unitedStatePattern;
+    float timer = 5;
     bool RaisedDead = false;
     bool deadHaveBeenRaised = false;
 	// Use this for initialization
@@ -19,6 +20,7 @@ public class SkeletonMage : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        timer -= Time.deltaTime;
         if (unitedStatePattern.currentState.ToString() == "PatrolState" && !RaisedDead)
         {
             CancelCurrentAnimation();
@@ -56,6 +58,12 @@ public class SkeletonMage : MonoBehaviour {
             CancelCurrentAnimation();
             anim.SetTrigger("Raise Dead");
             //transform.LookAt(unitedStatePattern.chaseTarget.transform.position);
+        }
+
+        if (timer <= 0)
+        {
+            spawn.EnemiesHaveSpawned = false;
+            timer = 5;
         }
 	}
 
