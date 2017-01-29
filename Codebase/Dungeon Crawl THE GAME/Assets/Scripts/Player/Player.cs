@@ -350,4 +350,9 @@ public class Player : MonoBehaviour
             //Load Next Level
         }
     }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(Screen.width - 7, Screen.height, 75, 75), speed.ToString());
+    }
 }
