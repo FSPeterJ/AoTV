@@ -174,7 +174,7 @@ public class BasePlayer : MonoBehaviour
             {
                 case 1:
                     heart1.enabled = false;
-                    SceneManager.LoadScene("KillMario");
+                    //SceneManager.LoadScene("KillMario");
                     break;
                 case 2:
                     heart2.enabled = false;

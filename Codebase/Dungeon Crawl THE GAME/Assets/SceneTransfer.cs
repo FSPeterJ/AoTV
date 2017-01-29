@@ -23,7 +23,7 @@ public class SceneTransfer : MonoBehaviour {
         if (other.tag == "Player")
         {
             //SceneManager.LoadScene(nextLevel.ToString());
-            SceneManager.LoadScene("Swamp");
+            //SceneManager.LoadScene("Swamp");
         }
     }
 }
