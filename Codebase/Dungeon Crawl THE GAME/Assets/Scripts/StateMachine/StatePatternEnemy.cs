@@ -2,7 +2,6 @@
 using UnityEngine;
 public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 {
-    public AudioClip hit;
     public int Health = 10;
     Animator anim;
     public float searchingTurnSpeed = 120f;//Speed at which the enemy is going to turn to meet the player

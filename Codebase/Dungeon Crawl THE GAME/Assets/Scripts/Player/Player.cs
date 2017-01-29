@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
+    public AudioClip deathSFX;
     //States
 
     enum States
@@ -264,7 +264,12 @@ public class Player : MonoBehaviour
             health--;
             if(health < 1)
             {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 currentState = States.Die;
+            }
+            else
+            {
+                GetComponent<AudioSource>().Play();
             }
         }
     }

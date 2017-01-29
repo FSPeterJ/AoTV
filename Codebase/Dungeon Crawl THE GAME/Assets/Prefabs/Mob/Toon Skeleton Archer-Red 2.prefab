@@ -645,7 +645,7 @@ GameObject:
   - component: {fileID: 65556596643314638}
   - component: {fileID: 82892573978061114}
   m_Layer: 20
-  m_Name: Toon Skeleton Archer-Red 1
+  m_Name: Toon Skeleton Archer-Red 2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1327,7 +1327,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1190089587972742}
-  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.00741006, w: 0.010324803}
+  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.007410059, w: 0.010324802}
   m_LocalPosition: {x: -0.06706537, y: -0.0024251938, z: -0.009137694}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children: []
@@ -1588,14 +1588,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80610c61a369f29488d9a04d911999ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hit: {fileID: 0}
   Health: 10
   searchingTurnSpeed: 120
   searchingDuration: 4
   sightRange: 80
   wayPoints:
-  - {fileID: 1257218946848876, guid: 50c785ab5d776ff46ac08dafa081dd90, type: 2}
-  - {fileID: 1257218946848876, guid: 93a26b70d866f8c43a839da6a176ca7f, type: 2}
+  - {fileID: 1673012551625464, guid: 3515858607e7b784eb55d712aab5c0b6, type: 2}
+  - {fileID: 1224921378293424, guid: 4a1bbe2a21e587546a424c580559a81a, type: 2}
   eyes: {fileID: 4417290656954990}
   offset: {x: 0, y: 0.5, z: 0}
   attackDistance: 15
