@@ -643,6 +643,7 @@ GameObject:
   - component: {fileID: 195803170092969360}
   - component: {fileID: 54869104149395660}
   - component: {fileID: 65556596643314638}
+  - component: {fileID: 82892573978061114}
   m_Layer: 20
   m_Name: Toon Skeleton Archer-Red 1
   m_TagString: Enemy
@@ -1326,7 +1327,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1190089587972742}
-  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.0074100597, w: 0.010324802}
+  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.00741006, w: 0.010324803}
   m_LocalPosition: {x: -0.06706537, y: -0.0024251938, z: -0.009137694}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children: []
@@ -1479,6 +1480,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!82 &82892573978061114
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1878457047124984}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: becb8b4dbb9a87845a6de23c9ca16f49, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95435875337617432
 Animator:
   serializedVersion: 3
@@ -1507,13 +1588,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80610c61a369f29488d9a04d911999ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hit: {fileID: 0}
   Health: 10
   searchingTurnSpeed: 120
   searchingDuration: 4
   sightRange: 80
   wayPoints:
-  - {fileID: 1257218946848876, guid: b17df959ebc607e4484141644097b0d7, type: 2}
-  - {fileID: 1220028495449216, guid: e334fb4e009ab4148976362fc5a9fc62, type: 2}
+  - {fileID: 1257218946848876, guid: 50c785ab5d776ff46ac08dafa081dd90, type: 2}
+  - {fileID: 1257218946848876, guid: 93a26b70d866f8c43a839da6a176ca7f, type: 2}
   eyes: {fileID: 4417290656954990}
   offset: {x: 0, y: 0.5, z: 0}
   attackDistance: 15

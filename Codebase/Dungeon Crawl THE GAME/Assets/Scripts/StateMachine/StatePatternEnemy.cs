@@ -2,7 +2,6 @@
 using UnityEngine;
 public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 {
-    
     public int Health = 10;
     Animator anim;
     public float searchingTurnSpeed = 120f;//Speed at which the enemy is going to turn to meet the player
@@ -39,7 +38,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
         chaseState = new ChaseState(this);
         alertState = new AlertState(this);
         patrolState = new PatrolState(this);        
-        navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();        
     }
 
     // Use this for initialization
@@ -63,6 +62,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        GetComponent<AudioSource>().Play();
         if (RemainingHealth() <= 0)
         {
             Kill();

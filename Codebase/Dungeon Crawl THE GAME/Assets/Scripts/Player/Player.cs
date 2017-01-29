@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
+    public AudioClip deathSFX;
     //States
 
     enum States
@@ -318,7 +318,12 @@ public class Player : MonoBehaviour
             health--;
             if (health < 1)
             {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 currentState = States.Die;
+            }
+            else
+            {
+                GetComponent<AudioSource>().Play();
             }
         }
     }
@@ -408,5 +413,10 @@ public class Player : MonoBehaviour
     void TeleportMove()
     {
         transform.position = tpDestination;
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(Screen.width - 7, Screen.height, 75, 75), speed.ToString());
     }
 }
