@@ -415,8 +415,23 @@ public class Player : MonoBehaviour
         {
             //Load Next Level
         }
+       
     }
-
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "ScorePowerUp")
+        {
+            
+            Destroy(col.gameObject);
+            //waiting on fixxed score system 
+        }
+        if (col.tag == "HealthPowerUp")
+        {
+            Destroy(col.gameObject);
+            health = 10;
+            Hud.UpdateHealth(health);
+        }
+    }
     void TeleportMove()
     {
         transform.position = tpDestination;
