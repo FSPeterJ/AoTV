@@ -408,6 +408,7 @@ public class Player : MonoBehaviour
         if (col.tag == "Trapdoor")
             if (Input.GetKeyDown(KeyCode.E))
                 SceneManager.LoadScene("Graveyard");
+        
         if (col.tag == "LastDoor")
             SceneManager.LoadScene("Graveyard");
     }
