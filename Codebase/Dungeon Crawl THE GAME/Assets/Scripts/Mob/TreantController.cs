@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TreantController : MonoBehaviour
+public class TreantController : MonoBehaviour, IEnemyBehavior
 {
-    enum TreantState
+    enum AI
     {
         Idle,
         Wander,
@@ -18,32 +18,32 @@ public class TreantController : MonoBehaviour
         Death
     }
 
-    TreantState _cs;
-    TreantState currentState
+    AI _cs;
+    AI currentState
     {
         get { return _cs; }
         set
         {
             switch (value)
             {
-                case TreantState.Idle:
+                case AI.Idle:
                     idleTime = 0;
                     navAgent.enabled = false;
                     _cs = value;
                     break;
-                case TreantState.Wander:
+                case AI.Wander:
                     anim.SetBool("Walk", true);
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
-                case TreantState.Walk:
+                case AI.Walk:
                     anim.SetBool("Walk", true);
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
-                case TreantState.Bite:
+                case AI.Bite:
                     attackRangeCol.enabled = true;
                     anim.SetBool("Bite Attack", true);
                     navAgent.speed = 0;
@@ -51,7 +51,7 @@ public class TreantController : MonoBehaviour
                     idleTime = 0;
                     _cs = value;
                     break;
-                case TreantState.Projectile:
+                case AI.Projectile:
                     attackRangeCol.enabled = true;
                     anim.SetBool("Projectile Attack", true);
                     navAgent.speed = 0;
@@ -59,7 +59,7 @@ public class TreantController : MonoBehaviour
                     idleTime = 0;
                     _cs = value;
                     break;
-                case TreantState.Shockwave:
+                case AI.Shockwave:
                     attackRangeCol.enabled = true;
                     anim.SetBool("Shockwave Attack", true);
                     navAgent.speed = 0;
@@ -67,7 +67,7 @@ public class TreantController : MonoBehaviour
                     idleTime = 0;
                     _cs = value;
                     break;
-                case TreantState.CastSpell:
+                case AI.CastSpell:
                     attackRangeCol.enabled = true;
                     anim.SetBool("Cast Spell", true);
                     navAgent.speed = 0;
@@ -75,25 +75,26 @@ public class TreantController : MonoBehaviour
                     idleTime = 0;
                     _cs = value;
                     break;
-                case TreantState.TakeDamage:
+                case AI.TakeDamage:
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     anim.SetBool("Take Damage", true);
                     break;
-                case TreantState.Death:
+                case AI.Death:
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     GetComponent<BoxCollider>().enabled = false;
                     anim.SetBool("Die", true);
+                    _cs = value;
                     break;
                 default:
                     _cs = value;
                     break;
-            
+
             }
         }
     }
-    
+
 
     Animator anim;
     Vector3 targetPos;
@@ -103,7 +104,10 @@ public class TreantController : MonoBehaviour
     Vector3 origin;
     NavMeshHit navHit;
 
-    int health;
+    public GameObject weapon;
+    IWeaponBehavior weaponScript;
+
+    public int health;
     //bool dead = false;
 
     NavMeshAgent navAgent;
@@ -128,31 +132,32 @@ public class TreantController : MonoBehaviour
         origin = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
         attackRangeCol = GetComponent<Collider>();
-        currentState = TreantState.Idle;
-        navHit.hit = true;        
+        currentState = AI.Idle;
+        navHit.hit = true;
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
     }
-    
+
     void Update()
     {
         targetDis = Vector3.Distance(targetPos, transform.position);
 
-        switch(currentState)
+        switch (currentState)
         {
-            case TreantState.Idle:
+            case AI.Idle:
                 {
-                    if(idleTime > 1f)
+                    if (idleTime > 1f)
                         if (targetDis < 20f)
-                            currentState = TreantState.Walk;
-                    if(idleTime > 3f)
+                            currentState = AI.Walk;
+                    if (idleTime > 3f)
                     {
-                        currentState = TreantState.Wander;
+                        currentState = AI.Wander;
                         navAgent.enabled = true;
                         idleTime = 0;
                     }
                     idleTime += Time.deltaTime;
                 }
                 break;
-            case TreantState.Wander:
+            case AI.Wander:
                 {
                     if (navHit.hit)
                     {
@@ -167,82 +172,87 @@ public class TreantController : MonoBehaviour
                     {
                         navHit.hit = true;
                         anim.SetBool("Walk", false);
-                        currentState = TreantState.Idle;
+                        currentState = AI.Idle;
                     }
                     navAgent.SetDestination(navHit.position);
                 }
                 break;
-            case TreantState.Walk:
+            case AI.Walk:
                 {
                     navAgent.SetDestination(targetPos);
                     if (targetDis < 1.8f)
                     {
-                        currentState = TreantState.Bite;
+                        currentState = AI.Bite;
                         anim.SetBool("Walk", false);
                     }
                     else if (targetDis < 4f)
                     {
-                        currentState = TreantState.Shockwave;
+                        currentState = AI.Shockwave;
                         anim.SetBool("Walk", false);
                     }
                     else if (targetDis < 7f)
                     {
-                        currentState = TreantState.CastSpell;
+                        currentState = AI.CastSpell;
                         anim.SetBool("Walk", false);
                     }
                     else if (targetDis < 10f)
                     {
-                        currentState = TreantState.Projectile;
+                        currentState = AI.Projectile;
                         anim.SetBool("Walk", false);
                     }
 
                 }
                 break;
-            case TreantState.Bite:
+            case AI.Bite:
                 {
                     if (idleTime > 1f)
                     {
-                        currentState = TreantState.Idle;
+                        currentState = AI.Idle;
                         anim.SetBool("Bite Attack", false);
                     }
                     else
                         idleTime += Time.deltaTime;
                 }
                 break;
-            case TreantState.Projectile:
+            case AI.Projectile:
                 if (idleTime > 1f)
                 {
-                    currentState = TreantState.Idle;
+                    currentState = AI.Idle;
                     anim.SetBool("Projectile Attack", false);
                 }
                 else
                     idleTime += Time.deltaTime;
                 break;
-            case TreantState.Shockwave:
+            case AI.Shockwave:
                 if (idleTime > 1f)
                 {
-                    currentState = TreantState.Idle;
+                    currentState = AI.Idle;
                     anim.SetBool("Shockwave Attack", false);
                 }
                 else
                     idleTime += Time.deltaTime;
                 break;
-            case TreantState.CastSpell:
+            case AI.CastSpell:
                 if (idleTime > 1f)
                 {
-                    currentState = TreantState.Idle;
+                    currentState = AI.Idle;
                     anim.SetBool("Cast Spell", false);
                 }
                 else
                     idleTime += Time.deltaTime;
                 break;
-            case TreantState.TakeDamage:
+            case AI.TakeDamage:
                 break;
-            case TreantState.Death:
+            case AI.Death:
                 break;
             default:
                 break;
         }
+    }
+
+    public void ResetToIdle()
+    {
+
     }
 
     public void TakeDamage(int damage = 1)
@@ -253,10 +263,10 @@ public class TreantController : MonoBehaviour
             if (health < 1)
                 Kill();
             else
-                currentState = TreantState.TakeDamage;
+                currentState = AI.TakeDamage;
         }
     }
-    
+
     public int RemainingHealth()
     {
         return health;
@@ -264,7 +274,24 @@ public class TreantController : MonoBehaviour
 
     public void Kill()
     {
-        currentState = TreantState.Death;
+        currentState = AI.Death;
+    }
+
+    public void AttackFinished()
+    {
+        if (currentState == AI.Bite)
+        {
+
+            anim.SetBool("Bite Attack", false);
+            weaponScript.AttackEnd();
+            currentState = AI.Idle;
+        }
+    }
+
+    public void AttackStart()
+    {
+
+        weaponScript.AttackStart();
     }
     void UpdateTargetPosition(Vector3 pos)
     {

@@ -2,7 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public class Snake_Controller : MonoBehaviour {
+public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
+
+    //Score variables
+    int pScore;
+    int sX = Screen.width - 7;
+    int sY = 0;
+
     enum SnakeState
     {
         Idle, Slither, BiteAttack, ProjectileAttack, BreathAttackStart, BreathAttackEnd, BreathAttackLoop, CastSpell, TakeDamage, Die, Wander
@@ -77,6 +83,7 @@ public class Snake_Controller : MonoBehaviour {
 
     //Stat variables
     int health;
+    bool death = false;
 
     //References
     NavMeshAgent navAgent;
@@ -179,5 +186,42 @@ public class Snake_Controller : MonoBehaviour {
     void UpdateTargetPosition(Vector3 pos)
     {
         targetPos = pos;
+    }
+
+    public void TakeDamage(int damage = 1)
+    {
+        if (!death)
+        {
+            health -= damage;
+            if (health < 1)
+            {
+                Kill();
+                Scoreinc();
+            }
+            else
+            {
+                currentState = SnakeState.TakeDamage;
+            }
+        }
+    }
+
+    public void Kill()
+    {
+        currentState = SnakeState.Die;
+    }
+
+    void Scoreinc()
+    {
+        ++pScore;
+    }
+
+    public int RemainingHealth()
+    {
+        return health;
+    }
+
+    public void ResetToIdle()
+    {
+        currentState = SnakeState.Idle;
     }
 }

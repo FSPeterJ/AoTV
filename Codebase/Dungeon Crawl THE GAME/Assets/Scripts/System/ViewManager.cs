@@ -23,7 +23,7 @@ public class ViewManager : MonoBehaviour
     }
     public void LoadOptions ()
     {
-        SceneManager.LoadScene("Options");
+        //SceneManager.LoadScene("Options");
     }
     public void Exit()
     {
@@ -34,7 +34,7 @@ public class ViewManager : MonoBehaviour
     //SubMenus
     public void Return()
     {
-        SceneManager.LoadScene("Main Menu");
+        //SceneManager.LoadScene("Main Menu");
     }
 
 

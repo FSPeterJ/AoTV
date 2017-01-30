@@ -1,38 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class HUD : Boar_Controller
+public class HUD : MonoBehaviour
 {
-    
+    public Text Score;
+    public int scoreCounter = 0;
+    public bool dead = false;
 
-    //Timer variables
-    int x = Screen.width / 2;
-    int y = 0;
-    float Timer = 0.0f;
-
-    //Life variables
-    int pLives;
-    int lX = 0;
-    int lY = 0;
-
-    
+    public Slider healthslider;
 
     // Use this for initialization
     void Start()
     {
-        pLives = 5;
+        Score.text = "I am not updating";
 	}
-	
-	// Update is called once per frame
-	void Update()
+
+
+
+    public void UpdateHealth(int health)
     {
-        Timer += Time.deltaTime;
+        healthslider.value = health;
     }
 
-    void OnGUI()
+    public void UpdateScore()
     {
-        GUI.Label(new Rect(x, y, 200f, 200f), Timer.ToString());
-        
+        ++scoreCounter;
+        Score.text = "Score: " + scoreCounter;
+    }
+
+    public void PrintScore()
+    {
+        Score.text = "Score: " + scoreCounter;
     }
 }

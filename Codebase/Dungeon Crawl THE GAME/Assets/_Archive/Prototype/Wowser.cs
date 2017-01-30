@@ -149,7 +149,7 @@ public class Wowser : MonoBehaviour
     {
         if (bHealth <= 0)
         {
-            SceneManager.LoadScene("KillWowser");
+            //SceneManager.LoadScene("KillWowser");
         }
         //Animator shit that doesn't work
         //if (Mathf.Abs(transform.position.x) + Math.Abs(transform.position.z) > 21)

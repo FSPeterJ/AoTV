@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public static class EventSystem {
+
+    
 
     //Player Movements
     public delegate void PlayerPositionUpdateHandler(Vector3 PlayerPosition);
@@ -26,9 +29,12 @@ public static class EventSystem {
     public static event PlayerHealthUpdateHandler onPlayerHealthUpdate;
     public static void PlayerHealthUpdate(int hp)
     {
+        
         if (onPlayerHealthUpdate != null) onPlayerHealthUpdate(hp);
 
-    }
+
+        
+}
 
     //player Died
     public delegate void PlayerDeathHandler();
@@ -36,8 +42,9 @@ public static class EventSystem {
     public static void PlayerDeath()
     {
         if (onPlayerDeath != null) onPlayerDeath();
+        
 
-    }
+}
 
 
 

@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class Cobra_Controller : MonoBehaviour {
+
+    
+
     enum CobraState
     {
         Idle, Slither, BiteAttack, ProjectileAttack, BreathAttackStart, BreathAttackEnd,BreathAttackLoop, CastSpell, TakeDamage, Die, Wander
@@ -183,4 +186,6 @@ public class Cobra_Controller : MonoBehaviour {
     {
         targetPos = pos;
     }
+
+    
 }
