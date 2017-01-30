@@ -40,7 +40,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                 case BoarState.Run:
                     anim.SetBool("Run", true);
                     navAgent.enabled = true;
-                    navAgent.speed = 10f;
+                    navAgent.speed = 15f;
                     _cs = value;
                     break;
                 case BoarState.Walk:
@@ -66,18 +66,16 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     _cs = value;
                     break;
                 case BoarState.TakeDamage:
-                    navAgent.speed = 0;
-                    navAgent.enabled = false;
                     anim.SetBool("Take Damage", true);
 
                     break;
                 case BoarState.Die:
+                    dead = true;
+                    AttackRegionCollider.enabled = false;
                     navAgent.speed = 0;
                     navAgent.enabled = false;
-                    GetComponent<BoxCollider>().enabled = false;
                     anim.SetBool("Die", true);
-
-                    //Destroy(gameObject);
+                    
                     _cs = value;
                     break;
                 default:
@@ -149,7 +147,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                 {
                     if (idleTime > 1f)
                     {
-                        if (targetdistance < 20f && targetdistance > 10f)
+                        if (targetdistance < 50f && targetdistance > 10f)
                         {
                             currentState = BoarState.Run;
                         }
@@ -195,12 +193,12 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                 {
 
                     navAgent.SetDestination(targetPos);
-                    if (targetdistance < 1.8f)
+                    if (targetdistance < 2.8f)
                     {
                         currentState = BoarState.BiteAttack;
                         anim.SetBool("Walk", false);
                     }
-                    else if (targetdistance < 20f && targetdistance > 10f)
+                    else if (targetdistance < 50f && targetdistance > 10f)
                     {
                         currentState = BoarState.Run;
                         anim.SetBool("Walk", false);
@@ -217,7 +215,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
             case BoarState.Run:
                 {
                     navAgent.SetDestination(targetPos);
-                    if (targetdistance < 1.8f)
+                    if (targetdistance < 2.8f)
                     {
                         currentState = BoarState.TuskAttack;
                         anim.SetBool("Run", false);
@@ -268,6 +266,18 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                 }
                 break;
             case BoarState.Die:
+                idleTime = 0f;
+                while (true)
+                {
+                    if (idleTime> 500f)
+                    {
+                        break;
+                      
+                    }
+                    else
+                        idleTime += Time.deltaTime;
+                }
+               // Destroy(gameObject);
                 break;
         }
     }

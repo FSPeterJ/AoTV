@@ -837,7 +837,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1685722493309836}
-  m_LocalRotation: {x: -0.026185304, y: 0.7126937, z: 0.70080954, w: 0.015752826}
+  m_LocalRotation: {x: -0.026185304, y: 0.71269363, z: 0.7008095, w: 0.015752824}
   m_LocalPosition: {x: 0.47768813, y: 1.1341357, z: -0.2664866}
   m_LocalScale: {x: 0.99999857, y: 1.0000029, z: 1.0000045}
   m_Children: []
@@ -948,8 +948,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1622672066450468}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.4, y: 13.09, z: 24.1}
-  m_LocalScale: {x: 0.35450602, y: 0.35450596, z: 0.35450596}
+  m_LocalPosition: {x: -68.1, y: 0, z: -274.1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4837288604853646}
   - {fileID: 4522140498237934}
@@ -1019,7 +1019,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1736198987153152}
-  m_LocalRotation: {x: 0.0015770438, y: 0.7125953, z: 0.7015596, w: -0.004442318}
+  m_LocalRotation: {x: 0.0015770438, y: 0.7125952, z: 0.70155954, w: -0.0044423174}
   m_LocalPosition: {x: 0.7487556, y: 1.2021234, z: -0.33127722}
   m_LocalScale: {x: 0.9999908, y: 1.0000023, z: 1.0000092}
   m_Children: []
@@ -1474,9 +1474,9 @@ MonoBehaviour:
   deathSFX: {fileID: 8300000, guid: 9534190273d2b1a42beeba4fd604343c, type: 3}
   maxJump: 1
   movementModfier: 0.75
-  health: 3
+  health: 10
   lives: 3
-  Hud: {fileID: 114052037263439886, guid: e8b43b4316ec85d4fa55aa6ad986ac73, type: 2}
+  Hud: {fileID: 0}
   weapon: {fileID: 1909705502601246}
   teleportMarker: {fileID: 1831933694238252, guid: 9b368e9e04adb8e4f859fd8607a7e102,
     type: 2}

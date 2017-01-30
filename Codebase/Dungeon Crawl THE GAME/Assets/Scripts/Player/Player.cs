@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -242,7 +243,7 @@ public class Player : MonoBehaviour
 
 
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
-                if (mouseDistance> 1.9f)
+                if (mouseDistance > 1.9f)
                 {
 
                     //Turn player to face cursor on terrain
@@ -286,9 +287,9 @@ public class Player : MonoBehaviour
             if (teleportToggle)
             {
                 //tpMarker.transform.rotation = transform.rotation;
-                float md = (mouseDistance < 40) ?  mouseDistance/2 : 20;
+                float md = (mouseDistance < 40) ? mouseDistance / 2 : 20;
                 tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
-                
+
             }
 
 
@@ -322,8 +323,8 @@ public class Player : MonoBehaviour
             health--;
             Hud.UpdateHealth(health);
             Debug.Log("health = " + Hud.healthslider.value);
-            
-            if(health < 1)
+
+            if (health < 1)
             {
                 GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 currentState = States.Die;
@@ -405,16 +406,34 @@ public class Player : MonoBehaviour
     void OnTriggerStay(Collider col)
     {
         if (col.tag == "Trapdoor")
-        {
             if (Input.GetKeyDown(KeyCode.E))
-            {
-                //LoadNextLevel
-            }
-        }
+                SceneManager.LoadScene("Graveyard");
+
         if (col.tag == "LastDoor")
+            SceneManager.LoadScene("Graveyard");
+
+    }
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "ScorePowerUp")
         {
-            //Load Next Level
+
+            Destroy(col.gameObject);
+            //waiting on fixxed score system 
         }
+        else if (col.tag == "HealthPowerUp")
+        {
+            Destroy(col.gameObject);
+            health = 10;
+            Hud.UpdateHealth(health);
+        }
+        else if (col.tag == "Trapdoor")
+            col.gameObject.GetComponent<Animator>().SetBool("Close", false);
+    }
+    void OnTriggerExit(Collider col)
+    {
+        if (col.tag == "Trapdoor")
+            col.gameObject.GetComponent<Animator>().SetBool("Close", true);
     }
 
     void TeleportMove()
@@ -422,5 +441,5 @@ public class Player : MonoBehaviour
         transform.position = tpDestination;
     }
 
-    
+
 }
