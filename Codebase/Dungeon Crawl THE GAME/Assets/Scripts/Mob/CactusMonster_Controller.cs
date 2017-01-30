@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
 {
+
+    public HUD huD;
     public AI _cs;
     AI currentState
     {
@@ -307,6 +309,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
             if (health < 1)
             {
                 Kill();
+                ScoreInc();
             }
             else
             {
@@ -362,5 +365,10 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
+    }
+
+    void ScoreInc()
+    {
+        huD.UpdateScore();
     }
 }
