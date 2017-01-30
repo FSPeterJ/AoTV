@@ -38,7 +38,7 @@ public class MainCamera : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    void Update()
+    void LateUpdate()
     {
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
@@ -46,7 +46,7 @@ public class MainCamera : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo, layerMask))
         {
-            //Transform objectHit = hit.transform;
+            Debug.DrawLine(Camera.main.transform.position, hitInfo.point, Color.red);
             // Do something with the object that was hit by the raycast.
             EventSystem.MousePositionUpdate(hitInfo.point);
         }

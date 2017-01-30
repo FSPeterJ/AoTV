@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
 {
+    public HUD hud;
 
     public AI _cs;
     AI currentState
@@ -128,7 +129,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         weaponScriptR = weaponR.GetComponent<IWeaponBehavior>();
         weaponScriptL = weaponL.GetComponent<IWeaponBehavior>();
         currentState = AI.Idle;
-        navHitPos.hit = true;
         attack = Random.Range(0, 1);
     }
 
@@ -278,6 +278,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
             if (health < 1)
             {
                 Kill();
+                Scoreinc();
             }
             else
             {
@@ -333,5 +334,10 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         targetPos = new Vector3(targetPos.x, 999999,targetPos.z);
+    }
+
+    void Scoreinc()
+    {
+        hud.UpdateScore();
     }
 }
