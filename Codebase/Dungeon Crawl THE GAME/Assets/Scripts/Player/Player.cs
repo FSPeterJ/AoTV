@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -81,8 +82,10 @@ public class Player : MonoBehaviour
     public int maxJump = 1;
     
     public float movementModfier = .75f;
-    public int health = 3;
+    public int health = 30;
     public int lives = 3;
+
+    public HUD Hud;
 
     //Variables
     bool invulnerable = false;
@@ -262,6 +265,9 @@ public class Player : MonoBehaviour
             StartCoroutine("Invulnerable");
             EventSystem.PlayerHealthUpdate(-dmg);
             health--;
+            Hud.UpdateHealth(health);
+            Debug.Log("health = " + Hud.healthslider.value);
+            
             if(health < 1)
             {
                 GetComponent<AudioSource>().PlayOneShot(deathSFX);
@@ -356,8 +362,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnGUI()
-    {
-        GUI.Label(new Rect(Screen.width - 7, Screen.height, 75, 75), speed.ToString());
-    }
+    //void OnGUI()
+    //{
+    //    GUI.Label(new Rect(Screen.width - 7, Screen.height, 75, 75), speed.ToString());
+    //}
 }

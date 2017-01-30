@@ -10,6 +10,8 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     int sX = Screen.width - 7;
     int sY = 0;
 
+    public HUD hud;
+
     //Use for executing commands on when first entering a state
     //Can also be used to prevent states from changing under certain conditions
     BoarState _cs;
@@ -310,13 +312,9 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
     }
-    void OnGUI()
-    {
-        GUI.Label(new Rect(sX, sY, 75f, 75f), pScore.ToString());
-    }
 
     void Scoreinc()
     {
-        ++pScore;
+        hud.UpdateScore();
     }
 }
