@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 124517800756254288}
   - component: {fileID: 81666506381408676}
   - component: {fileID: 114612446801229822}
+  - component: {fileID: 114052037263439886}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -38,8 +39,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1416581224251364}
   m_LocalRotation: {x: 0.46174863, y: 0, z: 0, w: 0.8870109}
-  m_LocalPosition: {x: 0, y: -10.56, z: -24.81}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 210.48201, y: 16.533146, z: -121.72827}
+  m_LocalScale: {x: 21, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -92,6 +93,22 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1416581224251364}
   m_Enabled: 1
+--- !u!114 &114052037263439886
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1416581224251364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90928a26543c4fe488b48b260040fc90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Score: {fileID: 0}
+  scoreCounter: 0
+  dead: 0
+  healthslider: {fileID: 0}
+  boar: {fileID: 0}
 --- !u!114 &114612446801229822
 MonoBehaviour:
   m_ObjectHideFlags: 1
