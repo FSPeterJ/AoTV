@@ -14,7 +14,7 @@ public class HUD : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Score.text = "Score: " + scoreCounter;
+        Score.text = "I am not updating";
 	}
 
 
@@ -27,6 +27,11 @@ public class HUD : MonoBehaviour
     public void UpdateScore()
     {
         ++scoreCounter;
+        Score.text = "Score: " + scoreCounter;
+    }
+
+    public void PrintScore()
+    {
         Score.text = "Score: " + scoreCounter;
     }
 }

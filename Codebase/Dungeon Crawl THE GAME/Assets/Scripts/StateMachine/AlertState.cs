@@ -18,10 +18,6 @@ public class AlertState : IEnemyState
         Search();//Search Every frame
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-    }
-
     public void ToPatrolState()
     {
         enemy.currentState = enemy.patrolState;//change to patrol state
