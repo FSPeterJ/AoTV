@@ -27,6 +27,7 @@ public class HUD : MonoBehaviour
     public void UpdateScore()
     {
         ++scoreCounter;
+        Score.text = "Score: " + scoreCounter;
     }
 
     public void PrintScore()

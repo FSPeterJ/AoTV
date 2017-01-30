@@ -179,6 +179,7 @@ public class Player : MonoBehaviour
     {
         if (!dead)
         {
+            Hud.PrintScore();
             //Re-used a lot of Harrison's movement code
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
