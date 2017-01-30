@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour
         set
         {
 
-            if(_cs == States.SpinAttack)
+            if (_cs == States.SpinAttack)
             {
                 anim.SetBool("Spin Attack", false);
                 weaponScript.AttackEnd();
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
                     _cs = value;
                     break;
                 case States.MoveForward:
-                    if(_cs == States.Idle)
+                    if (_cs == States.Idle)
                     {
                         anim.SetBool("Move Forward", true);
                         _cs = value;
@@ -48,7 +49,8 @@ public class Player : MonoBehaviour
                     _cs = value;
                     break;
                 case States.Die:
-                    if (!dead) { 
+                    if (!dead)
+                    {
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
@@ -79,7 +81,7 @@ public class Player : MonoBehaviour
 
     //Basic Settings - Edit in Unity
     public int maxJump = 1;
-    
+
     public float movementModfier = .75f;
     public int health = 3;
     public int lives = 3;
@@ -192,28 +194,28 @@ public class Player : MonoBehaviour
                 }
                 localVel.x = localVel.x * movementModfier;
                 moveDirection = transform.TransformDirection(localVel);
-                
+
 
                 if (Impact.magnitude > 0.2)
                 {
                     moveDirection += Impact;
                     Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
                 }
-                
+
 
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
-                if ( Vector3.Distance(mousePosition, transform.position) > .9f)
+                if (Vector3.Distance(mousePosition, transform.position) > .9f)
                 {
                     //Turn player to face cursor on terrain
                     Vector3 lookPos = (transform.position - mousePosition);
-                    float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y,-(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90, .2f);
+                    float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90, .2f);
                     //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
-                    transform.rotation =  Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+                    transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
                 }
-                
+
             }
 
-            
+
             // ^^^ Probably could be done better than this.
             // Agreed
 
@@ -232,20 +234,20 @@ public class Player : MonoBehaviour
                 verticalVel -= jumpSpeed;
             }
 
-            
+
 
             //Gravity
             verticalVel += gravity * Time.deltaTime;
             moveDirection.y -= verticalVel;
 
-            
+
 
             //Move
             controller.Move(moveDirection * Time.deltaTime);
             EventSystem.PlayerPositionUpdate(transform.position);
 
         }
-        
+
     }
 
     void UpdateMousePosition(Vector3 MousePos)
@@ -262,7 +264,7 @@ public class Player : MonoBehaviour
             StartCoroutine("Invulnerable");
             EventSystem.PlayerHealthUpdate(-dmg);
             health--;
-            if(health < 1)
+            if (health < 1)
             {
                 currentState = States.Die;
             }
@@ -318,10 +320,10 @@ public class Player : MonoBehaviour
 
     public void AttackFinished(int attack)
     {
-        if(currentState == States.Attack)
+        if (currentState == States.Attack)
         {
 
-            if(attack == 1)
+            if (attack == 1)
                 anim.SetBool("Slash Attack 01", false);
             else
                 anim.SetBool("Slash Attack 02", false);
@@ -333,21 +335,25 @@ public class Player : MonoBehaviour
 
     public void ResetAttackStack()
     {
-      weaponScript.ResetAttack();
+        weaponScript.ResetAttack();
     }
 
-    void OnTriggerStay (Collider col)
+    void OnTriggerStay(Collider col)
     {
         if (col.tag == "Trapdoor")
-        {
             if (Input.GetKeyDown(KeyCode.E))
-            {
-                //LoadNextLevel
-            }
-        }
+                SceneManager.LoadScene("Graveyard");
         if (col.tag == "LastDoor")
-        {
-            //Load Next Level
-        }
+            SceneManager.LoadScene("Graveyard");
+    }
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Trapdoor")
+            col.gameObject.GetComponent<Animator>().SetBool("Close", false);
+    }
+    void OnTriggerExit(Collider col)
+    {
+        if (col.tag == "Trapdoor")
+            col.gameObject.GetComponent<Animator>().SetBool("Close", true);
     }
 }
