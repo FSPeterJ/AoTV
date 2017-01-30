@@ -66,11 +66,12 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     _cs = value;
                     break;
                 case BoarState.TakeDamage:
-                   
                     anim.SetBool("Take Damage", true);
 
                     break;
                 case BoarState.Die:
+                    dead = true;
+                    AttackRegionCollider.enabled = false;
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     anim.SetBool("Die", true);

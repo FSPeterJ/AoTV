@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ChestScript : MonoBehaviour {
     Animator anim;
+    public GameObject ScorePowerUp;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -14,7 +15,10 @@ public class ChestScript : MonoBehaviour {
         if(Col.tag == "Player")
         {
             anim.SetBool("Open", true);
-            //instaniate health object
+            Vector3 spawnLocation = transform.position;
+            
+            spawnLocation.x += 4;
+            Instantiate(ScorePowerUp, spawnLocation, Quaternion.identity);
         }
     }
 }
