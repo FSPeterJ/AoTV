@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-
+    public AudioClip deathSFX;
     //States
 
     enum States
@@ -18,7 +20,7 @@ public class Player : MonoBehaviour
         set
         {
 
-            if(_cs == States.SpinAttack)
+            if (_cs == States.SpinAttack)
             {
                 anim.SetBool("Spin Attack", false);
                 weaponScript.AttackEnd();
@@ -31,7 +33,7 @@ public class Player : MonoBehaviour
                     _cs = value;
                     break;
                 case States.MoveForward:
-                    if(_cs == States.Idle)
+                    if (_cs == States.Idle)
                     {
                         anim.SetBool("Move Forward", true);
                         _cs = value;
@@ -48,7 +50,8 @@ public class Player : MonoBehaviour
                     _cs = value;
                     break;
                 case States.Die:
-                    if (!dead) { 
+                    if (!dead)
+                    {
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
@@ -76,13 +79,44 @@ public class Player : MonoBehaviour
         }
     }
 
+    bool _tT = false;
+    bool teleportToggle
+    {
+        get
+        {
+            return _tT;
+        }
+        set
+        {
+            if (_tT != value)
+            {
+                _tT = value;
+                if (_tT)
+                {
+                    tpMarker = Instantiate(teleportMarker);
+                    tpMarker.transform.parent = transform;
+                    tpMarker.transform.position = transform.position;
+                }
+                else
+                {
+                    tpDestination = tpMarker.transform.position;
+                    Destroy(tpMarker);
+                    anim.SetTrigger("Teleport");
+
+                }
+            }
+        }
+    }
+
 
     //Basic Settings - Edit in Unity
     public int maxJump = 1;
-    
+
     public float movementModfier = .75f;
-    public int health = 3;
+    public int health = 30;
     public int lives = 3;
+
+    public HUD Hud;
 
     //Variables
     bool invulnerable = false;
@@ -95,6 +129,10 @@ public class Player : MonoBehaviour
     //This is a hack together way to get the weapon.
     public GameObject weapon;
     IWeaponBehavior weaponScript;
+    public GameObject teleportMarker;
+    GameObject tpMarker;
+    Vector3 tpDestination;
+
 
     //Physics Settings
     public float speed = 3.0F;
@@ -111,8 +149,9 @@ public class Player : MonoBehaviour
     bool dead = false;
 
     //Control Settings
-    private Vector3 mousePosition;
-    private Vector3 direction;
+    Vector3 mousePosition;
+    float mouseDistance;
+
 
 
     void OnEnable()
@@ -141,9 +180,10 @@ public class Player : MonoBehaviour
     {
         if (!dead)
         {
+            Hud.PrintScore();
             //Re-used a lot of Harrison's movement code
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
+            mouseDistance = Vector3.Distance(mousePosition, transform.position);
             //Alternate Control Scheme - bad imo
             //moveDirection = transform.TransformDirection(moveDirection);
             moveDirection *= sprintSpeed;
@@ -163,8 +203,9 @@ public class Player : MonoBehaviour
                     currentState = States.SpinAttack;
 
                 }
-
             }
+
+
 
             if (currentState == States.SpinAttack)
             {
@@ -192,28 +233,30 @@ public class Player : MonoBehaviour
                 }
                 localVel.x = localVel.x * movementModfier;
                 moveDirection = transform.TransformDirection(localVel);
-                
+
 
                 if (Impact.magnitude > 0.2)
                 {
                     moveDirection += Impact;
                     Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
                 }
-                
+
 
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
-                if ( Vector3.Distance(mousePosition, transform.position) > .9f)
+                if (mouseDistance > 1.9f)
                 {
+
                     //Turn player to face cursor on terrain
                     Vector3 lookPos = (transform.position - mousePosition);
-                    float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y,-(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90, .2f);
+                    lookPos.y = 0;
+                    float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90, .2f);
                     //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
-                    transform.rotation =  Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+                    transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
                 }
-                
+
             }
 
-            
+
             // ^^^ Probably could be done better than this.
             // Agreed
 
@@ -232,26 +275,42 @@ public class Player : MonoBehaviour
                 verticalVel -= jumpSpeed;
             }
 
-            
+            if (!teleportToggle && Input.GetKey(KeyCode.Q))
+            {
+                teleportToggle = true;
+            }
+            else if (teleportToggle && !(Input.GetKey(KeyCode.Q)))
+            {
+                teleportToggle = false;
+            }
+
+            if (teleportToggle)
+            {
+                //tpMarker.transform.rotation = transform.rotation;
+                float md = (mouseDistance < 40) ? mouseDistance / 2 : 20;
+                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
+
+            }
+
+
 
             //Gravity
             verticalVel += gravity * Time.deltaTime;
             moveDirection.y -= verticalVel;
 
-            
+
 
             //Move
             controller.Move(moveDirection * Time.deltaTime);
             EventSystem.PlayerPositionUpdate(transform.position);
 
         }
-        
+
     }
 
     void UpdateMousePosition(Vector3 MousePos)
     {
         mousePosition = MousePos;
-        mousePosition.y = transform.position.y;
     }
 
 
@@ -262,9 +321,17 @@ public class Player : MonoBehaviour
             StartCoroutine("Invulnerable");
             EventSystem.PlayerHealthUpdate(-dmg);
             health--;
-            if(health < 1)
+            Hud.UpdateHealth(health);
+            Debug.Log("health = " + Hud.healthslider.value);
+
+            if (health < 1)
             {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 currentState = States.Die;
+            }
+            else
+            {
+                GetComponent<AudioSource>().Play();
             }
         }
     }
@@ -318,10 +385,10 @@ public class Player : MonoBehaviour
 
     public void AttackFinished(int attack)
     {
-        if(currentState == States.Attack)
+        if (currentState == States.Attack)
         {
 
-            if(attack == 1)
+            if (attack == 1)
                 anim.SetBool("Slash Attack 01", false);
             else
                 anim.SetBool("Slash Attack 02", false);
@@ -333,21 +400,46 @@ public class Player : MonoBehaviour
 
     public void ResetAttackStack()
     {
-      weaponScript.ResetAttack();
+        weaponScript.ResetAttack();
     }
 
-    void OnTriggerStay (Collider col)
+    void OnTriggerStay(Collider col)
     {
         if (col.tag == "Trapdoor")
-        {
             if (Input.GetKeyDown(KeyCode.E))
-            {
-                //LoadNextLevel
-            }
-        }
+                SceneManager.LoadScene("Graveyard");
+
         if (col.tag == "LastDoor")
-        {
-            //Load Next Level
-        }
+            SceneManager.LoadScene("Graveyard");
+
     }
+    void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "ScorePowerUp")
+        {
+
+            Destroy(col.gameObject);
+            //waiting on fixxed score system 
+        }
+        else if (col.tag == "HealthPowerUp")
+        {
+            Destroy(col.gameObject);
+            health = 10;
+            Hud.UpdateHealth(health);
+        }
+        else if (col.tag == "Trapdoor")
+            col.gameObject.GetComponent<Animator>().SetBool("Close", false);
+    }
+    void OnTriggerExit(Collider col)
+    {
+        if (col.tag == "Trapdoor")
+            col.gameObject.GetComponent<Animator>().SetBool("Close", true);
+    }
+
+    void TeleportMove()
+    {
+        transform.position = tpDestination;
+    }
+
+
 }

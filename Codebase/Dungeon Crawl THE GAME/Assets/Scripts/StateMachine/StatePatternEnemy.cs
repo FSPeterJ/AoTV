@@ -1,7 +1,10 @@
-﻿using UnityEngine;
-public class StatePatternEnemy : MonoBehaviour
+﻿using System;
+using UnityEngine;
+public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 {
-    int Health = 10;
+    public int Health = 10;
+    Animator anim;
+    public HUD hud;
     public float searchingTurnSpeed = 120f;//Speed at which the enemy is going to turn to meet the player
     public float searchingDuration = 4f;//How long the enemy will search for the player in alert mode
     public float sightRange = 20f;//How far to raycast to see the player
@@ -36,39 +39,59 @@ public class StatePatternEnemy : MonoBehaviour
         chaseState = new ChaseState(this);
         alertState = new AlertState(this);
         patrolState = new PatrolState(this);        
-        navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        navMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();        
     }
 
     // Use this for initialization
     private void Start()
     {
+        anim = GetComponent<Animator>();
         currentState = patrolState;//Initializes first state to patrolling
     }
 
     // Update is called once per frame
     private void Update()
-    {                
+    {
+        hud.PrintScore();
         currentState.UpdateState();//Each class has an updateState. This function behavior will differ depending on the current state
         Debug.Log(currentState.ToString());
         DistanceToPlayer = chaseState.DistanceToTarget;
         if (currentState.ToString() == "ChaseState")
         {
-            Debug.Log("Distance from skeleton knight to player: " + DistanceToPlayer + " ft.");
+            Debug.Log("Distance from enemy to player: " + DistanceToPlayer + " ft.");
         }
     }
 
-    public void health_TakeDamage(int modHealth)
+    public void TakeDamage(int damage = 1)
     {
-        Health -= modHealth;
+        GetComponent<AudioSource>().Play();
+        if (RemainingHealth() <= 0)
+        {
+            hud.UpdateScore();
+            Kill();            
+        }
+        else
+        {
+            anim.SetBool("Take Damage", true);
+            Health -= damage;
+        }
     }
 
-    public void health_Heal(int modHealth)
-    {
-        Health += modHealth;
-    }
-
-    public int health_GetHealth()
+    public int RemainingHealth()
     {
         return Health;
+    }
+
+    public void Kill()
+    {
+        navMeshAgent.enabled = false;
+        navMeshAgent.speed = 0;
+        anim.SetBool("Die", true);
+        Transform.Destroy(gameObject);
+    }
+
+    public void ResetToIdle()
+    {
+        anim.SetBool("Idle", true);
     }
 }

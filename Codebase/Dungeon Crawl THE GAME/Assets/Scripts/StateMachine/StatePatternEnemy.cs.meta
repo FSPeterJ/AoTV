@@ -1,10 +1,14 @@
 fileFormatVersion: 2
 guid: 80610c61a369f29488d9a04d911999ca
-timeCreated: 1475612033
+timeCreated: 1485743031
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - hud: {instanceID: 0}
+  - eyes: {instanceID: 0}
+  - chaseTarget: {instanceID: 0}
+  - navMeshAgent: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

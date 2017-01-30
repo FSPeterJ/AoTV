@@ -3,15 +3,9 @@ using System.Collections;
 public class ChaseState : IEnemyState
 {
     private readonly StatePatternEnemy enemy;//Keeps track of the current enemy state
-    [SerializeField]
-    private GameObject projectile;
-    [SerializeField]
-    private GameObject player;
-    bool attack = true;
-    [SerializeField]
-    private float speed;
 
     public float DistanceToTarget = 0;
+
     public ChaseState(StatePatternEnemy unitedStatePattern)//constructor
     {
         enemy = unitedStatePattern;//when an instance is created pass in the current enemy state pattern.
@@ -23,9 +17,6 @@ public class ChaseState : IEnemyState
         Chase();
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-    }
 
     public void ToPatrolState()
     {

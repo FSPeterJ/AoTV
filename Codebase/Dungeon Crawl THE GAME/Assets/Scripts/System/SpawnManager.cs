@@ -6,8 +6,8 @@ public class SpawnManager : MonoBehaviour {
 
     public GameObject EnemyOne;
     public GameObject[] SpawnPoints;
-    public Collider Graveryard;
-    bool EnemiesHaveSpawned = false;
+    public Collider Trigger;
+   public bool EnemiesHaveSpawned = false;
 	// Use this for initialization
 	void Start ()
     {

@@ -54,7 +54,6 @@ public class WormMinionCont : MonoBehaviour
         }
     }
 
-
     // Use this for initialization
     void Start()
     {
@@ -89,7 +88,6 @@ public class WormMinionCont : MonoBehaviour
                             defendTime = true;
                         }
                     }
-
                 }
                 if (idleTime > 3f)
                 {
@@ -133,6 +131,10 @@ public class WormMinionCont : MonoBehaviour
                 break;
             case WormState.Death:
                 break;
+            default:
+                currentState = WormState.Idle;
+                break;
+
 
         }
     }
