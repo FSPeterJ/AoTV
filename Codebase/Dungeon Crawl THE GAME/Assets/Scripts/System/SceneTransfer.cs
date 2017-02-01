@@ -5,9 +5,13 @@ using UnityEngine.SceneManagement;
 public class SceneTransfer : MonoBehaviour {
 
     public Scene nextLevel;
+    public GameObject key1;
+    public GameObject key2;
+    public GameObject key3;
+    public GameObject key4;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
 		
 	}

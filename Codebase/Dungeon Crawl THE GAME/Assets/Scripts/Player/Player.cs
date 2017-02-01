@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
                 case States.SpinAttack:
                     anim.SetBool("Spin Attack", true);
                     weaponScript.AttackStart();
+                    spinTime = 0;
+                    spinCD = 0;
                     _cs = value;
                     break;
                 case States.Die:
@@ -166,6 +168,11 @@ public class Player : MonoBehaviour
     Vector3 CurrentCheckpoint;
 
 
+    //Spin Attack CD
+    float spinTime = 0;
+    float maxSpinTime = 3;
+    float spinCDMax = 8;
+    float spinCD = 999;
 
     void OnEnable()
     {
@@ -196,7 +203,9 @@ public class Player : MonoBehaviour
     {
         if (!dead)
         {
-            //Hud.PrintScore();
+            spinCD += Time.deltaTime;
+
+
             //Re-used a lot of Harrison's movement code
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
@@ -214,10 +223,9 @@ public class Player : MonoBehaviour
                     currentState = States.Attack;
 
                 }
-                else if (Input.GetMouseButton(1))
+                else if (Input.GetMouseButton(1) && spinCD > spinCDMax)
                 {
                     currentState = States.SpinAttack;
-
                 }
             }
 
@@ -225,11 +233,13 @@ public class Player : MonoBehaviour
 
             if (currentState == States.SpinAttack)
             {
-                if (!Input.GetMouseButton(1))
+                if (!Input.GetMouseButton(1) || spinTime > maxSpinTime)
                 {
                     currentState = States.Idle;
                     weaponScript.AttackEnd();
+                    spinCD = 0;
                 }
+                spinTime += Time.deltaTime;
             }
             else
             {
