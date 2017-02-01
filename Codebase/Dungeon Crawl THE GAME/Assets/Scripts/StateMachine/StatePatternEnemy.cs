@@ -6,7 +6,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     public bool alive = true;
     float deathTimer = 3;
     Animator anim;
-    public HUD hud;
+    //public HUD hud;
     public float searchingTurnSpeed = 120f;//Speed at which the enemy is going to turn to meet the player
     public float searchingDuration = 4f;//How long the enemy will search for the player in alert mode
     public float sightRange = 20f;//How far to raycast to see the player
