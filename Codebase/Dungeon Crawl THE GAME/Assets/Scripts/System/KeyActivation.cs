@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KeyActivation : MonoBehaviour {
-
+    public Texture key;
     bool hasKey;
+    bool hasKeySoundPlayed = false;
 
     void Start()
     {
@@ -30,6 +31,20 @@ public class KeyActivation : MonoBehaviour {
         {
             HasKey = true;
             Debug.Log("has key");
+            if (hasKeySoundPlayed != true)
+            {
+                GetComponent<AudioSource>().Play();
+                hasKeySoundPlayed = true;
+            }
+        }
+    }
+
+    void OnGUI()
+    {
+        if (HasKey)
+        {
+            GUI.Label(new Rect(Screen.width - 116, Screen.height - 116, 115, 115), key);
+
         }
     }
 }

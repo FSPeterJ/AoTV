@@ -15,6 +15,7 @@ public class OpenGate : MonoBehaviour
     private float startTime;
     private float journeyLength;
     public GameObject gate;
+    bool unlockSoundPlayed = false;
     // Use this for initialization
     void Start()
     {
@@ -46,7 +47,11 @@ public class OpenGate : MonoBehaviour
         if (key.HasKey == true)
         {
             unlocked = true;
-
+            if (unlockSoundPlayed != true)
+            {
+                GetComponent<AudioSource>().Play();
+                unlockSoundPlayed = true;
+            }
         }
     }
 }

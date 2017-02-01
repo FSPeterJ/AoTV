@@ -180,7 +180,7 @@ public class Player : MonoBehaviour
     {
         if (!dead)
         {
-            Hud.PrintScore();
+            //Hud.PrintScore();
             //Re-used a lot of Harrison's movement code
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
@@ -321,8 +321,8 @@ public class Player : MonoBehaviour
             StartCoroutine("Invulnerable");
             EventSystem.PlayerHealthUpdate(-dmg);
             health--;
-            Hud.UpdateHealth(health);
-            Debug.Log("health = " + Hud.healthslider.value);
+            //Hud.UpdateHealth(health);
+            //Debug.Log("health = " + Hud.healthslider.value);
 
             if (health < 1)
             {

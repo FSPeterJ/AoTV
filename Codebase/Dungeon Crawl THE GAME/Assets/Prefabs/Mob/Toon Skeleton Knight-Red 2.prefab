@@ -1168,7 +1168,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138380}
-  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.007410057, w: 0.010324802}
+  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.0074100574, w: 0.010324803}
   m_LocalPosition: {x: -0.07770801, y: -0.08016613, z: -0.007227639}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children:
@@ -3999,7 +3999,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!65 &65465519841448306
 BoxCollider:
@@ -4141,12 +4141,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 10
+  alive: 1
+  hud: {fileID: 0}
   searchingTurnSpeed: 120
   searchingDuration: 4
   sightRange: 20
   wayPoints:
-  - {fileID: 1021371060323584, guid: 5f50b10e24e144a4caa15054c8463957, type: 2}
-  - {fileID: 1525272568835480, guid: f5626b24d191f424aad09af1c3595416, type: 2}
+  - {fileID: 1257218946848876, guid: b17df959ebc607e4484141644097b0d7, type: 2}
+  - {fileID: 1220028495449216, guid: e334fb4e009ab4148976362fc5a9fc62, type: 2}
   eyes: {fileID: 4488859854562302}
   offset: {x: 0, y: 0.5, z: 0}
   attackDistance: 1.5
