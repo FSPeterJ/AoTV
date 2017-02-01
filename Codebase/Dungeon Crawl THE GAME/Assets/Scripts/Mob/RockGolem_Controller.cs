@@ -151,9 +151,8 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                     if (targetdistance < 2f)
                     {
                         currentState = AI.Attack;
-                        break;
                     }
-                    if (idleTime > 1f)
+                    else if (idleTime > 1f)
                     {
                         if (targetdistance < aggroRange)
                         {
@@ -182,7 +181,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                         anim.SetBool("Fly Forward", true);
                         wanderTargetSet = true;
                         navAgent.SetDestination(wanderTarget);
-
                     }
                     else if (navAgent.remainingDistance < 2)
                     {
@@ -293,6 +291,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     }
     public void Kill()
     {
+        AttackFinished();
         currentState = AI.Die;
 
     }

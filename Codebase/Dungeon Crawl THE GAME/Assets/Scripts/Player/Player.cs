@@ -248,13 +248,10 @@ public class Player : MonoBehaviour
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
                 if (mouseDistance > 1.9f)
                 {
-
                     //Turn player to face cursor on terrain
-                    Vector3 lookPos = (transform.position - mousePosition);
-                    lookPos.y = 0;
-                    float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90, .2f);
-                    //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
-                    transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+
+                    RotateToFaceTarget(mousePosition);
+
                 }
 
             }
@@ -333,6 +330,8 @@ public class Player : MonoBehaviour
             else
             {
                 GetComponent<AudioSource>().Play();
+                weaponScript.AttackEnd();
+                currentState = States.TakeDamage;
             }
         }
     }
@@ -372,21 +371,16 @@ public class Player : MonoBehaviour
 
     }
 
-    IEnumerator Invulnerable()
+    IEnumerator Invulnerable(int seconds = 1)
     {
         invulnerable = true;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(seconds);
 
         invulnerable = false;
     }
 
-    IEnumerator Invulneraball()
-    {
-        invulnerable = true;
-        yield return new WaitForSeconds(10);
-        invulnerable = false;
-    }
+
 
 
     public void AttackFinished(int attack)
@@ -438,7 +432,7 @@ public class Player : MonoBehaviour
  
         else if (col.tag == "Invulneraball")
         {
-            Invulneraball();
+            StartCoroutine(Invulnerable(10));
             Destroy(col.gameObject);
         }
         else if (col.tag == "Health Collectible")
@@ -459,5 +453,12 @@ public class Player : MonoBehaviour
         transform.position = tpDestination;
     }
 
-
+    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = .2f, float _AngleAdjustment = -90f)
+    {
+        Vector3 lookPos = (transform.position - _TargetPosition);
+        lookPos.y = 0;
+        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
+        //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
+        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+    }
 }

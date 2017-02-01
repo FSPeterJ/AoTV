@@ -162,7 +162,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
                         currentState = AI.Attack;
                         break;
                     }
-                    if (idleTime > 1f)
+                    else if (idleTime > 1f)
                     {
                         if (targetdistance < aggroRange)
                         {
@@ -321,6 +321,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     }
     public void Kill()
     {
+        AttackFinished();
         currentState = AI.Die;
 
     }

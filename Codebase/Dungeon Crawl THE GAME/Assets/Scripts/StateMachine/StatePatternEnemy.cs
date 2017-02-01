@@ -52,9 +52,8 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     // Update is called once per frame
     private void Update()
     {
-        hud.PrintScore();
         currentState.UpdateState();//Each class has an updateState. This function behavior will differ depending on the current state
-        Debug.Log(currentState.ToString());
+        //Debug.Log(currentState.ToString());
         DistanceToPlayer = chaseState.DistanceToTarget;
         if (currentState.ToString() == "ChaseState")
         {
