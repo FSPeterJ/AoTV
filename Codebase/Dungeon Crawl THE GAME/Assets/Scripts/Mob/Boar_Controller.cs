@@ -10,7 +10,6 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     int sX = Screen.width - 7;
     int sY = 0;
 
-    public HUD hud;
 
     //Use for executing commands on when first entering a state
     //Can also be used to prevent states from changing under certain conditions
@@ -144,6 +143,12 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
         {
             case AI.Idle:
                 {
+                    idleTime += Time.deltaTime;
+                    if (targetdistance < 2f)
+                    {
+                        currentState = AI.BiteAttack;
+                        break;
+                    }
                     if (idleTime > 1f)
                     {
                         if (targetdistance < 50f && targetdistance > 10f)
@@ -154,15 +159,16 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                         {
                             currentState = AI.Walk;
                         }
-                    }
-                    if (idleTime > 3f)
-                    {
+                        else if (idleTime > 3f)
+                        {
 
-                        currentState = AI.Wander;
-                        navAgent.enabled = true;
-                        idleTime = 0;
+                            currentState = AI.Wander;
+                            navAgent.enabled = true;
+                            idleTime = 0;
+                        }
                     }
-                    idleTime += Time.deltaTime;
+
+
                 }
                 break;
             case AI.Wander:
@@ -336,6 +342,6 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 
     void Scoreinc()
     {
-        hud.UpdateScore();
+        //Event goes here
     }
 }
