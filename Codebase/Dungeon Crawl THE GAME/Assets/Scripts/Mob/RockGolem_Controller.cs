@@ -337,6 +337,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
 
     void Scoreinc()
     {
-        hud.UpdateScore();
+        //hud.UpdateScore();
     }
 }

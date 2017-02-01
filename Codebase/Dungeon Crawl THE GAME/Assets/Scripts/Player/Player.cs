@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
                 case States.Die:
                     if (!dead)
                     {
+                        GetComponent<AudioSource>().PlayOneShot(deathSFX);
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
@@ -59,7 +60,9 @@ public class Player : MonoBehaviour
                     }
                     break;
                 case States.TakeDamage:
-                    anim.SetBool("TakeDamage", true);
+                    GetComponent<AudioSource>().Play();
+                    weaponScript.AttackEnd();
+                    anim.SetBool("Take Damage", true);
                     _cs = value;
                     break;
                 case States.Teleport:
@@ -170,8 +173,8 @@ public class Player : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
-        
-        
+
+
         teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/MagicCircle[Blue]");
         maxJumpStored = maxJump;
         currentState = States.Idle;
@@ -308,6 +311,12 @@ public class Player : MonoBehaviour
 
     }
 
+
+    public void ResetToIdle()
+    {
+        currentState = States.Idle;
+    }
+
     void UpdateMousePosition(Vector3 MousePos)
     {
         mousePosition = MousePos;
@@ -318,19 +327,18 @@ public class Player : MonoBehaviour
     {
         if (!invulnerable)
         {
-            StartCoroutine("Invulnerable");
+            StartCoroutine(Invulnerable());
             EventSystem.PlayerHealthUpdate(-dmg);
             health--;
 
             if (health < 1)
             {
-                GetComponent<AudioSource>().PlayOneShot(deathSFX);
+
                 currentState = States.Die;
             }
             else
             {
-                GetComponent<AudioSource>().Play();
-                weaponScript.AttackEnd();
+
                 currentState = States.TakeDamage;
             }
         }
@@ -350,7 +358,6 @@ public class Player : MonoBehaviour
         if (!burning)
         {
             TakeDamage();
-
             StartCoroutine("Burning");
         }
     }
@@ -429,7 +436,7 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
- 
+
         else if (col.tag == "Invulneraball")
         {
             StartCoroutine(Invulnerable(10));
