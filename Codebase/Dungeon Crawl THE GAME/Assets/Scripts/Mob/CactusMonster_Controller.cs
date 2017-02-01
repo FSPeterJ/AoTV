@@ -303,7 +303,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
-        AttackFinished()
+        AttackFinished();
         if (!dead)
         {
             health -= damage;
