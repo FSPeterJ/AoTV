@@ -15,12 +15,18 @@ public class WormMinionCont : MonoBehaviour
         Death
     }
 
+    [SerializeField]
     WormState _ws;
+
+
     Animator anim;
     float PlayerDist;
     Vector3 PlayerPos;
     bool defendTime;
     float idleTime;
+
+    [SerializeField]
+    GameObject Proj;
 
     WormState currentState
     {
@@ -30,25 +36,32 @@ public class WormMinionCont : MonoBehaviour
             switch (value)
             {
                 case WormState.Idle:
+                    _ws = value;
                     break;
                 case WormState.Bite:
                     anim.SetBool("Bite Attack", true);
+                    _ws = value;
                     break;
                 case WormState.Projectile:
                     anim.SetBool("Projectile Attack", true);
+                    _ws = value;
                     break;
                 case WormState.CastSpell:
                     anim.SetBool("Cast Spell", true);
+                    _ws = value;
                     break;
                 case WormState.Defend:
                     anim.SetBool("Defend", true);
+                    _ws = value;
                     break;
                 case WormState.TakeDamage:
                     anim.SetBool("Take Damage", true);
+                    _ws = value;
                     break;
                 case WormState.Death:
                     GetComponent<BoxCollider>().enabled = false;
                     anim.SetBool("Die", true);
+                    _ws = value;
                     break;
             }
         }
@@ -71,9 +84,9 @@ public class WormMinionCont : MonoBehaviour
             case WormState.Idle:
                 if (idleTime > 1f)
                 {
-                    if (PlayerDist < 15f && PlayerDist > 10f)
+                    if (PlayerDist < 25f && PlayerDist > 15f)
                         currentState = WormState.Projectile;
-                    else if (PlayerDist <= 10f && PlayerDist > 4f)
+                    else if (PlayerDist <= 15f && PlayerDist > 4f)
                         currentState = WormState.CastSpell;
                     else if (PlayerDist <= 4f)
                     {
@@ -99,6 +112,7 @@ public class WormMinionCont : MonoBehaviour
                 if (idleTime > 1f)
                 {
                     currentState = WormState.Idle;
+                    anim.SetBool("Bite Attack", false);
                 }
                 else
                     idleTime += Time.deltaTime;
@@ -107,6 +121,8 @@ public class WormMinionCont : MonoBehaviour
                 if (idleTime > 1f)
                 {
                     currentState = WormState.Idle;
+                    Instantiate(Proj, transform);
+                    anim.SetBool("Projectile Attack", false);
                 }
                 else
                     idleTime += Time.deltaTime;
@@ -115,6 +131,8 @@ public class WormMinionCont : MonoBehaviour
                 if (idleTime > 1f)
                 {
                     currentState = WormState.Idle;
+                    anim.SetBool("Cast Spell", false);
+
                 }
                 else
                     idleTime += Time.deltaTime;
@@ -123,6 +141,7 @@ public class WormMinionCont : MonoBehaviour
                 if (idleTime > 1f)
                 {
                     currentState = WormState.Idle;
+                    anim.SetBool("Defend", false);
                 }
                 else
                     idleTime += Time.deltaTime;

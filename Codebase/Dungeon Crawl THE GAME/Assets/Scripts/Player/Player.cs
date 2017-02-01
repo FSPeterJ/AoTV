@@ -47,19 +47,31 @@ public class Player : MonoBehaviour
                 case States.SpinAttack:
                     anim.SetBool("Spin Attack", true);
                     weaponScript.AttackStart();
+                    spinTime = 0;
+                    spinCD = 0;
                     _cs = value;
                     break;
                 case States.Die:
-                    if (!dead)
+                    if (!dead && lives < 1)
                     {
+                        GetComponent<AudioSource>().PlayOneShot(deathSFX);
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
                         _cs = value;
                     }
+                    else if (!dead)
+                    {
+                        lives--;
+                        transform.position = CurrentCheckpoint;
+                        currentState = States.Idle;
+                        health = 3;
+                    }
                     break;
                 case States.TakeDamage:
-                    anim.SetBool("TakeDamage", true);
+                    GetComponent<AudioSource>().Play();
+                    weaponScript.AttackEnd();
+                    anim.SetBool("Take Damage", true);
                     _cs = value;
                     break;
                 case States.Teleport:
@@ -129,7 +141,7 @@ public class Player : MonoBehaviour
     //This is a hack together way to get the weapon.
     public GameObject weapon;
     IWeaponBehavior weaponScript;
-    public GameObject teleportMarker;
+    GameObject teleportMarker;
     GameObject tpMarker;
     Vector3 tpDestination;
 
@@ -152,7 +164,15 @@ public class Player : MonoBehaviour
     Vector3 mousePosition;
     float mouseDistance;
 
+    //Checkpoints
+    Vector3 CurrentCheckpoint;
 
+
+    //Spin Attack CD
+    float spinTime = 0;
+    float maxSpinTime = 3;
+    float spinCDMax = 8;
+    float spinCD = 999;
 
     void OnEnable()
     {
@@ -170,6 +190,9 @@ public class Player : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+
+
+        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/MagicCircle[Blue]");
         maxJumpStored = maxJump;
         currentState = States.Idle;
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
@@ -180,7 +203,9 @@ public class Player : MonoBehaviour
     {
         if (!dead)
         {
-         //   Hud.PrintScore();
+            spinCD += Time.deltaTime;
+
+
             //Re-used a lot of Harrison's movement code
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
@@ -198,10 +223,9 @@ public class Player : MonoBehaviour
                     currentState = States.Attack;
 
                 }
-                else if (Input.GetMouseButton(1))
+                else if (Input.GetMouseButton(1) && spinCD > spinCDMax)
                 {
                     currentState = States.SpinAttack;
-
                 }
             }
 
@@ -209,11 +233,13 @@ public class Player : MonoBehaviour
 
             if (currentState == States.SpinAttack)
             {
-                if (!Input.GetMouseButton(1))
+                if (!Input.GetMouseButton(1) || spinTime > maxSpinTime)
                 {
                     currentState = States.Idle;
                     weaponScript.AttackEnd();
+                    spinCD = 0;
                 }
+                spinTime += Time.deltaTime;
             }
             else
             {
@@ -245,13 +271,10 @@ public class Player : MonoBehaviour
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
                 if (mouseDistance > 1.9f)
                 {
-
                     //Turn player to face cursor on terrain
-                    Vector3 lookPos = (transform.position - mousePosition);
-                    lookPos.y = 0;
-                    float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90, .2f);
-                    //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
-                    transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+
+                    RotateToFaceTarget(mousePosition);
+
                 }
 
             }
@@ -308,6 +331,12 @@ public class Player : MonoBehaviour
 
     }
 
+
+    public void ResetToIdle()
+    {
+        currentState = States.Idle;
+    }
+
     void UpdateMousePosition(Vector3 MousePos)
     {
         mousePosition = MousePos;
@@ -318,20 +347,19 @@ public class Player : MonoBehaviour
     {
         if (!invulnerable)
         {
-            StartCoroutine("Invulnerable");
+            StartCoroutine(Invulnerable());
             EventSystem.PlayerHealthUpdate(-dmg);
             health--;
-            Hud.UpdateHealth(health);
-            Debug.Log("health = " + Hud.healthslider.value);
 
             if (health < 1)
             {
-                GetComponent<AudioSource>().PlayOneShot(deathSFX);
+
                 currentState = States.Die;
             }
             else
             {
-                GetComponent<AudioSource>().Play();
+
+                currentState = States.TakeDamage;
             }
         }
     }
@@ -350,7 +378,6 @@ public class Player : MonoBehaviour
         if (!burning)
         {
             TakeDamage();
-
             StartCoroutine("Burning");
         }
     }
@@ -371,11 +398,11 @@ public class Player : MonoBehaviour
 
     }
 
-    IEnumerator Invulnerable()
+    IEnumerator Invulnerable(int seconds = 1)
     {
         invulnerable = true;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(seconds);
 
         invulnerable = false;
     }
@@ -410,7 +437,7 @@ public class Player : MonoBehaviour
                 SceneManager.LoadScene("Graveyard");
 
         if (col.tag == "LastDoor")
-            SceneManager.LoadScene("Graveyard");
+            SceneManager.LoadScene("Graveyard");       
 
     }
     void OnTriggerEnter(Collider col)
@@ -429,6 +456,51 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
+
+        else if (col.tag == "Invulneraball")
+        {
+            StartCoroutine(Invulnerable(10));
+            Destroy(col.gameObject);
+        }
+        else if (col.tag == "Health Collectible")
+        {
+            Destroy(col.gameObject);
+            health = health + 3;
+            Hud.UpdateHealth(health);
+        }
+        else if (col.tag == "Checkpoint")
+        {
+            if (CurrentCheckpoint != col.transform.position)
+            {
+                CurrentCheckpoint.x = col.transform.position.x;
+                CurrentCheckpoint.y = col.transform.position.y + 3;
+                CurrentCheckpoint.z = col.transform.position.z;
+
+
+               // GameObject temp = GameObject.Find("Ground Glow");
+                //temp.SetActive(true);
+
+                GameObject[] terribleStuff;
+                terribleStuff = col.GetComponentsInChildren<GameObject>();
+                foreach (GameObject GO in terribleStuff)
+                    if (GO.name == "Ground Glow")
+                        GO.SetActive(true);
+                
+                    
+
+               // GameObject.Find("Ground Glow").SetActive(true);
+
+
+
+
+               // col.GetComponentInChildren<ParticleSystem>().Play();
+            }
+        }
+        else if (col.tag == "OutOfBounds")
+        {
+            transform.position = CurrentCheckpoint;
+            TakeDamage();
+        }
     }
     void OnTriggerExit(Collider col)
     {
@@ -441,5 +513,12 @@ public class Player : MonoBehaviour
         transform.position = tpDestination;
     }
 
-
+    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = .2f, float _AngleAdjustment = -90f)
+    {
+        Vector3 lookPos = (transform.position - _TargetPosition);
+        lookPos.y = 0;
+        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
+        //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
+        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+    }
 }
