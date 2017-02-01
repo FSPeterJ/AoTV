@@ -518,7 +518,6 @@ public class Player : MonoBehaviour
         Vector3 lookPos = (transform.position - _TargetPosition);
         lookPos.y = 0;
         float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
-        //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
         transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
     }
 }

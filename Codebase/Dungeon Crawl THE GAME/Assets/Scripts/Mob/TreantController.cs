@@ -119,11 +119,13 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
+        EventSystem.onPlayerDeath += PlayerDied;
     }
 
     void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        EventSystem.onPlayerDeath -= PlayerDied;
     }
 
     void Start()
@@ -296,5 +298,11 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
     void UpdateTargetPosition(Vector3 pos)
     {
         targetPos = pos;
+    }
+
+    void PlayerDied()
+    {
+        EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
     }
 }
