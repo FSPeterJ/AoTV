@@ -156,30 +156,26 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
         {
             case AI.Idle:
                 {
-                    if (idleTime > 4f)
+                    idleTime += Time.deltaTime;
+                    if (targetdistance < 2f)
                     {
-
-                        currentState = AI.Wander;
-                        navAgent.enabled = true;
-                        idleTime = 0;
+                        currentState = AI.Attack;
+                        break;
                     }
                     else if (idleTime > 1f)
                     {
                         if (targetdistance < aggroRange)
                         {
-                        
                             currentState = AI.Walk;
+                            break;
                         }
-                    }
-
-                    else
-                    {
-                        if (targetdistance < attackRange)
+                        else if (idleTime > 4f)
                         {
-                            currentState = AI.Attack;
+                            currentState = AI.Wander;
+                            navAgent.enabled = true;
+                            idleTime = 0;
                         }
                     }
-                    idleTime += Time.deltaTime;
                 }
                 break;
             case AI.Wander:
@@ -303,6 +299,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        AttackFinished();
         if (!dead)
         {
             health -= damage;
@@ -324,6 +321,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     }
     public void Kill()
     {
+        AttackFinished();
         currentState = AI.Die;
 
     }
@@ -369,6 +367,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
 
     void ScoreInc()
     {
-        huD.UpdateScore();
+        //Cannot call huD
+        //huD.UpdateScore();
     }
 }
