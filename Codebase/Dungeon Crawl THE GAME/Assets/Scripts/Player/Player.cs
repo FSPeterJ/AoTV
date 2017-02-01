@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
                 case States.Die:
                     if (!dead && lives < 1)
                     {
+                        GetComponent<AudioSource>().PlayOneShot(deathSFX);
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
@@ -66,7 +67,9 @@ public class Player : MonoBehaviour
                     }
                     break;
                 case States.TakeDamage:
-                    anim.SetBool("TakeDamage", true);
+                    GetComponent<AudioSource>().Play();
+                    weaponScript.AttackEnd();
+                    anim.SetBool("Take Damage", true);
                     _cs = value;
                     break;
                 case States.Teleport:
@@ -136,7 +139,7 @@ public class Player : MonoBehaviour
     //This is a hack together way to get the weapon.
     public GameObject weapon;
     IWeaponBehavior weaponScript;
-    public GameObject teleportMarker;
+    GameObject teleportMarker;
     GameObject tpMarker;
     Vector3 tpDestination;
 
@@ -180,6 +183,9 @@ public class Player : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+
+
+        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/MagicCircle[Blue]");
         maxJumpStored = maxJump;
         currentState = States.Idle;
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
@@ -255,13 +261,10 @@ public class Player : MonoBehaviour
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
                 if (mouseDistance > 1.9f)
                 {
-
                     //Turn player to face cursor on terrain
-                    Vector3 lookPos = (transform.position - mousePosition);
-                    lookPos.y = 0;
-                    float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90, .2f);
-                    //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
-                    transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+
+                    RotateToFaceTarget(mousePosition);
+
                 }
 
             }
@@ -318,6 +321,12 @@ public class Player : MonoBehaviour
 
     }
 
+
+    public void ResetToIdle()
+    {
+        currentState = States.Idle;
+    }
+
     void UpdateMousePosition(Vector3 MousePos)
     {
         mousePosition = MousePos;
@@ -328,20 +337,19 @@ public class Player : MonoBehaviour
     {
         if (!invulnerable)
         {
-            StartCoroutine("Invulnerable");
+            StartCoroutine(Invulnerable());
             EventSystem.PlayerHealthUpdate(-dmg);
             health--;
-            Hud.UpdateHealth(health);
-            Debug.Log("health = " + Hud.healthslider.value);
 
             if (health < 1)
             {
-                GetComponent<AudioSource>().PlayOneShot(deathSFX);
+
                 currentState = States.Die;
             }
             else
             {
-                GetComponent<AudioSource>().Play();
+
+                currentState = States.TakeDamage;
             }
         }
     }
@@ -360,7 +368,6 @@ public class Player : MonoBehaviour
         if (!burning)
         {
             TakeDamage();
-
             StartCoroutine("Burning");
         }
     }
@@ -381,21 +388,16 @@ public class Player : MonoBehaviour
 
     }
 
-    IEnumerator Invulnerable()
+    IEnumerator Invulnerable(int seconds = 1)
     {
         invulnerable = true;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(seconds);
 
         invulnerable = false;
     }
 
-    IEnumerator Invulneraball()
-    {
-        invulnerable = true;
-        yield return new WaitForSeconds(10);
-        invulnerable = false;
-    }
+
 
 
     public void AttackFinished(int attack)
@@ -444,10 +446,10 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
- 
+
         else if (col.tag == "Invulneraball")
         {
-            Invulneraball();
+            StartCoroutine(Invulnerable(10));
             Destroy(col.gameObject);
         }
         else if (col.tag == "Health Collectible")
@@ -499,5 +501,14 @@ public class Player : MonoBehaviour
     void TeleportMove()
     {
         transform.position = tpDestination;
+    }
+
+    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = .2f, float _AngleAdjustment = -90f)
+    {
+        Vector3 lookPos = (transform.position - _TargetPosition);
+        lookPos.y = 0;
+        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
+        //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
+        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
     }
 }
