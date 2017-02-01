@@ -52,13 +52,20 @@ public class Player : MonoBehaviour
                     _cs = value;
                     break;
                 case States.Die:
-                    if (!dead)
+                    if (!dead && lives < 1)
                     {
                         GetComponent<AudioSource>().PlayOneShot(deathSFX);
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
                         _cs = value;
+                    }
+                    else if (!dead)
+                    {
+                        lives--;
+                        transform.position = CurrentCheckpoint;
+                        currentState = States.Idle;
+                        health = 3;
                     }
                     break;
                 case States.TakeDamage:
@@ -156,6 +163,9 @@ public class Player : MonoBehaviour
     //Control Settings
     Vector3 mousePosition;
     float mouseDistance;
+
+    //Checkpoints
+    Vector3 CurrentCheckpoint;
 
 
     //Spin Attack CD
@@ -427,7 +437,7 @@ public class Player : MonoBehaviour
                 SceneManager.LoadScene("Graveyard");
 
         if (col.tag == "LastDoor")
-            SceneManager.LoadScene("Graveyard");
+            SceneManager.LoadScene("Graveyard");       
 
     }
     void OnTriggerEnter(Collider col)
@@ -457,6 +467,39 @@ public class Player : MonoBehaviour
             Destroy(col.gameObject);
             health = health + 3;
             Hud.UpdateHealth(health);
+        }
+        else if (col.tag == "Checkpoint")
+        {
+            if (CurrentCheckpoint != col.transform.position)
+            {
+                CurrentCheckpoint.x = col.transform.position.x;
+                CurrentCheckpoint.y = col.transform.position.y + 3;
+                CurrentCheckpoint.z = col.transform.position.z;
+
+
+               // GameObject temp = GameObject.Find("Ground Glow");
+                //temp.SetActive(true);
+
+                GameObject[] terribleStuff;
+                terribleStuff = col.GetComponentsInChildren<GameObject>();
+                foreach (GameObject GO in terribleStuff)
+                    if (GO.name == "Ground Glow")
+                        GO.SetActive(true);
+                
+                    
+
+               // GameObject.Find("Ground Glow").SetActive(true);
+
+
+
+
+               // col.GetComponentInChildren<ParticleSystem>().Play();
+            }
+        }
+        else if (col.tag == "OutOfBounds")
+        {
+            transform.position = CurrentCheckpoint;
+            TakeDamage();
         }
     }
     void OnTriggerExit(Collider col)
