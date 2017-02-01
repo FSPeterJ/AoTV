@@ -123,12 +123,13 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
-        
+        EventSystem.onPlayerDeath += PlayerDied;
     }
     //unsubscribe from player movement
     void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        EventSystem.onPlayerDeath -= PlayerDied;
     }
 
 
@@ -361,11 +362,11 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     bool AttackRangeCheck()
     {
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange, Color.red);
-        Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.5f) * attackRange, Color.red);
-        Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.5f) * attackRange, Color.red);
+        Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
+        Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
         attackRangeForward = new Ray(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * 3f);
-        attackRangeRight = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.5f) * 3f);
-        attackRangeLeft = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.5f) * 3f);
+        attackRangeRight = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.25f) * 3f);
+        attackRangeLeft = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.25f) * 3f);
         RaycastHit forwardHit;
         RaycastHit leftHit;
         RaycastHit rightHit;
@@ -376,4 +377,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
         }
         return false;
     }
+
+
+    
 }
