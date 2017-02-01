@@ -272,6 +272,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        AttackFinished();
         if (!dead)
         {
             health -= damage;

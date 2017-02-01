@@ -303,6 +303,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        AttackFinished()
         if (!dead)
         {
             health -= damage;
@@ -369,6 +370,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
 
     void ScoreInc()
     {
-        huD.UpdateScore();
+        //Cannot call huD
+        //huD.UpdateScore();
     }
 }
