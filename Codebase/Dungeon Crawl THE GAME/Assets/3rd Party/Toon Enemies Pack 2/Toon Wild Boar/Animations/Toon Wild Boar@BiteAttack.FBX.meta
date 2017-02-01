@@ -3,7 +3,7 @@ guid: 4e7e73fafe9458c46a76a4ba3ca4f63e
 timeCreated: 1464688111
 licenseType: Store
 ModelImporter:
-  serializedVersion: 18
+  serializedVersion: 19
   fileIDToRecycleName:
     100000: Rig
     100002: RigHead
@@ -108,7 +108,7 @@ ModelImporter:
     400098: Toon Wild Boar
     400100: //RootNode
     4300000: Toon Wild Boar
-    7400000: Take 001
+    7400000: BiteAttack
     9500000: //RootNode
     13700000: Toon Wild Boar
   materials:
@@ -118,6 +118,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
@@ -125,12 +126,158 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 1
-    animationRotationError: .5
-    animationPositionError: .5
-    animationScaleError: .5
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: BiteAttack
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
+      - time: 0.3328786
+        functionName: AttackStart
+        data: 
+        objectReferenceParameter: {fileID: 1844979064593276, guid: b76755ed14a71b44e8a96305df11117c,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6957708
+        functionName: AttackFinished
+        data: 
+        objectReferenceParameter: {fileID: 1844979064593276, guid: b76755ed14a71b44e8a96305df11117c,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Rig
+        weight: 1
+      - path: RigHeadGizmo
+        weight: 1
+      - path: RigLBLegPlatform
+        weight: 1
+      - path: RigLFLegPlatform
+        weight: 1
+      - path: RigMouthBGizmo
+        weight: 1
+      - path: RigMouthTGizmo
+        weight: 1
+      - path: RigPelvis
+        weight: 1
+      - path: RigPelvis/RigLBLeg1
+        weight: 1
+      - path: RigPelvis/RigLBLeg1/RigLBLeg2
+        weight: 1
+      - path: RigPelvis/RigLBLeg1/RigLBLeg2/RigLBLegAnkle
+        weight: 1
+      - path: RigPelvis/RigLBLeg1/RigLBLeg2/RigLBLegAnkle/RigLBLegFoot1
+        weight: 1
+      - path: RigPelvis/RigLBLeg1/RigLBLeg2/RigLBLegAnkle/RigLBLegFoot1/RigLBLegFoot2
+        weight: 1
+      - path: RigPelvis/RigRBLeg1
+        weight: 1
+      - path: RigPelvis/RigRBLeg1/RigRBLeg2
+        weight: 1
+      - path: RigPelvis/RigRBLeg1/RigRBLeg2/RigRBLegAnkle
+        weight: 1
+      - path: RigPelvis/RigRBLeg1/RigRBLeg2/RigRBLegAnkle/RigRBLegFoot1
+        weight: 1
+      - path: RigPelvis/RigRBLeg1/RigRBLeg2/RigRBLegAnkle/RigRBLegFoot1/RigRBLegFoot2
+        weight: 1
+      - path: RigPelvis/RigSpine1
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLFLeg1
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLFLeg1/RigLFLeg2
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLFLeg1/RigLFLeg2/RigLFLegAnkle
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLFLeg1/RigLFLeg2/RigLFLegAnkle/RigLFLegFoot1
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigLFLeg1/RigLFLeg2/RigLFLegAnkle/RigLFLegFoot1/RigLFLegFoot2
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigNeck
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigNeck/RigHead
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigNeck/RigHead/RigMouthB
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigNeck/RigHead/RigMouthT
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRFLeg1
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRFLeg1/RigRFLeg2
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRFLeg1/RigRFLeg2/RigRFLegAnkle
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRFLeg1/RigRFLeg2/RigRFLegAnkle/RigRFLegFoot1
+        weight: 1
+      - path: RigPelvis/RigSpine1/RigSpine2/RigSpine3/RigRibcage/RigRFLeg1/RigRFLeg2/RigRFLegAnkle/RigRFLegFoot1/RigRFLegFoot2
+        weight: 1
+      - path: RigPelvis/RigTail1
+        weight: 1
+      - path: RigPelvis/RigTail1/RigTail2
+        weight: 1
+      - path: RigPelvis/RigTail1/RigTail2/RigTail3
+        weight: 1
+      - path: RigPelvis/RigTail1/RigTail2/RigTail3/RigTail4
+        weight: 1
+      - path: RigPelvis/RigTail1/RigTail2/RigTail3/RigTail4/RigTail5
+        weight: 1
+      - path: RigPelvisGizmo
+        weight: 1
+      - path: RigRBLegPlatform
+        weight: 1
+      - path: RigRFLegPlatform
+        weight: 1
+      - path: RigRibcageGizmo
+        weight: 1
+      - path: RigTail1Gizmo
+        weight: 1
+      - path: RigTail2Gizmo
+        weight: 1
+      - path: RigTail3Gizmo
+        weight: 1
+      - path: RigTail4Gizmo
+        weight: 1
+      - path: RigTail5Gizmo
+        weight: 1
+      - path: Toon Wild Boar
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -151,24 +298,29 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 1
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 4
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
+    serializedVersion: 2
     human: []
     skeleton: []
-    armTwist: .5
-    foreArmTwist: .5
-    upperLegTwist: .5
-    legTwist: .5
-    armStretch: .0500000007
-    legStretch: .0500000007
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
+  humanoidOversampling: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

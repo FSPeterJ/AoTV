@@ -26,7 +26,7 @@ public class SkeletonKnight : MonoBehaviour{
     // Update is called once per frame
     void Update ()
     {
-        if (!asleep)
+        if (!asleep && unitedStatePattern.alive)
         {
             if (unitedStatePattern.currentState.ToString() == "PatrolState")
             {
@@ -54,6 +54,10 @@ public class SkeletonKnight : MonoBehaviour{
                     anim.SetBool("Run", true);
                 }
             }
+        }
+        else
+        {
+            CancelCurrentAnimation();
         }
     }
 

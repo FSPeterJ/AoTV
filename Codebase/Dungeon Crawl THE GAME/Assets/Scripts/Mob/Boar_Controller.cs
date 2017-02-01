@@ -10,72 +10,75 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     int sX = Screen.width - 7;
     int sY = 0;
 
-    public HUD hud;
 
     //Use for executing commands on when first entering a state
     //Can also be used to prevent states from changing under certain conditions
-    BoarState _cs;
-    BoarState currentState
+    public AI _cs;
+    public AI currentState
     {
         get { return _cs; }
         set
         {
             switch (value)
             {
-                case BoarState.Idle:
+                case AI.Idle:
+                    navAgent.speed = 0;
+                    navAgent.Stop();
+                    //navAgent.
                     idleTime = 0;
-                    navAgent.enabled = false;
+                    //navAgent.enabled = false;
                     //You can prevent a state assignment with a check here
                     _cs = value;
                     break;
-                case BoarState.Wander:
+                case AI.Wander:
                     anim.SetBool("Walk", true);
-                    navAgent.enabled = true;
+                    navAgent.Resume();
+                    //navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
-                case BoarState.Jump:
+                case AI.Jump:
                     _cs = value;
                     break;
-                case BoarState.Run:
+                case AI.Run:
                     anim.SetBool("Run", true);
-                    navAgent.enabled = true;
+                    navAgent.Resume();
+                    //navAgent.enabled = true;
                     navAgent.speed = 15f;
                     _cs = value;
                     break;
-                case BoarState.Walk:
+                case AI.Walk:
                     anim.SetBool("Walk", true);
-                    navAgent.enabled = true;
+                    navAgent.Resume();
+                    //navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
-                case BoarState.BiteAttack:
-                    AttackRegionCollider.enabled = true;
+                case AI.BiteAttack:
                     anim.SetBool("Bite Attack", true);
                     navAgent.speed = 0;
-                    navAgent.enabled = false;
+                    navAgent.Stop();
+                    //navAgent.enabled = false;
                     idleTime = 0;
                     _cs = value;
                     break;
-                case BoarState.TuskAttack:
-                    AttackRegionCollider.enabled = true;
+                case AI.TuskAttack:
                     anim.SetBool("Tusk Attack", true);
                     navAgent.speed = 0;
-                    navAgent.enabled = false;
+                    navAgent.Stop();
                     idleTime = 0;
                     _cs = value;
                     break;
-                case BoarState.TakeDamage:
+                case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
 
                     break;
-                case BoarState.Die:
+                case AI.Die:
                     dead = true;
-                    AttackRegionCollider.enabled = false;
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     anim.SetBool("Die", true);
-                    
+                    bCollider.enabled = false;
                     _cs = value;
                     break;
                 default:
@@ -85,7 +88,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
         }
 
     }
-    enum BoarState
+    public enum AI
     {
         Idle, Walk, Jump, Run, BiteAttack, TuskAttack, CastSpell, Defend, TakeDamage, Wander, Die
     }
@@ -110,7 +113,9 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 
     //References
     NavMeshAgent navAgent;
-    Collider AttackRegionCollider;
+    BoxCollider bCollider;
+    IWeaponBehavior weaponScript;
+    GameObject mouthGizmo;
 
     float idleTime = 0;
 
@@ -118,55 +123,67 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
+        EventSystem.onPlayerDeath += PlayerDied;
     }
     //unsubscribe from player movement
     void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        EventSystem.onPlayerDeath -= PlayerDied;
     }
 
 
     // Use this for initialization
     void Start()
     {
+        bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
-        AttackRegionCollider = GetComponent<Collider>();
-        currentState = BoarState.Idle;
+        mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
+        weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
+        currentState = AI.Idle;
         navHitPos.hit = true;
     }
 
     private void Update()
     {
         targetdistance = Vector3.Distance(targetPos, transform.position);
+            
+
         //StateMachine
         switch (currentState)
         {
-            case BoarState.Idle:
+            case AI.Idle:
                 {
-                    if (idleTime > 1f)
+                    idleTime += Time.deltaTime;
+                    //Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (mouthGizmo.transform.r + mouthGizmo.transform.right).normalized * 4f, Color.red);
+                    //Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (mouthGizmo.transform.forward - mouthGizmo.transform.right).normalized * 4f, Color.red);
+                    if (AttackRangeCheck())
+                    {
+                        currentState = AI.BiteAttack;
+                        
+                    }
+                    else if (idleTime > 1f)
                     {
                         if (targetdistance < 50f && targetdistance > 10f)
                         {
-                            currentState = BoarState.Run;
+                            currentState = AI.Run;
                         }
                         else if (targetdistance < 8f)
                         {
-                            currentState = BoarState.Walk;
+                            currentState = AI.Walk;
+                        }
+                        else if (idleTime > 3f)
+                        {
+                            currentState = AI.Wander;
+                            navAgent.enabled = true;
+                            idleTime = 0;
                         }
                     }
-                    if (idleTime > 3f)
-                    {
-
-                        currentState = BoarState.Wander;
-                        navAgent.enabled = true;
-                        idleTime = 0;
-                    }
-                    idleTime += Time.deltaTime;
                 }
                 break;
-            case BoarState.Wander:
+            case AI.Wander:
                 {
 
                     if (navHitPos.hit == true)
@@ -178,117 +195,102 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                         navHitPos.position = randDirection;
                         anim.SetBool("Walk", true);
                         navAgent.SetDestination(navHitPos.position);
-
                     }
                     else if (navAgent.remainingDistance < 2)
                     {
                         navHitPos.hit = true;
                         anim.SetBool("Walk", false);
-                        currentState = BoarState.Idle;
+                        currentState = AI.Idle;
                     }
 
                 }
                 break;
-            case BoarState.Walk:
+            case AI.Walk:
                 {
 
                     navAgent.SetDestination(targetPos);
-                    if (targetdistance < 2.8f)
+                    if (AttackRangeCheck())
                     {
-                        currentState = BoarState.BiteAttack;
+                        currentState = AI.BiteAttack;
                         anim.SetBool("Walk", false);
                     }
                     else if (targetdistance < 50f && targetdistance > 10f)
                     {
-                        currentState = BoarState.Run;
+                        currentState = AI.Run;
                         anim.SetBool("Walk", false);
                     }
                     break;
 
                 }
 
-            case BoarState.Jump:
+            case AI.Jump:
                 {
 
                 }
                 break;
-            case BoarState.Run:
+            case AI.Run:
                 {
                     navAgent.SetDestination(targetPos);
-                    if (targetdistance < 2.8f)
+                    if (AttackRangeCheck())
                     {
-                        currentState = BoarState.TuskAttack;
+                        currentState = AI.TuskAttack;
                         anim.SetBool("Run", false);
                     }
                 }
                 break;
-            case BoarState.BiteAttack:
+            case AI.BiteAttack:
                 {
+                    //RotateToFaceTarget(targetPos, .01f);
 
-                    if (idleTime > 1f)
-                    {
-                        currentState = BoarState.Idle;
-                        anim.SetBool("Bite Attack", false);
-                        //Potential Bug
-                        AttackRegionCollider.enabled = false;
-                    }
-                    else
-                        idleTime += Time.deltaTime;
+
                 }
                 break;
-            case BoarState.TuskAttack:
+            case AI.TuskAttack:
                 {
+                    //RotateToFaceTarget(targetPos, .01f);
 
-                    if (idleTime > 1f)
-                    {
-                        currentState = BoarState.Idle;
-                        anim.SetBool("Tusk Attack", false);
-                        //Potential Bug
-                        AttackRegionCollider.enabled = false;
-                    }
-                    else
-                        idleTime += Time.deltaTime;
                 }
                 break;
-            case BoarState.CastSpell:
+            case AI.CastSpell:
                 {
 
                 }
                 break;
-            case BoarState.Defend:
+            case AI.Defend:
+                {
+                    //RotateToFaceTarget(targetPos, .01f);
+                }
+                break;
+            case AI.TakeDamage:
                 {
 
                 }
                 break;
-            case BoarState.TakeDamage:
-                {
-
-                }
-                break;
-            case BoarState.Die:
+            case AI.Die:
                 idleTime = 0f;
                 while (true)
                 {
-                    if (idleTime> 500f)
+                    if (idleTime > 500f)
                     {
                         break;
-                      
+
                     }
                     else
                         idleTime += Time.deltaTime;
                 }
-               // Destroy(gameObject);
+                // Destroy(gameObject);
                 break;
         }
     }
 
     public void ResetToIdle()
     {
-        currentState = BoarState.Idle;
+        currentState = AI.Idle;
 
     }
     public void TakeDamage(int damage = 1)
     {
+        AttackFinished();
         if (!dead)
         {
             health -= damage;
@@ -299,7 +301,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
             }
             else
             {
-                currentState = BoarState.TakeDamage;
+                currentState = AI.TakeDamage;
             }
         }
     }
@@ -309,9 +311,24 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     }
     public void Kill()
     {
-        currentState = BoarState.Die;
+        AttackFinished();
+        currentState = AI.Die;
 
     }
+
+    public void AttackFinished()
+    {
+        weaponScript.AttackEnd();
+        currentState = AI.Idle;
+    }
+
+    public void AttackStart()
+    {
+
+        weaponScript.AttackStart();
+
+    }
+
     void UpdateTargetPosition(Vector3 pos)
     {
         targetPos = pos;
@@ -325,6 +342,42 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 
     void Scoreinc()
     {
-        hud.UpdateScore();
+        //Event goes here
     }
+    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = .2f, float _AngleAdjustment = -90f)
+    {
+        Vector3 lookPos = (transform.position - _TargetPosition);
+        lookPos.y = 0;
+        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
+        //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
+        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+    }
+
+
+
+    Ray attackRangeForward;
+    Ray attackRangeLeft;
+    Ray attackRangeRight;
+    float attackRange = 2.0f;
+    bool AttackRangeCheck()
+    {
+        Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange, Color.red);
+        Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
+        Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
+        attackRangeForward = new Ray(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * 3f);
+        attackRangeRight = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.25f) * 3f);
+        attackRangeLeft = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.25f) * 3f);
+        RaycastHit forwardHit;
+        RaycastHit leftHit;
+        RaycastHit rightHit;
+
+        if (Physics.Raycast(attackRangeForward, out forwardHit, attackRange)  && forwardHit.transform.tag == "Player" || Physics.Raycast(attackRangeLeft, out leftHit, attackRange) && leftHit.transform.tag == "Player" || Physics.Raycast(attackRangeRight, out rightHit, attackRange) && rightHit.transform.tag == "Player" )
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    
 }
