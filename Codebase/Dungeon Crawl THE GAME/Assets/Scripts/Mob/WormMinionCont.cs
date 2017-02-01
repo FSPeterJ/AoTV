@@ -78,6 +78,8 @@ public class WormMinionCont : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        transform.LookAt(PlayerPos);
+
         PlayerDist = Vector3.Distance(PlayerPos, transform.position);
         switch (currentState)
         {
