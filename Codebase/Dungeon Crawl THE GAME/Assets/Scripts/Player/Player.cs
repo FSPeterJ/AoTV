@@ -380,7 +380,12 @@ public class Player : MonoBehaviour
         invulnerable = false;
     }
 
-
+    IEnumerator Invulneraball()
+    {
+        invulnerable = true;
+        yield return new WaitForSeconds(10);
+        invulnerable = false;
+    }
 
 
     public void AttackFinished(int attack)
@@ -429,6 +434,18 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
+ 
+        else if (col.tag == "Invulneraball")
+        {
+            Invulneraball();
+            Destroy(col.gameObject);
+        }
+        else if (col.tag == "Health Collectible")
+        {
+            Destroy(col.gameObject);
+            health = health + 3;
+            Hud.UpdateHealth(health);
+        }
     }
     void OnTriggerExit(Collider col)
     {
