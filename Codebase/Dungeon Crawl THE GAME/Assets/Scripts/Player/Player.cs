@@ -440,6 +440,12 @@ public class Player : MonoBehaviour
             Invulneraball();
             Destroy(col.gameObject);
         }
+        else if (col.tag == "Health Collectible")
+        {
+            Destroy(col.gameObject);
+            health = health + 3;
+            Hud.UpdateHealth(health);
+        }
     }
     void OnTriggerExit(Collider col)
     {
