@@ -7,8 +7,92 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public AudioClip deathSFX;
-    //States
+    
 
+    
+
+
+    //Basic Settings - Edit in Unity
+    public int maxJump = 1;
+
+    public float movementModfier = .75f;
+    public int health = 30;
+    public int lives = 3;
+
+
+    //This is not allowed.
+    //public HUD Hud;
+
+    //Variables
+    bool invulnerable = false;
+    bool burning = false;
+    int maxJumpStored;
+
+    //Component References
+    Animator anim;
+    CharacterController controller;
+    //This is a hack together way to get the weapon.
+    public GameObject weapon;
+    IWeaponBehavior weaponScript;
+    GameObject teleportMarker;
+    GameObject tpMarker;
+    Vector3 tpDestination;
+
+
+    //Physics Settings
+    public float speed = 3.0F;
+    public float sprintSpeed = 6.0f;
+    public float jumpSpeed = 10.0F;
+    public float gravity = 9.8F;
+    public float mass = 20.0F;
+    public float rotationSpeed = 5.0f;
+
+    //Physics Internals
+    Vector3 moveDirection = Vector3.zero;
+    Vector3 Impact = Vector3.zero;
+    float verticalVel = 0;
+    bool dead = false;
+
+    //Control Settings
+    Vector3 mousePosition;
+    float mouseDistance;
+
+    //Checkpoints
+    Vector3 CurrentCheckpoint;
+
+
+    //Spin Attack CD
+    float spinTime = 0;
+    float maxSpinTime = 3;
+    float spinCDMax = 8;
+    float spinCD = 999;
+
+    //Teleport CD
+    float teleportCDMax = 8;
+    float teleportCD = 999;
+
+    void OnEnable()
+    {
+        EventSystem.onMousePositionUpdate += UpdateMousePosition;
+    }
+    //unsubscribe from player movement
+    void OnDisable()
+    {
+        EventSystem.onMousePositionUpdate -= UpdateMousePosition;
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
+        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
+        maxJumpStored = maxJump;
+        currentState = States.Idle;
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
+    }
+
+    //States
     enum States
     {
         Idle, MoveForward, Attack, SpinAttack, Die, TakeDamage, Teleport, LowPriorityIdle
@@ -60,10 +144,10 @@ public class Player : MonoBehaviour
                         EventSystem.PlayerDeath();
                         _cs = value;
                     }
-                    else if (!dead)
+                    else
                     {
                         lives--;
-                        transform.position = CurrentCheckpoint;
+                        ReturnToCheckpoint();
                         currentState = States.Idle;
                         health = 3;
                     }
@@ -75,8 +159,11 @@ public class Player : MonoBehaviour
                     _cs = value;
                     break;
                 case States.Teleport:
-                    anim.SetBool("Teleport", true);
-                    _cs = value;
+                    tpDestination = tpMarker.transform.position;
+                    Destroy(tpMarker);
+                    anim.SetTrigger("Teleport");
+                    teleportCD = 0;
+                    //_cs = value;
                     break;
                 case States.LowPriorityIdle:
                     if (_cs == States.MoveForward)
@@ -90,6 +177,7 @@ public class Player : MonoBehaviour
             }
         }
     }
+
 
     bool _tT = false;
     bool teleportToggle
@@ -106,104 +194,24 @@ public class Player : MonoBehaviour
                 if (_tT)
                 {
                     tpMarker = Instantiate(teleportMarker);
+                    Debug.Log(tpMarker);
                     tpMarker.transform.parent = transform;
                     tpMarker.transform.position = transform.position;
                 }
                 else
                 {
-                    tpDestination = tpMarker.transform.position;
-                    Destroy(tpMarker);
-                    anim.SetTrigger("Teleport");
-
+                    currentState = States.Teleport;
                 }
             }
         }
     }
-
-
-    //Basic Settings - Edit in Unity
-    public int maxJump = 1;
-
-    public float movementModfier = .75f;
-    public int health = 30;
-    public int lives = 3;
-
-    public HUD Hud;
-
-    //Variables
-    bool invulnerable = false;
-    bool burning = false;
-    int maxJumpStored;
-
-    //Component References
-    Animator anim;
-    CharacterController controller;
-    //This is a hack together way to get the weapon.
-    public GameObject weapon;
-    IWeaponBehavior weaponScript;
-    GameObject teleportMarker;
-    GameObject tpMarker;
-    Vector3 tpDestination;
-
-
-    //Physics Settings
-    public float speed = 3.0F;
-    public float sprintSpeed = 6.0f;
-    public float jumpSpeed = 10.0F;
-    public float gravity = 9.8F;
-    public float mass = 20.0F;
-    public float rotationSpeed = 5.0f;
-
-    //Physics Internals
-    Vector3 moveDirection = Vector3.zero;
-    Vector3 Impact = Vector3.zero;
-    float verticalVel = 0;
-    bool dead = false;
-
-    //Control Settings
-    Vector3 mousePosition;
-    float mouseDistance;
-
-    //Checkpoints
-    Vector3 CurrentCheckpoint;
-
-
-    //Spin Attack CD
-    float spinTime = 0;
-    float maxSpinTime = 3;
-    float spinCDMax = 8;
-    float spinCD = 999;
-
-    void OnEnable()
-    {
-        EventSystem.onMousePositionUpdate += UpdateMousePosition;
-    }
-    //unsubscribe from player movement
-    void OnDisable()
-    {
-        EventSystem.onMousePositionUpdate -= UpdateMousePosition;
-    }
-
-
-    // Use this for initialization
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
-
-
-        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/MagicCircle[Blue]");
-        maxJumpStored = maxJump;
-        currentState = States.Idle;
-        weaponScript = weapon.GetComponent<IWeaponBehavior>();
-    }
-
     // Update is called once per frame
     void Update()
     {
         if (!dead)
         {
             spinCD += Time.deltaTime;
+            teleportCD += Time.deltaTime;
 
 
             //Re-used a lot of Harrison's movement code
@@ -298,7 +306,7 @@ public class Player : MonoBehaviour
                 verticalVel -= jumpSpeed;
             }
 
-            if (!teleportToggle && Input.GetKey(KeyCode.Q))
+            if (teleportCD > teleportCDMax && !teleportToggle && Input.GetKey(KeyCode.Q))
             {
                 teleportToggle = true;
             }
@@ -312,7 +320,6 @@ public class Player : MonoBehaviour
                 //tpMarker.transform.rotation = transform.rotation;
                 float md = (mouseDistance < 40) ? mouseDistance / 2 : 20;
                 tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
-
             }
 
 
@@ -452,7 +459,7 @@ public class Player : MonoBehaviour
         {
             Destroy(col.gameObject);
             health = 10;
-            Hud.UpdateHealth(health);
+            //Hud.UpdateHealth(health);
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
@@ -466,7 +473,7 @@ public class Player : MonoBehaviour
         {
             Destroy(col.gameObject);
             health = health + 3;
-            Hud.UpdateHealth(health);
+            //Hud.UpdateHealth(health);
         }
         else if (col.tag == "Checkpoint")
         {
@@ -498,9 +505,15 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "OutOfBounds")
         {
-            transform.position = CurrentCheckpoint;
+            ReturnToCheckpoint();
             TakeDamage();
         }
+    }
+
+    void ReturnToCheckpoint()
+    {
+        anim.SetBool("Teleport Appear", true);
+        transform.position = CurrentCheckpoint;
     }
     void OnTriggerExit(Collider col)
     {
