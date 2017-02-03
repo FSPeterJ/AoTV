@@ -417,7 +417,7 @@ public class Player : MonoBehaviour
 
 
 
-    public void AttackFinished(int attack)
+     public void AttackFinished(int attack)
     {
         if (currentState == States.Attack)
         {
