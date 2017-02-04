@@ -261,7 +261,7 @@ public class Player : MonoBehaviour
                 {
                     currentState = States.SpinAttack;
                 }
-                else if (Input.GetKey(KeyCode.LeftControl))
+                else if ( !throwScythe && Input.GetKey(KeyCode.LeftControl) )
                 {
                     throwScythe = true;
                 }
