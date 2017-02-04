@@ -487,11 +487,11 @@ public class Player : MonoBehaviour
                // GameObject temp = GameObject.Find("Ground Glow");
                 //temp.SetActive(true);
 
-                GameObject[] terribleStuff;
-                terribleStuff = col.GetComponentsInChildren<GameObject>();
-                foreach (GameObject GO in terribleStuff)
-                    if (GO.name == "Ground Glow")
-                        GO.SetActive(true);
+                //GameObject[] terribleStuff;
+                //terribleStuff = col.GetComponentsInChildren<GameObject>();
+                //foreach (GameObject GO in terribleStuff)
+                //    if (GO.name == "Ground Glow")
+                //        GO.SetActive(true);
                 
                     
 
