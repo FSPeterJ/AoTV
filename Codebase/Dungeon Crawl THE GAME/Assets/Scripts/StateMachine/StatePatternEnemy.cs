@@ -5,7 +5,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     public int Health = 10;
     public bool alive = true;
     float deathTimer = 3;
-    Animator anim;
+    public Animator anim;
     //public HUD hud;
     public float searchingTurnSpeed = 120f;//Speed at which the enemy is going to turn to meet the player
     public float searchingDuration = 4f;//How long the enemy will search for the player in alert mode
@@ -60,7 +60,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
         DistanceToPlayer = chaseState.DistanceToTarget;
         if (currentState.ToString() == "ChaseState")
         {
-            Debug.Log("Distance from enemy to player: " + DistanceToPlayer + " ft.");
+            //Debug.Log("Distance from enemy to player: " + DistanceToPlayer + " ft.");
         }
         if (alive != true)
         {
