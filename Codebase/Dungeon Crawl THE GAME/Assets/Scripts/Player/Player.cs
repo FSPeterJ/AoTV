@@ -7,18 +7,12 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public AudioClip deathSFX;
-    
-
-    
-
 
     //Basic Settings - Edit in Unity
     public int maxJump = 1;
-
-    public float movementModfier = .75f;
+    public float strafeModfier = .75f;
     public int health = 30;
     public int lives = 3;
-
 
     //This is not allowed.
     //public HUD Hud;
@@ -31,19 +25,19 @@ public class Player : MonoBehaviour
     //Component References
     Animator anim;
     CharacterController controller;
-    //This is a hack together way to get the weapon.
-    public GameObject weapon;
+    GameObject weapon;
     IWeaponBehavior weaponScript;
     GameObject teleportMarker;
     GameObject tpMarker;
     Vector3 tpDestination;
-
+    GameObject rangedScythe;
+    GameObject rangedScytheAttack;
 
     //Physics Settings
+    float gravity = 9.8F;
     public float speed = 3.0F;
     public float sprintSpeed = 6.0f;
     public float jumpSpeed = 10.0F;
-    public float gravity = 9.8F;
     public float mass = 20.0F;
     public float rotationSpeed = 5.0f;
 
@@ -60,7 +54,6 @@ public class Player : MonoBehaviour
     //Checkpoints
     Vector3 CurrentCheckpoint;
 
-
     //Spin Attack CD
     float spinTime = 0;
     float maxSpinTime = 3;
@@ -70,6 +63,9 @@ public class Player : MonoBehaviour
     //Teleport CD
     float teleportCDMax = 8;
     float teleportCD = 999;
+
+    //Ranged attack
+    float rangedAttackTime = 0;
 
     void OnEnable()
     {
@@ -87,15 +83,17 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
+        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
         maxJumpStored = maxJump;
         currentState = States.Idle;
+        weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
     }
 
     //States
     enum States
     {
-        Idle, MoveForward, Attack, SpinAttack, Die, TakeDamage, Teleport, LowPriorityIdle
+        Idle, MoveForward, Attack, SpinAttack, Die, TakeDamage, Teleport, LowPriorityIdle, ThrowScythe
     }
     States _cs;
     States currentState
@@ -194,13 +192,41 @@ public class Player : MonoBehaviour
                 if (_tT)
                 {
                     tpMarker = Instantiate(teleportMarker);
-                    Debug.Log(tpMarker);
+                    //Debug.Log(tpMarker);
                     tpMarker.transform.parent = transform;
                     tpMarker.transform.position = transform.position;
                 }
                 else
                 {
                     currentState = States.Teleport;
+                }
+            }
+        }
+    }
+    bool _tS = false;
+    bool throwScythe
+    {
+        get
+        {
+            return _tS;
+        }
+        set
+        {
+            if (_tS != value)
+            {
+                _tS = value;
+                if (_tS)
+                {
+                    rangedAttackTime = 0;
+                    weapon.SetActive(false);
+                    rangedScytheAttack = Instantiate(rangedScythe);
+                    rangedScytheAttack.transform.position = transform.position + transform.up * 2;
+                    rangedScytheAttack.transform.rotation = transform.rotation;
+                }
+                else
+                {
+                    Destroy(rangedScytheAttack);
+                    weapon.SetActive(true);
                 }
             }
         }
@@ -219,12 +245,12 @@ public class Player : MonoBehaviour
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
             //Alternate Control Scheme - bad imo
             //moveDirection = transform.TransformDirection(moveDirection);
-            moveDirection *= sprintSpeed;
+            //moveDirection *= sprintSpeed;
             moveDirection *= speed;
 
 
 
-            if (currentState == States.Idle || currentState == States.MoveForward)
+            if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
                 if (Input.GetMouseButton(0))
                 {
@@ -234,6 +260,10 @@ public class Player : MonoBehaviour
                 else if (Input.GetMouseButton(1) && spinCD > spinCDMax)
                 {
                     currentState = States.SpinAttack;
+                }
+                else if (Input.GetKey(KeyCode.RightControl))
+                {
+                    throwScythe = true;
                 }
             }
 
@@ -251,6 +281,18 @@ public class Player : MonoBehaviour
             }
             else
             {
+                if (throwScythe)
+                {
+                    if (rangedAttackTime > 1.5)
+                    {
+                        if (Vector3.Distance(transform.position, rangedScytheAttack.transform.position) < 5)
+                        {
+                            throwScythe = false;
+                        }
+                    }
+                    rangedAttackTime += Time.deltaTime;
+                }
+
                 //Strafe and reverse modified with multiplier
                 var localVel = transform.InverseTransformDirection(moveDirection);
                 if (localVel.z > 0 && localVel.z > localVel.x)
@@ -262,10 +304,10 @@ public class Player : MonoBehaviour
                     currentState = States.LowPriorityIdle;
                     if (localVel.z < 0)
                     {
-                        localVel.z = localVel.z * movementModfier;
+                        localVel.z = localVel.z * strafeModfier;
                     }
                 }
-                localVel.x = localVel.x * movementModfier;
+                localVel.x = localVel.x * strafeModfier;
                 moveDirection = transform.TransformDirection(localVel);
 
 
@@ -280,9 +322,7 @@ public class Player : MonoBehaviour
                 if (mouseDistance > 1.9f)
                 {
                     //Turn player to face cursor on terrain
-
-                    RotateToFaceTarget(mousePosition);
-
+                    RotateToFaceTarget(mousePosition, rotationSpeed);
                 }
 
             }
@@ -321,6 +361,7 @@ public class Player : MonoBehaviour
                 float md = (mouseDistance < 40) ? mouseDistance / 2 : 20;
                 tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
             }
+
 
 
 
@@ -417,7 +458,7 @@ public class Player : MonoBehaviour
 
 
 
-     public void AttackFinished(int attack)
+    public void AttackFinished(int attack)
     {
         if (currentState == States.Attack)
         {
@@ -514,6 +555,7 @@ public class Player : MonoBehaviour
     {
         anim.SetBool("Teleport Appear", true);
         transform.position = CurrentCheckpoint;
+        throwScythe = false;
     }
     void OnTriggerExit(Collider col)
     {
@@ -526,11 +568,31 @@ public class Player : MonoBehaviour
         transform.position = tpDestination;
     }
 
-    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = .2f, float _AngleAdjustment = -90f)
+    GameObject FindWeapon(Transform obj)
+    {
+        foreach (Transform tr in obj)
+        {
+            if (tr.tag == "Weapon")
+            {
+                return tr.gameObject;
+            }
+            if (tr.childCount > 0)
+            {
+                GameObject temp = FindWeapon(tr);
+                if (temp)
+                {
+                    return temp;
+                }
+            }
+        }
+        return null;
+    }
+
+    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
     {
         Vector3 lookPos = (transform.position - _TargetPosition);
         lookPos.y = 0;
-        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
+        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, Time.deltaTime * _LerpSpeed);
         //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
         transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
     }

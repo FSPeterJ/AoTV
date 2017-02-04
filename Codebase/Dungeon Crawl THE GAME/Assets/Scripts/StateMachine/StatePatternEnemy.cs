@@ -56,7 +56,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     {
         //hud.PrintScore();
         currentState.UpdateState();//Each class has an updateState. This function behavior will differ depending on the current state
-        Debug.Log(currentState.ToString());
+        //Debug.Log(currentState.ToString());
         DistanceToPlayer = chaseState.DistanceToTarget;
         if (currentState.ToString() == "ChaseState")
         {
