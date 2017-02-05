@@ -251,6 +251,9 @@ public class Player : MonoBehaviour
             spinCD += Time.deltaTime;
             teleportCD += Time.deltaTime;
             rangedAttackCD += Time.deltaTime;
+            EventSystem.SpinCooldown(spinCD, spinCDMax);
+            EventSystem.TeleportCooldown(teleportCD, teleportCDMax);
+            EventSystem.RangedCooldown(rangedAttackCD, rangedAttackCDMax);
 
 
             //Re-used a lot of Harrison's movement code
@@ -288,7 +291,6 @@ public class Player : MonoBehaviour
                 {
                     currentState = States.Idle;
                     weaponScript.AttackEnd();
-                    spinCD = 0;
                 }
                 spinTime += Time.deltaTime;
             }
