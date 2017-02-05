@@ -361,6 +361,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     float attackRange = 2.0f;
     bool AttackRangeCheck()
     {
+        //what the hell is this?
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange, Color.red);
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
