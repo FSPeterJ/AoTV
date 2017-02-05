@@ -23,8 +23,8 @@ public class AlertState : IEnemyState
         enemy.currentState = enemy.patrolState;//change to patrol state
         searchTimer = 0f;//set the current of amount of time searched to zero
         Debug.Log("Alert -> Patrol");//Can't transition to same state, but must have this function for the interface
-        enemy.anim.SetBool("Defend", false);
-        enemy.anim.SetBool("Walk", true);
+        //enemy.anim.SetBool("Defend", false);
+        //enemy.anim.SetBool("Walk", true);
     }
 
     public void ToAlertState()
@@ -36,8 +36,8 @@ public class AlertState : IEnemyState
     {
         enemy.currentState = enemy.chaseState;//change current state to chase state
         Debug.Log("Alert -> Chase");//Can't transition to same state, but must have this function for the interface
-        enemy.anim.SetBool("Defend", false);
-        enemy.anim.SetBool("Run", true);
+        //enemy.anim.SetBool("Defend", false);
+        //enemy.anim.SetBool("Run", true);
     }
 
     private void Look()//In patrol state, ray cast 20 units from his eyes

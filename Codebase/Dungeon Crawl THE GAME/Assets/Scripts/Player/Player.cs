@@ -7,10 +7,6 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public AudioClip deathSFX;
-    
-
-    
-
 
     //Basic Settings - Edit in Unity
     public int maxJump = 1;

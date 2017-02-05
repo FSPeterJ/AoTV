@@ -21,47 +21,11 @@ public class SkeletonMage : MonoBehaviour {
 	void Update ()
     {
         timer -= Time.deltaTime;
-        if (unitedStatePattern.currentState.ToString() == "PatrolState" && !RaisedDead)
-        {
-            CancelCurrentAnimation();
-            anim.SetBool("Walk", true);
-        }
-        else
-        {
-            anim.SetTrigger("Raise Dead");
-        }
-        if (unitedStatePattern.currentState.ToString() == "AlertState")
-        {
-            CancelCurrentAnimation();
-            anim.SetBool("Chanting", true);
-        }
-        if (unitedStatePattern.currentState.ToString() == "ChaseState") //&& unitedStatePattern.DistanceToPlayer > stopToAttackDistance)
-        {
-            CancelCurrentAnimation();
-            if (unitedStatePattern.navMeshAgent.remainingDistance < unitedStatePattern.attackDistance)
-            {
-                unitedStatePattern.navMeshAgent.Stop();
-                anim.SetBool("Run", false);
-                anim.SetTrigger("Projectile Attack");
-            }
-            else
-            {
-                unitedStatePattern.navMeshAgent.Resume();
-                anim.ResetTrigger("Projectile Attack");
-                anim.SetBool("Run", true);
-            }
-        }
-        if (spawn.EnemiesHaveSpawned && !RaisedDead && !deadHaveBeenRaised)
-        {
-            RaisedDead = true;
-            unitedStatePattern.navMeshAgent.speed = 0;
-            CancelCurrentAnimation();
-            anim.SetTrigger("Raise Dead");
-            //transform.LookAt(unitedStatePattern.chaseTarget.transform.position);
-        }
+
+
 
         if (timer <= 0)
-        {
+        {            
             spawn.EnemiesHaveSpawned = false;
             timer = 5;
         }
