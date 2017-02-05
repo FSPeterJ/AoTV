@@ -33,6 +33,7 @@ public class QueenWormController : MonoBehaviour
     bool defendTime;
     float idleTime;
     NavMeshAgent navigate;
+    ParticleSystem particles;
 
     QueenState currentState
     {
@@ -75,7 +76,7 @@ public class QueenWormController : MonoBehaviour
                     qs = value;
                     break;
                 case QueenState.BreathAttackStart:
-                    anim.SetBool("BreathAttack", true);
+                    anim.SetBool("Breath Attack", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
@@ -123,6 +124,8 @@ public class QueenWormController : MonoBehaviour
         navigate = GetComponent<NavMeshAgent>();
         currentState = QueenState.Idle;
         currentHealth = maxHealth;
+        particles = GetComponent<ParticleSystem>();
+        particles.Stop();
     }
 
     // Update is called once per frame
@@ -151,7 +154,12 @@ public class QueenWormController : MonoBehaviour
                     else if (PlayerDist <= 8f)
                         currentState = QueenState.ClawAttack;
                     else if (PlayerDist <= 15f)
-                        currentState = QueenState.BreathAttackStart;
+                    {
+                        if (currentHealth <= 5)
+                            currentState = QueenState.BreathAttackStart;
+                        else
+                            currentState = QueenState.CastSpell;
+                    }
                 }
                 if (idleTime > 3f)
                     idleTime = 0;
@@ -191,12 +199,19 @@ public class QueenWormController : MonoBehaviour
                     idleTime += Time.deltaTime;
                 break;
             case QueenState.BreathAttackStart:
-                //Start
+                particles.Play();
+                currentState = QueenState.BreathAttackLoop;
                 break;
             case QueenState.BreathAttackLoop:
+                if (idleTime > 3f)
+                    currentState = QueenState.BreathAttackEnd;
+                else
+                    idleTime += Time.deltaTime;
                 break;
             case QueenState.BreathAttackEnd:
                 anim.SetBool("Breath Attack", false);
+                particles.Stop();
+                currentState = QueenState.Idle;
                 break;
             case QueenState.Summon:
                 break;
@@ -210,6 +225,10 @@ public class QueenWormController : MonoBehaviour
                     idleTime += Time.deltaTime;
                 break;
             case QueenState.TakeDamage:
+                currentHealth--;
+                if (currentHealth < 1)
+                    currentState = QueenState.Death;
+
                 break;
             case QueenState.Death:
                 break;
