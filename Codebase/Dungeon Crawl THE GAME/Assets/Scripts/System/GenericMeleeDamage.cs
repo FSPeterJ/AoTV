@@ -6,7 +6,7 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
 {
 
 
-
+    public GameObject ImpactEffect;
     public enum teams
     {
         Enemy, Ally, Neutral
@@ -17,13 +17,13 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
     bool attacking = false;
     List<int> damagedUnits = new List<int>();
 
-    private void Start()
+    void Start()
     {
         enabled = false;
     }
 
 
-    private void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)
     {
         if (attacking)
         {
@@ -34,6 +34,10 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
                     other.gameObject.GetComponentInParent<IEnemyBehavior>().TakeDamage();
                     //Prevent multiple hits per second.
                     damagedUnits.Add(other.gameObject.GetInstanceID());
+                    if (ImpactEffect)
+                    {
+                        Instantiate(ImpactEffect, transform.position, transform.rotation);
+                    }
                 }
             }
 
@@ -44,6 +48,10 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
                     other.gameObject.GetComponent<Player>().TakeDamage();
                     //Prevent multiple hits per second.
                     damagedUnits.Add(other.gameObject.GetInstanceID());
+                    if (ImpactEffect)
+                    {
+                        Instantiate(ImpactEffect, transform.position, transform.rotation);
+                    }
                 }
             }
         }

@@ -7,6 +7,7 @@ public class Scythe_Ranged : MonoBehaviour {
     GameObject rotator;
     float timePassed;
     float turnspeed = 2f;
+    float speed = .25f;
     Vector3 playerPos;
     IWeaponBehavior weaponScript;
 
@@ -31,7 +32,7 @@ public class Scythe_Ranged : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.localPosition += transform.forward * .25f;
+        transform.localPosition += transform.forward * speed;
 
         if (timePassed > .5 && timePassed < 1)
         {
@@ -44,6 +45,7 @@ public class Scythe_Ranged : MonoBehaviour {
         if(timePassed > 4)
         {
             turnspeed += 2f * Time.deltaTime;
+            speed += .5f * Time.deltaTime;
         }
         timePassed += Time.deltaTime;
         float heightdiff = playerPos.y - transform.position.y + .5f;

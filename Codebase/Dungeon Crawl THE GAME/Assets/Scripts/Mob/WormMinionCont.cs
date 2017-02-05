@@ -76,6 +76,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     void Start()
     {
         anim = GetComponent<Animator>();
+        Proj = (GameObject)Resources.Load("Prefabs/Projectiles/Worm Projectile");
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
         defendTime = true;
@@ -118,15 +119,15 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
                 idleTime += Time.deltaTime;
                 break;
             case AI.Bite:
-                transform.LookAt(targetPos);
+                RotateToFaceTarget(targetPos);
                 break;
             case AI.Projectile:
-                transform.LookAt(targetPos);
+                RotateToFaceTarget(targetPos);
                 break;
             case AI.CastSpell:
                 break;
             case AI.Defend:
-                transform.LookAt(targetPos);
+                RotateToFaceTarget(targetPos);
                 if (idleTime > 1f)
                 {
                     anim.SetBool("Defend", false);
@@ -135,7 +136,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
                 idleTime += Time.deltaTime;
                 break;
             case AI.TakeDamage:
-                transform.LookAt(targetPos);
+                RotateToFaceTarget(targetPos);
                 break;
             case AI.Die:
                 break;
@@ -202,6 +203,12 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
         currentState = AI.Idle;
     }
 
+    public void CreateProjectile()
+    {
+        GameObject projectile = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation *=Quaternion.Euler(0, -90, 0)); 
+
+    }
+
     public void AttackStart()
     {
         weaponScript.AttackStart();
@@ -236,5 +243,12 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
             }
         }
         return null;
+    }
+    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
+    {
+        Vector3 lookPos = (transform.position - _TargetPosition);
+        lookPos.y = 0;
+        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, Time.deltaTime * _LerpSpeed);
+        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
     }
 }
