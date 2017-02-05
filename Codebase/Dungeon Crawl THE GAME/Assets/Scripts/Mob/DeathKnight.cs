@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonKnight : MonoBehaviour{
+public class DeathKnight : MonoBehaviour {
 
     public GameObject sword;
     StatePatternEnemy unitedStatePattern;
@@ -14,7 +13,7 @@ public class SkeletonKnight : MonoBehaviour{
     bool dead = false;
 
     // Use this for initialization
-	void Start ()
+    void Start ()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
@@ -24,34 +23,36 @@ public class SkeletonKnight : MonoBehaviour{
     }
 
     // Update is called once per frame
-    void Update ()
+    // Update is called once per frame
+    void Update()
     {
         if (!asleep && unitedStatePattern.alive)
         {
             if (unitedStatePattern.currentState.ToString() == "PatrolState")
             {
                 CancelCurrentAnimation();
-                anim.SetBool("Walk", true);
+                anim.SetTrigger("Walk");
             }
             if (unitedStatePattern.currentState.ToString() == "AlertState")
             {
                 CancelCurrentAnimation();
-                anim.SetBool("Defend", true);
+                anim.SetTrigger("Defend");
             }
             if (unitedStatePattern.currentState.ToString() == "ChaseState") //&& unitedStatePattern.DistanceToPlayer > stopToAttackDistance)
             {
-                CancelCurrentAnimation();
-                if(unitedStatePattern.navMeshAgent.remainingDistance < unitedStatePattern.attackDistance)
+                if (unitedStatePattern.navMeshAgent.remainingDistance < unitedStatePattern.attackDistance)
                 {
-                    unitedStatePattern.navMeshAgent.Stop();
-                    anim.SetBool("Run", false);
+                    anim.ResetTrigger("Run");
                     anim.SetTrigger("Double Attack");
+                    unitedStatePattern.navMeshAgent.Stop();
+
                 }
                 else
                 {
-                    unitedStatePattern.navMeshAgent.Resume();
                     anim.ResetTrigger("Double Attack");
-                    anim.SetBool("Run", true);
+                    anim.SetTrigger("Run");
+                    unitedStatePattern.navMeshAgent.Resume();
+
                 }
             }
         }
@@ -75,26 +76,15 @@ public class SkeletonKnight : MonoBehaviour{
     {
         if (unitedStatePattern.currentState.ToString() != "PatrolState")
         {
-            anim.SetBool("Walk", false);
+            anim.ResetTrigger("Walk");
         }
         if (unitedStatePattern.currentState.ToString() != "AlertState")
         {
-            anim.SetBool("Defend", false);
+            anim.ResetTrigger("Defend");
         }
         if (unitedStatePattern.currentState.ToString() != "ChaseState") //|| unitedStatePattern.DistanceToPlayer < stopToAttackDistance)
         {
-            anim.SetBool("Run", false);
+            anim.ResetTrigger("Run");
         }
     }
-
-    IEnumerator WakeMeUpInside()
-    {
-        while (asleep)
-        {
-            unitedStatePattern.navMeshAgent.Stop();
-            anim.SetBool("Die", true);
-            yield return new WaitForSeconds(5);
-        }
-    }
-
 }
