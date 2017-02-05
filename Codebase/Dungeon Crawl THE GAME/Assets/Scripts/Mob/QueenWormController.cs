@@ -22,6 +22,10 @@ public class QueenWormController : MonoBehaviour
         Death
     }
 
+    [SerializeField]
+    int maxHealth;
+
+    int currentHealth;
     QueenState qs;
     Animator anim;
     float PlayerDist;
@@ -115,9 +119,10 @@ public class QueenWormController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        anim = GetComponent<Animator>();
         navigate = GetComponent<NavMeshAgent>();
         currentState = QueenState.Idle;
-
+        currentHealth = maxHealth;
     }
 
     // Update is called once per frame
@@ -130,7 +135,7 @@ public class QueenWormController : MonoBehaviour
             case QueenState.Idle:
                 if (idleTime > 1f)
                 {
-                    if (PlayerDist <= 4f)
+                    if (PlayerDist <= 5f)
                     {
                         if (defendTime)
                         {
@@ -143,8 +148,10 @@ public class QueenWormController : MonoBehaviour
                             defendTime = true;
                         }
                     }
-                    else if (PlayerDist <= 10f)
+                    else if (PlayerDist <= 8f)
                         currentState = QueenState.ClawAttack;
+                    else if (PlayerDist <= 15f)
+                        currentState = QueenState.BreathAttackStart;
                 }
                 if (idleTime > 3f)
                     idleTime = 0;
@@ -156,51 +163,51 @@ public class QueenWormController : MonoBehaviour
                 if (PlayerDist <= 4f)
                 {
                     currentState = QueenState.BiteAttack;
-                    anim.SetBool("Walk", false);
+                    anim.SetBool("Move", false);
                 }
                 else if (PlayerDist <= 10f)
                 {
                     currentState = QueenState.ClawAttack;
-                    anim.SetBool("Walk", false);
+                    anim.SetBool("Move", false);
                 }
                 break;
 
             case QueenState.ClawAttack:
                 if (idleTime > 1f)
-                {
                     currentState = QueenState.Idle;
-                    anim.SetTrigger("Claw Attack");
-                }
                 else
                     idleTime += Time.deltaTime;
                 break;
             case QueenState.BiteAttack:
                 if (idleTime > 1f)
-                {
                     currentState = QueenState.Idle;
-                    anim.SetBool("Bite Attack", false);
-                }
                 else
                     idleTime += Time.deltaTime;
                 break;
             case QueenState.CastSpell:
                 if (idleTime > 1f)
-                {
                     currentState = QueenState.Idle;
-                    anim.SetBool("Cast Spell", false);
-                }
                 else
                     idleTime += Time.deltaTime;
                 break;
             case QueenState.BreathAttackStart:
+                //Start
                 break;
             case QueenState.BreathAttackLoop:
                 break;
             case QueenState.BreathAttackEnd:
+                anim.SetBool("Breath Attack", false);
                 break;
             case QueenState.Summon:
                 break;
             case QueenState.Defend:
+                if (idleTime > 1f)
+                {
+                    currentState = QueenState.Idle;
+                    anim.SetBool("Defend", false);
+                }
+                else
+                    idleTime += Time.deltaTime;
                 break;
             case QueenState.TakeDamage:
                 break;
