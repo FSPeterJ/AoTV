@@ -3,8 +3,10 @@ using UnityEngine;
 public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 {
     public int Health = 10;
-    Animator anim;
-    public HUD hud;
+    public bool alive = true;
+    float deathTimer = 3;
+    public Animator anim;
+    //public HUD hud;
     public float searchingTurnSpeed = 120f;//Speed at which the enemy is going to turn to meet the player
     public float searchingDuration = 4f;//How long the enemy will search for the player in alert mode
     public float sightRange = 20f;//How far to raycast to see the player
@@ -52,13 +54,21 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     // Update is called once per frame
     private void Update()
     {
-        hud.PrintScore();
+        //hud.PrintScore();
         currentState.UpdateState();//Each class has an updateState. This function behavior will differ depending on the current state
-        Debug.Log(currentState.ToString());
+        //Debug.Log(currentState.ToString());
         DistanceToPlayer = chaseState.DistanceToTarget;
         if (currentState.ToString() == "ChaseState")
         {
-            Debug.Log("Distance from enemy to player: " + DistanceToPlayer + " ft.");
+            //Debug.Log("Distance from enemy to player: " + DistanceToPlayer + " ft.");
+        }
+        if (alive != true)
+        {
+            deathTimer -= Time.deltaTime;
+        }
+        if (deathTimer <= 0)
+        {
+            Transform.Destroy(gameObject);
         }
     }
 
@@ -67,7 +77,8 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
         GetComponent<AudioSource>().Play();
         if (RemainingHealth() <= 0)
         {
-            hud.UpdateScore();
+            //hud.UpdateScore();
+            alive = false;
             Kill();            
         }
         else
@@ -84,10 +95,10 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 
     public void Kill()
     {
-        navMeshAgent.enabled = false;
-        navMeshAgent.speed = 0;
+        //navMeshAgent.enabled = false;        
+        //anim.Stop();        
         anim.SetBool("Die", true);
-        Transform.Destroy(gameObject);
+        //Transform.Destroy(gameObject);
     }
 
     public void ResetToIdle()

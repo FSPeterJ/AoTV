@@ -7,11 +7,97 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public AudioClip deathSFX;
-    //States
 
+    //Basic Settings - Edit in Unity
+    public int maxJump = 1;
+    public float strafeModfier = .75f;
+    public int health = 30;
+    public int lives = 3;
+
+    //This is not allowed.
+    //public HUD Hud;
+
+    //Variables
+    bool invulnerable = false;
+    bool burning = false;
+    int maxJumpStored;
+
+    //Component References
+    Animator anim;
+    CharacterController controller;
+    GameObject weapon;
+    IWeaponBehavior weaponScript;
+    GameObject teleportMarker;
+    GameObject tpMarker;
+    Vector3 tpDestination;
+    GameObject rangedScythe;
+    GameObject rangedScytheAttack;
+
+    //Physics Settings
+    float gravity = 9.8F;
+    public float speed = 3.0F;
+    public float sprintSpeed = 6.0f;
+    public float jumpSpeed = 10.0F;
+    public float mass = 20.0F;
+    public float rotationSpeed = 5.0f;
+
+    //Physics Internals
+    Vector3 moveDirection = Vector3.zero;
+    Vector3 Impact = Vector3.zero;
+    float verticalVel = 0;
+    bool dead = false;
+
+    //Control Settings
+    Vector3 mousePosition;
+    float mouseDistance;
+
+    //Checkpoints
+    Vector3 CurrentCheckpoint;
+
+    //Spin Attack CD
+    float spinTime = 0;
+    float maxSpinTime = 3;
+    float spinCDMax = 8;
+    float spinCD = 999;
+
+    //Teleport CD
+    float teleportCDMax = 8;
+    float teleportCD = 999;
+
+
+
+    //Ranged attack
+    float rangedAttackTime = 0;
+    float rangedAttackCDMax = 8;
+    float rangedAttackCD = 999;
+
+    void OnEnable()
+    {
+        EventSystem.onMousePositionUpdate += UpdateMousePosition;
+    }
+    //unsubscribe from player movement
+    void OnDisable()
+    {
+        EventSystem.onMousePositionUpdate -= UpdateMousePosition;
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
+        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
+        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
+        maxJumpStored = maxJump;
+        currentState = States.Idle;
+        weapon = FindWeapon(transform);
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
+    }
+
+    //States
     enum States
     {
-        Idle, MoveForward, Attack, SpinAttack, Die, TakeDamage, Teleport, LowPriorityIdle
+        Idle, MoveForward, Attack, SpinAttack, Die, TakeDamage, Teleport, LowPriorityIdle, ThrowScythe
     }
     States _cs;
     States currentState
@@ -47,24 +133,39 @@ public class Player : MonoBehaviour
                 case States.SpinAttack:
                     anim.SetBool("Spin Attack", true);
                     weaponScript.AttackStart();
+                    spinTime = 0;
+                    spinCD = 0;
                     _cs = value;
                     break;
                 case States.Die:
-                    if (!dead)
+                    if (!dead && lives < 1)
                     {
+                        GetComponent<AudioSource>().PlayOneShot(deathSFX);
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
                         _cs = value;
                     }
+                    else
+                    {
+                        lives--;
+                        ReturnToCheckpoint();
+                        currentState = States.Idle;
+                        health = 3;
+                    }
                     break;
                 case States.TakeDamage:
-                    anim.SetBool("TakeDamage", true);
+                    GetComponent<AudioSource>().Play();
+                    weaponScript.AttackEnd();
+                    anim.SetBool("Take Damage", true);
                     _cs = value;
                     break;
                 case States.Teleport:
-                    anim.SetBool("Teleport", true);
-                    _cs = value;
+                    tpDestination = tpMarker.transform.position;
+                    Destroy(tpMarker);
+                    anim.SetTrigger("Teleport");
+                    teleportCD = 0;
+                    //_cs = value;
                     break;
                 case States.LowPriorityIdle:
                     if (_cs == States.MoveForward)
@@ -79,6 +180,7 @@ public class Player : MonoBehaviour
         }
     }
 
+
     bool _tT = false;
     bool teleportToggle
     {
@@ -90,118 +192,91 @@ public class Player : MonoBehaviour
         {
             if (_tT != value)
             {
-                _tT = value;
-                if (_tT)
+                
+                if (value)
                 {
                     tpMarker = Instantiate(teleportMarker);
                     tpMarker.transform.parent = transform;
                     tpMarker.transform.position = transform.position;
+                    _tT = value;
                 }
                 else
                 {
-                    tpDestination = tpMarker.transform.position;
-                    Destroy(tpMarker);
-                    anim.SetTrigger("Teleport");
-
+                    currentState = States.Teleport;
+                    _tT = value;
                 }
             }
         }
     }
-
-
-    //Basic Settings - Edit in Unity
-    public int maxJump = 1;
-
-    public float movementModfier = .75f;
-    public int health = 30;
-    public int lives = 3;
-
-    public HUD Hud;
-
-    //Variables
-    bool invulnerable = false;
-    bool burning = false;
-    int maxJumpStored;
-
-    //Component References
-    Animator anim;
-    CharacterController controller;
-    //This is a hack together way to get the weapon.
-    public GameObject weapon;
-    IWeaponBehavior weaponScript;
-    public GameObject teleportMarker;
-    GameObject tpMarker;
-    Vector3 tpDestination;
-
-
-    //Physics Settings
-    public float speed = 3.0F;
-    public float sprintSpeed = 6.0f;
-    public float jumpSpeed = 10.0F;
-    public float gravity = 9.8F;
-    public float mass = 20.0F;
-    public float rotationSpeed = 5.0f;
-
-    //Physics Internals
-    Vector3 moveDirection = Vector3.zero;
-    Vector3 Impact = Vector3.zero;
-    float verticalVel = 0;
-    bool dead = false;
-
-    //Control Settings
-    Vector3 mousePosition;
-    float mouseDistance;
-
-
-
-    void OnEnable()
+    bool _tS = false;
+    bool throwScythe
     {
-        EventSystem.onMousePositionUpdate += UpdateMousePosition;
-    }
-    //unsubscribe from player movement
-    void OnDisable()
-    {
-        EventSystem.onMousePositionUpdate -= UpdateMousePosition;
-    }
+        get
+        {
+            return _tS;
+        }
+        set
+        {
+            if (_tS != value)
+            {
 
+                if (value)
+                {
+                    if (rangedAttackCD > rangedAttackCDMax)
+                    {
+                        rangedAttackCD = 0;
+                        rangedAttackTime = 0;
+                        weapon.SetActive(false);
+                        rangedScytheAttack = Instantiate(rangedScythe);
+                        rangedScytheAttack.transform.position = transform.position + transform.up * 2;
+                        rangedScytheAttack.transform.rotation = transform.rotation;
+                        _tS = value;
+                    }
+                }
+                else
+                {
+                    Destroy(rangedScytheAttack);
+                    weapon.SetActive(true);
+                    _tS = value;
+                }
 
-    // Use this for initialization
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
-        maxJumpStored = maxJump;
-        currentState = States.Idle;
-        weaponScript = weapon.GetComponent<IWeaponBehavior>();
+            }
+        }
     }
-
     // Update is called once per frame
     void Update()
     {
         if (!dead)
         {
-            Hud.PrintScore();
+            spinCD += Time.deltaTime;
+            teleportCD += Time.deltaTime;
+            rangedAttackCD += Time.deltaTime;
+
+
             //Re-used a lot of Harrison's movement code
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
             //Alternate Control Scheme - bad imo
             //moveDirection = transform.TransformDirection(moveDirection);
-            moveDirection *= sprintSpeed;
+            //moveDirection *= sprintSpeed;
             moveDirection *= speed;
 
 
 
-            if (currentState == States.Idle || currentState == States.MoveForward)
+            if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
                 if (Input.GetMouseButton(0))
                 {
                     currentState = States.Attack;
 
                 }
-                else if (Input.GetMouseButton(1))
+                else if (Input.GetMouseButton(1) && spinCD > spinCDMax)
                 {
                     currentState = States.SpinAttack;
-
+                }
+                else if (Input.GetKey(KeyCode.LeftControl))
+                {
+                    throwScythe = true;
                 }
             }
 
@@ -209,14 +284,28 @@ public class Player : MonoBehaviour
 
             if (currentState == States.SpinAttack)
             {
-                if (!Input.GetMouseButton(1))
+                if (!Input.GetMouseButton(1) || spinTime > maxSpinTime)
                 {
                     currentState = States.Idle;
                     weaponScript.AttackEnd();
+                    spinCD = 0;
                 }
+                spinTime += Time.deltaTime;
             }
             else
             {
+                if (throwScythe)
+                {
+                    if (rangedAttackTime > 1.5)
+                    {
+                        if (Vector3.Distance(transform.position, rangedScytheAttack.transform.position) < 5)
+                        {
+                            throwScythe = false;
+                        }
+                    }
+                    rangedAttackTime += Time.deltaTime;
+                }
+
                 //Strafe and reverse modified with multiplier
                 var localVel = transform.InverseTransformDirection(moveDirection);
                 if (localVel.z > 0 && localVel.z > localVel.x)
@@ -228,10 +317,10 @@ public class Player : MonoBehaviour
                     currentState = States.LowPriorityIdle;
                     if (localVel.z < 0)
                     {
-                        localVel.z = localVel.z * movementModfier;
+                        localVel.z = localVel.z * strafeModfier;
                     }
                 }
-                localVel.x = localVel.x * movementModfier;
+                localVel.x = localVel.x * strafeModfier;
                 moveDirection = transform.TransformDirection(localVel);
 
 
@@ -245,13 +334,8 @@ public class Player : MonoBehaviour
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
                 if (mouseDistance > 1.9f)
                 {
-
                     //Turn player to face cursor on terrain
-                    Vector3 lookPos = (transform.position - mousePosition);
-                    lookPos.y = 0;
-                    float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90, .2f);
-                    //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
-                    transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+                    RotateToFaceTarget(mousePosition, rotationSpeed);
                 }
 
             }
@@ -275,7 +359,7 @@ public class Player : MonoBehaviour
                 verticalVel -= jumpSpeed;
             }
 
-            if (!teleportToggle && Input.GetKey(KeyCode.Q))
+            if (teleportCD > teleportCDMax && !teleportToggle && Input.GetKey(KeyCode.Q))
             {
                 teleportToggle = true;
             }
@@ -289,8 +373,8 @@ public class Player : MonoBehaviour
                 //tpMarker.transform.rotation = transform.rotation;
                 float md = (mouseDistance < 40) ? mouseDistance / 2 : 20;
                 tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
-
             }
+
 
 
 
@@ -308,6 +392,12 @@ public class Player : MonoBehaviour
 
     }
 
+
+    public void ResetToIdle()
+    {
+        currentState = States.Idle;
+    }
+
     void UpdateMousePosition(Vector3 MousePos)
     {
         mousePosition = MousePos;
@@ -318,20 +408,19 @@ public class Player : MonoBehaviour
     {
         if (!invulnerable)
         {
-            StartCoroutine("Invulnerable");
+            StartCoroutine(Invulnerable());
             EventSystem.PlayerHealthUpdate(-dmg);
             health--;
-            Hud.UpdateHealth(health);
-            Debug.Log("health = " + Hud.healthslider.value);
 
             if (health < 1)
             {
-                GetComponent<AudioSource>().PlayOneShot(deathSFX);
+
                 currentState = States.Die;
             }
             else
             {
-                GetComponent<AudioSource>().Play();
+
+                currentState = States.TakeDamage;
             }
         }
     }
@@ -350,7 +439,6 @@ public class Player : MonoBehaviour
         if (!burning)
         {
             TakeDamage();
-
             StartCoroutine("Burning");
         }
     }
@@ -371,11 +459,11 @@ public class Player : MonoBehaviour
 
     }
 
-    IEnumerator Invulnerable()
+    IEnumerator Invulnerable(int seconds = 1)
     {
         invulnerable = true;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(seconds);
 
         invulnerable = false;
     }
@@ -425,10 +513,62 @@ public class Player : MonoBehaviour
         {
             Destroy(col.gameObject);
             health = 10;
-            Hud.UpdateHealth(health);
+            //Hud.UpdateHealth(health);
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
+
+        else if (col.tag == "Invulneraball")
+        {
+            StartCoroutine(Invulnerable(10));
+            Destroy(col.gameObject);
+        }
+        else if (col.tag == "Health Collectible")
+        {
+            Destroy(col.gameObject);
+            health = health + 3;
+            //Hud.UpdateHealth(health);
+        }
+        else if (col.tag == "Checkpoint")
+        {
+            if (CurrentCheckpoint != col.transform.position)
+            {
+                CurrentCheckpoint.x = col.transform.position.x;
+                CurrentCheckpoint.y = col.transform.position.y + 3;
+                CurrentCheckpoint.z = col.transform.position.z;
+
+
+                // GameObject temp = GameObject.Find("Ground Glow");
+                //temp.SetActive(true);
+
+                //GameObject[] terribleStuff;
+                //terribleStuff = col.GetComponentsInChildren<GameObject>();
+                //foreach (GameObject GO in terribleStuff)
+                //    if (GO.name == "Ground Glow")
+                //        GO.SetActive(true);
+
+
+
+                // GameObject.Find("Ground Glow").SetActive(true);
+
+
+
+
+                // col.GetComponentInChildren<ParticleSystem>().Play();
+            }
+        }
+        else if (col.tag == "OutOfBounds")
+        {
+            ReturnToCheckpoint();
+            TakeDamage();
+        }
+    }
+
+    void ReturnToCheckpoint()
+    {
+        anim.SetBool("Teleport Appear", true);
+        transform.position = CurrentCheckpoint;
+        throwScythe = false;
     }
     void OnTriggerExit(Collider col)
     {
@@ -441,5 +581,31 @@ public class Player : MonoBehaviour
         transform.position = tpDestination;
     }
 
+    GameObject FindWeapon(Transform obj)
+    {
+        foreach (Transform tr in obj)
+        {
+            if (tr.tag == "Weapon")
+            {
+                return tr.gameObject;
+            }
+            if (tr.childCount > 0)
+            {
+                GameObject temp = FindWeapon(tr);
+                if (temp)
+                {
+                    return temp;
+                }
+            }
+        }
+        return null;
+    }
 
+    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
+    {
+        Vector3 lookPos = (transform.position - _TargetPosition);
+        lookPos.y = 0;
+        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, Time.deltaTime * _LerpSpeed);
+        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+    }
 }

@@ -102,6 +102,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     public GameObject weaponL;
     IWeaponBehavior weaponScriptR;
     IWeaponBehavior weaponScriptL;
+    GameObject attacktornado;
 
     int attack;
 
@@ -128,6 +129,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         navAgent = GetComponent<NavMeshAgent>();
         weaponScriptR = weaponR.GetComponent<IWeaponBehavior>();
         weaponScriptL = weaponL.GetComponent<IWeaponBehavior>();
+        attacktornado = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
         currentState = AI.Idle;
         attack = Random.Range(0, 1);
     }
@@ -147,29 +149,27 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         {
             case AI.Idle:
                 {
-                    if (idleTime > 4f)
+                    idleTime += Time.deltaTime;
+                    if (targetdistance < 2f)
                     {
-
-                        currentState = AI.Wander;
-                        navAgent.enabled = true;
-                        idleTime = 0;
+                        currentState = AI.Attack;
                     }
                     else if (idleTime > 1f)
                     {
                         if (targetdistance < aggroRange)
                         {
                             currentState = AI.Walk;
+                            break;
                         }
-                    }
-                     
-                    else
-                    {
-                        if (targetdistance < 2f)
+                        else if (idleTime > 4f)
                         {
-                            currentState = AI.Attack;
+                            currentState = AI.Wander;
+                            navAgent.enabled = true;
+                            idleTime = 0;
                         }
                     }
-                    idleTime += Time.deltaTime;
+
+
                 }
                 break;
             case AI.Wander:
@@ -183,7 +183,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                         anim.SetBool("Fly Forward", true);
                         wanderTargetSet = true;
                         navAgent.SetDestination(wanderTarget);
-
                     }
                     else if (navAgent.remainingDistance < 2)
                     {
@@ -272,6 +271,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        AttackFinished();
         if (!dead)
         {
             health -= damage;
@@ -293,6 +293,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     }
     public void Kill()
     {
+        AttackFinished();
         currentState = AI.Die;
 
     }
@@ -333,11 +334,11 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     void PlayerDied()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
-        targetPos = new Vector3(targetPos.x, 999999,targetPos.z);
+        targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
     }
 
     void Scoreinc()
     {
-        hud.UpdateScore();
+        //hud.UpdateScore();
     }
 }

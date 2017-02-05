@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class OpenGate : MonoBehaviour
 {
+    public GameObject interactPanel;
     public GameObject keyCode;
     KeyActivation key;
     public GameObject[] Lights = new GameObject[7];
@@ -15,6 +16,8 @@ public class OpenGate : MonoBehaviour
     private float startTime;
     private float journeyLength;
     public GameObject gate;
+    public GameObject keyImage;
+    bool unlockSoundPlayed = false;
     // Use this for initialization
     void Start()
     {
@@ -36,17 +39,36 @@ public class OpenGate : MonoBehaviour
     }
     void OnTriggerEnter(Collider c)
     {
-        //if (key.HasKey == true)
-        //{
-        //    for (int i = 0; i < Lights.Length; i++)
-        //    {
-        //        Lights[i].SetActive(true);
-        //    }
-        //}
         if (key.HasKey == true)
         {
-            unlocked = true;
-
+            if (unlocked != true)
+            {
+                interactPanel.SetActive(true);
+            }
         }
+    }
+
+    void OnTriggerStay(Collider c)
+    {
+        if (key.HasKey == true)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                unlocked = true;
+                if (unlockSoundPlayed != true)
+                {
+                    GetComponent<AudioSource>().Play();
+                    unlockSoundPlayed = true;
+                }
+                interactPanel.SetActive(false);
+                keyImage.SetActive(false);
+
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        interactPanel.SetActive(false);        
     }
 }

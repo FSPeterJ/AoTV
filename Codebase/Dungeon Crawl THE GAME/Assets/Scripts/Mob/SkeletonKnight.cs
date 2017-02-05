@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class SkeletonKnight : MonoBehaviour{
 
+    public GameObject sword;
+    StatePatternEnemy unitedStatePattern;
+    IWeaponBehavior weaponBehavior;
     Animator anim;
     bool asleep = true;
-    StatePatternEnemy unitedStatePattern;
     bool attacking = false;
-    Animator playerAnim;
     bool dead = false;
-    public GameObject sword;
-    IWeaponBehavior weaponBehavior;
+
     // Use this for initialization
 	void Start ()
     {
@@ -26,7 +26,7 @@ public class SkeletonKnight : MonoBehaviour{
     // Update is called once per frame
     void Update ()
     {
-        if (!asleep)
+        if (!asleep && unitedStatePattern.alive)
         {
             if (unitedStatePattern.currentState.ToString() == "PatrolState")
             {
@@ -54,6 +54,10 @@ public class SkeletonKnight : MonoBehaviour{
                     anim.SetBool("Run", true);
                 }
             }
+        }
+        else
+        {
+            CancelCurrentAnimation();
         }
     }
 
