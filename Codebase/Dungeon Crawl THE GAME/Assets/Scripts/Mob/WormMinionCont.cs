@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WormMinionCont : MonoBehaviour
+public class WormMinionCont : MonoBehaviour, IEnemyBehavior
 {
-    enum WormState
+    enum AI
     {
         Idle,
         Bite,
@@ -12,55 +13,59 @@ public class WormMinionCont : MonoBehaviour
         CastSpell,
         Defend,
         TakeDamage,
-        Death
+        Die
     }
 
     [SerializeField]
-    WormState _ws;
+    AI _ws;
 
 
     Animator anim;
     float PlayerDist;
-    Vector3 PlayerPos;
+    Vector3 targetPos;
     bool defendTime;
     float idleTime;
+    int health;
+    bool dead = false;
+    GameObject weapon;
+    IWeaponBehavior weaponScript;
 
     [SerializeField]
     GameObject Proj;
 
-    WormState currentState
+    AI currentState
     {
         get { return _ws; }
         set
         {
             switch (value)
             {
-                case WormState.Idle:
+                case AI.Idle:
                     _ws = value;
                     break;
-                case WormState.Bite:
+                case AI.Bite:
                     anim.SetBool("Bite Attack", true);
                     _ws = value;
                     break;
-                case WormState.Projectile:
+                case AI.Projectile:
                     anim.SetBool("Projectile Attack", true);
                     _ws = value;
                     break;
-                case WormState.CastSpell:
+                case AI.CastSpell:
                     anim.SetBool("Cast Spell", true);
                     _ws = value;
                     break;
-                case WormState.Defend:
+                case AI.Defend:
                     anim.SetBool("Defend", true);
                     _ws = value;
                     break;
-                case WormState.TakeDamage:
+                case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
-                    _ws = value;
                     break;
-                case WormState.Death:
-                    GetComponent<BoxCollider>().enabled = false;
-                    anim.SetBool("Die", true);
+                case AI.Die:
+                    //GetComponent<BoxCollider>().enabled = false;
+                    anim.SetTrigger("Die");
+                    dead = true;
                     _ws = value;
                     break;
             }
@@ -71,6 +76,8 @@ public class WormMinionCont : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        weapon = FindWeapon(transform);
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
         defendTime = true;
         idleTime = 0;
     }
@@ -78,28 +85,28 @@ public class WormMinionCont : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(PlayerPos);
+        
 
-        PlayerDist = Vector3.Distance(PlayerPos, transform.position);
+        PlayerDist = Vector3.Distance(targetPos, transform.position);
         switch (currentState)
         {
-            case WormState.Idle:
+            case AI.Idle:
                 if (idleTime > 1f)
                 {
-                    if (PlayerDist < 25f && PlayerDist > 15f)
-                        currentState = WormState.Projectile;
-                    else if (PlayerDist <= 15f && PlayerDist > 4f)
-                        currentState = WormState.CastSpell;
-                    else if (PlayerDist <= 4f)
+                    if (PlayerDist < 25f && PlayerDist > 8f)
+                        currentState = AI.Projectile;
+                    else if (PlayerDist <= 15f && PlayerDist > 99f)
+                        currentState = AI.CastSpell;
+                    else if (PlayerDist <= 8f)
                     {
                         if (defendTime)
                         {
-                            currentState = WormState.Defend;
+                            currentState = AI.Defend;
                             defendTime = false;
                         }
                         else
                         {
-                            currentState = WormState.Bite;
+                            currentState = AI.Bite;
                             defendTime = true;
                         }
                     }
@@ -110,68 +117,124 @@ public class WormMinionCont : MonoBehaviour
                 }
                 idleTime += Time.deltaTime;
                 break;
-            case WormState.Bite:
-                if (idleTime > 1f)
-                {
-                    currentState = WormState.Idle;
-                    anim.SetBool("Bite Attack", false);
-                }
-                else
-                    idleTime += Time.deltaTime;
+            case AI.Bite:
+                transform.LookAt(targetPos);
                 break;
-            case WormState.Projectile:
-                if (idleTime > 1f)
-                {
-                    currentState = WormState.Idle;
-                    Instantiate(Proj, transform);
-                    anim.SetBool("Projectile Attack", false);
-                }
-                else
-                    idleTime += Time.deltaTime;
+            case AI.Projectile:
+                transform.LookAt(targetPos);
                 break;
-            case WormState.CastSpell:
-                if (idleTime > 1f)
-                {
-                    currentState = WormState.Idle;
-                    anim.SetBool("Cast Spell", false);
-
-                }
-                else
-                    idleTime += Time.deltaTime;
+            case AI.CastSpell:
                 break;
-            case WormState.Defend:
+            case AI.Defend:
+                transform.LookAt(targetPos);
                 if (idleTime > 1f)
                 {
-                    currentState = WormState.Idle;
                     anim.SetBool("Defend", false);
+                    currentState = AI.Idle;
                 }
-                else
-                    idleTime += Time.deltaTime;
+                idleTime += Time.deltaTime;
                 break;
-            case WormState.TakeDamage:
+            case AI.TakeDamage:
+                transform.LookAt(targetPos);
                 break;
-            case WormState.Death:
+            case AI.Die:
                 break;
             default:
-                currentState = WormState.Idle;
+                currentState = AI.Idle;
                 break;
-
-
         }
     }
 
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
+        EventSystem.onPlayerDeath += PlayerDied;
     }
-
+    //unsubscribe from player movement
     void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        EventSystem.onPlayerDeath -= PlayerDied;
     }
 
     void UpdateTargetPosition(Vector3 pos)
     {
-        PlayerPos = pos;
+        targetPos = pos;
+    }
+
+    public void TakeDamage(int damage = 1)
+    {
+        AttackFinished();
+        if (!dead)
+        {
+            health -= damage;
+            if (health < 1)
+            {
+                Kill();
+                Scoreinc();
+            }
+            else
+            {
+                currentState = AI.TakeDamage;
+            }
+        }
+    }
+
+    void Scoreinc()
+    {
+        //Event goes here
+    }
+
+    public int RemainingHealth()
+    {
+        return health;
+    }
+
+    public void Kill()
+    {
+        AttackFinished();
+        currentState = AI.Die;
+    }
+
+    private void AttackFinished()
+    {
+        weaponScript.AttackEnd();
+        currentState = AI.Idle;
+    }
+
+    public void AttackStart()
+    {
+        weaponScript.AttackStart();
+    }
+
+    void PlayerDied()
+    {
+        EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
+    }
+
+    public void ResetToIdle()
+    {
+        currentState = AI.Idle;
+    }
+
+    GameObject FindWeapon(Transform obj)
+    {
+        foreach (Transform tr in obj)
+        {
+            if (tr.tag == "Weapon")
+            {
+                return tr.gameObject;
+            }
+            if (tr.childCount > 0)
+            {
+                GameObject temp = FindWeapon(tr);
+                if (temp)
+                {
+                    return temp;
+                }
+            }
+        }
+        return null;
     }
 }

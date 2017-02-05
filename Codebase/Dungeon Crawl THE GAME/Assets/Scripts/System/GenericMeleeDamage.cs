@@ -31,7 +31,7 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
             {
                 if (other.gameObject.tag == "Enemy" && !damagedUnits.Contains(other.gameObject.GetInstanceID()))
                 {
-                    other.gameObject.GetComponent<IEnemyBehavior>().TakeDamage();
+                    other.gameObject.GetComponentInParent<IEnemyBehavior>().TakeDamage();
                     //Prevent multiple hits per second.
                     damagedUnits.Add(other.gameObject.GetInstanceID());
                 }

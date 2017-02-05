@@ -325,9 +325,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 
     public void AttackStart()
     {
-
         weaponScript.AttackStart();
-
     }
 
     void UpdateTargetPosition(Vector3 pos)
