@@ -82,6 +82,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     _cs = value;
                     break;
                 default:
+                    
                     _cs = value;
                     break;
             }
@@ -92,7 +93,6 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     {
         Idle, Walk, Jump, Run, BiteAttack, TuskAttack, CastSpell, Defend, TakeDamage, Wander, Die
     }
-
 
     //variables
     Animator anim;
@@ -272,6 +272,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                 {
                     if (idleTime > 500f)
                     {
+                        
                         break;
 
                     }
@@ -324,9 +325,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 
     public void AttackStart()
     {
-
         weaponScript.AttackStart();
-
     }
 
     void UpdateTargetPosition(Vector3 pos)
