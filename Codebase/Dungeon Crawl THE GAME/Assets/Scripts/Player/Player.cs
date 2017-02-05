@@ -64,8 +64,12 @@ public class Player : MonoBehaviour
     float teleportCDMax = 8;
     float teleportCD = 999;
 
+
+
     //Ranged attack
     float rangedAttackTime = 0;
+    float rangedAttackCDMax = 8;
+    float rangedAttackCD = 999;
 
     void OnEnable()
     {
@@ -188,17 +192,18 @@ public class Player : MonoBehaviour
         {
             if (_tT != value)
             {
-                _tT = value;
-                if (_tT)
+                
+                if (value)
                 {
                     tpMarker = Instantiate(teleportMarker);
-                    //Debug.Log(tpMarker);
                     tpMarker.transform.parent = transform;
                     tpMarker.transform.position = transform.position;
+                    _tT = value;
                 }
                 else
                 {
                     currentState = States.Teleport;
+                    _tT = value;
                 }
             }
         }
@@ -214,20 +219,27 @@ public class Player : MonoBehaviour
         {
             if (_tS != value)
             {
-                _tS = value;
-                if (_tS)
+
+                if (value)
                 {
-                    rangedAttackTime = 0;
-                    weapon.SetActive(false);
-                    rangedScytheAttack = Instantiate(rangedScythe);
-                    rangedScytheAttack.transform.position = transform.position + transform.up * 2;
-                    rangedScytheAttack.transform.rotation = transform.rotation;
+                    if (rangedAttackCD > rangedAttackCDMax)
+                    {
+                        rangedAttackCD = 0;
+                        rangedAttackTime = 0;
+                        weapon.SetActive(false);
+                        rangedScytheAttack = Instantiate(rangedScythe);
+                        rangedScytheAttack.transform.position = transform.position + transform.up * 2;
+                        rangedScytheAttack.transform.rotation = transform.rotation;
+                        _tS = value;
+                    }
                 }
                 else
                 {
                     Destroy(rangedScytheAttack);
                     weapon.SetActive(true);
+                    _tS = value;
                 }
+
             }
         }
     }
@@ -238,6 +250,7 @@ public class Player : MonoBehaviour
         {
             spinCD += Time.deltaTime;
             teleportCD += Time.deltaTime;
+            rangedAttackCD += Time.deltaTime;
 
 
             //Re-used a lot of Harrison's movement code
@@ -261,7 +274,7 @@ public class Player : MonoBehaviour
                 {
                     currentState = States.SpinAttack;
                 }
-                else if ( !throwScythe && Input.GetKey(KeyCode.LeftControl) )
+                else if (Input.GetKey(KeyCode.LeftControl))
                 {
                     throwScythe = true;
                 }
@@ -485,7 +498,7 @@ public class Player : MonoBehaviour
                 SceneManager.LoadScene("Graveyard");
 
         if (col.tag == "LastDoor")
-            SceneManager.LoadScene("Graveyard");       
+            SceneManager.LoadScene("Graveyard");
 
     }
     void OnTriggerEnter(Collider col)
@@ -525,7 +538,7 @@ public class Player : MonoBehaviour
                 CurrentCheckpoint.z = col.transform.position.z;
 
 
-               // GameObject temp = GameObject.Find("Ground Glow");
+                // GameObject temp = GameObject.Find("Ground Glow");
                 //temp.SetActive(true);
 
                 //GameObject[] terribleStuff;
@@ -533,15 +546,15 @@ public class Player : MonoBehaviour
                 //foreach (GameObject GO in terribleStuff)
                 //    if (GO.name == "Ground Glow")
                 //        GO.SetActive(true);
-                
-                    
-
-               // GameObject.Find("Ground Glow").SetActive(true);
 
 
 
+                // GameObject.Find("Ground Glow").SetActive(true);
 
-               // col.GetComponentInChildren<ParticleSystem>().Play();
+
+
+
+                // col.GetComponentInChildren<ParticleSystem>().Play();
             }
         }
         else if (col.tag == "OutOfBounds")
@@ -593,7 +606,6 @@ public class Player : MonoBehaviour
         Vector3 lookPos = (transform.position - _TargetPosition);
         lookPos.y = 0;
         float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, Time.deltaTime * _LerpSpeed);
-        //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
         transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
     }
 }
