@@ -74,6 +74,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         GetComponent<AudioSource>().Play();
         if (RemainingHealth() <= 0)
         {
