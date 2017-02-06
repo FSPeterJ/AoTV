@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SkeletonArcher : MonoBehaviour
 {
-
     Animator anim;
     bool asleep = true;
     StatePatternEnemy unitedStatePattern;
@@ -46,7 +45,6 @@ public class SkeletonArcher : MonoBehaviour
                 CancelCurrentAnimation();
                 if (unitedStatePattern.navMeshAgent.remainingDistance < attackDistance)
                 {
-
                     unitedStatePattern.navMeshAgent.Stop();
                     anim.SetBool("Run", false);
                     anim.SetLookAtPosition(unitedStatePattern.chaseTarget.transform.position);

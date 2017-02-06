@@ -8244,13 +8244,14 @@ GameObject:
   m_Component:
   - component: {fileID: 266586784}
   - component: {fileID: 266586783}
+  - component: {fileID: 266586785}
   m_Layer: 0
   m_Name: Background Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &266586783
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8344,6 +8345,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &266586785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 266586782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac732ccc17d4dc4d9b1c6a802821ed0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &267580327
 Prefab:
   m_ObjectHideFlags: 0
@@ -53244,7 +53256,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1527557955}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.4, y: 14.277, z: 24.1}
+  m_LocalPosition: {x: 14.28, y: 15.08, z: 24.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -68884,6 +68896,10 @@ Prefab:
     - target: {fileID: 4126860190901398, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
       propertyPath: m_LocalPosition.y
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1252191736417228, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}

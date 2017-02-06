@@ -3,69 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SkeletonMage : MonoBehaviour {
+    public AudioClip RaiseDead;
     SpawnManager spawn;
     Animator anim;
     StatePatternEnemy unitedStatePattern;
+    public GameObject playerLocation;
     float timer = 5;
-    bool RaisedDead = false;
-    bool deadHaveBeenRaised = false;
-	// Use this for initialization
-	void Start ()
+    int spawnCount;
+
+    float force = 5;
+    float radius = 10;
+    // Use this for initialization
+    void Start ()
     {
         spawn = GetComponent<SpawnManager>();
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
+
+        spawnCount = 0;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
         timer -= Time.deltaTime;
-        if (unitedStatePattern.currentState.ToString() == "PatrolState" && !RaisedDead)
+
+        if (timer > 0)
         {
-            CancelCurrentAnimation();
-            anim.SetBool("Walk", true);
-        }
-        else
-        {
-            anim.SetTrigger("Raise Dead");
-        }
-        if (unitedStatePattern.currentState.ToString() == "AlertState")
-        {
-            CancelCurrentAnimation();
-            anim.SetBool("Chanting", true);
-        }
-        if (unitedStatePattern.currentState.ToString() == "ChaseState") //&& unitedStatePattern.DistanceToPlayer > stopToAttackDistance)
-        {
-            CancelCurrentAnimation();
-            if (unitedStatePattern.navMeshAgent.remainingDistance < unitedStatePattern.attackDistance)
-            {
-                unitedStatePattern.navMeshAgent.Stop();
-                anim.SetBool("Run", false);
-                anim.SetTrigger("Projectile Attack");
-            }
-            else
-            {
-                unitedStatePattern.navMeshAgent.Resume();
-                anim.ResetTrigger("Projectile Attack");
-                anim.SetBool("Run", true);
-            }
-        }
-        if (spawn.EnemiesHaveSpawned && !RaisedDead && !deadHaveBeenRaised)
-        {
-            RaisedDead = true;
-            unitedStatePattern.navMeshAgent.speed = 0;
-            CancelCurrentAnimation();
-            anim.SetTrigger("Raise Dead");
-            //transform.LookAt(unitedStatePattern.chaseTarget.transform.position);
+            anim.SetTrigger("Chanting");
         }
 
-        if (timer <= 0)
+
+        if (timer <= 0 && spawnCount < 5)
         {
+            anim.ResetTrigger("Chanting");
+            anim.SetTrigger("Raise Dead");
+            //GetComponent<Rigidbody>().AddExplosionForce(radius, gameObject.transform.position, 5);
+            ForcePush();
+            GetComponent<AudioSource>().PlayOneShot(RaiseDead);
             spawn.EnemiesHaveSpawned = false;
             timer = 5;
         }
 	}
+
+    void ForcePush()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(gameObject.transform.position, playerLocation.transform.position - gameObject.transform.position, out hit))
+        {
+
+        }
+    }
 
     void CancelCurrentAnimation()
     {
