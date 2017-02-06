@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class SkeletonKnight : MonoBehaviour{
 
+    public GameObject sword;
+    StatePatternEnemy unitedStatePattern;
+    IWeaponBehavior weaponBehavior;
     Animator anim;
     bool asleep = true;
-    StatePatternEnemy unitedStatePattern;
     bool attacking = false;
-    Animator playerAnim;
     bool dead = false;
-    public GameObject sword;
-    IWeaponBehavior weaponBehavior;
+
     // Use this for initialization
 	void Start ()
     {
