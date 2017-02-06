@@ -6,17 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public AudioClip deathSFX;
+    [SerializeField] AudioClip deathSFX;
 
     //Basic Settings - Edit in Unity
-    public int maxJump = 1;
-    public float strafeModfier = .75f;
-    public int health = 30;
-    public int healthMax = 30;
-    public uint lives = 3;
+
+    [SerializeField] int maxJump = 1;
+    [SerializeField] float strafeModfier = .75f;
+    [SerializeField] int health = 30;
+    [SerializeField] int healthMax = 30;
+    [SerializeField] uint lives = 3;
 
     //This is not allowed.
-    //public HUD Hud;
+    //[SerializeField] HUD Hud;
 
     //Variables
     bool invulnerable = false;
@@ -36,11 +37,11 @@ public class Player : MonoBehaviour
 
     //Physics Settings
     float gravity = 9.8F;
-    public float speed = 3.0F;
-    public float sprintSpeed = 6.0f;
-    public float jumpSpeed = 10.0F;
-    public float mass = 20.0F;
-    public float rotationSpeed = 5.0f;
+    [SerializeField] float speed = 3.0F;
+    [SerializeField] float sprintSpeed = 6.0f;
+    [SerializeField] float jumpSpeed = 10.0F;
+    [SerializeField] float mass = 20.0F;
+    [SerializeField] float rotationSpeed = 5.0f;
 
     //Physics Internals
     Vector3 moveDirection = Vector3.zero;
