@@ -6,16 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public AudioClip deathSFX;
+    [SerializeField] AudioClip deathSFX;
 
     //Basic Settings - Edit in Unity
-    public int maxJump = 1;
-    public float strafeModfier = .75f;
-    public int health = 30;
-    public int lives = 3;
+
+    [SerializeField] int maxJump = 1;
+    [SerializeField] float strafeModfier = .75f;
+    [SerializeField] int health = 30;
+    [SerializeField] int healthMax = 30;
+    [SerializeField] uint lives = 3;
 
     //This is not allowed.
-    //public HUD Hud;
+    //[SerializeField] HUD Hud;
 
     //Variables
     bool invulnerable = false;
@@ -35,11 +37,11 @@ public class Player : MonoBehaviour
 
     //Physics Settings
     float gravity = 9.8F;
-    public float speed = 3.0F;
-    public float sprintSpeed = 6.0f;
-    public float jumpSpeed = 10.0F;
-    public float mass = 20.0F;
-    public float rotationSpeed = 5.0f;
+    [SerializeField] float speed = 3.0F;
+    [SerializeField] float sprintSpeed = 6.0f;
+    [SerializeField] float jumpSpeed = 10.0F;
+    [SerializeField] float mass = 20.0F;
+    [SerializeField] float rotationSpeed = 5.0f;
 
     //Physics Internals
     Vector3 moveDirection = Vector3.zero;
@@ -55,7 +57,7 @@ public class Player : MonoBehaviour
     Vector3 CurrentCheckpoint;
 
     //Spin Attack CD
-    float spinTime = 0;
+    float spinTime = 999;
     float maxSpinTime = 3;
     float spinCDMax = 8;
     float spinCD = 999;
@@ -85,19 +87,7 @@ public class Player : MonoBehaviour
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
     }
 
-    // Use this for initialization
-    void Start()
-    {
-        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
-        anim = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
-        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
-        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
-        maxJumpStored = maxJump;
-        currentState = States.Idle;
-        weapon = FindWeapon(transform);
-        weaponScript = weapon.GetComponent<IWeaponBehavior>();
-    }
+
 
     //States
     enum States
@@ -139,7 +129,6 @@ public class Player : MonoBehaviour
                     anim.SetBool("Spin Attack", true);
                     weaponScript.AttackStart();
                     spinTime = 0;
-                    spinCD = 0;
                     _cs = value;
                     break;
                 case States.Die:
@@ -149,6 +138,7 @@ public class Player : MonoBehaviour
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
+                        EventSystem.LivesCount(lives);
                         _cs = value;
                     }
                     else
@@ -156,7 +146,7 @@ public class Player : MonoBehaviour
                         lives--;
                         ReturnToCheckpoint();
                         currentState = States.Idle;
-                        health = 3;
+                        health = healthMax;
                     }
                     break;
                 case States.TakeDamage:
@@ -248,10 +238,27 @@ public class Player : MonoBehaviour
             }
         }
     }
+    
+
+    // Use this for initialization
+    void Start()
+    {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
+        EventSystem.SpinTime(spinTime, maxSpinTime);
+        EventSystem.LivesCount(lives);
+        anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
+        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
+        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
+        maxJumpStored = maxJump;
+        currentState = States.Idle;
+        weapon = FindWeapon(transform);
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
+    }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Pause"))
         {
             if (Time.timeScale == 0)
                 Time.timeScale = 1;
@@ -272,40 +279,38 @@ public class Player : MonoBehaviour
             //Re-used a lot of Harrison's movement code
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
-            //Alternate Control Scheme - bad imo
-            //moveDirection = transform.TransformDirection(moveDirection);
-            //moveDirection *= sprintSpeed;
             moveDirection *= speed;
 
            
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
-                if (Input.GetMouseButton(0))
+                if (Input.GetButton("Fire2"))
                 {
                     currentState = States.Attack;
 
                 }
-                else if (Input.GetMouseButton(1) && spinCD > spinCDMax)
+                else if (Input.GetButton("Fire3") && spinCD > spinCDMax)
                 {
                     currentState = States.SpinAttack;
                 }
-                else if (Input.GetKey(KeyCode.LeftControl))
+                else if (Input.GetButton("Fire1"))
                 {
                     throwScythe = true;
                 }
             }
 
-
-
             if (currentState == States.SpinAttack)
             {
-                if (!Input.GetMouseButton(1) || spinTime > maxSpinTime)
+                if (!Input.GetButton("Fire3") || spinTime > maxSpinTime)
                 {
+                    spinCD = 0;
                     currentState = States.Idle;
                     weaponScript.AttackEnd();
+                    spinTime = 99;
                 }
                 spinTime += Time.deltaTime;
+                EventSystem.SpinTime(spinTime, maxSpinTime);
             }
             else
             {
@@ -347,7 +352,7 @@ public class Player : MonoBehaviour
 
 
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
-                if (mouseDistance > 1.9f)
+                if (mouseDistance > .5f)
                 {
                     //Turn player to face cursor on terrain
                     RotateToFaceTarget(mousePosition, rotationSpeed);
@@ -355,30 +360,25 @@ public class Player : MonoBehaviour
 
             }
 
-
-            // ^^^ Probably could be done better than this.
-            // Agreed
-
             //Landed / Grounded
             if (controller.isGrounded)
             {
-                //anim.SetBool("Jump", false);
                 verticalVel = 0;
                 maxJump = maxJumpStored;
             }
 
             //Jump
-            if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
+            if (Input.GetButtonDown("Jump") && maxJump > 0)
             {
                 maxJump--;
                 verticalVel -= jumpSpeed;
             }
 
-            if (teleportCD > teleportCDMax && !teleportToggle && Input.GetKey(KeyCode.Q))
+            if (teleportCD > teleportCDMax && !teleportToggle && Input.GetButton("Teleport"))
             {
                 teleportToggle = true;
             }
-            else if (teleportToggle && !(Input.GetKey(KeyCode.Q)))
+            else if (teleportToggle && !(Input.GetButton("Teleport")))
             {
                 teleportToggle = false;
             }
@@ -390,19 +390,13 @@ public class Player : MonoBehaviour
                 tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
             }
 
-
-
-
             //Gravity
-            verticalVel += gravity * Time.deltaTime;
+            verticalVel += gravity * Time.deltaTime * 2;
             moveDirection.y -= verticalVel;
-
-
 
             //Move
             controller.Move(moveDirection * Time.deltaTime);
             EventSystem.PlayerPositionUpdate(transform.position);
-
         }
 
     }
@@ -424,9 +418,9 @@ public class Player : MonoBehaviour
         if (!invulnerable)
         {
             StartCoroutine(Invulnerable());
-            EventSystem.PlayerHealthUpdate(-dmg);
+            
             health--;
-
+            EventSystem.PlayerHealthUpdate(health, healthMax);
             if (health < 1)
             {
                 currentState = States.Die;
@@ -480,9 +474,6 @@ public class Player : MonoBehaviour
         invulnerable = false;
     }
 
-
-
-
     public void AttackFinished(int attack)
     {
         if (currentState == States.Attack)
@@ -506,7 +497,7 @@ public class Player : MonoBehaviour
     void OnTriggerStay(Collider col)
     {
         if (col.tag == "Trapdoor")
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetButton("Use"))
                 SceneManager.LoadScene("Graveyard");
 
         if (col.tag == "LastDoor")
@@ -524,8 +515,8 @@ public class Player : MonoBehaviour
         else if (col.tag == "HealthPowerUp")
         {
             Destroy(col.gameObject);
-            health = 10;
-            //Hud.UpdateHealth(health);
+            health = healthMax;
+            EventSystem.PlayerHealthUpdate(health, healthMax);
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
@@ -535,12 +526,7 @@ public class Player : MonoBehaviour
             StartCoroutine(Invulnerable(10));
             Destroy(col.gameObject);
         }
-        else if (col.tag == "Health Collectible")
-        {
-            Destroy(col.gameObject);
-            health = health + 3;
-            //Hud.UpdateHealth(health);
-        }
+
         else if (col.tag == "Checkpoint")
         {
             if (CurrentCheckpoint != col.transform.position)
@@ -571,8 +557,8 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "OutOfBounds")
         {
-            ReturnToCheckpoint();
             TakeDamage();
+            ReturnToCheckpoint();
         }
     }
 
@@ -581,6 +567,7 @@ public class Player : MonoBehaviour
         anim.SetBool("Teleport Appear", true);
         transform.position = CurrentCheckpoint;
         throwScythe = false;
+        EventSystem.PlayerHealthUpdate(health, healthMax);
     }
     void OnTriggerExit(Collider col)
     {

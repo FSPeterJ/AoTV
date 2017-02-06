@@ -29,8 +29,9 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     bool dead = false;
     GameObject weapon;
     IWeaponBehavior weaponScript;
+    public uint pointValue = 1;
 
-    [SerializeField]
+
     GameObject Proj;
 
     AI currentState
@@ -64,6 +65,8 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
                     break;
                 case AI.Die:
                     //GetComponent<BoxCollider>().enabled = false;
+                    EventSystem.ScoreIncrease(pointValue);
+
                     anim.SetTrigger("Die");
                     dead = true;
                     _ws = value;
@@ -205,7 +208,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
 
     public void CreateProjectile()
     {
-        GameObject projectile = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation *=Quaternion.Euler(0, -90, 0)); 
+        GameObject projectile = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(0, -90, 0)); 
 
     }
 

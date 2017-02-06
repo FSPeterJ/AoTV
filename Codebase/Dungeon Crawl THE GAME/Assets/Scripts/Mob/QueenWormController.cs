@@ -34,6 +34,8 @@ public class QueenWormController : MonoBehaviour
     float idleTime;
     NavMeshAgent navigate;
     ParticleSystem particles;
+    public uint pointValue = 1;
+
 
     QueenState currentState
     {
@@ -108,6 +110,8 @@ public class QueenWormController : MonoBehaviour
                     qs = value;
                     break;
                 case QueenState.Death:
+                    EventSystem.ScoreIncrease(pointValue);
+
                     navigate.speed = 0f;
                     navigate.enabled = false;
                     anim.SetBool("Die", true);
@@ -248,5 +252,10 @@ public class QueenWormController : MonoBehaviour
     void UpdateTargetPosistion(Vector3 pos)
     {
         PlayerPos = pos;
+    }
+
+    void Kill()
+    {
+
     }
 }
