@@ -43,13 +43,20 @@ public class MainCamera : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit[] temp = Physics.RaycastAll(ray, layerMask);
 
-        if (Physics.Raycast(ray, out hitInfo, layerMask))
+        for (int i = 0; i < temp.Length; i++)
         {
-            Debug.DrawLine(Camera.main.transform.position, hitInfo.point, Color.red);
-            // Do something with the object that was hit by the raycast.
-            EventSystem.MousePositionUpdate(hitInfo.point);
+            if(temp[i].collider.gameObject.layer == layerMask)
+            {
+                Debug.DrawLine(Camera.main.transform.position, temp[i].point, Color.red);
+                // Do something with the object that was hit by the raycast.
+                EventSystem.MousePositionUpdate(temp[i].point);
+                break;
+            }
+            
         }
+
 
         //Saved time with just using this:
         //http://answers.unity3d.com/answers/218373/view.html
@@ -71,7 +78,7 @@ public class MainCamera : MonoBehaviour
 
     void PlayerDied()
     {
-        
-    } 
+
+    }
 
 }

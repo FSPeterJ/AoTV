@@ -32,7 +32,6 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     public uint pointValue = 1;
 
 
-    [SerializeField]
     GameObject Proj;
 
     AI currentState
@@ -209,7 +208,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
 
     public void CreateProjectile()
     {
-        GameObject projectile = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation *=Quaternion.Euler(0, -90, 0)); 
+        GameObject projectile = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(0, -90, 0)); 
 
     }
 

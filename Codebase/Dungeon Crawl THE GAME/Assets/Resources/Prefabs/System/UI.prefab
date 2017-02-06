@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 114570250405311492}
   - component: {fileID: 114796248097895614}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -439,6 +439,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seconds: 0
   max: 0
+  secondaryseconds: 0
+  secondarymax: 0
 --- !u!114 &114051236631143714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -452,6 +454,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seconds: 0
   max: 0
+  secondaryseconds: 0
+  secondarymax: 0
 --- !u!114 &114079252576316858
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1003,7 +1007,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Lives: 0'
+  m_Text: I am not updating
 --- !u!114 &114720508635640176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1017,6 +1021,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seconds: 0
   max: 0
+  secondaryseconds: 0
+  secondarymax: 0
 --- !u!114 &114796248097895614
 MonoBehaviour:
   m_ObjectHideFlags: 1
