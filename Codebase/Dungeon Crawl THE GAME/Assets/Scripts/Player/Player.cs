@@ -265,7 +265,6 @@ public class Player : MonoBehaviour
             moveDirection *= speed;
 
 
-
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
                 if (Input.GetMouseButton(0))

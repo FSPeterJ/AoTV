@@ -63,4 +63,12 @@ public static class EventSystem
         if (onSpinCooldown != null) onSpinCooldown(seconds, max);
     }
 
+    //Score Increment
+    public delegate void IncScoreHandler(int score);
+    public static event IncScoreHandler onScoreHandler;
+    public static void IncrementScore(int score)
+    {
+        if (onScoreHandler != null) onScoreHandler(score);
+    }
+
 }
