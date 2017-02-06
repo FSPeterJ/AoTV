@@ -233,10 +233,12 @@ public class Player : MonoBehaviour
             }
         }
     }
+    
 
     // Use this for initialization
     void Start()
     {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         EventSystem.SpinTime(spinTime, maxSpinTime);
         EventSystem.LivesCount(lives);
         anim = GetComponent<Animator>();
@@ -247,11 +249,18 @@ public class Player : MonoBehaviour
         currentState = States.Idle;
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
-
     }
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (Time.timeScale == 0)
+                Time.timeScale = 1;
+            else
+                Time.timeScale = 0;
+            //set timescale back to 1 when pause menu is left code already handles p and escape return to game
+        }
         if (!dead)
         {
             spinCD += Time.deltaTime;
@@ -270,11 +279,7 @@ public class Player : MonoBehaviour
             //moveDirection *= sprintSpeed;
             moveDirection *= speed;
 
-            if (Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape))
-            {
-                Time.timeScale = 0;
-                //set timescale back to 1 when pause menu is left 
-            }
+           
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {

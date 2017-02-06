@@ -9,6 +9,7 @@ public class LoadPlayer : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         spawn = SpawnPoint.transform;
         Instantiate(Player, spawn);
         SpawnPoint.transform.DetachChildren();
