@@ -264,7 +264,11 @@ public class Player : MonoBehaviour
             //moveDirection *= sprintSpeed;
             moveDirection *= speed;
 
-
+            if (Input.GetKeyDown("P")||Input.GetKeyDown("Esc"))
+            {
+                Time.timeScale = 0;
+                //set timescale back to 1 when pause menu is left 
+            }
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
