@@ -82,6 +82,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     _cs = value;
                     break;
                 default:
+                    
                     _cs = value;
                     break;
             }
@@ -92,7 +93,6 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     {
         Idle, Walk, Jump, Run, BiteAttack, TuskAttack, CastSpell, Defend, TakeDamage, Wander, Die
     }
-
 
     //variables
     Animator anim;
@@ -272,6 +272,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                 {
                     if (idleTime > 500f)
                     {
+                        
                         break;
 
                     }
@@ -324,9 +325,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 
     public void AttackStart()
     {
-
         weaponScript.AttackStart();
-
     }
 
     void UpdateTargetPosition(Vector3 pos)
@@ -360,6 +359,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     float attackRange = 2.0f;
     bool AttackRangeCheck()
     {
+        //what the hell is this?
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange, Color.red);
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
