@@ -5,156 +5,53 @@ using UnityEngine.AI;
 
 public class Dragon : MonoBehaviour, IEnemyBehavior
 {
-    enum Ground_States
+    public enum AI
     {
-        Bite, Spell, Die, FireBreath, Projectileattack, Run, Takedamage, Walk
+        Idle, Bite, Firebreath, TakeDamage, Die, Fly_Bite, Fly_Forward, Fly_Idle, Fly_Firebreath
     }
 
-    Ground_States cs;
-    Ground_States CurrentgState
+    public AI cDs;
+    public AI CurrentState
     {
-        get { return cs; }
-
+        get { return cDs; }
         set
         {
-            switch(value)
+            switch (value)
             {
-                case Ground_States.Bite:
-                    AttkAreaCollider.enabled = true;
-                    Anim.SetBool("Bite Attack", true);
-                    idleTime = 0;
-                    NavAgent.enabled = false;
-                    cs = value;
+                case AI.Idle:
+                    {
+                        NavAgent.enabled = false;
+                        Bcollider.enabled = true;
+                        Anim.SetBool("Idle", true);
+                    }
                     break;
+                case AI.Bite:
+                    break;
+                case AI.Firebreath:
+                    {
 
-                case Ground_States.Spell:
-                    Anim.SetBool("Cast Spell", true);
-                    NavAgent.enabled = false;
-                    NavAgent.speed = 0;
-                    idleTime = 0;
-                    cs = value;
+                    }
                     break;
-                case Ground_States.Die:
-                    Dead = true;
-                    GetComponent<BoxCollider>().enabled = false;
-                    Anim.SetBool("Die", true);
-                    Destroy(gameObject);
+                case AI.TakeDamage:
+                    {
+
+                    }
                     break;
-                case Ground_States.Takedamage:
-                    Anim.SetBool("Take Damage", true);
+                case AI.Die:
+                    {
+                        NavAgent.enabled = false;
+                        Bcollider.enabled = false;
+                    }
                     break;
-                case Ground_States.FireBreath:
-                    AttkAreaCollider.enabled = true;
-                    Anim.SetBool("Fire Breath Attack", true);
-                    NavAgent.enabled = false;
-                    idleTime = 0;
-                    NavAgent.speed = 0;
-                    cs = value;
+                case AI.Fly_Bite:
                     break;
-                case Ground_States.Projectileattack:
-                    AttkAreaCollider.enabled = true;
-                    NavAgent.enabled = false;
-                    NavAgent.speed = 0;
-                    idleTime = 0;
-                    Anim.SetBool("Projectile Attack", true);
-                    cs = value;
+                case AI.Fly_Forward:
                     break;
-                case Ground_States.Run:
-                    NavAgent.speed = 10.0f;
-                    NavAgent.enabled = true;
-                    Anim.SetBool("Run", true);
-                    cs = value;
+                case AI.Fly_Idle:
                     break;
-                case Ground_States.Walk:
-                    Anim.SetBool("Walk", true);
-                    NavAgent.enabled = true;
-                    NavAgent.speed = 5.0f;
-                    cs = value;
+                case AI.Fly_Firebreath:
                     break;
                 default:
-                    cs = value;
-                    break;
-            }
-        }
-    }
-
-    enum Fly_States
-    {
-        Bite, Spell, Die, FireBreath, Forward, Idle, ProjectileAttack, TakeDamage
-    }
-
-    Fly_States _Cs;
-    Fly_States CurrentfStates
-    {
-        get { return _Cs; }
-
-        set
-        {
-            switch(value)
-            {
-                case Fly_States.Bite:
-                    //flystates = true;
-                    AttkAreaCollider.enabled = true;
-                    NavAgent.enabled = false;
-                    NavAgent.speed = 0;
-                    idleTime = 0;
-                    Anim.SetBool("Fly Bite Attack", true);
-                    _Cs = value;
-                    break;
-                case Fly_States.Spell:
-                    //flystates = true;
-                    AttkAreaCollider.enabled = true;
-                    NavAgent.enabled = false;
-                    NavAgent.speed = 0;
-                    idleTime = 0;
-                    Anim.SetBool("Fly Cast Spell", true);
-                    _Cs = value;
-                    break;
-                case Fly_States.Die:
-                    Dead = true;
-                    GetComponent<BoxCollider>().enabled = false;
-                    Anim.SetBool("Fly Die", true);
-                    Destroy(gameObject);
-                    break;
-                case Fly_States.FireBreath:
-                    //flystates = true;
-                    idleTime = 0;
-                    NavAgent.enabled = true;
-                    NavAgent.speed = 0;
-                    AttkAreaCollider.enabled = true;
-                    Anim.SetBool("Fly Fire Breath Attack", true);
-                    _Cs = value;
-                    break;
-                case Fly_States.Forward:
-                    //flystates = true;
-                    Originpos.x++;
-                    NavAgent.enabled = true;
-                    NavAgent.speed = 5.0f;
-                    AttkAreaCollider.enabled = true;
-                    Anim.SetBool("Fly Forward", true);
-                    _Cs = value;
-                    break;
-                case Fly_States.Idle:
-                    //flystates = true;
-                    idleTime = 0;
-                    NavAgent.enabled = false;
-                    NavAgent.speed = 0;
-                    AttkAreaCollider.enabled = true;
-                    Anim.SetBool("Fly Idle", true);
-                    _Cs = value;
-                    break;
-                case Fly_States.ProjectileAttack:
-                    //flystates = true;
-                    idleTime = 0;
-                    NavAgent.enabled = false;
-                    NavAgent.speed = 0;
-                    Anim.SetBool("Fly Projectile Attack", true);
-                    _Cs = value;
-                    break;
-                case Fly_States.TakeDamage:
-                    //flystates = true;
-                    Anim.SetBool("Fly Take Damage", true);
-                    _Cs = value;
                     break;
             }
         }
@@ -180,28 +77,34 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 
     //References
     NavMeshAgent NavAgent;
-    Collider AttkAreaCollider;
+    BoxCollider Bcollider;
+    //IWeaponBehavior weaponscript;
+    GameObject Mouththing;
 
     float idleTime = 0;
 
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdatetargetPos;
+        EventSystem.onPlayerDeath += PlayerDied;
     }
 
     void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdatetargetPos;
+        EventSystem.onPlayerDeath -= PlayerDied;
     }
 
 	// Use this for initialization
 	void Start()
     {
+        
         Anim = GetComponent<Animator>();
         Originpos = transform.position;
         NavAgent = GetComponent<NavMeshAgent>();
-        AttkAreaCollider = GetComponent<Collider>();
-        CurrentgState = Ground_States.Walk;
+        Bcollider = GetComponent<BoxCollider>();
+        Mouththing = transform.Find("RigHeadGizmo").gameObject;
+        CurrentState = AI.Idle;
         NavhitPos.hit = true;
 	}
 	
@@ -210,198 +113,42 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     {
         TargetDist = Vector3.Distance(Targetposition, transform.position);
 
-        //Ground State machine
-        switch(CurrentgState)
+        Debug.Log(CurrentState.ToString());
+        Debug.Log("Distance to target is "+ TargetDist.ToString());
+        switch (CurrentState)
         {
-            //case Ground_States.Idle:
-            //    {
-            //        //if (idleTime > 1f)
-            //        {
-            //            if (TargetDist < 20f && TargetDist > 10f)
-            //            {
-            //                CurrentgStates = Ground_States.Run;
-            //            }
-            //            else if (TargetDist < 8f)
-            //            {
-            //                CurrentgStates = Ground_States.Walk;
-            //            }
-            //        }
+            case AI.Idle:
+                break;
+            case AI.Bite:
+                {
 
-            //        if (idleTime > 3f)
-            //        {
-            //            CurrentgStates = Ground_States.Walk;
-            //            NavAgent.enabled = true;
-            //            idleTime = 0;
-            //        }
-            //        idleTime += Time.deltaTime;
-            //    }
-            //    break;
-            case Ground_States.Bite:
-                {
-                    if (idleTime > 1f)
-                    {
-                        CurrentgState = Ground_States.Walk;
-                        Anim.SetBool("Bite Attack", false);
-                        AttkAreaCollider.enabled = false;
-                    }
-                    else
-                    {
-                        idleTime += Time.deltaTime;
-                    }
-                    break;
-                }
-            case Ground_States.Walk:
-                {
-                    NavAgent.SetDestination(Targetposition);
-
-                    if (TargetDist < 1.0f)
-                    {
-                        CurrentgState = Ground_States.Bite;
-                        Anim.SetBool("Walk", false);
-                    }
-                    else if (TargetDist < 20f && TargetDist > 10f)
-                    {
-                        CurrentgState = Ground_States.Run;
-                        Anim.SetBool("Walk", false);
-                    }
-
-                    if (TargetDist > 1.0f && TargetDist < 8.0f)
-                    {
-                        CurrentgState = Ground_States.FireBreath;
-                        Anim.SetBool("Run", false);
-                    }
-                    break;
-                }
-            case Ground_States.Run:
-                {
-                    NavAgent.SetDestination(Targetposition);
-
-                    if (TargetDist < 1.8f)
-                    {
-                        CurrentgState = Ground_States.Bite;
-                        Anim.SetBool("Run", false);
-                    }
-
-                    if (TargetDist > 1.0f && TargetDist < 8.0f)
-                    {
-                        CurrentgState = Ground_States.FireBreath;
-                        Anim.SetBool("Run", false);
-                    }
-                    break;
-                }
-            case Ground_States.FireBreath:
-                {
-                    if (TargetDist > 1.0f && TargetDist < 8.0f)
-                    {
-                        CurrentgState = Ground_States.Run;
-                        Anim.SetBool("Fire Breath Attack", false);
-                    }
-                    else if (TargetDist >= 8.0f)
-                    {
-                        CurrentgState = Ground_States.Walk;
-                        Anim.SetBool("Fire Breath Attack", false);
-                    }
-                    else if (TargetDist > 10.0f)
-                    {
-                        CurrentgState = Ground_States.Walk;
-                        Anim.SetBool("Fire Breath Attack", false);
-                    }
-                    break;
-                }
-        }
-        
-        switch(CurrentfStates)
-        {
-            case Fly_States.Bite:
-                {
-                    if (idleTime > 1f)
-                    {
-                        CurrentfStates = Fly_States.Idle;
-                        Anim.SetBool("Fly Bite Attack", false);
-                        AttkAreaCollider.enabled = true;
-                    }
-                    else
-                    {
-                        idleTime += Time.deltaTime;
-                    }
-                    break;
-                }
-            case Fly_States.FireBreath:
-                {
-                    if (TargetDist > 10.0f && TargetDist < 15.0f)
-                    {
-                        CurrentfStates = Fly_States.ProjectileAttack;
-                        Anim.SetBool("Fly Fire Breath Attack", false);
-                    }
-                    else if (TargetDist > 10.0f)
-                    {
-                        CurrentfStates = Fly_States.Forward;
-                        Anim.SetBool("Fly Fire Breath Attack", false);
-                    }
-                    else if (TargetDist > 10.0f)
-                    {
-                        CurrentfStates = Fly_States.Idle;
-                        Anim.SetBool("Fly Fire Breath Attack", false);
-                    }
-                    break;
-                }
-            case Fly_States.Forward:
-                {
-                    if (TargetDist < 10.0f && TargetDist > 5.0f)
-                    {
-                        CurrentfStates = Fly_States.FireBreath;
-                        Anim.SetBool("Fly Forward", false);
-                    }
-                    else if (TargetDist < 1.0f)
-                    {
-                        CurrentfStates = Fly_States.Bite;
-                        Anim.SetBool("Fly Forward", false);
-                    }
-                    else if (TargetDist > 15.0f)
-                    {
-                        CurrentfStates = Fly_States.Idle;
-                        Anim.SetBool("Fly Forward", false);
-                    }
-                    break;
-                }
-            case Fly_States.Idle:
-                {
-                    if (idleTime > 1f)
-                    {
-                        if (TargetDist < 20f && TargetDist > 10f)
-                        {
-                            CurrentfStates = Fly_States.Forward;
-                            Anim.SetBool("Fly Idle", false);
-                        }
-                        else if (TargetDist < 10f)
-                        {
-                            CurrentfStates = Fly_States.FireBreath;
-                            Anim.SetBool("Fly Idle", false);
-                        }
-                    }
-                    idleTime += Time.deltaTime;
                 }
                 break;
-            case Fly_States.ProjectileAttack:
-                {
-                    if (TargetDist < 10.0f && TargetDist > 5.0f)
-                    {
-                        CurrentfStates = Fly_States.FireBreath;
-                        Anim.SetBool("Fly Projectile Attack", false);
-                    }
-                    break;
-                }
-            
-
+            case AI.Firebreath:
+                break;
+            case AI.TakeDamage:
+                break;
+            case AI.Die:
+                break;
+            case AI.Fly_Bite:
+                break;
+            case AI.Fly_Forward:
+                break;
+            case AI.Fly_Idle:
+                break;
+            case AI.Fly_Firebreath:
+                break;
+            default:
+                break;
         }
 
         //setting the condition to make
         //the dragon go into the air when
         //his health is less than or equal to 50
-        if (flystates == true)
-            NavAgent.baseOffset += 5;
-        if (HP <= 50)
-            flystates = true;
+        //if (flystates == true)
+        //    NavAgent.baseOffset += 5;
+        //if (HP <= 50)
+        //    flystates = true;
 
     }
     
@@ -412,7 +159,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 
     public void Kill()
     {
-        CurrentgState = Ground_States.Die;
+        CurrentState = AI.Die;
     }
 
     public void TakeDamage(int damage  = 1)
@@ -427,14 +174,51 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
             }
             else
             {
-                CurrentgState = Ground_States.Takedamage;
+                CurrentState = AI.TakeDamage;
             }
         }
     }
 
+    void PlayerDied()
+    {
+        EventSystem.onPlayerPositionUpdate -= UpdatetargetPos;
+        Targetposition = new Vector3(Targetposition.x, 999999, Targetposition.z);
+    }
+
+    void RotateTofacetarget(Vector3 _targetPosition, float _Lspeed = .2f, float _AA = -90f)
+    {
+        Vector3 PTL = transform.position - _targetPosition;
+        PTL.y = 0;
+        float Angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(PTL.z, PTL.x) * Mathf.Rad2Deg) + _AA, _Lspeed);
+        transform.rotation = Quaternion.AngleAxis(Angle, new Vector3(0, 1, 0));
+    }
+
+    Ray AttkRngeFwd;
+    Ray AttkRngeLft;
+    Ray AttkRngeRght;
+    float AttkRnge = 2.0f;
+    bool AttkRngeCheck()
+    {
+        Debug.DrawRay(Mouththing.transform.position + Vector3.up, -Mouththing.transform.right * AttkRnge, Color.red);
+        Debug.DrawRay(Mouththing.transform.position + Vector3.up, (-Mouththing.transform.right + Mouththing.transform.forward * 0.25f) * AttkRnge, Color.red);
+        Debug.DrawRay(Mouththing.transform.position + Vector3.up, (-Mouththing.transform.right - Mouththing.transform.forward * 0.25f) * AttkRnge, Color.red);
+        AttkRngeFwd = new Ray(Mouththing.transform.position + Vector3.up, -Mouththing.transform.right * 3f);
+        AttkRngeRght = new Ray(Mouththing.transform.position + Vector3.up, (-Mouththing.transform.right - Mouththing.transform.forward * 0.25f) * 3f);
+        AttkRngeLft = new Ray(Mouththing.transform.position + Vector3.up, (-Mouththing.transform.right + Mouththing.transform.forward * 0.25f) * 3f);
+        RaycastHit fwdHit;
+        RaycastHit LftHit;
+        RaycastHit RghtHit;
+
+        if (Physics.Raycast(AttkRngeFwd, out fwdHit, AttkRnge) && fwdHit.transform.tag == "Player" || Physics.Raycast(AttkRngeLft, out LftHit, AttkRnge) && LftHit.transform.tag == "Player" || Physics.Raycast(AttkRngeRght, out RghtHit, AttkRnge) && RghtHit.transform.tag == "Player")
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void ResetToIdle()
     {
-        CurrentgState = Ground_States.Walk;
+        CurrentState = AI.Idle;
     }
 
     public int RemainingHealth()

@@ -14,7 +14,7 @@ public class HUD : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Score.text = "I am not updating";
+        
 	}
 
 

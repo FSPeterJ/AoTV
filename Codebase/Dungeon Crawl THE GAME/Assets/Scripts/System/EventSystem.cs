@@ -45,7 +45,13 @@ public static class EventSystem {
         
 
 }
-
+    //Player Score
+    public delegate void PlayerScorehandler(int score);
+    public static event PlayerScorehandler onPlayerScore;
+    public static void IncScore(int score)
+    {
+        if (onPlayerScore != null) onPlayerScore(score);
+    }
 
 
 }
