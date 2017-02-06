@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         anim = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
