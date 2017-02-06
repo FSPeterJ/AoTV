@@ -252,6 +252,9 @@ public class Player : MonoBehaviour
             spinCD += Time.deltaTime;
             teleportCD += Time.deltaTime;
             rangedAttackCD += Time.deltaTime;
+            EventSystem.SpinCooldown(spinCD, spinCDMax);
+            EventSystem.TeleportCooldown(teleportCD, teleportCDMax);
+            EventSystem.RangedCooldown(rangedAttackCD, rangedAttackCDMax);
 
 
             //Re-used a lot of Harrison's movement code
@@ -262,7 +265,11 @@ public class Player : MonoBehaviour
             //moveDirection *= sprintSpeed;
             moveDirection *= speed;
 
-
+            if (Input.GetKeyDown("P")||Input.GetKeyDown("Esc"))
+            {
+                Time.timeScale = 0;
+                //set timescale back to 1 when pause menu is left 
+            }
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
@@ -289,7 +296,6 @@ public class Player : MonoBehaviour
                 {
                     currentState = States.Idle;
                     weaponScript.AttackEnd();
-                    spinCD = 0;
                 }
                 spinTime += Time.deltaTime;
             }
