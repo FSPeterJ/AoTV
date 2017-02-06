@@ -5,57 +5,84 @@ using UnityEngine.AI;
 
 public class Dragon : MonoBehaviour, IEnemyBehavior
 {
-    public enum AI
+    enum Dragon_States
     {
-        Idle, Bite, Firebreath, TakeDamage, Die, Fly_Bite, Fly_Forward, Fly_Idle, Fly_Firebreath
+       Bite, Walk, Firebreath, Die, Takedamage, Fly_Idle, Fly_Bite, Fly_Firebreath, Fly_Forward
     }
 
-    public AI cDs;
-    public AI CurrentState
+    [SerializeField]
+    Dragon_States currentstate;
+    Dragon_States CurrentState
     {
-        get { return cDs; }
+        get { return currentstate; }
+
         set
         {
-            switch (value)
+            switch(value)
             {
-                case AI.Idle:
-                    {
-                        NavAgent.enabled = false;
-                        Bcollider.enabled = true;
-                        Anim.SetBool("Idle", true);
-                    }
+                case Dragon_States.Bite:
+                    AttkAreaCollider.enabled = true;
+                    Anim.SetTrigger("Bite attack");
+                    NavAgent.Stop();
+                    NavAgent.speed = 0;
+                    currentstate = value;
                     break;
-                case AI.Bite:
+                case Dragon_States.Walk:
+                    AttkAreaCollider.enabled = true;
+                    Anim.SetBool("Walk", true);
+                    NavAgent.Resume();
+                    NavAgent.speed = 5.0f;
+                    currentstate = value;
                     break;
-                case AI.Firebreath:
-                    {
-
-                    }
+                case Dragon_States.Firebreath:
+                    AttkAreaCollider.enabled = true;
+                    Anim.SetTrigger("Fire Breath Attack");
+                    NavAgent.Stop();
+                    idleTime = 0;
+                    NavAgent.speed = 0;
+                    currentstate = value;
                     break;
-                case AI.TakeDamage:
-                    {
-
-                    }
+                case Dragon_States.Die:
+                    Dead = true;
+                    GetComponent<BoxCollider>().enabled = false;
+                    Anim.SetBool("Die", true);
+                    Destroy(gameObject);
                     break;
-                case AI.Die:
-                    {
-                        NavAgent.enabled = false;
-                        Bcollider.enabled = false;
-                    }
+                case Dragon_States.Takedamage:
+                    Anim.SetBool("Take Damage", true);
                     break;
-                case AI.Fly_Bite:
+                case Dragon_States.Fly_Idle:
+                    Anim.SetBool("Fly Idle", true);
+                    NavAgent.Stop();
+                    NavAgent.speed = 0;
+                    currentstate = value;
                     break;
-                case AI.Fly_Forward:
+                case Dragon_States.Fly_Bite:
+                    NavAgent.Stop();
+                    NavAgent.speed = 0;
+                    Anim.SetTrigger("Fly Bite Attack");
+                    currentstate = value;
                     break;
-                case AI.Fly_Idle:
+                case Dragon_States.Fly_Firebreath:
+                    Anim.SetTrigger("Fly Fire Breath Attack");
+                    idleTime = 0;
+                    NavAgent.Resume();
+                    NavAgent.speed = 5.0f;
+                    currentstate = value;
                     break;
-                case AI.Fly_Firebreath:
+                case Dragon_States.Fly_Forward:
+                    Anim.SetBool("Fly Forward", true);
+                    NavAgent.Resume();
+                    NavAgent.speed = 5.0f;
+                    currentstate = value;
                     break;
                 default:
                     break;
             }
         }
     }
+
+   
 
 
     
@@ -64,47 +91,42 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     Animator Anim;
     Vector3 Targetposition;
     float TargetDist;
-    bool flystates = false;
+    float groundTime = 0;
+    float airTime = 0;
 
-    //wamdering variables
-    Vector3 wanderSphere;
+    //wandering variables
+    //Vector3 wanderSphere;
     Vector3 Originpos;
     NavMeshHit NavhitPos;
 
     //Stat Variables
-    public int HP = 100;
+    public int HP = 50;
     bool Dead = false;
 
     //References
     NavMeshAgent NavAgent;
-    BoxCollider Bcollider;
-    //IWeaponBehavior weaponscript;
-    GameObject Mouththing;
+    BoxCollider AttkAreaCollider;
 
     float idleTime = 0;
 
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdatetargetPos;
-        EventSystem.onPlayerDeath += PlayerDied;
     }
 
     void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdatetargetPos;
-        EventSystem.onPlayerDeath -= PlayerDied;
     }
 
 	// Use this for initialization
 	void Start()
     {
-        
         Anim = GetComponent<Animator>();
         Originpos = transform.position;
         NavAgent = GetComponent<NavMeshAgent>();
-        Bcollider = GetComponent<BoxCollider>();
-        Mouththing = transform.Find("RigHeadGizmo").gameObject;
-        CurrentState = AI.Idle;
+        AttkAreaCollider = GetComponent<BoxCollider>();
+        currentstate = Dragon_States.Walk;
         NavhitPos.hit = true;
 	}
 	
@@ -112,43 +134,163 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 	void Update()
     {
         TargetDist = Vector3.Distance(Targetposition, transform.position);
+        Debug.Log("Target distance:" + TargetDist);
 
-        Debug.Log(CurrentState.ToString());
-        Debug.Log("Distance to target is "+ TargetDist.ToString());
-        switch (CurrentState)
+        //State machine
+        switch (currentstate)
         {
-            case AI.Idle:
-                break;
-            case AI.Bite:
+            case Dragon_States.Bite:
+               while (groundTime < 10)
                 {
-
+                    if (TargetDist > 2.8f && TargetDist < 5.0f)
+                    {
+                        Debug.Log("Dragon_States.Firebreath from Dragon_States.Bite");
+                        currentstate = Dragon_States.Firebreath;
+                    }
+                    else if (TargetDist > 5.0f && TargetDist < 10.0f)
+                    {
+                        Debug.Log("Dragon_States.Walk from Dragon_States.Bite");
+                        currentstate = Dragon_States.Walk;
+                    }
+                    //else if (TargetDist < 2.8f)
+                    //{
+                    //    currentstate = Dragon_States.Bite;
+                    //}
+                    groundTime += Time.deltaTime;
                 }
                 break;
-            case AI.Firebreath:
+            case Dragon_States.Walk:
+                if (groundTime < 10)
+                {
+                    if (TargetDist > 2.8f && TargetDist < 5.0f)
+                    {
+                        Debug.Log("Dragon_States.Firebreath from Dragon_States.Walk");
+                        currentstate = Dragon_States.Firebreath;
+                        Anim.SetBool("Walk", false);
+                    }
+                    //else if (TargetDist > 5.0f && TargetDist < 10.0f)
+                    //{
+                    //    currentstate = Dragon_States.Walk;
+                    //}
+                    else if (TargetDist < 2.8f)
+                    {
+                        Debug.Log("Dragon_States.Bite from Dragon_States.Walk");
+                        currentstate = Dragon_States.Bite;
+                        Anim.SetBool("Walk", false);
+                    }
+                    groundTime += Time.deltaTime;
+                }
+                
                 break;
-            case AI.TakeDamage:
+            case Dragon_States.Firebreath:
+                if (groundTime < 10)
+                {
+                    if (idleTime > 2)
+                    {
+                        //if (TargetDist > 2.8f && TargetDist < 5.0f)
+                        //{
+                        //    currentstate = Dragon_States.Firebreath;
+                        //}
+                        if (TargetDist > 5.0f && TargetDist < 10.0f)
+                        {
+                            currentstate = Dragon_States.Walk;
+                        }
+                        else if (TargetDist < 2.8f)
+                        {
+                            currentstate = Dragon_States.Bite;
+                        }
+                    }
+                    idleTime += Time.deltaTime;
+                }
+                    groundTime += Time.deltaTime;
                 break;
-            case AI.Die:
+            case Dragon_States.Die:
                 break;
-            case AI.Fly_Bite:
+            case Dragon_States.Takedamage:
                 break;
-            case AI.Fly_Forward:
+            case Dragon_States.Fly_Idle:
+                    if (TargetDist > 2.8f && TargetDist < 5.0f)
+                    {
+                        currentstate = Dragon_States.Fly_Firebreath;
+                        Anim.SetBool("Fly Idle", false);
+                    }
+                    if (TargetDist > 5.0f && TargetDist < 10.0f)
+                    {
+                        currentstate = Dragon_States.Fly_Forward;
+                        Anim.SetBool("Fly Idle", false);
+                    }
+                    if (TargetDist < 2.8f)
+                    {
+                        currentstate = Dragon_States.Fly_Bite;
+                        Anim.SetBool("Fly Idle", false);
+                    }
+                airTime += Time.deltaTime;
                 break;
-            case AI.Fly_Idle:
+            case Dragon_States.Fly_Bite:
+                while (airTime < 10)
+                {
+                    if (TargetDist > 2.8f && TargetDist < 5.0f)
+                    {
+                        currentstate = Dragon_States.Fly_Idle;
+                    }
+                    else if (TargetDist > 5.0f && TargetDist < 10.0f)
+                    {
+                        currentstate = Dragon_States.Fly_Idle;
+                    }
+                    else if (TargetDist < 2.8f)
+                    {
+                        currentstate = Dragon_States.Fly_Idle;
+                    }
+                }
+                airTime += Time.deltaTime;
                 break;
-            case AI.Fly_Firebreath:
+            case Dragon_States.Fly_Firebreath:
+                while (airTime < 10)
+                {
+                    if (idleTime <= 2)
+                    {
+                        if (TargetDist > 2.8f && TargetDist < 5.0f)
+                        {
+                            currentstate = Dragon_States.Fly_Idle;
+                        }
+                        else if (TargetDist > 5.0f && TargetDist < 10.0f)
+                        {
+                            currentstate = Dragon_States.Fly_Idle;
+                        }
+                        else if (TargetDist < 2.8f)
+                        {
+                            currentstate = Dragon_States.Fly_Idle;
+                        }
+                    }
+                }
+                airTime += Time.deltaTime;
+                idleTime += Time.deltaTime;
+                break;
+            case Dragon_States.Fly_Forward:
+                while (airTime < 10)
+                {
+                    if (TargetDist > 2.8f && TargetDist < 5.0f)
+                    {
+                        currentstate = Dragon_States.Fly_Idle;
+                        Anim.SetBool("Fly Forward", false);
+                    }
+                    else if (TargetDist < 2.8f)
+                    {
+                        currentstate = Dragon_States.Fly_Idle;
+                        Anim.SetBool("Fly Forward", false);
+                    }
+                    else if (TargetDist > 5.0f && TargetDist < 10.0f)
+                    {
+                        currentstate = Dragon_States.Fly_Idle;
+                    }
+                }
                 break;
             default:
                 break;
         }
 
-        //setting the condition to make
-        //the dragon go into the air when
-        //his health is less than or equal to 50
-        //if (flystates == true)
-        //    NavAgent.baseOffset += 5;
-        //if (HP <= 50)
-        //    flystates = true;
+        if (groundTime >= 10)
+            currentstate = Dragon_States.Fly_Idle;
 
     }
     
@@ -159,7 +301,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 
     public void Kill()
     {
-        CurrentState = AI.Die;
+        currentstate = Dragon_States.Die;
     }
 
     public void TakeDamage(int damage  = 1)
@@ -174,51 +316,14 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
             }
             else
             {
-                CurrentState = AI.TakeDamage;
+                currentstate = Dragon_States.Takedamage;
             }
         }
     }
 
-    void PlayerDied()
-    {
-        EventSystem.onPlayerPositionUpdate -= UpdatetargetPos;
-        Targetposition = new Vector3(Targetposition.x, 999999, Targetposition.z);
-    }
-
-    void RotateTofacetarget(Vector3 _targetPosition, float _Lspeed = .2f, float _AA = -90f)
-    {
-        Vector3 PTL = transform.position - _targetPosition;
-        PTL.y = 0;
-        float Angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(PTL.z, PTL.x) * Mathf.Rad2Deg) + _AA, _Lspeed);
-        transform.rotation = Quaternion.AngleAxis(Angle, new Vector3(0, 1, 0));
-    }
-
-    Ray AttkRngeFwd;
-    Ray AttkRngeLft;
-    Ray AttkRngeRght;
-    float AttkRnge = 2.0f;
-    bool AttkRngeCheck()
-    {
-        Debug.DrawRay(Mouththing.transform.position + Vector3.up, -Mouththing.transform.right * AttkRnge, Color.red);
-        Debug.DrawRay(Mouththing.transform.position + Vector3.up, (-Mouththing.transform.right + Mouththing.transform.forward * 0.25f) * AttkRnge, Color.red);
-        Debug.DrawRay(Mouththing.transform.position + Vector3.up, (-Mouththing.transform.right - Mouththing.transform.forward * 0.25f) * AttkRnge, Color.red);
-        AttkRngeFwd = new Ray(Mouththing.transform.position + Vector3.up, -Mouththing.transform.right * 3f);
-        AttkRngeRght = new Ray(Mouththing.transform.position + Vector3.up, (-Mouththing.transform.right - Mouththing.transform.forward * 0.25f) * 3f);
-        AttkRngeLft = new Ray(Mouththing.transform.position + Vector3.up, (-Mouththing.transform.right + Mouththing.transform.forward * 0.25f) * 3f);
-        RaycastHit fwdHit;
-        RaycastHit LftHit;
-        RaycastHit RghtHit;
-
-        if (Physics.Raycast(AttkRngeFwd, out fwdHit, AttkRnge) && fwdHit.transform.tag == "Player" || Physics.Raycast(AttkRngeLft, out LftHit, AttkRnge) && LftHit.transform.tag == "Player" || Physics.Raycast(AttkRngeRght, out RghtHit, AttkRnge) && RghtHit.transform.tag == "Player")
-        {
-            return true;
-        }
-        return false;
-    }
-
     public void ResetToIdle()
     {
-        CurrentState = AI.Idle;
+        currentstate = Dragon_States.Walk;
     }
 
     public int RemainingHealth()

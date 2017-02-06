@@ -62,6 +62,8 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
                     navAgent.speed = 0;
                     bCollider.enabled = false;
                     anim.SetBool("Die", true);
+                    EventSystem.ScoreIncrease(pointValue);
+
                     _cs = value;
                     break;
                 default:
@@ -99,6 +101,8 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     public float attackRange = 1.5f;
     public float walkSpeed = 3f;
     public float runSpeed = 4f;
+    public uint pointValue = 1;
+
 
 
     //Component References
@@ -323,6 +327,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     {
         AttackFinished();
         currentState = AI.Die;
+
 
     }
 

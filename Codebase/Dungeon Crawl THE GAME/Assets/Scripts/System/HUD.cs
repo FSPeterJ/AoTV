@@ -4,34 +4,33 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
-{
-    public Text Score;
-    public int scoreCounter = 0;
-    public bool dead = false;
+{ 
+ 
 
-    public Slider healthslider;
 
     // Use this for initialization
     void Start()
     {
         
+        //Score.text = "I am not updating";
 	}
 
 
 
     public void UpdateHealth(int health)
     {
-        healthslider.value = health;
+        
+        //healthslider.value = health;
     }
 
     public void UpdateScore()
     {
-        ++scoreCounter;
-        Score.text = "Score: " + scoreCounter;
+        //++scoreCounter;
+        //Score.text = "Score: " + scoreCounter;
     }
 
     public void PrintScore()
     {
-        Score.text = "Score: " + scoreCounter;
+        //Score.text = "Score: " + scoreCounter;
     }
 }

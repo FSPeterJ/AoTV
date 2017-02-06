@@ -27,6 +27,8 @@ public class ChaseState : IEnemyState
     {
         enemy.currentState = enemy.alertState;//transfer to alert state
         Debug.Log("Chase -> Alert");//Can't transition to same state, but must have this function for the interface
+        //enemy.anim.SetBool("Chase", false);
+        //enemy.anim.SetBool("Defend", true);
     }
 
     public void ToChaseState()

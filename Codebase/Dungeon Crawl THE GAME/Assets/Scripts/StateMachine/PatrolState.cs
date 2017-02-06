@@ -39,6 +39,8 @@ public class PatrolState : IEnemyState
     public void ToChaseState()
     {
         enemy.currentState = enemy.chaseState;//change current state to chase state
+        //enemy.anim.SetBool("Walk", false);
+        //enemy.anim.SetBool("Run", true);
         Debug.Log("Patrol -> Chase");//Can't transition to same state, but must have this function for the interface
     }
 
