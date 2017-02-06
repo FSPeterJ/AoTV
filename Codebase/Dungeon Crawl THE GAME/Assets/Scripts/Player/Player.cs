@@ -253,7 +253,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetButtonDown("Pause"))
         {
             if (Time.timeScale == 0)
                 Time.timeScale = 1;
@@ -274,35 +274,30 @@ public class Player : MonoBehaviour
             //Re-used a lot of Harrison's movement code
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
-            //Alternate Control Scheme - bad imo
-            //moveDirection = transform.TransformDirection(moveDirection);
-            //moveDirection *= sprintSpeed;
             moveDirection *= speed;
 
            
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
-                if (Input.GetMouseButton(0))
+                if (Input.GetButton("Fire2"))
                 {
                     currentState = States.Attack;
 
                 }
-                else if (Input.GetMouseButton(1) && spinCD > spinCDMax)
+                else if (Input.GetButton("Fire3") && spinCD > spinCDMax)
                 {
                     currentState = States.SpinAttack;
                 }
-                else if (Input.GetKey(KeyCode.LeftControl))
+                else if (Input.GetButton("Fire1"))
                 {
                     throwScythe = true;
                 }
             }
 
-
-
             if (currentState == States.SpinAttack)
             {
-                if (!Input.GetMouseButton(1) || spinTime > maxSpinTime)
+                if (!Input.GetButton("Fire3") || spinTime > maxSpinTime)
                 {
                     spinCD = 0;
                     currentState = States.Idle;
@@ -352,7 +347,7 @@ public class Player : MonoBehaviour
 
 
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
-                if (mouseDistance > 1.9f)
+                if (mouseDistance > .5f)
                 {
                     //Turn player to face cursor on terrain
                     RotateToFaceTarget(mousePosition, rotationSpeed);
@@ -360,30 +355,25 @@ public class Player : MonoBehaviour
 
             }
 
-
-            // ^^^ Probably could be done better than this.
-            // Agreed
-
             //Landed / Grounded
             if (controller.isGrounded)
             {
-                //anim.SetBool("Jump", false);
                 verticalVel = 0;
                 maxJump = maxJumpStored;
             }
 
             //Jump
-            if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
+            if (Input.GetButtonDown("Jump") && maxJump > 0)
             {
                 maxJump--;
                 verticalVel -= jumpSpeed;
             }
 
-            if (teleportCD > teleportCDMax && !teleportToggle && Input.GetKey(KeyCode.Q))
+            if (teleportCD > teleportCDMax && !teleportToggle && Input.GetButton("Teleport"))
             {
                 teleportToggle = true;
             }
-            else if (teleportToggle && !(Input.GetKey(KeyCode.Q)))
+            else if (teleportToggle && !(Input.GetButton("Teleport")))
             {
                 teleportToggle = false;
             }
@@ -395,19 +385,13 @@ public class Player : MonoBehaviour
                 tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
             }
 
-
-
-
             //Gravity
             verticalVel += gravity * Time.deltaTime * 2;
             moveDirection.y -= verticalVel;
 
-
-
             //Move
             controller.Move(moveDirection * Time.deltaTime);
             EventSystem.PlayerPositionUpdate(transform.position);
-
         }
 
     }
@@ -488,9 +472,6 @@ public class Player : MonoBehaviour
         invulnerable = false;
     }
 
-
-
-
     public void AttackFinished(int attack)
     {
         if (currentState == States.Attack)
@@ -514,7 +495,7 @@ public class Player : MonoBehaviour
     void OnTriggerStay(Collider col)
     {
         if (col.tag == "Trapdoor")
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetButton("Use"))
                 SceneManager.LoadScene("Graveyard");
 
         if (col.tag == "LastDoor")
