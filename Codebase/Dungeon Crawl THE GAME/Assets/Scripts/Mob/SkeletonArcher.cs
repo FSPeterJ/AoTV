@@ -16,6 +16,8 @@ public class SkeletonArcher : MonoBehaviour
     public GameObject arrowSpawn;
     Vector3 arrowPos;
     Quaternion arrowQuat;
+    public uint pointValue = 1;
+
 
     // Use this for initialization
     void Start()

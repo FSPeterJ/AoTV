@@ -85,6 +85,8 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     navAgent.enabled = false;
                     GetComponent<BoxCollider>().enabled = false;
                     anim.SetBool("Die", true);
+                    EventSystem.ScoreIncrease(pointValue);
+
                     _cs = value;
                     break;
                 default:
@@ -109,6 +111,8 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
 
     public int health;
     //bool dead = false;
+    public uint pointValue = 1;
+
 
     NavMeshAgent navAgent;
     Collider attackRangeCol;

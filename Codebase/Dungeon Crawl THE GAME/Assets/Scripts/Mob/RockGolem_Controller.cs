@@ -51,6 +51,8 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                     //_cs = value;
                     break;
                 case AI.Die:
+                    EventSystem.ScoreIncrease(pointValue);
+
                     navAgent.enabled = false;
                     navAgent.speed = 0;
                     bCollider.enabled = false;
@@ -89,6 +91,8 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     public int health;
     public float idleTime = 0;
     public float aggroRange = 20f;
+    public uint pointValue = 1;
+
 
 
 

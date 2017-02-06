@@ -9,8 +9,10 @@ public class SkeletonMage : MonoBehaviour {
     float timer = 5;
     bool RaisedDead = false;
     bool deadHaveBeenRaised = false;
-	// Use this for initialization
-	void Start ()
+    public uint pointValue = 1;
+
+    // Use this for initialization
+    void Start ()
     {
         spawn = GetComponent<SpawnManager>();
         unitedStatePattern = GetComponent<StatePatternEnemy>();

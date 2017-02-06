@@ -79,6 +79,8 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     navAgent.enabled = false;
                     anim.SetBool("Die", true);
                     bCollider.enabled = false;
+                    EventSystem.ScoreIncrease(pointValue);
+
                     _cs = value;
                     break;
                 default:
@@ -110,6 +112,8 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     //Stat variables
     public int health;
     bool dead = false;
+    public uint pointValue = 1;
+
 
     //References
     NavMeshAgent navAgent;
@@ -314,7 +318,6 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     {
         AttackFinished();
         currentState = AI.Die;
-
     }
 
     public void AttackFinished()
