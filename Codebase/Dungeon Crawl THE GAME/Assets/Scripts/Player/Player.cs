@@ -93,6 +93,7 @@ public class Player : MonoBehaviour
         currentState = States.Idle;
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
+        
     }
 
     //States
@@ -412,9 +413,9 @@ public class Player : MonoBehaviour
         if (!invulnerable)
         {
             StartCoroutine(Invulnerable());
-            EventSystem.PlayerHealthUpdate(health, healthMax);
+            
             health--;
-
+            EventSystem.PlayerHealthUpdate(health, healthMax);
             if (health < 1)
             {
 
@@ -557,8 +558,8 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "OutOfBounds")
         {
-            ReturnToCheckpoint();
             TakeDamage();
+            ReturnToCheckpoint();
         }
     }
 
@@ -567,6 +568,7 @@ public class Player : MonoBehaviour
         anim.SetBool("Teleport Appear", true);
         transform.position = CurrentCheckpoint;
         throwScythe = false;
+        EventSystem.PlayerHealthUpdate(health, healthMax);
     }
     void OnTriggerExit(Collider col)
     {

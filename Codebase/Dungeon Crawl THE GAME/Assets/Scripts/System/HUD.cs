@@ -9,7 +9,8 @@ public class HUD : MonoBehaviour
     public int scoreCounter = 0;
     public bool dead = false;
 
-    public Slider healthslider;
+ 
+
 
     // Use this for initialization
     void Start()
@@ -19,10 +20,6 @@ public class HUD : MonoBehaviour
 
 
 
-    public void UpdateHealth(int health)
-    {
-        healthslider.value = health;
-    }
 
     public void UpdateScore()
     {

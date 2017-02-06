@@ -5,7 +5,6 @@ using UnityEngine.AI;
 
 public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
 {
-    public HUD hud;
 
     public AI _cs;
     AI currentState
