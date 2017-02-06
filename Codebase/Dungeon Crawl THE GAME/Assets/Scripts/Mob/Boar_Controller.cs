@@ -79,6 +79,8 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     navAgent.enabled = false;
                     anim.SetBool("Die", true);
                     bCollider.enabled = false;
+                    EventSystem.ScoreIncrease(pointValue);
+
                     _cs = value;
                     break;
                 default:
@@ -110,6 +112,8 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     //Stat variables
     public int health;
     bool dead = false;
+    public uint pointValue = 1;
+
 
     //References
     NavMeshAgent navAgent;
@@ -314,7 +318,6 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     {
         AttackFinished();
         currentState = AI.Die;
-
     }
 
     public void AttackFinished()
@@ -348,7 +351,6 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
         Vector3 lookPos = (transform.position - _TargetPosition);
         lookPos.y = 0;
         float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
-        //float angle = -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) - 90;
         transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
     }
 

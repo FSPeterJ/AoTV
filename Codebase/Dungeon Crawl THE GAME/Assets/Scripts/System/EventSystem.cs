@@ -22,12 +22,12 @@ public static class EventSystem
     }
 
     //player damage events
-    public delegate void PlayerHealthUpdateHandler(int hp);
+    public delegate void PlayerHealthUpdateHandler(int hp, int hpmax);
     public static event PlayerHealthUpdateHandler onPlayerHealthUpdate;
-    public static void PlayerHealthUpdate(int hp)
+    public static void PlayerHealthUpdate(int hp, int hpmax)
     {
 
-        if (onPlayerHealthUpdate != null) onPlayerHealthUpdate(hp);
+        if (onPlayerHealthUpdate != null) onPlayerHealthUpdate(hp, hpmax);
     }
 
     //player Died
@@ -63,4 +63,27 @@ public static class EventSystem
         if (onSpinCooldown != null) onSpinCooldown(seconds, max);
     }
 
+    //Increase Score
+    public delegate void ScoreIncreaseHandler(uint score);
+    public static event ScoreIncreaseHandler onScoreIncrease;
+    public static void ScoreIncrease(uint score)
+    {
+        if (onScoreIncrease != null) onScoreIncrease(score);
+    }
+
+    //Lives Count
+    public delegate void LivesCountHandler(uint lives);
+    public static event LivesCountHandler onLivesCount;
+    public static void LivesCount(uint lives)
+    {
+        if (onLivesCount != null) onLivesCount(lives);
+    }
+
+    //Spin Time
+    public delegate void SpinTimeHandler(float seconds, float max);
+    public static event SpinTimeHandler onSpinTime;
+    public static void SpinTime(float seconds, float max)
+    {
+        if (onSpinTime != null) onSpinTime(seconds, max);
+    }
 }

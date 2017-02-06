@@ -12,7 +12,8 @@ public class Player : MonoBehaviour
     public int maxJump = 1;
     public float strafeModfier = .75f;
     public int health = 30;
-    public int lives = 3;
+    public int healthMax = 30;
+    public uint lives = 3;
 
     //This is not allowed.
     //public HUD Hud;
@@ -55,7 +56,7 @@ public class Player : MonoBehaviour
     Vector3 CurrentCheckpoint;
 
     //Spin Attack CD
-    float spinTime = 0;
+    float spinTime = 999;
     float maxSpinTime = 3;
     float spinCDMax = 8;
     float spinCD = 999;
@@ -81,19 +82,7 @@ public class Player : MonoBehaviour
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
     }
 
-    // Use this for initialization
-    void Start()
-    {
-        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
-        anim = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
-        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
-        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
-        maxJumpStored = maxJump;
-        currentState = States.Idle;
-        weapon = FindWeapon(transform);
-        weaponScript = weapon.GetComponent<IWeaponBehavior>();
-    }
+
 
     //States
     enum States
@@ -135,7 +124,6 @@ public class Player : MonoBehaviour
                     anim.SetBool("Spin Attack", true);
                     weaponScript.AttackStart();
                     spinTime = 0;
-                    spinCD = 0;
                     _cs = value;
                     break;
                 case States.Die:
@@ -145,6 +133,7 @@ public class Player : MonoBehaviour
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
+                        EventSystem.LivesCount(lives);
                         _cs = value;
                     }
                     else
@@ -152,7 +141,7 @@ public class Player : MonoBehaviour
                         lives--;
                         ReturnToCheckpoint();
                         currentState = States.Idle;
-                        health = 3;
+                        health = healthMax;
                     }
                     break;
                 case States.TakeDamage:
@@ -244,6 +233,23 @@ public class Player : MonoBehaviour
             }
         }
     }
+    
+
+    // Use this for initialization
+    void Start()
+    {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
+        EventSystem.SpinTime(spinTime, maxSpinTime);
+        EventSystem.LivesCount(lives);
+        anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
+        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
+        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
+        maxJumpStored = maxJump;
+        currentState = States.Idle;
+        weapon = FindWeapon(transform);
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -298,10 +304,13 @@ public class Player : MonoBehaviour
             {
                 if (!Input.GetMouseButton(1) || spinTime > maxSpinTime)
                 {
+                    spinCD = 0;
                     currentState = States.Idle;
                     weaponScript.AttackEnd();
+                    spinTime = 99;
                 }
                 spinTime += Time.deltaTime;
+                EventSystem.SpinTime(spinTime, maxSpinTime);
             }
             else
             {
@@ -420,9 +429,9 @@ public class Player : MonoBehaviour
         if (!invulnerable)
         {
             StartCoroutine(Invulnerable());
-            EventSystem.PlayerHealthUpdate(-dmg);
+            
             health--;
-
+            EventSystem.PlayerHealthUpdate(health, healthMax);
             if (health < 1)
             {
 
@@ -523,8 +532,8 @@ public class Player : MonoBehaviour
         else if (col.tag == "HealthPowerUp")
         {
             Destroy(col.gameObject);
-            health = 10;
-            //Hud.UpdateHealth(health);
+            health = healthMax;
+            EventSystem.PlayerHealthUpdate(health, healthMax);
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
@@ -534,12 +543,7 @@ public class Player : MonoBehaviour
             StartCoroutine(Invulnerable(10));
             Destroy(col.gameObject);
         }
-        else if (col.tag == "Health Collectible")
-        {
-            Destroy(col.gameObject);
-            health = health + 3;
-            //Hud.UpdateHealth(health);
-        }
+
         else if (col.tag == "Checkpoint")
         {
             if (CurrentCheckpoint != col.transform.position)
@@ -570,8 +574,8 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "OutOfBounds")
         {
-            ReturnToCheckpoint();
             TakeDamage();
+            ReturnToCheckpoint();
         }
     }
 
@@ -580,6 +584,7 @@ public class Player : MonoBehaviour
         anim.SetBool("Teleport Appear", true);
         transform.position = CurrentCheckpoint;
         throwScythe = false;
+        EventSystem.PlayerHealthUpdate(health, healthMax);
     }
     void OnTriggerExit(Collider col)
     {

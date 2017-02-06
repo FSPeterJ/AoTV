@@ -50,6 +50,8 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
                     _cs = value;
                     break;
                 case SnakeState.Die:
+                    EventSystem.ScoreIncrease(pointValue);
+
                     _cs = value;
                     break;
                 case SnakeState.ProjectileAttack:
@@ -84,6 +86,8 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
     //Stat variables
     int health;
     bool death = false;
+    public uint pointValue = 1;
+
 
     //References
     NavMeshAgent navAgent;
@@ -208,6 +212,7 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
     public void Kill()
     {
         currentState = SnakeState.Die;
+
     }
 
     void Scoreinc()

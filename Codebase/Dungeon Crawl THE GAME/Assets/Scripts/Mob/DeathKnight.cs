@@ -11,6 +11,8 @@ public class DeathKnight : MonoBehaviour {
     bool asleep = true;
     bool attacking = false;
     bool dead = false;
+    public uint pointValue = 1;
+
 
     // Use this for initialization
     void Start ()
