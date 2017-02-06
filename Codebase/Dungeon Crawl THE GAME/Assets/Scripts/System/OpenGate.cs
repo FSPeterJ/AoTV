@@ -57,6 +57,7 @@ public class OpenGate : MonoBehaviour
                 unlocked = true;
                 if (unlockSoundPlayed != true)
                 {
+                    GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
                     GetComponent<AudioSource>().Play();
                     unlockSoundPlayed = true;
                 }

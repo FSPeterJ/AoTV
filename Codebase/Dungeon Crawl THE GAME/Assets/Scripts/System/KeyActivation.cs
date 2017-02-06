@@ -56,6 +56,7 @@ public class KeyActivation : MonoBehaviour {
                 keyImage.SetActive(true);
                 if (hasKeySoundPlayed != true)
                 {
+                    GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
                     GetComponent<AudioSource>().Play();
                     hasKeySoundPlayed = true;
                 }
