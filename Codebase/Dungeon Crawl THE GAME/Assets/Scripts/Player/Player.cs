@@ -400,7 +400,7 @@ public class Player : MonoBehaviour
 
 
             //Gravity
-            verticalVel += gravity * Time.deltaTime;
+            verticalVel += gravity * Time.deltaTime * 2;
             moveDirection.y -= verticalVel;
 
 
