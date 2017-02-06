@@ -430,7 +430,7 @@ public class Player : MonoBehaviour
             if (health < 1)
             {
                 currentState = States.Die;
-                Instantiate(LossScreen);
+                LossScreen.SetActive(true);
             }
             else
                 currentState = States.TakeDamage;
@@ -626,6 +626,6 @@ public class Player : MonoBehaviour
         lives++;
         health = 3;
         //Score -= Score >> 1
-        Destroy(LossScreen);
+        LossScreen.SetActive(false);
     }
 }
