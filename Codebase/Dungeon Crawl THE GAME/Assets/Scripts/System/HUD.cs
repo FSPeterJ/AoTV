@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 { 
-    public Slider healthslider;
+ 
+
 
     // Use this for initialization
     void Start()

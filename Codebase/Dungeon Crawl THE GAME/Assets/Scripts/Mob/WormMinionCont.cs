@@ -29,6 +29,8 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     bool dead = false;
     GameObject weapon;
     IWeaponBehavior weaponScript;
+    public uint pointValue = 1;
+
 
     [SerializeField]
     GameObject Proj;
@@ -64,6 +66,8 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
                     break;
                 case AI.Die:
                     //GetComponent<BoxCollider>().enabled = false;
+                    EventSystem.ScoreIncrease(pointValue);
+
                     anim.SetTrigger("Die");
                     dead = true;
                     _ws = value;

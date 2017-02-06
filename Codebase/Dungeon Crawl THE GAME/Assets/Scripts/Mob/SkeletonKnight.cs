@@ -12,9 +12,11 @@ public class SkeletonKnight : MonoBehaviour{
     bool asleep = true;
     bool attacking = false;
     bool dead = false;
+    public uint pointValue = 1;
+
 
     // Use this for initialization
-	void Start ()
+    void Start ()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
