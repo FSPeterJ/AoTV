@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public float strafeModfier = .75f;
     public int health = 30;
     public int healthMax = 30;
-    public int lives = 3;
+    public uint lives = 3;
 
     //This is not allowed.
     //public HUD Hud;
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     Vector3 CurrentCheckpoint;
 
     //Spin Attack CD
-    float spinTime = 0;
+    float spinTime = 999;
     float maxSpinTime = 3;
     float spinCDMax = 8;
     float spinCD = 999;
@@ -82,19 +82,7 @@ public class Player : MonoBehaviour
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
     }
 
-    // Use this for initialization
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
-        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
-        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
-        maxJumpStored = maxJump;
-        currentState = States.Idle;
-        weapon = FindWeapon(transform);
-        weaponScript = weapon.GetComponent<IWeaponBehavior>();
-        
-    }
+
 
     //States
     enum States
@@ -136,7 +124,6 @@ public class Player : MonoBehaviour
                     anim.SetBool("Spin Attack", true);
                     weaponScript.AttackStart();
                     spinTime = 0;
-                    spinCD = 0;
                     _cs = value;
                     break;
                 case States.Die:
@@ -146,6 +133,7 @@ public class Player : MonoBehaviour
                         anim.SetBool("Die", true);
                         dead = true;
                         EventSystem.PlayerDeath();
+                        EventSystem.LivesCount(lives);
                         _cs = value;
                     }
                     else
@@ -245,6 +233,22 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+    // Use this for initialization
+    void Start()
+    {
+        EventSystem.SpinTime(spinTime, maxSpinTime);
+        EventSystem.LivesCount(lives);
+        anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
+        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
+        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
+        maxJumpStored = maxJump;
+        currentState = States.Idle;
+        weapon = FindWeapon(transform);
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -266,7 +270,7 @@ public class Player : MonoBehaviour
             //moveDirection *= sprintSpeed;
             moveDirection *= speed;
 
-            if (Input.GetKeyDown("P")||Input.GetKeyDown("Esc"))
+            if (Input.GetKeyDown(KeyCode.P)||Input.GetKeyDown(KeyCode.Escape))
             {
                 Time.timeScale = 0;
                 //set timescale back to 1 when pause menu is left 
@@ -295,10 +299,13 @@ public class Player : MonoBehaviour
             {
                 if (!Input.GetMouseButton(1) || spinTime > maxSpinTime)
                 {
+                    spinCD = 0;
                     currentState = States.Idle;
                     weaponScript.AttackEnd();
+                    spinTime = 99;
                 }
                 spinTime += Time.deltaTime;
+                EventSystem.SpinTime(spinTime, maxSpinTime);
             }
             else
             {

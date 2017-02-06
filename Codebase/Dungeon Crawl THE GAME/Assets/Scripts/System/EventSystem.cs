@@ -70,4 +70,20 @@ public static class EventSystem
     {
         if (onScoreIncrease != null) onScoreIncrease(score);
     }
+
+    //Lives Count
+    public delegate void LivesCountHandler(uint lives);
+    public static event LivesCountHandler onLivesCount;
+    public static void LivesCount(uint lives)
+    {
+        if (onLivesCount != null) onLivesCount(lives);
+    }
+
+    //Spin Time
+    public delegate void SpinTimeHandler(float seconds, float max);
+    public static event SpinTimeHandler onSpinTime;
+    public static void SpinTime(float seconds, float max)
+    {
+        if (onSpinTime != null) onSpinTime(seconds, max);
+    }
 }
