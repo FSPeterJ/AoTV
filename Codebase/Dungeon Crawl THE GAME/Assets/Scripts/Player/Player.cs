@@ -71,6 +71,10 @@ public class Player : MonoBehaviour
     float rangedAttackCDMax = 8;
     float rangedAttackCD = 999;
 
+
+    [SerializeField]
+    GameObject LossScreen, WinScreen;
+
     void OnEnable()
     {
         EventSystem.onMousePositionUpdate += UpdateMousePosition;
@@ -192,7 +196,7 @@ public class Player : MonoBehaviour
         {
             if (_tT != value)
             {
-                
+
                 if (value)
                 {
                     tpMarker = Instantiate(teleportMarker);
@@ -416,14 +420,11 @@ public class Player : MonoBehaviour
 
             if (health < 1)
             {
-
                 currentState = States.Die;
+                Instantiate(LossScreen);
             }
             else
-            {
-
                 currentState = States.TakeDamage;
-            }
         }
     }
     //Use this to send the character flying with a force from a given direction
@@ -609,5 +610,13 @@ public class Player : MonoBehaviour
         lookPos.y = 0;
         float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, Time.deltaTime * _LerpSpeed);
         transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+    }
+
+    public void Continue()
+    {
+        lives++;
+        health = 3;
+        //Score -= Score >> 1
+        Destroy(LossScreen);
     }
 }
