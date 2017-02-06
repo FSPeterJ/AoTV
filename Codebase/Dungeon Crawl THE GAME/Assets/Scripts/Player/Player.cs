@@ -6,16 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    public AudioClip deathSFX;
+
 
     //Basic Settings - Edit in Unity
     public int maxJump = 1;
     public float strafeModfier = .75f;
     public int health = 30;
     public int lives = 3;
-
-    //This is not allowed.
-    //public HUD Hud;
+    public float speed = 3.0F;
+    public float sprintSpeed = 6.0f;
+    public float jumpSpeed = 10.0F;
+    public float mass = 20.0F;
+    public float rotationSpeed = 5.0f;
 
     //Variables
     bool invulnerable = false;
@@ -33,23 +35,22 @@ public class Player : MonoBehaviour
     GameObject rangedScythe;
     GameObject rangedScytheAttack;
 
-    //Physics Settings
-    float gravity = 9.8F;
-    public float speed = 3.0F;
-    public float sprintSpeed = 6.0f;
-    public float jumpSpeed = 10.0F;
-    public float mass = 20.0F;
-    public float rotationSpeed = 5.0f;
-
     //Physics Internals
     Vector3 moveDirection = Vector3.zero;
     Vector3 Impact = Vector3.zero;
-    float verticalVel = 0;
+    public float verticalVel = 0;
     bool dead = false;
+    float gravity = 9.8F;
 
     //Control Settings
     Vector3 mousePosition;
     float mouseDistance;
+    Rigidbody rBody;
+    Quaternion targetRotation;
+    float verticalInput;
+    float horizontalInput;
+    public float groundDist;
+
 
     //Checkpoints
     Vector3 CurrentCheckpoint;
@@ -64,12 +65,13 @@ public class Player : MonoBehaviour
     float teleportCDMax = 8;
     float teleportCD = 999;
 
-
-
     //Ranged attack
     float rangedAttackTime = 0;
     float rangedAttackCDMax = 8;
     float rangedAttackCD = 999;
+
+    //audio 
+    public AudioClip deathSFX;
 
     void OnEnable()
     {
@@ -81,18 +83,7 @@ public class Player : MonoBehaviour
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
     }
 
-    // Use this for initialization
-    void Start()
-    {
-        anim = GetComponent<Animator>();
-        controller = GetComponent<CharacterController>();
-        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
-        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
-        maxJumpStored = maxJump;
-        currentState = States.Idle;
-        weapon = FindWeapon(transform);
-        weaponScript = weapon.GetComponent<IWeaponBehavior>();
-    }
+
 
     //States
     enum States
@@ -192,7 +183,7 @@ public class Player : MonoBehaviour
         {
             if (_tT != value)
             {
-                
+
                 if (value)
                 {
                     tpMarker = Instantiate(teleportMarker);
@@ -243,11 +234,30 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+
+    // Use this for initialization
+    void Start()
+    {
+        groundDist = 5f;
+        targetRotation = transform.rotation;
+        rBody = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
+        teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
+        rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
+        maxJumpStored = maxJump;
+        currentState = States.Idle;
+        weapon = FindWeapon(transform);
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (!dead)
         {
+            GetInput();
             spinCD += Time.deltaTime;
             teleportCD += Time.deltaTime;
             rangedAttackCD += Time.deltaTime;
@@ -257,14 +267,7 @@ public class Player : MonoBehaviour
 
 
             //Re-used a lot of Harrison's movement code
-            moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
-            //Alternate Control Scheme - bad imo
-            //moveDirection = transform.TransformDirection(moveDirection);
-            //moveDirection *= sprintSpeed;
-            moveDirection *= speed;
-
-
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
@@ -326,11 +329,7 @@ public class Player : MonoBehaviour
                 moveDirection = transform.TransformDirection(localVel);
 
 
-                if (Impact.magnitude > 0.2)
-                {
-                    moveDirection += Impact;
-                    Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
-                }
+
 
 
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
@@ -347,12 +346,7 @@ public class Player : MonoBehaviour
             // Agreed
 
             //Landed / Grounded
-            if (controller.isGrounded)
-            {
-                //anim.SetBool("Jump", false);
-                verticalVel = 0;
-                maxJump = maxJumpStored;
-            }
+
 
             //Jump
             if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
@@ -377,24 +371,53 @@ public class Player : MonoBehaviour
                 tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
             }
 
-
-
-
-            //Gravity
-            verticalVel += gravity * Time.deltaTime;
-            moveDirection.y -= verticalVel;
-
-
-
             //Move
-            controller.Move(moveDirection * Time.deltaTime);
-            EventSystem.PlayerPositionUpdate(transform.position);
+            //controller.Move(moveDirection * Time.deltaTime);
+            
 
         }
 
     }
 
+    void FixedUpdate()
+    {
+        Move();
+    }
+    //Calculate Physics movement
+    void Move()
+    {
+        moveDirection = new Vector3(horizontalInput, 0, verticalInput);
+        moveDirection *= speed;
+        if (IsGrounded())
+        {
+            verticalVel = 0;
+            maxJump = maxJumpStored;
+        }
+        else
+        {
+            verticalVel += gravity * Time.deltaTime;
+        }
+        moveDirection.y -= verticalVel;
+        if (Impact.magnitude > 0.2)
+        {
+            moveDirection += Impact;
+            Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
+        }
+        //moveDirection.y = moveDirection.y + rBody.velocity.y;
+        rBody.velocity = moveDirection;
+        EventSystem.PlayerPositionUpdate(transform.position);
+    }
 
+    void GetInput()
+    {
+        verticalInput = Input.GetAxis("Vertical");
+        horizontalInput = Input.GetAxis("Horizontal");
+    }
+
+    bool IsGrounded()
+    {
+        return Physics.Raycast(transform.position, -Vector3.up, groundDist + 0.1f);
+    }
     public void ResetToIdle()
     {
         currentState = States.Idle;
