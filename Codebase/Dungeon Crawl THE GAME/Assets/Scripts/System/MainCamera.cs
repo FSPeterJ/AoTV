@@ -59,6 +59,7 @@ public class MainCamera : MonoBehaviour
         Camera.main.fieldOfView = fov;
 
 
+
     }
 
     void UpdateTargetPosition(Vector3 pos)

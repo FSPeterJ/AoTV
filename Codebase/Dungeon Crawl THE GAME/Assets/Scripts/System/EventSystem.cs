@@ -22,12 +22,12 @@ public static class EventSystem
     }
 
     //player damage events
-    public delegate void PlayerHealthUpdateHandler(int hp);
+    public delegate void PlayerHealthUpdateHandler(int hp, int hpmax);
     public static event PlayerHealthUpdateHandler onPlayerHealthUpdate;
-    public static void PlayerHealthUpdate(int hp)
+    public static void PlayerHealthUpdate(int hp, int hpmax)
     {
 
-        if (onPlayerHealthUpdate != null) onPlayerHealthUpdate(hp);
+        if (onPlayerHealthUpdate != null) onPlayerHealthUpdate(hp, hpmax);
     }
 
     //player Died

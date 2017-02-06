@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public int maxJump = 1;
     public float strafeModfier = .75f;
     public int health = 30;
+    public int healthMax = 30;
     public int lives = 3;
 
     //This is not allowed.
@@ -151,7 +152,7 @@ public class Player : MonoBehaviour
                         lives--;
                         ReturnToCheckpoint();
                         currentState = States.Idle;
-                        health = 3;
+                        health = healthMax;
                     }
                     break;
                 case States.TakeDamage:
@@ -411,7 +412,7 @@ public class Player : MonoBehaviour
         if (!invulnerable)
         {
             StartCoroutine(Invulnerable());
-            EventSystem.PlayerHealthUpdate(-dmg);
+            EventSystem.PlayerHealthUpdate(health, healthMax);
             health--;
 
             if (health < 1)
@@ -514,8 +515,8 @@ public class Player : MonoBehaviour
         else if (col.tag == "HealthPowerUp")
         {
             Destroy(col.gameObject);
-            health = 10;
-            //Hud.UpdateHealth(health);
+            health = healthMax;
+            EventSystem.PlayerHealthUpdate(health, healthMax);
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
@@ -525,12 +526,7 @@ public class Player : MonoBehaviour
             StartCoroutine(Invulnerable(10));
             Destroy(col.gameObject);
         }
-        else if (col.tag == "Health Collectible")
-        {
-            Destroy(col.gameObject);
-            health = health + 3;
-            //Hud.UpdateHealth(health);
-        }
+
         else if (col.tag == "Checkpoint")
         {
             if (CurrentCheckpoint != col.transform.position)
