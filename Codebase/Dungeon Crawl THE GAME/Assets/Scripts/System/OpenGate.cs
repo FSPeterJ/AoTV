@@ -7,7 +7,7 @@ public class OpenGate : MonoBehaviour
     public GameObject interactPanel;
     public GameObject keyCode;
     KeyActivation key;
-    public GameObject[] Lights = new GameObject[7];
+    //public GameObject[] Lights = new GameObject[7];
     //public GameObject[] Bars = new GameObject[9];
     bool unlocked = false;
     public Transform startMarker;
@@ -63,7 +63,6 @@ public class OpenGate : MonoBehaviour
                 }
                 interactPanel.SetActive(false);
                 keyImage.SetActive(false);
-
             }
         }
     }

@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class SkeletonArcher : MonoBehaviour
 {
-    Animator anim;
-    bool asleep = true;
     StatePatternEnemy unitedStatePattern;
-    bool attacking = false;
-    float attackDistance = 15;
-    float reloadTime = 2;
-    Animator playerAnim;
+    Animator anim;
     public GameObject arrow;
     public GameObject arrowSpawn;
     Vector3 arrowPos;
     Quaternion arrowQuat;
+    bool asleep = true;
+    bool attacking = false;
+    float attackDistance = 15;
+    float reloadTime = 2;
     public uint pointValue = 1;
 
 
@@ -60,13 +59,6 @@ public class SkeletonArcher : MonoBehaviour
                 }
             }
         }
-
-        //if (unitedStatePattern.health_GetHealth() <= 0)
-        //{
-        //    CancelCurrentAnimation();
-        //    unitedStatePattern.enabled = false;
-        //    anim.SetBool("Die", true);
-        //}
     }
 
     void CancelCurrentAnimation()

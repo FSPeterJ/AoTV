@@ -16,17 +16,19 @@ public class StoryDialogue : MonoBehaviour
     [SerializeField]
     Text PlayerResponse2;
 
-    float timer = 3;
+    float timer;
 
-    bool secondLevel = false;
+    bool secondLevel;
 
-    bool rumble = false;
+    bool rumble;
 
 	// Use this for initialization
 	void Start ()
     {
-		
-	}
+        timer = 3;
+        secondLevel = false;
+        rumble = false;
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -35,16 +37,17 @@ public class StoryDialogue : MonoBehaviour
         {
             DialogueBranch_0_1();
         }
+
         if (Input.GetKeyUp(KeyCode.Alpha2) && secondLevel == false)
         {
             DialogueBranch_0_2();
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) || Input.GetKeyDown(KeyCode.Alpha2) && secondLevel == true)
+        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4) && secondLevel == true)
         {
             DialogueBranch_0_2();
-            rumble = true;
         }
+
         if (rumble)
         {
             timer -= Time.deltaTime;
@@ -60,8 +63,8 @@ public class StoryDialogue : MonoBehaviour
     void DialogueBranch_0_1()
     {
         EnemyDialogue.text = "You will not gain access to this Crypt.";
-        PlayerResponse1.text = "(1) Don't tell me what to do old man";
-        PlayerResponse2.text = "(2) At least I'm fighting half a mage";
+        PlayerResponse1.text = "(3) Don't tell me what to do old man";
+        PlayerResponse2.text = "(4) At least I'm fighting half a mage";
         secondLevel = true;
     }
 
@@ -70,6 +73,7 @@ public class StoryDialogue : MonoBehaviour
         EnemyDialogue.text = "So Uncivilized.";
         PlayerResponse1.text = "";
         PlayerResponse2.text = "";
+        rumble = true;
         //Start Combat
     }
 }

@@ -2,30 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonMage : MonoBehaviour, IEnemyBehavior {
-    public AudioClip RaiseDead;
-    SpawnManager spawn;
-    Animator anim;
-    StatePatternEnemy unitedStatePattern;
+public class SkeletonMage : MonoBehaviour, IEnemyBehavior
+{
+    [SerializeField]
+    AudioClip RaiseDead;
+    [SerializeField]
+    GameObject StoryDialoguePanel;
     public GameObject playerLocation;
-    float timer = 5;
-    int spawnCount;
+
+    SpawnManager spawn;
+    StatePatternEnemy unitedStatePattern;
+    Animator anim;
     Vector3 magePos;
-    float force = 5;
-    float radius = 10;
-    public int Health = 25;
-    bool alive = true;
-    bool pushPlayer = false;
-    bool inDialogue = true;
+
+    [SerializeField]
+    int Health;
+    int spawnCount;
+    float timer;
+    float force;
+    float radius;
+    bool alive;
+    bool pushPlayer;
+    bool inDialogue;
     // Use this for initialization
     void Start ()
     {
         spawn = GetComponent<SpawnManager>();
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
-        spawnCount = 0;
         spawn.enabled = false;
-    }
+
+        Health = 25;
+        spawnCount = 0;
+
+        timer = 5;
+        force = 5;
+        radius = 10;
+
+        alive = true;
+        pushPlayer = false;
+        inDialogue = true;
+}
 	
 	// Update is called once per frame
 	void Update ()
@@ -34,10 +51,10 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior {
         {
             timer -= Time.deltaTime;
             magePos = gameObject.transform.position;
+
             if (timer > 0)
             {
                 anim.SetTrigger("Chanting");
-                anim.SetLookAtPosition(playerLocation.transform.position);
             }
 
             if (timer <= 0)
@@ -88,6 +105,11 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior {
         if (C.gameObject.tag == "Player")
         {
             pushPlayer = true;
+            if (inDialogue)
+            {
+                StoryDialoguePanel.SetActive(true);
+                //freeze player
+            }
         }
     }
 
@@ -113,7 +135,6 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior {
         GetComponent<AudioSource>().Play();
         if (RemainingHealth() <= 0)
         {
-            //hud.UpdateScore();
             alive = false;
             Kill();
         }
@@ -131,10 +152,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior {
 
     public void Kill()
     {
-        //navMeshAgent.enabled = false;        
-        //anim.Stop();        
         anim.SetTrigger("Die");
-        //Transform.Destroy(gameObject);
     }
 
     public void ResetToIdle()
