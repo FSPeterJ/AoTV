@@ -97,4 +97,8 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
     {
         damagedUnits.Clear();
     }
+    public void ImpactAttack(bool enabled)
+    {
+
+    }
 }

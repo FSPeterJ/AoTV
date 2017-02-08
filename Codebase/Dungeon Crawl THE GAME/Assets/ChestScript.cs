@@ -2,23 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestScript : MonoBehaviour {
+public class LifeChestScriptt : MonoBehaviour {
     Animator anim;
-    public GameObject ScorePowerUp;
+    public GameObject LifePowerUp;
+    bool notOpen = true;
     void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetBool("Open", false);
     }
-    void OnTriggerEnter(Collider Col)
+    void OnTriggerStay(Collider Col)
     {
         if(Col.tag == "Player")
         {
-            anim.SetBool("Open", true);
-            Vector3 spawnLocation = transform.position;
-            
-            spawnLocation.x += 4;
-           // Instantiate(, spawnLocation, Quaternion.identity);
+            if (Input.GetKey(KeyCode.E))
+            {
+                if (notOpen == true)
+                {
+                    notOpen = false;
+                    anim.SetBool("Open", true);
+                    Vector3 spawnLocation = transform.position;
+                    spawnLocation.x += 4;
+                    Instantiate(LifePowerUp, spawnLocation, Quaternion.identity);
+                }
+            }
         }
     }
 }

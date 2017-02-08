@@ -9,6 +9,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     [SerializeField]
     GameObject StoryDialoguePanel;
     public GameObject playerLocation;
+    public GameObject Key4;
 
     SpawnManager spawn;
     StatePatternEnemy unitedStatePattern;
@@ -30,6 +31,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
         spawn = GetComponent<SpawnManager>();
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         spawn.enabled = false;
 
         Health = 25;
@@ -47,6 +49,10 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
 	// Update is called once per frame
 	void Update ()
     {
+        if (playerLocation == null)
+        {
+            playerLocation = GameObject.FindGameObjectWithTag("Player");
+        }
         if (alive && !inDialogue)
         {
             timer -= Time.deltaTime;
@@ -64,13 +70,14 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
                 anim.SetLookAtPosition(playerLocation.transform.position);
                 if (pushPlayer)
                     playerLocation.SendMessage("ForcePush", magePos);
-                if (spawnCount < 5)
+
+                if (timer <= -2)
                 {
-                    if (timer <= -2)
+                    timer = 5;
+                    if (spawnCount < 5)
                     {
                         GetComponent<AudioSource>().PlayOneShot(RaiseDead);
                         spawn.EnemiesHaveSpawned = false;
-                        timer = 5;
                         spawnCount++;
                     }
                 }
@@ -102,14 +109,9 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
 
     void OnTriggerEnter(Collider C)
     {
-        if (C.gameObject.tag == "Player")
+        if (C.gameObject.tag == "Player" && timer <= 0)
         {
             pushPlayer = true;
-            if (inDialogue)
-            {
-                StoryDialoguePanel.SetActive(true);
-                //freeze player
-            }
         }
     }
 
@@ -117,7 +119,19 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     {
         if (C.gameObject.tag == "Player")
         {
-            pushPlayer = true;
+            if (timer<= 0)
+                pushPlayer = true;
+            if (inDialogue)
+            {
+                StoryDialoguePanel.SetActive(true);
+                //freeze player
+                Time.timeScale = 0.1f;
+            }
+            else
+            {
+                Time.timeScale = 1;
+                Debug.Log("Yep");
+            }
         }
     }
 
@@ -153,6 +167,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     public void Kill()
     {
         anim.SetTrigger("Die");
+        Key4.SetActive(true);
     }
 
     public void ResetToIdle()

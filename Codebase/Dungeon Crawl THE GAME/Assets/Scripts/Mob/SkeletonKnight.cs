@@ -43,6 +43,7 @@ public class SkeletonKnight : MonoBehaviour{
             if (unitedStatePattern.currentState.ToString() == "ChaseState") //&& unitedStatePattern.DistanceToPlayer > stopToAttackDistance)
             {
                 CancelCurrentAnimation();
+                anim.SetLookAtPosition(unitedStatePattern.chaseTarget.position);
                 if(unitedStatePattern.navMeshAgent.remainingDistance < unitedStatePattern.attackDistance)
                 {
                     unitedStatePattern.navMeshAgent.Stop();
