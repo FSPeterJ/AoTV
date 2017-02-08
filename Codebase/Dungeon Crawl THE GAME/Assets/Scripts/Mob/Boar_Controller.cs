@@ -185,6 +185,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                             currentState = AI.Wander;
                             navAgent.enabled = true;
                             idleTime = 0;
+                            
                         }
                     }
                 }

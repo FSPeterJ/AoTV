@@ -368,7 +368,7 @@ public class Player : MonoBehaviour
             }
 
             //Jump
-            if (Input.GetButtonDown("Jump") && maxJump > 0)
+            if (KeyManager.GetKeys("Jump") && maxJump > 0)
             {
                 maxJump--;
                 verticalVel -= jumpSpeed;
