@@ -854,7 +854,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186803736223616}
-  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.0074100574, w: 0.010324802}
+  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.007410058, w: 0.010324803}
   m_LocalPosition: {x: -0.068068825, y: -0.086726665, z: -0.0070245373}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children:
@@ -1649,7 +1649,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1806,6 +1806,7 @@ MonoBehaviour:
   RaiseDead: {fileID: 8300000, guid: 1762503bd49195e488cea5ca1f15a9cb, type: 3}
   StoryDialoguePanel: {fileID: 0}
   playerLocation: {fileID: 0}
+  Key4: {fileID: 0}
   Health: 0
 --- !u!137 &137902402214099920
 SkinnedMeshRenderer:

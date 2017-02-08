@@ -70,13 +70,14 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
                 anim.SetLookAtPosition(playerLocation.transform.position);
                 if (pushPlayer)
                     playerLocation.SendMessage("ForcePush", magePos);
-                if (spawnCount < 5)
+
+                if (timer <= -2)
                 {
-                    if (timer <= -2)
+                    timer = 5;
+                    if (spawnCount < 5)
                     {
                         GetComponent<AudioSource>().PlayOneShot(RaiseDead);
                         spawn.EnemiesHaveSpawned = false;
-                        timer = 5;
                         spawnCount++;
                     }
                 }
@@ -108,7 +109,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
 
     void OnTriggerEnter(Collider C)
     {
-        if (C.gameObject.tag == "Player")
+        if (C.gameObject.tag == "Player" && timer <= 0)
         {
             pushPlayer = true;
         }
@@ -118,7 +119,8 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     {
         if (C.gameObject.tag == "Player")
         {
-            pushPlayer = true;
+            if (timer<= 0)
+                pushPlayer = true;
             if (inDialogue)
             {
                 StoryDialoguePanel.SetActive(true);
