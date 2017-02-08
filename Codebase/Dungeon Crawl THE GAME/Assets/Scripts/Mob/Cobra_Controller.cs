@@ -34,24 +34,43 @@ public class Cobra_Controller : MonoBehaviour {
                     _cs = value;
                     break;
                 case CobraState.BiteAttack:
+                    anim.SetBool("Bite Attack", true);
+                    navAgent.speed = 0;
+                    navAgent.Stop();
+                    //navAgent.enabled = false;
+                    idleTime = 0;
                     _cs = value;
                     break;
                 case CobraState.BreathAttackEnd:
+                   
                     _cs = value;
                     break;
                 case CobraState.BreathAttackLoop:
                     _cs = value;
                     break;
                 case CobraState.BreathAttackStart:
+                    anim.SetBool("Breath Attack", true);
+                    navAgent.speed = 0;
+                    navAgent.Stop();
+                    //navAgent.enabled = false;
+                    idleTime = 0;
                     _cs = value;
                     break;
                 case CobraState.CastSpell:
                     _cs = value;
                     break;
                 case CobraState.Die:
+                    dead = true;
+                    navAgent.speed = 0;
+                    navAgent.enabled = false;
+                    anim.SetBool("Die", true);
+                    bCollider.enabled = false;
                     _cs = value;
                     break;
                 case CobraState.ProjectileAttack:
+                    anim.SetBool("Projectile Attack", true);
+                    navAgent.speed = 0;
+                    navAgent.Stop();
                     _cs = value;
                     break;
                 case CobraState.Slither:
@@ -82,17 +101,19 @@ public class Cobra_Controller : MonoBehaviour {
 
     //Stat variables
     int health;
+    bool dead = false;
 
     //References
     NavMeshAgent navAgent;
     Collider AttackRegionCollider;
-
+    BoxCollider bCollider;
     float idleTime = 0;
 
 
 	// Use this for initialization
 	void Start ()
     {
+        bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
