@@ -44,8 +44,8 @@ public class Scythe_Ranged : MonoBehaviour {
         }
         if(timePassed > 4)
         {
-            turnspeed += 2f * Time.deltaTime;
-            speed += .5f * Time.deltaTime;
+            turnspeed += 4f * Time.deltaTime;
+            speed += .2f * Time.deltaTime;
         }
         timePassed += Time.deltaTime;
         float heightdiff = playerPos.y - transform.position.y + .5f;

@@ -8,7 +8,6 @@ public class CanvasDialogueSystemTesting : MonoBehaviour {
     public Button positiveResponse;
     public Button negativeResponse;
     public string[] enemyDialogueArray;
-    public Player playerScript;
     bool dialogueSelected = false;
 	// Use this for initialization
 	void Start () {

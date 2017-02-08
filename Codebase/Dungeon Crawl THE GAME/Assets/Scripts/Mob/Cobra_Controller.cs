@@ -60,6 +60,8 @@ public class Cobra_Controller : MonoBehaviour {
                     _cs = value;
                     break;
                 case CobraState.Die:
+                    EventSystem.ScoreIncrease(pointValue);
+
                     dead = true;
                     navAgent.speed = 0;
                     navAgent.enabled = false;
@@ -100,8 +102,10 @@ public class Cobra_Controller : MonoBehaviour {
 
 
     //Stat variables
-    int health;
+    public int health;
+    public uint pointValue = 1;
     bool dead = false;
+
 
     //References
     NavMeshAgent navAgent;
@@ -208,5 +212,9 @@ public class Cobra_Controller : MonoBehaviour {
         targetPos = pos;
     }
 
-    
+    void Kill()
+    {
+
+
+    }
 }
