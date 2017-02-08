@@ -401,6 +401,14 @@ public class Player : MonoBehaviour
 
     }
 
+    void ForcePush(Vector3 direction)
+    {
+        Vector3 norm = gameObject.transform.position - direction;
+        norm.Normalize();
+        if (norm.y < 0)
+            norm.y = -norm.y;
+        Impact = norm.normalized * 1000 / mass;
+    }
 
     public void ResetToIdle()
     {

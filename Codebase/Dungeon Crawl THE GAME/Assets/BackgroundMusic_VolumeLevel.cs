@@ -8,7 +8,7 @@ public class BackgroundMusic_VolumeLevel : MonoBehaviour {
 	void Start ()
     {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("Music Volume");
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {

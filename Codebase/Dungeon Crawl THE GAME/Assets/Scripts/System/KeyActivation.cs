@@ -29,16 +29,6 @@ public class KeyActivation : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        //if (other.tag == "Player")
-        //{
-        //    HasKey = true;
-        //    Debug.Log("has key");
-        //    if (hasKeySoundPlayed != true)
-        //    {
-        //        GetComponent<AudioSource>().Play();
-        //        hasKeySoundPlayed = true;
-        //    }
-        //}
         if (HasKey != true)
         {
             interactPanel.SetActive(true);
@@ -56,6 +46,7 @@ public class KeyActivation : MonoBehaviour {
                 keyImage.SetActive(true);
                 if (hasKeySoundPlayed != true)
                 {
+                    GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
                     GetComponent<AudioSource>().Play();
                     hasKeySoundPlayed = true;
                 }

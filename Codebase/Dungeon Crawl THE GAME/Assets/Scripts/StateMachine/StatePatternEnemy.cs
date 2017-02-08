@@ -33,7 +33,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     public PatrolState patrolState;//patrol state
 
     [HideInInspector]
-    public UnityEngine.AI.NavMeshAgent navMeshAgent;//
+    public UnityEngine.AI.NavMeshAgent navMeshAgent;
 
 
     private void Awake()//Before Start, initializes states and gets component reference for NavMeshAgent attached to enemy
@@ -54,9 +54,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     // Update is called once per frame
     private void Update()
     {
-        //hud.PrintScore();
         currentState.UpdateState();//Each class has an updateState. This function behavior will differ depending on the current state
-        //Debug.Log(currentState.ToString());
         DistanceToPlayer = chaseState.DistanceToTarget;
         if (currentState.ToString() == "ChaseState")
         {
@@ -78,7 +76,6 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
         GetComponent<AudioSource>().Play();
         if (RemainingHealth() <= 0)
         {
-            //hud.UpdateScore();
             alive = false;
             Kill();            
         }
@@ -96,10 +93,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 
     public void Kill()
     {
-        //navMeshAgent.enabled = false;        
-        //anim.Stop();        
         anim.SetBool("Die", true);
-        //Transform.Destroy(gameObject);
     }
 
     public void ResetToIdle()
