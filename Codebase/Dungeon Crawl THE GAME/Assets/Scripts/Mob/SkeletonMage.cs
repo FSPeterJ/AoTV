@@ -2,57 +2,86 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonMage : MonoBehaviour {
-    public AudioClip RaiseDead;
-    SpawnManager spawn;
-    Animator anim;
-    StatePatternEnemy unitedStatePattern;
+public class SkeletonMage : MonoBehaviour, IEnemyBehavior
+{
+    [SerializeField]
+    AudioClip RaiseDead;
+    [SerializeField]
+    GameObject StoryDialoguePanel;
     public GameObject playerLocation;
-    float timer = 5;
-    int spawnCount;
 
-    float force = 5;
-    float radius = 10;
+    SpawnManager spawn;
+    StatePatternEnemy unitedStatePattern;
+    Animator anim;
+    Vector3 magePos;
+
+    [SerializeField]
+    int Health;
+    int spawnCount;
+    float timer;
+    float force;
+    float radius;
+    bool alive;
+    bool pushPlayer;
+    bool inDialogue;
     // Use this for initialization
     void Start ()
     {
         spawn = GetComponent<SpawnManager>();
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
+        spawn.enabled = false;
 
+        Health = 25;
         spawnCount = 0;
-    }
+
+        timer = 5;
+        force = 5;
+        radius = 10;
+
+        alive = true;
+        pushPlayer = false;
+        inDialogue = true;
+}
 	
 	// Update is called once per frame
 	void Update ()
     {
-        timer -= Time.deltaTime;
-
-        if (timer > 0)
+        if (alive && !inDialogue)
         {
-            anim.SetTrigger("Chanting");
-        }
+            timer -= Time.deltaTime;
+            magePos = gameObject.transform.position;
 
+            if (timer > 0)
+            {
+                anim.SetTrigger("Chanting");
+            }
 
-        if (timer <= 0 && spawnCount < 5)
-        {
-            anim.ResetTrigger("Chanting");
-            anim.SetTrigger("Raise Dead");
-            //GetComponent<Rigidbody>().AddExplosionForce(radius, gameObject.transform.position, 5);
-            ForcePush();
-            GetComponent<AudioSource>().PlayOneShot(RaiseDead);
-            spawn.EnemiesHaveSpawned = false;
-            timer = 5;
+            if (timer <= 0)
+            {
+                anim.ResetTrigger("Chanting");
+                anim.SetTrigger("Raise Dead");
+                anim.SetLookAtPosition(playerLocation.transform.position);
+                if (pushPlayer)
+                    playerLocation.SendMessage("ForcePush", magePos);
+                if (spawnCount < 5)
+                {
+                    if (timer <= -2)
+                    {
+                        GetComponent<AudioSource>().PlayOneShot(RaiseDead);
+                        spawn.EnemiesHaveSpawned = false;
+                        timer = 5;
+                        spawnCount++;
+                    }
+                }
+            }
         }
 	}
 
-    void ForcePush()
+    void Fight()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(gameObject.transform.position, playerLocation.transform.position - gameObject.transform.position, out hit))
-        {
-
-        }
+        inDialogue = false;
+        spawn.enabled = true;
     }
 
     void CancelCurrentAnimation()
@@ -71,5 +100,63 @@ public class SkeletonMage : MonoBehaviour {
         }
     }
 
+    void OnTriggerEnter(Collider C)
+    {
+        if (C.gameObject.tag == "Player")
+        {
+            pushPlayer = true;
+            if (inDialogue)
+            {
+                StoryDialoguePanel.SetActive(true);
+                //freeze player
+            }
+        }
+    }
 
+    void OnTriggerStay(Collider C)
+    {
+        if (C.gameObject.tag == "Player")
+        {
+            pushPlayer = true;
+        }
+    }
+
+    void OnTriggerExit(Collider C)
+    {
+        if (C.gameObject.tag == "Player")
+        {
+            pushPlayer = false;
+        }
+    }
+
+    public void TakeDamage(int damage = 1)
+    {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
+        GetComponent<AudioSource>().Play();
+        if (RemainingHealth() <= 0)
+        {
+            alive = false;
+            Kill();
+        }
+        else
+        {
+            anim.SetBool("Take Damage", true);
+            Health -= damage;
+        }
+    }
+
+    public int RemainingHealth()
+    {
+        return Health;
+    }
+
+    public void Kill()
+    {
+        anim.SetTrigger("Die");
+    }
+
+    public void ResetToIdle()
+    {
+        anim.SetBool("Idle", true);
+    }
 }

@@ -110,8 +110,10 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 
 
     //Stat variables
+    [SerializeField]
     public int health;
     bool dead = false;
+    [SerializeField]
     public uint pointValue = 1;
 
 

@@ -45,6 +45,13 @@ public static class EventSystem
     {
         if (onTeleportCooldown != null) onTeleportCooldown(seconds, max);
     }
+    //Player Score
+    public delegate void PlayerScorehandler(int score);
+    public static event PlayerScorehandler onPlayerScore;
+    public static void IncScore(int score)
+    {
+        if (onPlayerScore != null) onPlayerScore(score);
+    }
 
 
     //Ranged Cooldown
