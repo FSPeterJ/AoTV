@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScoreChestScript : MonoBehaviour {
+public class LifeChestScript : MonoBehaviour {
     Animator anim;
-    public GameObject ScorePowerUp;
+    public GameObject LifePowerUp;
     bool notOpen = true;
     void Start()
     {
@@ -23,7 +23,7 @@ public class ScoreChestScript : MonoBehaviour {
                     anim.SetBool("Open", true);
                     Vector3 spawnLocation = transform.position;
                     spawnLocation.x += 4;
-                    Instantiate(ScorePowerUp, spawnLocation, Quaternion.identity);
+                    Instantiate(LifePowerUp, spawnLocation, Quaternion.identity);
                 }
             }
         }
