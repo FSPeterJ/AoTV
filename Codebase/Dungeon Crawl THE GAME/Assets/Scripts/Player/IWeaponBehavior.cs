@@ -8,6 +8,7 @@ public interface IWeaponBehavior
     void AttackEnd();
 
     void ResetAttack();
+    void ImpactAttack(bool enabled);
 }
 
 

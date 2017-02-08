@@ -10,7 +10,7 @@ public class SkeletonArcher : MonoBehaviour
     public GameObject arrowSpawn;
     Vector3 arrowPos;
     Quaternion arrowQuat;
-    bool asleep = true;
+    bool asleep;
     bool attacking = false;
     float attackDistance = 15;
     float reloadTime = 2;

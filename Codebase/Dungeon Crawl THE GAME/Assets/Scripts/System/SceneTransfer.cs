@@ -24,10 +24,10 @@ public class SceneTransfer : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && key1.activeSelf && key2.activeSelf && key3.activeSelf && key4.activeSelf)
         {
-            //SceneManager.LoadScene(nextLevel.ToString());
-            //SceneManager.LoadScene("Swamp");
+            SceneManager.LoadScene(nextLevel.ToString());
+            SceneManager.LoadScene("Swamp");
         }
     }
 }
