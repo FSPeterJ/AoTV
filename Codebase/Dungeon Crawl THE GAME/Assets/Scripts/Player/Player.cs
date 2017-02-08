@@ -6,15 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] AudioClip deathSFX;
+    [SerializeField]
+    AudioClip deathSFX;
 
     //Basic Settings - Edit in Unity
 
-    [SerializeField] int maxJump = 1;
-    [SerializeField] float strafeModfier = .75f;
-    [SerializeField] int health = 30;
-    [SerializeField] int healthMax = 30;
-    [SerializeField] uint lives = 3;
+    [SerializeField]
+    int maxJump = 1;
+    [SerializeField]
+    float strafeModfier = .75f;
+    [SerializeField]
+    int health = 30;
+    [SerializeField]
+    int healthMax = 30;
+    [SerializeField]
+    uint lives = 3;
 
     //This is not allowed.
     //[SerializeField] HUD Hud;
@@ -37,11 +43,16 @@ public class Player : MonoBehaviour
 
     //Physics Settings
     float gravity = 9.8F;
-    [SerializeField] float speed = 3.0F;
-    [SerializeField] float sprintSpeed = 6.0f;
-    [SerializeField] float jumpSpeed = 10.0F;
-    [SerializeField] float mass = 20.0F;
-    [SerializeField] float rotationSpeed = 5.0f;
+    [SerializeField]
+    float speed = 3.0F;
+    [SerializeField]
+    float sprintSpeed = 6.0f;
+    [SerializeField]
+    float jumpSpeed = 10.0F;
+    [SerializeField]
+    float mass = 20.0F;
+    [SerializeField]
+    float rotationSpeed = 5.0f;
 
     //Physics Internals
     Vector3 moveDirection = Vector3.zero;
@@ -75,7 +86,7 @@ public class Player : MonoBehaviour
 
 
     [SerializeField]
-    GameObject LossScreen, WinScreen;
+    GameObject LossScreen, WinScreen, Pause;
 
     void OnEnable()
     {
@@ -238,7 +249,7 @@ public class Player : MonoBehaviour
             }
         }
     }
-    
+
 
     // Use this for initialization
     void Start()
@@ -261,9 +272,20 @@ public class Player : MonoBehaviour
         if (Input.GetButtonDown("Pause"))
         {
             if (Time.timeScale == 0)
+            {
                 Time.timeScale = 1;
+
+                //This has been known to crash unity
+                Pause.SetActive(false);
+            }
             else
+            {
                 Time.timeScale = 0;
+
+
+                //this has been known to crash unity
+                Pause.SetActive(true);
+            }
             //set timescale back to 1 when pause menu is left code already handles p and escape return to game
         }
         if (!dead)
@@ -281,7 +303,7 @@ public class Player : MonoBehaviour
             mouseDistance = Vector3.Distance(mousePosition, transform.position);
             moveDirection *= speed;
 
-           
+
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
@@ -426,13 +448,14 @@ public class Player : MonoBehaviour
         if (!invulnerable)
         {
             StartCoroutine(Invulnerable());
-            
+
             health--;
             EventSystem.PlayerHealthUpdate(health, healthMax);
             if (health < 1)
             {
                 currentState = States.Die;
                 LossScreen.SetActive(true);
+                Time.timeScale = 0;
             }
             else
                 currentState = States.TakeDamage;
@@ -544,6 +567,9 @@ public class Player : MonoBehaviour
                 CurrentCheckpoint.z = col.transform.position.z;
 
 
+                GameObject glow = col.transform.Find("Ground Glow").gameObject;
+
+                glow.SetActive(true);
                 // GameObject temp = GameObject.Find("Ground Glow");
                 //temp.SetActive(true);
 
@@ -622,5 +648,13 @@ public class Player : MonoBehaviour
         health = 3;
         //Score -= Score >> 1
         LossScreen.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void ReloadCheckpoint()
+    {
+        transform.position = CurrentCheckpoint;
+        Pause.SetActive(false);
+        Time.timeScale = 1;
     }
 }
