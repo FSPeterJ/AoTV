@@ -18,7 +18,7 @@ public class ChestScript : MonoBehaviour {
             Vector3 spawnLocation = transform.position;
             
             spawnLocation.x += 4;
-            Instantiate(, spawnLocation, Quaternion.identity);
+           // Instantiate(, spawnLocation, Quaternion.identity);
         }
     }
 }

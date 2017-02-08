@@ -49,6 +49,7 @@ public class Cobra_Controller : MonoBehaviour {
                     _cs = value;
                     break;
                 case CobraState.BreathAttackStart:
+                    idleTime = 0;
                     anim.SetBool("Breath Attack", true);
                     navAgent.speed = 0;
                     navAgent.Stop();
@@ -76,6 +77,7 @@ public class Cobra_Controller : MonoBehaviour {
                     _cs = value;
                     break;
                 case CobraState.Slither:
+                    idleTime = 0;
                     anim.SetBool("Slither", true);
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
@@ -112,7 +114,8 @@ public class Cobra_Controller : MonoBehaviour {
     Collider AttackRegionCollider;
     BoxCollider bCollider;
     float idleTime = 0;
-
+    public Object projectile;
+    public Object poisonbreath;
 
 	// Use this for initialization
 	void Start ()
@@ -129,17 +132,16 @@ public class Cobra_Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-
+        idleTime += Time.deltaTime;
+        targetdistance = Vector3.Distance(targetPos, transform.position);
         switch (currentState)
         {
             case CobraState.Idle:
                 {
                     if (idleTime > 1f)
                     {
-                      //  if (targetdistance < 20f && targetdistance > 10f)
-                      //  {
-                      //      currentState = BoarState.Run;
-                      //  }
+                        if (targetdistance < 20f)
+                            currentState = CobraState.Slither;
                       //  else if (targetdistance < 8f)
                       //  {
                       //      currentState = BoarState.Walk;
@@ -158,17 +160,56 @@ public class Cobra_Controller : MonoBehaviour {
             case CobraState.Slither:
                 {
                     navAgent.SetDestination(targetPos);
+                    if (idleTime > 1f)
+                    {
+                        if (targetdistance < 20f && targetdistance > 15f)
+                        {
+                            anim.SetBool("Slither", false);
+                            currentState = CobraState.ProjectileAttack;
+                        }
+                        if (targetdistance<5f && targetdistance >= 2f)
+                        {
+                            anim.SetBool("Slither", false);
+                            currentState = CobraState.BreathAttackStart;
+                        }
+                        if (targetdistance<2f)
+                        {
+                            anim.SetBool("Slither", false);
+                            currentState = CobraState.BiteAttack;
+                        }
+                    }
                 }
                 break;
             case CobraState.BiteAttack:
                 break;
             case CobraState.ProjectileAttack:
+               
+                Vector3 position = transform.position + transform.forward * 2f;
+                position.y = position.y + 2;
+                GameObject PoisonBall = Instantiate(projectile,position,Quaternion.identity) as GameObject;
+                PoisonBall.GetComponent<Rigidbody>().AddForce(transform.forward * 700);
+                currentState = CobraState.Idle;
+                anim.SetBool("Projectile Attack", false);
+                //  
                 break;
             case CobraState.BreathAttackStart:
+                
+                Vector3 position1 = transform.position + transform.forward * 2f;
+                position1.y = position1.y + 2;
+                Instantiate(poisonbreath, position1, Quaternion.identity);
+                currentState = CobraState.BreathAttackLoop;
                 break;
             case CobraState.BreathAttackEnd:
+                Destroy(poisonbreath);
+                anim.SetBool("Breath Attack", false);
+                currentState = CobraState.Idle;
+               
                 break;
             case CobraState.BreathAttackLoop:
+                if (idleTime > 3f)
+                {
+                    currentState = CobraState.BreathAttackEnd;
+                }
                 break;
             case CobraState.CastSpell:
                 break;
