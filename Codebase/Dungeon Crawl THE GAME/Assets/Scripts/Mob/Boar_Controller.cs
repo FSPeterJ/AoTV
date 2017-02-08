@@ -66,6 +66,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     anim.SetBool("Tusk Attack", true);
                     navAgent.speed = 0;
                     navAgent.Stop();
+                    weaponScript.ImpactAttack(true);
                     idleTime = 0;
                     _cs = value;
                     break;
@@ -84,7 +85,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     _cs = value;
                     break;
                 default:
-                    
+
                     _cs = value;
                     break;
             }
@@ -155,7 +156,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     private void Update()
     {
         targetdistance = Vector3.Distance(targetPos, transform.position);
-            
+
 
         //StateMachine
         switch (currentState)
@@ -168,7 +169,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     if (AttackRangeCheck())
                     {
                         currentState = AI.BiteAttack;
-                        
+
                     }
                     else if (idleTime > 1f)
                     {
@@ -279,7 +280,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                 {
                     if (idleTime > 500f)
                     {
-                        
+
                         break;
 
                     }
@@ -362,21 +363,21 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     Ray attackRangeForward;
     Ray attackRangeLeft;
     Ray attackRangeRight;
-    float attackRange = 2.0f;
+    float attackRange = 5.5f;
     bool AttackRangeCheck()
     {
         //what the hell is this?
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange, Color.red);
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
         Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.25f) * attackRange, Color.red);
-        attackRangeForward = new Ray(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * 3f);
-        attackRangeRight = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.25f) * 3f);
-        attackRangeLeft = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.25f) * 3f);
+        attackRangeForward = new Ray(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange);
+        attackRangeRight = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right - mouthGizmo.transform.forward * 0.25f) * attackRange);
+        attackRangeLeft = new Ray(mouthGizmo.transform.position + Vector3.up, (-mouthGizmo.transform.right + mouthGizmo.transform.forward * 0.25f) * attackRange);
         RaycastHit forwardHit;
         RaycastHit leftHit;
         RaycastHit rightHit;
 
-        if (Physics.Raycast(attackRangeForward, out forwardHit, attackRange)  && forwardHit.transform.tag == "Player" || Physics.Raycast(attackRangeLeft, out leftHit, attackRange) && leftHit.transform.tag == "Player" || Physics.Raycast(attackRangeRight, out rightHit, attackRange) && rightHit.transform.tag == "Player" )
+        if (Physics.Raycast(attackRangeForward, out forwardHit, attackRange) && forwardHit.transform.tag == "Player" || Physics.Raycast(attackRangeLeft, out leftHit, attackRange) && leftHit.transform.tag == "Player" || Physics.Raycast(attackRangeRight, out rightHit, attackRange) && rightHit.transform.tag == "Player")
         {
             return true;
         }
@@ -384,5 +385,5 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     }
 
 
-    
+
 }

@@ -76,13 +76,17 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
         GetComponent<AudioSource>().Play();
         if (RemainingHealth() <= 0)
         {
+            if (GetComponent<Slime>().isActiveAndEnabled && alive == true)
+            {
+                GetComponent<Slime>().Spawn();
+            }
             alive = false;
-            Kill();            
+            Kill();
         }
         else
         {
-            anim.SetBool("Take Damage", true);
             Health -= damage;
+            anim.SetBool("Take Damage", true);
         }
     }
 

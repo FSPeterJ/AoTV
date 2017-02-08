@@ -342,6 +342,7 @@ GameObject:
   - component: {fileID: 65944480833967900}
   - component: {fileID: 195283899909488268}
   - component: {fileID: 114296520914480050}
+  - component: {fileID: 114734857782928414}
   m_Layer: 0
   m_Name: Toon Dragon-Green
   m_TagString: Untagged
@@ -2645,7 +2646,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b71257499bb764294fd9b5fde815db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentstate: 0
   HP: 0
+--- !u!114 &114734857782928414
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80610c61a369f29488d9a04d911999ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 10
+  alive: 1
+  anim: {fileID: 0}
+  searchingTurnSpeed: 120
+  searchingDuration: 4
+  sightRange: 20
+  wayPoints: []
+  eyes: {fileID: 0}
+  offset: {x: 0, y: 0.5, z: 0}
+  attackDistance: 0
+  DistanceToPlayer: 0
+  chaseTarget: {fileID: 0}
+  navMeshAgent: {fileID: 0}
 --- !u!195 &195283899909488268
 NavMeshAgent:
   m_ObjectHideFlags: 1

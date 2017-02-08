@@ -516,9 +516,17 @@ public class Player : MonoBehaviour
     {
         if (col.tag == "ScorePowerUp")
         {
-
             Destroy(col.gameObject);
+            EventSystem.IncScore(5);
             //waiting on fixxed score system 
+        }
+        else if (col.tag =="LifePowerUp")
+        {
+            lives += 1;
+            EventSystem.LivesCount(lives);
+            Destroy(col.gameObject);
+
+            //waiting on fixxed score system
         }
         else if (col.tag == "HealthPowerUp")
         {
