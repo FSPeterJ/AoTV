@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 65465519841448306}
   - component: {fileID: 82626342648419034}
   m_Layer: 20
-  m_Name: Toon Skeleton Knight-Red 1
+  m_Name: Toon Skeleton Knight-Red 4
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1168,7 +1168,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138380}
-  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.007410057, w: 0.010324802}
+  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.007410057, w: 0.010324803}
   m_LocalPosition: {x: -0.07770801, y: -0.08016613, z: -0.007227639}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children:
@@ -3999,7 +3999,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!65 &65465519841448306
 BoxCollider:
@@ -4149,8 +4149,12 @@ MonoBehaviour:
   searchingDuration: 4
   sightRange: 20
   wayPoints:
-  - {fileID: 1307886478743428, guid: 1e86ed19f3670044481ae4bea53ac1d7, type: 2}
-  - {fileID: 1056562240964066, guid: ee6af53411a6d50409861aa14ba28487, type: 2}
+  - {fileID: 1562209884295514, guid: 479ec9811ee4ff04eb20b0063b4458d2, type: 2}
+  - {fileID: 1418879581878744, guid: 7c7ae96baf7e3b04093401c908a4ead2, type: 2}
+  - {fileID: 1489090459422510, guid: cdfdf5f64a28698498204a9478ddc94f, type: 2}
+  - {fileID: 1863161849382524, guid: cd2e07d94534bce4a95169b5cc92ad40, type: 2}
+  - {fileID: 1258714475922904, guid: fc00103bf5c118941b78dda06aeba881, type: 2}
+  - {fileID: 1302272713325944, guid: 637fe0e5de57594408f38ac00fdc1fda, type: 2}
   eyes: {fileID: 4488859854562302}
   offset: {x: 0, y: 0.5, z: 0}
   attackDistance: 1.5

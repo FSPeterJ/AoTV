@@ -1081,29 +1081,9 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.maxCurve.m_Curve.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.minCurve.m_Curve.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.maxCurve.m_Curve.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.minCurve.m_Curve.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4621246854300710, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 10.3299465
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 4621246854300710, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1133,6 +1113,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114978772514911588, guid: 05e7383833a57d74d8bfce996344d1ca,
+        type: 2}
+      propertyPath: StoryDialoguePanel
+      value: 
+      objectReference: {fileID: 1922021738}
+    - target: {fileID: 114978772514911588, guid: 05e7383833a57d74d8bfce996344d1ca,
+        type: 2}
+      propertyPath: playerLocation
+      value: 
+      objectReference: {fileID: 25265778}
     - target: {fileID: 4063214804731962, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0.7112264
@@ -1143,131 +1133,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4063214804731962, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.007410058
+      value: -0.0074100574
       objectReference: {fileID: 0}
     - target: {fileID: 4063214804731962, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
       propertyPath: m_LocalRotation.w
       value: 0.010324802
       objectReference: {fileID: 0}
-    - target: {fileID: 4738832784006614, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 4738832784006614, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -1.71
-      objectReference: {fileID: 0}
-    - target: {fileID: 4738832784006614, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 114978772514911588, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: RaiseDead
-      value: 
-      objectReference: {fileID: 8300000, guid: 1762503bd49195e488cea5ca1f15a9cb, type: 3}
-    - target: {fileID: 114978772514911588, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: playerLocation
-      value: 
-      objectReference: {fileID: 25265778}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.scalar
-      value: 3.1415927
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.maxCurve.m_Curve.Array.data[0].value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.maxCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.minCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.scalar
-      value: 3.1415927
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.maxCurve.m_Curve.Array.data[0].value
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.maxCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.minCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.minMaxState
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: randomSeed
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.maxCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.maxCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationX.minCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.maxCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.maxCurve.m_Curve.Array.data[1].value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 198726744655314634, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: InitialModule.startRotationY.minCurve.m_Curve.Array.data[1].time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114299107031098264, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: EnemiesHaveSpawned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114978772514911588, guid: 05e7383833a57d74d8bfce996344d1ca,
-        type: 2}
-      propertyPath: StoryDialoguePanel
-      value: 
-      objectReference: {fileID: 1922021738}
-    m_RemovedComponents:
-    - {fileID: 114454694828502534, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1321616487

@@ -234,7 +234,6 @@ GameObject:
   - component: {fileID: 4621246854300710}
   - component: {fileID: 95982378578073238}
   - component: {fileID: 114978772514911588}
-  - component: {fileID: 114454694828502534}
   - component: {fileID: 195140684210326048}
   - component: {fileID: 54147332939214100}
   - component: {fileID: 65448731990729796}
@@ -855,7 +854,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1186803736223616}
-  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.0074100583, w: 0.010324802}
+  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.0074100574, w: 0.010324802}
   m_LocalPosition: {x: -0.068068825, y: -0.086726665, z: -0.0070245373}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children:
@@ -1345,7 +1344,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1252191736417228}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 142, y: 0.22999983, z: 20.41}
+  m_LocalPosition: {x: 1.7, y: -0.0000031809018, z: 27.683342}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4281011015938642}
@@ -1437,7 +1436,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1065295749010750}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.35, y: 2.21, z: 1.8}
+  m_LocalPosition: {x: -1.71, y: 0.04, z: 0.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4621246854300710}
@@ -1792,32 +1791,7 @@ MonoBehaviour:
   - {fileID: 1065295749010750}
   - {fileID: 1560755148119514}
   Trigger: {fileID: 65775670909654396}
-  EnemiesHaveSpawned: 0
---- !u!114 &114454694828502534
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1252191736417228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80610c61a369f29488d9a04d911999ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Health: 30
-  hud: {fileID: 114052037263439886, guid: e8b43b4316ec85d4fa55aa6ad986ac73, type: 2}
-  searchingTurnSpeed: 120
-  searchingDuration: 4
-  sightRange: 20
-  wayPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  eyes: {fileID: 4103642985768806}
-  offset: {x: 0, y: 0.5, z: 0}
-  attackDistance: 0
-  DistanceToPlayer: 0
-  chaseTarget: {fileID: 0}
-  navMeshAgent: {fileID: 0}
+  EnemiesHaveSpawned: 1
 --- !u!114 &114978772514911588
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1829,6 +1803,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b21107d76c63a5408162975d1deae14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RaiseDead: {fileID: 8300000, guid: 1762503bd49195e488cea5ca1f15a9cb, type: 3}
+  StoryDialoguePanel: {fileID: 0}
+  playerLocation: {fileID: 0}
+  Health: 0
 --- !u!137 &137902402214099920
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -2263,25 +2241,19 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startRotationX:
-      scalar: 0
+      scalar: 3.1415927
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-        - serializedVersion: 2
-          time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_RotationOrder: 0
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2291,36 +2263,24 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - serializedVersion: 2
-          time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
-      minMaxState: 0
+        m_RotationOrder: 0
+      minMaxState: 3
     startRotationY:
-      scalar: 0
+      scalar: 3.1415927
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-        - serializedVersion: 2
-          time: 1
-          value: 1
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_RotationOrder: 0
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -2330,16 +2290,10 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - serializedVersion: 2
-          time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
-      minMaxState: 0
+        m_RotationOrder: 0
+      minMaxState: 3
     startRotation:
       scalar: 6.283185
       maxCurve:
