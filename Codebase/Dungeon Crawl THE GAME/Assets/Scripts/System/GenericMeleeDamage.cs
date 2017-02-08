@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
 {
-
-
+    bool AddForce = false;
     public GameObject ImpactEffect;
     public enum teams
     {
@@ -45,6 +44,11 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
             {
                 if (other.gameObject.tag == "Player" && !damagedUnits.Contains(other.gameObject.GetInstanceID()))
                 {
+                    if (AddForce == true)
+                    {
+                        Debug.Log("Apply Impact Force");
+                        other.gameObject.GetComponent<Player>().AddImpact(transform.position, 1100f);
+                    }
                     other.gameObject.GetComponent<Player>().TakeDamage();
                     //Prevent multiple hits per second.
                     damagedUnits.Add(other.gameObject.GetInstanceID());
@@ -52,6 +56,7 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
                     {
                         Instantiate(ImpactEffect, transform.position, transform.rotation);
                     }
+                    
                 }
             }
         }
@@ -66,6 +71,7 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
     }
     public void AttackEnd()
     {
+        AddForce = false;
         attacking = false;
         damagedUnits.Clear();
 
@@ -74,5 +80,9 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
     public void ResetAttack()
     {
         damagedUnits.Clear();
+    }
+    public void ImpactAttack(bool enabled)
+    {
+        AddForce = enabled;
     }
 }
