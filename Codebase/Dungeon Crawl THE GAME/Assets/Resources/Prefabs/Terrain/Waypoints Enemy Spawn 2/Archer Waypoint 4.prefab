@@ -9,45 +9,45 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1673012551625464}
+  m_RootGameObject: {fileID: 1622803988648094}
   m_IsPrefabParent: 1
---- !u!1 &1673012551625464
+--- !u!1 &1622803988648094
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4132378379374952}
-  - component: {fileID: 33003687113180832}
-  - component: {fileID: 65439553041165418}
-  - component: {fileID: 23328658684209892}
+  - component: {fileID: 4624495939764874}
+  - component: {fileID: 33961774134123254}
+  - component: {fileID: 65436596726436616}
+  - component: {fileID: 23074309869423298}
   m_Layer: 0
-  m_Name: Waypoint 3-3 (3)
+  m_Name: Archer Waypoint 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4132378379374952
+--- !u!4 &4624495939764874
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1673012551625464}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 143.05, y: 1.01, z: 44.47}
+  m_GameObject: {fileID: 1622803988648094}
+  m_LocalRotation: {x: -0, y: 0.71240157, z: -0, w: 0.7017721}
+  m_LocalPosition: {x: 131.60933, y: 1.900343, z: 44.61978}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23328658684209892
+--- !u!23 &23074309869423298
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1673012551625464}
+  m_GameObject: {fileID: 1622803988648094}
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -73,19 +73,19 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &33003687113180832
+--- !u!33 &33961774134123254
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1673012551625464}
+  m_GameObject: {fileID: 1622803988648094}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65439553041165418
+--- !u!65 &65436596726436616
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1673012551625464}
+  m_GameObject: {fileID: 1622803988648094}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0

@@ -1168,7 +1168,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138380}
-  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.007410058, w: 0.010324803}
+  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.007410057, w: 0.010324802}
   m_LocalPosition: {x: -0.07770801, y: -0.08016613, z: -0.007227639}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children:
@@ -3997,7 +3997,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -4116,6 +4116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ImpactEffect: {fileID: 0}
   team: 0
 --- !u!114 &114470258772366370
 MonoBehaviour:
@@ -4129,6 +4130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sword: {fileID: 141060}
+  pointValue: 1
 --- !u!114 &114992979380529416
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4141,13 +4143,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 10
-  hud: {fileID: 114052037263439886, guid: e8b43b4316ec85d4fa55aa6ad986ac73, type: 2}
+  alive: 1
+  anim: {fileID: 0}
   searchingTurnSpeed: 120
   searchingDuration: 4
   sightRange: 20
   wayPoints:
-  - {fileID: 1257218946848876, guid: b17df959ebc607e4484141644097b0d7, type: 2}
-  - {fileID: 1220028495449216, guid: e334fb4e009ab4148976362fc5a9fc62, type: 2}
+  - {fileID: 1307886478743428, guid: 1e86ed19f3670044481ae4bea53ac1d7, type: 2}
+  - {fileID: 1056562240964066, guid: ee6af53411a6d50409861aa14ba28487, type: 2}
   eyes: {fileID: 4488859854562302}
   offset: {x: 0, y: 0.5, z: 0}
   attackDistance: 1.5

@@ -72,6 +72,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        Debug.Log("Damage T");
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         GetComponent<AudioSource>().Play();
         if (RemainingHealth() <= 0)
@@ -81,8 +82,9 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
         }
         else
         {
-            anim.SetBool("Take Damage", true);
             Health -= damage;
+            anim.SetBool("Take Damage", true);
+            Debug.Log("Damage Taken");
         }
     }
 

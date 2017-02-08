@@ -25,7 +25,7 @@ public class StoryDialogue : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        timer = 3;
+        timer = .03f;
         secondLevel = false;
         rumble = false;
     }
