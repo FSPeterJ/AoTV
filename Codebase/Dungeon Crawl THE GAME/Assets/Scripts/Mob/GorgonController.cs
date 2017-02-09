@@ -21,6 +21,9 @@ public class GorgonController : MonoBehaviour
     [SerializeField]
     int maxHealth;
 
+    [SerializeField]
+    GameObject fxProj;
+
     int currentHealth;
     Animator anim;
     float PlayerDist;
@@ -123,7 +126,7 @@ public class GorgonController : MonoBehaviour
             case GorgonState.idle:
                 if (idleTime > 1f)
                 {
-                    if (PlayerDist <= 5f)
+                    if (PlayerDist <= 4f)
                     {
                         if (defendTime)
                         {
@@ -136,7 +139,7 @@ public class GorgonController : MonoBehaviour
                             defendTime = true;
                         }
                     }
-                    else if (PlayerDist <= 8f)
+                    else if (PlayerDist <= 6f)
                         currentState = GorgonState.hairAttack;
                     else if (PlayerDist <= 15f)
                     {
@@ -176,7 +179,8 @@ public class GorgonController : MonoBehaviour
                     idleTime += Time.deltaTime;
                 break;
             case GorgonState.projectile:
-                if (idleTime > 1f)
+                //Instantiate(fxProj);
+                if (idleTime > 1f)                
                     currentState = GorgonState.idle;
                 else
                     idleTime += Time.deltaTime;
