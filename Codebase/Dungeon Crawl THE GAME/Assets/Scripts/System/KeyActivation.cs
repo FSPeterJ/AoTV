@@ -51,6 +51,7 @@ public class KeyActivation : MonoBehaviour {
                     hasKeySoundPlayed = true;
                 }
                 interactPanel.SetActive(false);
+                Transform.Destroy(gameObject, 1);
             }
         }
     }

@@ -2,6 +2,7 @@
 using UnityEngine;
 public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 {
+    public AudioClip deathSFX;
     public int Health = 10;
     public bool alive = true;
     float deathTimer = 3;
@@ -73,20 +74,23 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     public void TakeDamage(int damage = 1)
     {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
-        GetComponent<AudioSource>().Play();
+
         if (RemainingHealth() <= 0)
         {
-            if (GetComponent<Slime>().isActiveAndEnabled && alive == true)
+            if (GetComponent<Slime>() && alive == true)
             {
                 GetComponent<Slime>().Spawn();
             }
             alive = false;
             Kill();
+            if (deathSFX != null)
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
         }
         else
         {
             Health -= damage;
             anim.SetBool("Take Damage", true);
+            GetComponent<AudioSource>().Play();
         }
     }
 

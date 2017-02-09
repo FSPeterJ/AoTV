@@ -2,8 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class MainMenu : MonoBehaviour {
+    
+    //public Button[] menuButtons;
+    void Start()
+    {
+        
+    }
+
+    void Update()
+    {
+        //if (Input.GetKey(KeyCode.Return))
+        //{
+        //    for (int i = 0; i < menuButtons.Length; i++)
+        //    {
+        //    }
+        //}
+    }
 
     public void MainMenuLoader()
     {
