@@ -6,44 +6,104 @@ using UnityEngine.SceneManagement;
 public class PauseMenus : MonoBehaviour
 {
     [SerializeField]
-    GameObject options, saveCheck;
+    GameObject pause, options, saveCheck;
 
-    GameObject currentScreen;
+    GameObject _cs;
+    GameObject currentScreen
+    {
+
+        get
+        {
+            return _cs;
+        }
+        set
+        {
+            if (value != _cs)
+            {
+                if (_cs != null)
+                    _cs.SetActive(false);
+                _cs = value;
+                if (_cs != null)
+                    _cs.SetActive(true);
+            }
+        }
+    }
+
+
+
     bool hasSaved;
+
+    void OnEnable()
+    {
+        EventSystem.onGamePausedToggle += PausedToggle;
+        EventSystem.onUI_Back += Return;
+    }
+    //unsubscribe from player movement
+    void OnDisable()
+    {
+        EventSystem.onGamePausedToggle -= PausedToggle;
+        EventSystem.onUI_Back -= Return;
+    }
+
+    void Start()
+    {
+        pause = transform.GetChild(0).gameObject;
+        saveCheck = transform.GetChild(1).gameObject;
+        options = transform.GetChild(2).gameObject;
+        //?
+        hasSaved = false;
+    }
+
+    void Update()
+    {
+
+    }
+
+
+    //Pause menu should control time since pausing the game is for the menu
+    void PausedToggle()
+    {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+            currentScreen = null;
+        }
+        else
+        {
+            Time.timeScale = 0;
+            currentScreen = pause;
+        }
+        //set timescale back to 1 when pause menu is left code already handles p and escape return to game
+    }
 
     public void Resume()
     {
-        gameObject.SetActive(false);
-        Time.timeScale = 1;
+        EventSystem.GamePausedToggle();
+
     }
 
     public void Options()
     {
-        gameObject.SetActive(false);
-        options.SetActive(true);
         currentScreen = options;
     }
 
     public void Return()
     {
-        if (currentScreen != gameObject)
-            gameObject.SetActive(true);
+        if (currentScreen != pause)
+            currentScreen = pause;
         else
         {
-            //unpause
+            EventSystem.GamePausedToggle();
         }
-
-        currentScreen.SetActive(false);
     }
 
-    public void MainMenu()
+    public void MainMenu(bool quit = false)
     {
-        if (hasSaved)
+        if (hasSaved || quit)
             SceneManager.LoadScene("MainMenu");
         else
         {
-            gameObject.SetActive(false);
-            saveCheck.SetActive(true);
+            currentScreen = saveCheck;
         }
     }
 
@@ -54,21 +114,9 @@ public class PauseMenus : MonoBehaviour
 
     public void Cancel()
     {
-        saveCheck.SetActive(false);
-        gameObject.SetActive(true);
+        currentScreen = pause;
     }
 
-    void Start()
-    {
-        currentScreen = gameObject;
-        hasSaved = false;
-    }
 
-    void Update()
-    {
-        if (Input.GetButtonDown("Pause"))
-            if (currentScreen != gameObject)
-                currentScreen.SetActive(false);
-    }
-    
+
 }

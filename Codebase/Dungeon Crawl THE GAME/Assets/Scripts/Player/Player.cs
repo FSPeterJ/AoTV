@@ -156,9 +156,9 @@ public class Player : MonoBehaviour
                     else
                     {
                         lives--;
-                        ReturnToCheckpoint();
                         currentState = States.Idle;
                         health = healthMax;
+                        ReturnToCheckpoint();
                     }
                     break;
                 case States.TakeDamage:
@@ -273,22 +273,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetButtonDown("Pause"))
         {
-            if (Time.timeScale == 0)
-            {
-                Time.timeScale = 1;
-
-                //This has been known to crash unity
-                Pause.SetActive(false);
-            }
-            else
-            {
-                Time.timeScale = 0;
-
-
-                //this has been known to crash unity
-                Pause.SetActive(true);
-            }
-            //set timescale back to 1 when pause menu is left code already handles p and escape return to game
+            EventSystem.GamePausedToggle();
         }
         if (!dead)
         {
