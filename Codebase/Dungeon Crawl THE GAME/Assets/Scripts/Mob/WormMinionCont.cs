@@ -209,7 +209,6 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     public void CreateProjectile()
     {
         GameObject projectile = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(0, -90, 0)); 
-
     }
 
     public void AttackStart()

@@ -7,7 +7,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 {
     enum Dragon_States
     {
-       Idle, Bite, Walk, Firebreath, Die, Takedamage, Fly_Idle, Fly_Bite, Fly_Firebreath, Fly_Forward
+       Idle, Bite, Walk, Firebreath, Firebreath_mid, Die, Takedamage, Fly_Idle, Fly_Bite, Fly_Firebreath, Fly_Forward
     }
 
     [SerializeField]
@@ -43,12 +43,20 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                     break;
                 case Dragon_States.Firebreath:
                     AttkAreaCollider.enabled = true;
-                    Anim.SetTrigger("Fire Breath Attack");
+                    Anim.SetBool("Fire Breath Attack", true);
                     NavAgent.Stop();
                     idleTime = 0;
                     NavAgent.speed = 0;
                     currentstate = value;
                     break;
+                //case Dragon_States.Firebreath_mid:
+                //    AttkAreaCollider.enabled = true;
+                //    Anim.SetTrigger("Fire Breath Attack");
+                //    NavAgent.Stop();
+                //    NavAgent.speed = 0;
+                //    idleTime = 0;
+                //    currentstate = value;
+                //    break;
                 case Dragon_States.Die:
                     Dead = true;
                     GetComponent<BoxCollider>().enabled = false;
@@ -72,7 +80,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                     break;
                 case Dragon_States.Fly_Firebreath:
                     Anim.SetTrigger("Fly Fire Breath Attack");
-                    idleTime = 0;
+                    firebreathTime = 0;
                     NavAgent.Resume();
                     NavAgent.speed = 5.0f;
                     currentstate = value;
@@ -114,6 +122,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     NavMeshAgent NavAgent;
     BoxCollider AttkAreaCollider;
 
+    float firebreathTime = 0;
     float idleTime = 0;
 
     void OnEnable()
@@ -142,73 +151,71 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     {
         TargetDist = Vector3.Distance(Targetposition, transform.position);
         //Debug.Log("Target distance:" + TargetDist);
+        //Debug.Log("ground time:" + groundTime);
 
         //State machine
         switch (currentstate)
         {
             case Dragon_States.Idle:
-                if (idleTime > 1)
+                if (idleTime > 0)
                 {
-                    if (groundTime < 10)
+                    groundTime += Time.deltaTime;
+
+                    if (groundTime < 60f)
                     {
-                        if (TargetDist < 3f)
+                        if (TargetDist <= 2f)
                         {
                             currentstate = Dragon_States.Bite;
-                            Anim.SetTrigger("Bite Attack");
+                            //Anim.SetTrigger("Bite");
                             Anim.SetBool("Idle", false);
                         }
-                        else if (TargetDist > 3f && TargetDist < 5.0f)
+                        else if (TargetDist > 3f && TargetDist <= 5.0f)
                         {
+                            Debug.Log("Fire Breath from idle");
                             currentstate = Dragon_States.Firebreath;
-                            Anim.SetTrigger("Fire Breath Attack");
+                            //Anim.SetBool("Fire Breath Attack", true);
                             Anim.SetBool("Idle", false);
                         }
-                        else if (TargetDist > 5.0f && TargetDist < 10.0f)
+                        else if (TargetDist > 5.0f && TargetDist <= 10.0f)
                         {
                             currentstate = Dragon_States.Walk;
                             Anim.SetBool("Walk", true);
-                            NavAgent.enabled = true;
                             Anim.SetBool("Idle", false);
                         }
                     }
-                    groundTime += Time.deltaTime;
                 }
                 idleTime += Time.deltaTime;
-                //Debug.Log("idle time:" + idleTime);
+                
                 break;
             case Dragon_States.Bite:
-               if (groundTime < 10)
+               if (groundTime < 60f)
                 {
-                    if (TargetDist > 3f && TargetDist < 5.0f)
+                    if (TargetDist > 3f && TargetDist <= 5.0f)
                     {
-                        //Debug.Log("Dragon_States.Firebreath from Dragon_States.Bite");
-                        currentstate = Dragon_States.Idle;
-                        Anim.SetBool("Idle", true);
+                        currentstate = Dragon_States.Firebreath;
                     }
                     else if (TargetDist > 5.0f && TargetDist < 10.0f)
                     {
-                        //Debug.Log("Dragon_States.Walk from Dragon_States.Bite");
-                        currentstate = Dragon_States.Idle;
-                        Anim.SetBool("Idle", true);
+                        currentstate = Dragon_States.Walk;
+                        Anim.SetBool("Walk", true);
                     }
                     groundTime += Time.deltaTime;
                 }
                 break;
             case Dragon_States.Walk:
-                if (groundTime < 10)
+                if (groundTime < 60f)
                 {
-                    if (TargetDist > 3f && TargetDist < 5.0f)
+                    if (TargetDist > 3f && TargetDist <= 5.0f)
                     {
-                        //Debug.Log("Dragon_States.Firebreath from Dragon_States.Walk");
-                        currentstate = Dragon_States.Idle;
-                        Anim.SetBool("Idle", true);
+                        Debug.Log("Fire Breath from walk");
+                        currentstate = Dragon_States.Firebreath;
+                        //Anim.SetBool("Fire Breath Attack", true);
                         Anim.SetBool("Walk", false);
+                        Debug.Log("idletime" + idleTime);
                     }
                     else if (TargetDist < 3f)
                     {
-                        //Debug.Log("Dragon_States.Bite from Dragon_States.Walk");
-                        currentstate = Dragon_States.Idle;
-                        Anim.SetBool("Idle", true);
+                        currentstate = Dragon_States.Bite;
                         Anim.SetBool("Walk", false);
                     }
                     groundTime += Time.deltaTime;
@@ -216,22 +223,28 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                 
                 break;
             case Dragon_States.Firebreath:
-                if (groundTime < 10)
+                if (groundTime < 60f)
                 {
-                    if (idleTime > 2)
+                    if (firebreathTime > 6f)
                     {
+                        Anim.SetBool("Fire Breath Attack", false);
+
                         if (TargetDist > 5.0f && TargetDist < 10.0f)
                         {
-                            currentstate = Dragon_States.Idle;
-                            Anim.SetBool("Idle", true);
+                            currentstate = Dragon_States.Walk;
                         }
                         else if (TargetDist < 2.8f)
                         {
-                            currentstate = Dragon_States.Idle;
-                            Anim.SetBool("Idle", true);
+                            currentstate = Dragon_States.Bite;
                         }
+                        else if (TargetDist > 10.0f)
+                        {
+                            currentstate = Dragon_States.Idle;
+                        }
+                        
                     }
-                    idleTime += Time.deltaTime;
+                    firebreathTime += Time.deltaTime;
+                    //Debug.Log("firebreathtime:" + firebreathTime);
                 }
                     groundTime += Time.deltaTime;
                 break;
@@ -323,8 +336,12 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                 break;
         }
 
-        if (groundTime >= 10)
+        if (groundTime >= 60)
+        {
             currentstate = Dragon_States.Fly_Idle;
+            Anim.SetBool("Fly Idle", true);
+        }
+        
 
     }
     
@@ -363,6 +380,14 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     public int RemainingHealth()
     {
         return HP;
+    }
+
+    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = .2f, float _AngleAdjustment = -90f)
+    {
+        Vector3 lookPos = (transform.position - _TargetPosition);
+        lookPos.y = 0;
+        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
+        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
     }
 
 }
