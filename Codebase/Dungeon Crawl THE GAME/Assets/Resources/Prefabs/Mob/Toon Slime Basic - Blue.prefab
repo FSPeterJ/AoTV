@@ -209,6 +209,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4380562011689932}
   - component: {fileID: 114821162828380786}
+  - component: {fileID: 65166947916647142}
   m_Layer: 20
   m_Name: RigSpineHeadGizmo
   m_TagString: Untagged
@@ -529,6 +530,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65166947916647142
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699040099223296}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &65771629047978946
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -550,7 +563,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1762503bd49195e488cea5ca1f15a9cb, type: 3}
+  m_audioClip: {fileID: 8300000, guid: ddb9b34c96ff4f341b7ad89139e30178, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
