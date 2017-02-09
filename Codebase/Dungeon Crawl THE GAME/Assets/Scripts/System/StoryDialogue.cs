@@ -16,6 +16,9 @@ public class StoryDialogue : MonoBehaviour
     [SerializeField]
     Text PlayerResponse2;
 
+    [SerializeField]
+    AudioClip[] EnemyDialogueResponses;
+
     float timer;
 
     bool secondLevel;
@@ -28,6 +31,7 @@ public class StoryDialogue : MonoBehaviour
         timer = .03f;
         secondLevel = false;
         rumble = false;
+        Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[0]);
     }
 	
 	// Update is called once per frame
@@ -62,15 +66,17 @@ public class StoryDialogue : MonoBehaviour
 
     void DialogueBranch_0_1()
     {
+        Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[1]);
         EnemyDialogue.text = "You will not gain access to this Crypt.";
-        PlayerResponse1.text = "(3) Don't tell me what to do old man";
-        PlayerResponse2.text = "(4) At least I'm fighting half a mage";
+        PlayerResponse1.text = "(3) Death Knight defies the natural order. He will be reaped.";
+        PlayerResponse2.text = "(4) I don't have time for this. Give me the key or be reaped.";
         secondLevel = true;
     }
 
     void DialogueBranch_0_2()
     {
-        EnemyDialogue.text = "So Uncivilized.";
+        Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[2]);
+        EnemyDialogue.text = "So be it then.";
         PlayerResponse1.text = "";
         PlayerResponse2.text = "";
         rumble = true;

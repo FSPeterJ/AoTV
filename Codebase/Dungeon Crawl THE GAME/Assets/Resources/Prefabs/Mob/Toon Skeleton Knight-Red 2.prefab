@@ -4142,6 +4142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80610c61a369f29488d9a04d911999ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSFX: {fileID: 0}
   Health: 10
   alive: 1
   anim: {fileID: 0}
@@ -4153,7 +4154,7 @@ MonoBehaviour:
   - {fileID: 1676663815583942, guid: 4eb019a7018a8e24e9685402e7527431, type: 2}
   eyes: {fileID: 4488859854562302}
   offset: {x: 0, y: 0.5, z: 0}
-  attackDistance: 1.5
+  attackDistance: 2.5
   DistanceToPlayer: 0
   chaseTarget: {fileID: 0}
   navMeshAgent: {fileID: 0}

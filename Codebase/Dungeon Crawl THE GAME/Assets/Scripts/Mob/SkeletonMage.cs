@@ -10,6 +10,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     GameObject StoryDialoguePanel;
     public GameObject playerLocation;
     public GameObject Key4;
+    public GameObject FightMusic;
 
     SpawnManager spawn;
     StatePatternEnemy unitedStatePattern;
@@ -76,10 +77,10 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
                     timer = 5;
                     if (spawnCount < 5)
                     {
-                        GetComponent<AudioSource>().PlayOneShot(RaiseDead);
                         spawn.EnemiesHaveSpawned = false;
                         spawnCount++;
                     }
+                    GetComponent<AudioSource>().PlayOneShot(RaiseDead);
                 }
             }
         }
@@ -89,6 +90,8 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     {
         inDialogue = false;
         spawn.enabled = true;
+        GetComponent<AudioSource>().PlayOneShot(RaiseDead);
+        FightMusic.GetComponent<FightMusic>().TurnOn();
     }
 
     void CancelCurrentAnimation()
@@ -168,6 +171,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     {
         anim.SetTrigger("Die");
         Key4.SetActive(true);
+        FightMusic.GetComponent<FightMusic>().TurnOff();
     }
 
     public void ResetToIdle()
