@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
     bool invulnerable = false;
     bool burning = false;
     int maxJumpStored;
+    ParticleSystem particle;
 
     //Component References
     Animator anim;
@@ -254,6 +255,7 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        particle = GetComponent<ParticleSystem>();
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         EventSystem.SpinTime(spinTime, maxSpinTime);
         EventSystem.LivesCount(lives);
@@ -501,9 +503,18 @@ public class Player : MonoBehaviour
         invulnerable = true;
 
         yield return new WaitForSeconds(seconds);
-
+            
         invulnerable = false;
     }
+
+    //IEnumerator Shiny(int secs = 1)
+    //{
+    //    particle.transform.position = transform.parent.position;
+
+    //    yield return new WaitForSeconds(secs);
+
+    //    Destroy(particle, 10);
+    //}
 
     public void AttackFinished(int attack)
     {
@@ -563,9 +574,15 @@ public class Player : MonoBehaviour
         else if (col.tag == "Invulneraball")
         {
             StartCoroutine(Invulnerable(10));
+            //StartCoroutine(Shiny(10));
             Destroy(col.gameObject);
         }
-
+        else if (col.tag == "Health Collectible")
+        {
+            Destroy(col.gameObject);
+            health = health + 10;
+            EventSystem.PlayerHealthUpdate(health, healthMax);
+        }
         else if (col.tag == "Checkpoint")
         {
             if (CurrentCheckpoint != col.transform.position)
