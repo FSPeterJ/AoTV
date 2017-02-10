@@ -2579,7 +2579,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 336fceff22be95442a2b6e1a8967a29c, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2692,6 +2692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80610c61a369f29488d9a04d911999ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSFX: {fileID: 8300000, guid: 59a691be24be2fb49a5c41425940f7a0, type: 3}
   Health: 10
   alive: 1
   anim: {fileID: 0}
