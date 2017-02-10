@@ -45,7 +45,7 @@ public class SceneTransfer : MonoBehaviour {
         if (other.tag == "Player" && HasKey)
         {
             SceneManager.LoadScene(nextLevel.ToString());
-            SceneManager.LoadScene("Swamp");
+            SceneManager.LoadScene("Bowser Model");
         }
     }
 }
