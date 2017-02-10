@@ -109,4 +109,12 @@ public static class EventSystem
     {
         if (onUI_Back != null) onUI_Back();
     }
+    //Player Grounded
+    public delegate void PlayerGroundedHandler(bool grounded);
+    public static event PlayerGroundedHandler onPlayerGrounded;
+    public static void PlayerGrounded(bool grounded)
+    {
+        if (onPlayerGrounded != null) onPlayerGrounded(grounded);
+    }
+
 }

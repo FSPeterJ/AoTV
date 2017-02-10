@@ -44,7 +44,7 @@ public class MainCamera : MonoBehaviour
         cam = Rail.GetChild(0).GetComponent<Camera>();
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
@@ -67,7 +67,6 @@ public class MainCamera : MonoBehaviour
 
         float zoom = Rail.localPosition.z;
         zoom -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-        Debug.Log(zoom);
         Rail.localPosition = new Vector3(0, 2, Mathf.Clamp(zoom, minZoom + zoomOffset,  maxZoom+ zoomOffset));
 
 

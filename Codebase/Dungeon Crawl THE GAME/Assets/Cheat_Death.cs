@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LifeChest : MonoBehaviour {
+public class Cheat_Death : MonoBehaviour
+{
     Animator anim;
-    public GameObject LifePowerUp;
+    public GameObject HealthPowerUp;
     bool notOpen = true;
     void Start()
     {
@@ -21,9 +22,9 @@ public class LifeChest : MonoBehaviour {
                 {
                     notOpen = false;
                     anim.SetBool("Open", true);
-                    Vector3 spawnLocation = (transform.forward*2)+ transform.position;
-                    //spawnLocation.x += 4;
-                    Instantiate(LifePowerUp, spawnLocation, Quaternion.identity);
+                    Vector3 spawnLocation = transform.position;
+                    spawnLocation.x += 4;
+                    Instantiate(HealthPowerUp, spawnLocation, Quaternion.identity);
                 }
             }
         }
