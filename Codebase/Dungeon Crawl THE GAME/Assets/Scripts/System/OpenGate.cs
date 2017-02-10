@@ -18,6 +18,8 @@ public class OpenGate : MonoBehaviour
     public GameObject gate;
     public GameObject keyImage;
     bool unlockSoundPlayed = false;
+    [SerializeField]
+    bool HasKey = false;
     // Use this for initialization
     void Start()
     {
@@ -26,6 +28,29 @@ public class OpenGate : MonoBehaviour
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
     }
 
+
+    private void OnEnable()
+    {
+        EventSystem.onUI_KeyCount += KeyChange;
+    }
+
+    private void OnDisable()
+    {
+        EventSystem.onUI_KeyCount -= KeyChange;
+    }
+
+
+    void KeyChange(int keys)
+    {
+        if (keys > 0)
+        {
+            HasKey = true;
+        }
+        else
+        {
+            HasKey = false;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -39,21 +64,22 @@ public class OpenGate : MonoBehaviour
     }
     void OnTriggerEnter(Collider c)
     {
-        if (key.HasKey == true)
+        if (HasKey == true)
         {
             if (unlocked != true)
             {
-                interactPanel.SetActive(true);
+                EventSystem.UI_Interact(true);
             }
         }
     }
 
     void OnTriggerStay(Collider c)
     {
-        if (key.HasKey == true)
+        if (HasKey == true)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                Debug.Log("test");
                 unlocked = true;
                 if (unlockSoundPlayed != true)
                 {
@@ -61,14 +87,14 @@ public class OpenGate : MonoBehaviour
                     GetComponent<AudioSource>().Play();
                     unlockSoundPlayed = true;
                 }
-                interactPanel.SetActive(false);
-                keyImage.SetActive(false);
+                EventSystem.UI_Interact(false);
+                EventSystem.UI_KeyChange(-1);
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        interactPanel.SetActive(false);        
+        EventSystem.UI_Interact(false);
     }
 }
