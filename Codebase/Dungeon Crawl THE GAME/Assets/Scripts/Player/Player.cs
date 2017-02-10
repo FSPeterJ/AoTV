@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
 
 
     //Basic Settings - Edit in Unity
-    public int maxJump = 1;
+    public int maxJump = 5;
     public float strafeModfier = .75f;
     public int health = 30;
     public int lives = 3;
@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     //Variables
     bool invulnerable = false;
     bool burning = false;
-    int maxJumpStored;
+    int maxJumpStored = 5;
 
     //Component References
     Animator anim;
@@ -38,7 +38,10 @@ public class Player : MonoBehaviour
     //Physics Internals
     Vector3 moveDirection = Vector3.zero;
     Vector3 Impact = Vector3.zero;
-    public float verticalVel = 0;
+    [SerializeField]
+    float verticalVel = 0;
+    [SerializeField]
+    float verticalAccel = 0;
     bool dead = false;
     float gravity = 9.8F;
 
@@ -49,8 +52,9 @@ public class Player : MonoBehaviour
     Quaternion targetRotation;
     float verticalInput;
     float horizontalInput;
-    public float groundDist;
-
+    float jumpTime;
+    [SerializeField]
+    bool isgrounded;
 
     //Checkpoints
     Vector3 CurrentCheckpoint;
@@ -75,11 +79,13 @@ public class Player : MonoBehaviour
 
     void OnEnable()
     {
+        EventSystem.onPlayerGrounded += IsGrounded;
         EventSystem.onMousePositionUpdate += UpdateMousePosition;
     }
     //unsubscribe from player movement
     void OnDisable()
     {
+        EventSystem.onPlayerGrounded -= IsGrounded;
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
     }
 
@@ -239,7 +245,6 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        groundDist = 5f;
         targetRotation = transform.rotation;
         rBody = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
@@ -349,10 +354,12 @@ public class Player : MonoBehaviour
 
 
             //Jump
-            if (Input.GetKeyDown(KeyCode.Space) && maxJump > 0)
+            if (Input.GetKeyDown(KeyCode.Space)&& maxJump > 0)
             {
                 maxJump--;
-                verticalVel -= jumpSpeed;
+                verticalVel += jumpSpeed;
+                jumpTime = 0;
+                Debug.Log(verticalVel);
             }
 
             if (teleportCD > teleportCDMax && !teleportToggle && Input.GetKey(KeyCode.Q))
@@ -372,7 +379,6 @@ public class Player : MonoBehaviour
             }
 
             //Move
-            //controller.Move(moveDirection * Time.deltaTime);
             
 
         }
@@ -383,27 +389,34 @@ public class Player : MonoBehaviour
     {
         Move();
     }
+     bool landed;
     //Calculate Physics movement
     void Move()
     {
-        moveDirection = new Vector3(horizontalInput, 0, verticalInput);
-        moveDirection *= speed;
-        if (IsGrounded())
+        jumpTime+= Time.fixedDeltaTime;
+
+        if (isgrounded  && jumpTime > 1f)
         {
-            verticalVel = 0;
             maxJump = maxJumpStored;
+            verticalAccel = 0;
+            verticalVel = 0;
+            landed = true;
         }
         else
         {
-            verticalVel += gravity * Time.deltaTime;
+            verticalAccel -= gravity * Time.fixedDeltaTime * 2;
         }
-        moveDirection.y -= verticalVel;
+        moveDirection = new Vector3(horizontalInput, 0, verticalInput);
+        moveDirection *= speed;
+        verticalVel += verticalAccel * Time.fixedDeltaTime;
+
+        moveDirection.y += verticalVel;
+        Debug.Log(moveDirection);
         if (Impact.magnitude > 0.2)
         {
             moveDirection += Impact;
-            Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.deltaTime);
+            Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.fixedDeltaTime);
         }
-        //moveDirection.y = moveDirection.y + rBody.velocity.y;
         rBody.velocity = moveDirection;
         EventSystem.PlayerPositionUpdate(transform.position);
     }
@@ -414,9 +427,11 @@ public class Player : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
     }
 
-    bool IsGrounded()
+    void IsGrounded(bool grounded)
     {
-        return Physics.Raycast(transform.position, -Vector3.up, groundDist + 0.1f);
+        isgrounded = grounded;
+
+
     }
     public void ResetToIdle()
     {

@@ -63,4 +63,12 @@ public static class EventSystem
         if (onSpinCooldown != null) onSpinCooldown(seconds, max);
     }
 
+    //Spin Cooldown
+    public delegate void PlayerGroundedHandler(bool grounded);
+    public static event PlayerGroundedHandler onPlayerGrounded;
+    public static void PlayerGrounded(bool grounded)
+    {
+        if (onPlayerGrounded != null) onPlayerGrounded(grounded);
+    }
+
 }

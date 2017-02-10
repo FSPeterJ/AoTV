@@ -27,6 +27,7 @@ TagManager:
   - Health Collectible
   - Checkpoint
   - OutOfBounds
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -57,8 +58,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Not Solid
+  - Player
   - Terrain
   m_SortingLayers:
   - name: Default
