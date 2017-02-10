@@ -21,7 +21,7 @@ public class ScoreChestScript : MonoBehaviour {
                 {
                     notOpen = false;
                     anim.SetBool("Open", true);
-                    Vector3 spawnLocation = transform.position;
+                    Vector3 spawnLocation = (transform.forward * 2) + transform.position;
                     spawnLocation.x += 4;
                     Instantiate(ScorePowerUp, spawnLocation, Quaternion.identity);
                 }
