@@ -169,8 +169,9 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
 
     public void Kill()
     {
+        Debug.Log("test");
+        EventSystem.UI_KeyChange(1);
         anim.SetTrigger("Die");
-        EventSystem.UI_KeyCount(1);
         FightMusic.GetComponent<FightMusic>().TurnOff();
     }
 
