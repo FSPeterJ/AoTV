@@ -75,7 +75,8 @@ public class OpenGate : MonoBehaviour
 
     void OnTriggerStay(Collider c)
     {
-        if (HasKey == true)
+        
+        if (c.gameObject.tag == "Player" && HasKey == true)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
