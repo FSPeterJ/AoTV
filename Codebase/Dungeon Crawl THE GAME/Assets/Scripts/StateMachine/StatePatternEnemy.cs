@@ -101,7 +101,9 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 
     public void Kill()
     {
+        EventSystem.ScoreIncrease(1);
         anim.SetBool("Die", true);
+
     }
 
     public void ResetToIdle()
