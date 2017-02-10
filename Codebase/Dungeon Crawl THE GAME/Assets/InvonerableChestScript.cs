@@ -2,24 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InvonerableChestScript : MonoBehaviour {
+public class InvonerableChestScript : MonoBehaviour
+{
     Animator anim;
     public GameObject ScorePowerUp;
+    bool notOpen = true;
     void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetBool("Open", false);
     }
-    void OnTriggerEnter(Collider Col)
+    void OnTriggerStay(Collider Col)
     {
         if (Col.tag == "Player")
         {
-            anim.SetBool("Open", true);
-            Vector3 spawnLocation = transform.position;
-
-            spawnLocation.x += 4;
-            //waiting on ryans object
-         //   Instantiate(InvulnerablePowerUp, spawnLocation, Quaternion.identity);
+            if (Input.GetKey(KeyCode.E))
+            {
+                if (notOpen == true)
+                {
+                    notOpen = false;
+                    anim.SetBool("Open", true);
+                    Vector3 spawnLocation = transform.position;
+                    spawnLocation.x += 4;
+                    Instantiate(ScorePowerUp, spawnLocation, Quaternion.identity);
+                }
+            }
         }
     }
 }
