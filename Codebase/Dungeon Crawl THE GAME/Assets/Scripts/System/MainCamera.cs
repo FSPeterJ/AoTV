@@ -44,7 +44,7 @@ public class MainCamera : MonoBehaviour
         cam = Rail.GetChild(0).GetComponent<Camera>();
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
