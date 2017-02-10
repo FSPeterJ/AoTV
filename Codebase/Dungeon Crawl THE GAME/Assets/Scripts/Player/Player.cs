@@ -86,8 +86,7 @@ public class Player : MonoBehaviour
     float rangedAttackCD = 999;
 
 
-    [SerializeField]
-    GameObject LossScreen, WinScreen, Pause;
+
 
     void OnEnable()
     {
@@ -441,8 +440,8 @@ public class Player : MonoBehaviour
             if (health < 1)
             {
                 currentState = States.Die;
-                LossScreen.SetActive(true);
-                Time.timeScale = 0;
+                //LossScreen.SetActive(true);
+                //Time.timeScale = 0;
             }
             else
                 currentState = States.TakeDamage;
@@ -652,14 +651,14 @@ public class Player : MonoBehaviour
         lives++;
         health = 3;
         //Score -= Score >> 1
-        LossScreen.SetActive(false);
+        //LossScreen.SetActive(false);
         Time.timeScale = 1;
     }
 
     public void ReloadCheckpoint()
     {
         transform.position = CurrentCheckpoint;
-        Pause.SetActive(false);
+        //Pause.SetActive(false);
         Time.timeScale = 1;
     }
 }
