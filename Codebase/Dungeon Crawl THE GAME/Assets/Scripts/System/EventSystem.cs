@@ -148,4 +148,18 @@ public static class EventSystem
         if (onUI_KeyCount != null) onUI_KeyCount(interact);
     }
 
+    public delegate void Player_ReloadCheckpointHandler();
+    public static event Player_ReloadCheckpointHandler onPlayer_ReloadCheckpoint;
+    public static void Player_ReloadCheckpoint()
+    {
+        if (onPlayer_ReloadCheckpoint != null) onPlayer_ReloadCheckpoint();
+    }
+
+
+    public delegate void PlayerLoseHandler();
+    public static event PlayerLoseHandler onPlayerLose;
+    public static void PlayerLose()
+    {
+        if (onPlayerLose != null) onPlayerLose();
+    }
 }
