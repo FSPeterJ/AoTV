@@ -575,8 +575,10 @@ public class Player : MonoBehaviour
             if (Input.GetButton("Use"))
                 SceneManager.LoadScene("Graveyard");
 
-        if (col.tag == "LastDoor")
+        if (col.tag == "ForestEnd")
             SceneManager.LoadScene("Graveyard");
+        if (col.tag == "SwampEnd")
+            SceneManager.LoadScene("Forest");
     }
 
    
