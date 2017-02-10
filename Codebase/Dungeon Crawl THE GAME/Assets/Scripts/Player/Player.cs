@@ -64,7 +64,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     float verticalAccel = 0;
     bool dead = false;
-    float gravity = 9.8F;
 
     //Control Settings
     Vector3 mousePosition;
@@ -278,6 +277,8 @@ public class Player : MonoBehaviour
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
         rBody = GetComponent<Rigidbody>();
+        if(KeyManager.GetKeyCode("Space") == KeyCode.None)
+            KeyManager.SetKey("Space", KeyCode.Space);
     }
     // Update is called once per frame
     void Update()
@@ -377,7 +378,7 @@ public class Player : MonoBehaviour
 
 
             //Jump
-            if (KeyManager.GetKeys("Jump") && maxJump > 0)
+            if (Input.GetButton("Jump") && maxJump > 0)
             {
                 maxJump--;
                 verticalVel += jumpSpeed;

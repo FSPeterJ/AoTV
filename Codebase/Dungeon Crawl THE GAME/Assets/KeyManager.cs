@@ -10,15 +10,25 @@ public static class KeyManager  {
     public static string GetKeyName(string _key)
     {
         if (Keys.ContainsKey(_key))
-            return Keys[_key].ToString() ;
+            return Keys[_key].ToString();
+        
         else
             return "";
+    }
+    public static KeyCode GetKeyCode(string _key)
+    {
+        if (Keys.ContainsKey(_key))
+            return Keys[_key];
+        else
+            return KeyCode.None;
     }
 
     public static bool GetKeys(string _key)
     {
         string key = GetKeyName(_key);
         string key2 = GetKeyName(_key+"2");
+        Debug.Log(key);
+        Debug.Log(key2);
         if (key.Length > 0 && Input.GetKey(key) || key2.Length > 0 && Input.GetKey(key2))
         {
             return true;
