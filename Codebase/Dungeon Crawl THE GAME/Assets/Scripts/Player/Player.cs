@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     AudioClip deathSFX;
+    [SerializeField]
+    GameObject LossScreen;
 
 
     //Basic Settings - Edit in Unity
@@ -161,6 +163,8 @@ public class Player : MonoBehaviour
                         dead = true;
                         EventSystem.PlayerDeath();
                         EventSystem.LivesCount(lives);
+                        LossScreen.SetActive(true);
+
                         _cs = value;
                     }
                     else
@@ -485,7 +489,7 @@ public class Player : MonoBehaviour
             if (health < 1)
             {
                 currentState = States.Die;
-                //LossScreen.SetActive(true);
+                
                 //Time.timeScale = 0;
             }
             else
