@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     AudioClip deathSFX;
     [SerializeField]
-    GameObject LossScreen;
+    GameObject LossScreen, WinScreen;
 
 
     //Basic Settings - Edit in Unity
@@ -648,6 +648,10 @@ public class Player : MonoBehaviour
         {
             TakeDamage();
             ReturnToCheckpoint();
+        }
+        else if (col.tag == "WinArea")
+        {
+            WinScreen.SetActive(true);
         }
     }
 
