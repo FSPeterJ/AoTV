@@ -6,13 +6,18 @@ public class MainCamera : MonoBehaviour
 {
 
     Camera cam;
+    Transform Rail;
     RaycastHit hitInfo;
     int layerMask = 31;
 
-
-    public float minFov = 15f;
-    public float maxFov = 90f;
-    public float sensitivity = 10f;
+    [SerializeField]
+    float minZoom = -10;
+    [SerializeField]
+    float maxZoom = 0;
+    [SerializeField]
+    float zoomOffset = -10;
+    [SerializeField]
+    float sensitivity = 10f;
 
     //subscribe to player movement
     void OnEnable()
@@ -35,7 +40,8 @@ public class MainCamera : MonoBehaviour
 
     private void Start()
     {
-        cam = GetComponent<Camera>();
+        Rail = transform.GetChild(0);
+        cam = Rail.GetChild(0).GetComponent<Camera>();
     }
 
     void LateUpdate()
@@ -43,28 +49,26 @@ public class MainCamera : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] temp = Physics.RaycastAll(ray, layerMask);
+        RaycastHit[] temp = Physics.RaycastAll(ray);
 
         for (int i = 0; i < temp.Length; i++)
         {
-            if(temp[i].collider.gameObject.layer == layerMask)
+            if (temp[i].collider.gameObject.layer == layerMask)
             {
                 Debug.DrawLine(Camera.main.transform.position, temp[i].point, Color.red);
+
                 // Do something with the object that was hit by the raycast.
                 EventSystem.MousePositionUpdate(temp[i].point);
                 break;
             }
-            
+
         }
 
 
-        //Saved time with just using this:
-        //http://answers.unity3d.com/answers/218373/view.html
-        float fov = Camera.main.fieldOfView;
-        fov += Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-        fov = Mathf.Clamp(fov, minFov, maxFov);
-        Camera.main.fieldOfView = fov;
-
+        float zoom = Rail.localPosition.z;
+        zoom -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+        Debug.Log(zoom);
+        Rail.localPosition = new Vector3(0, 2, Mathf.Clamp(zoom, minZoom + zoomOffset,  maxZoom+ zoomOffset));
 
 
     }
@@ -72,8 +76,7 @@ public class MainCamera : MonoBehaviour
     void UpdateTargetPosition(Vector3 pos)
     {
         targetpos = pos;
-        targetpos.y = targetpos.y + 14;
-        targetpos.z = targetpos.z - 10;
+
     }
 
     void PlayerDied()

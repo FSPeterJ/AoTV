@@ -529,8 +529,10 @@ public class Player : MonoBehaviour
 
         if (col.tag == "LastDoor")
             SceneManager.LoadScene("Graveyard");
-
     }
+
+   
+
     void OnTriggerEnter(Collider col)
     {
         if (col.tag == "ScorePowerUp")
@@ -559,14 +561,7 @@ public class Player : MonoBehaviour
         else if (col.tag == "Invulneraball")
         {
             StartCoroutine(Invulnerable(10));
-            //StartCoroutine(Shiny(10));
             Destroy(col.gameObject);
-        }
-        else if (col.tag == "Health Collectible")
-        {
-            Destroy(col.gameObject);
-            health = health + 10;
-            EventSystem.PlayerHealthUpdate(health, healthMax);
         }
         else if (col.tag == "Checkpoint")
         {
