@@ -104,12 +104,15 @@ public class Player : MonoBehaviour
     {
         EventSystem.onPlayerGrounded += IsGrounded;
         EventSystem.onMousePositionUpdate += UpdateMousePosition;
+        EventSystem.onPlayer_ReloadCheckpoint += ReloadCheckpoint;
+
     }
     //unsubscribe from player movement
     void OnDisable()
     {
         EventSystem.onPlayerGrounded -= IsGrounded;
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
+        EventSystem.onPlayer_ReloadCheckpoint -= ReloadCheckpoint;
     }
 
 
@@ -163,8 +166,7 @@ public class Player : MonoBehaviour
                         dead = true;
                         EventSystem.PlayerDeath();
                         EventSystem.LivesCount(lives);
-                        LossScreen.SetActive(true);
-
+                        EventSystem.PlayerLose();
                         _cs = value;
                     }
                     else
@@ -401,7 +403,7 @@ public class Player : MonoBehaviour
             if (teleportToggle)
             {
                 //tpMarker.transform.rotation = transform.rotation;
-                float md = (mouseDistance < 40) ? mouseDistance / 2 : 20;
+                float md = (mouseDistance < 20) ? mouseDistance / 2 : 20;
                 tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
             }
 
@@ -701,15 +703,14 @@ public class Player : MonoBehaviour
     {
         lives++;
         health = 3;
-        //Score -= Score >> 1
-        //LossScreen.SetActive(false);
+
+        //Score -= Score >> 1;
         Time.timeScale = 1;
     }
 
     public void ReloadCheckpoint()
     {
         transform.position = CurrentCheckpoint;
-        //Pause.SetActive(false);
         Time.timeScale = 1;
     }
 }
