@@ -268,7 +268,6 @@ public class Player : MonoBehaviour
         particle = GetComponent<ParticleSystem>();
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         EventSystem.SpinTime(spinTime, maxSpinTime);
-        EventSystem.LivesCount(lives);
         anim = GetComponent<Animator>();
         teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
         rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
@@ -279,6 +278,7 @@ public class Player : MonoBehaviour
         rBody = GetComponent<Rigidbody>();
         if(KeyManager.GetKeyCode("Space") == KeyCode.None)
             KeyManager.SetKey("Space", KeyCode.Space);
+        EventSystem.LivesCount(lives);
     }
     // Update is called once per frame
     void Update()

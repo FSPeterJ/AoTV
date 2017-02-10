@@ -117,4 +117,35 @@ public static class EventSystem
         if (onPlayerGrounded != null) onPlayerGrounded(grounded);
     }
 
+    // Story Dialogue
+    public delegate void StoryDialogueHandler();
+    public static event StoryDialogueHandler onStoryDialogue;
+    public static void StoryDialogue()
+    {
+        if (onStoryDialogue != null) onStoryDialogue();
+    }
+
+    // Display Interact
+    public delegate void UI_InteractHandler(bool interact);
+    public static event UI_InteractHandler onUI_Interact;
+    public static void UI_Interact(bool interact)
+    {
+        if (onUI_Interact != null) onUI_Interact(interact);
+    }
+
+    
+    public delegate void UI_KeyChangeHandler(int interact);
+    public static event UI_KeyChangeHandler onUI_KeyChange;
+    public static void UI_KeyChange(int interact)
+    {
+        if (onUI_KeyChange != null) onUI_KeyChange(interact);
+    }
+
+    public delegate void UI_KeyCountHandler(int interact);
+    public static event UI_KeyCountHandler onUI_KeyCount;
+    public static void UI_KeyCount(int interact)
+    {
+        if (onUI_KeyCount != null) onUI_KeyCount(interact);
+    }
+
 }

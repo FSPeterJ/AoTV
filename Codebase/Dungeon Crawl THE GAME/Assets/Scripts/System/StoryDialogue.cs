@@ -25,42 +25,60 @@ public class StoryDialogue : MonoBehaviour
 
     bool rumble;
 
-	// Use this for initialization
-	void Start ()
+    bool starting = false;
+
+    void EnableDia()
     {
-        timer = .03f;
-        secondLevel = false;
-        rumble = false;
-        Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[0]);
+        if (!starting)
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+            Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[0]);
+            timer = .03f;
+            starting = true;
+            secondLevel = false;
+            rumble = false;
+        }
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Use this for initialization
+    void Start()
     {
-        if (Input.GetKeyUp(KeyCode.Alpha1) && secondLevel == false)
-        {
-            DialogueBranch_0_1();
-        }
+        EventSystem.onStoryDialogue += EnableDia;
+        
+    }
 
-        if (Input.GetKeyUp(KeyCode.Alpha2) && secondLevel == false)
+    // Update is called once per frame
+    void Update()
+    {
+        if (starting)
         {
-            DialogueBranch_0_2();
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4) && secondLevel == true)
-        {
-            DialogueBranch_0_2();
-        }
 
-        if (rumble)
-        {
-            timer -= Time.deltaTime;
-        }
+            if (Input.GetKeyUp(KeyCode.Alpha1) && secondLevel == false)
+            {
+                DialogueBranch_0_1();
+            }
 
-        if (timer <= 0)
-        {
-            Mage.SendMessage("Fight");
-            DialoguePanel.SetActive(false);
+            if (Input.GetKeyUp(KeyCode.Alpha2) && secondLevel == false)
+            {
+                DialogueBranch_0_2();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3) || Input.GetKeyDown(KeyCode.Alpha4) && secondLevel == true)
+            {
+                DialogueBranch_0_2();
+            }
+
+            if (rumble)
+            {
+                timer -= Time.deltaTime;
+            }
+
+            if (timer <= 0)
+            {
+                Mage.SendMessage("Fight");
+                DialoguePanel.SetActive(false);
+            }
         }
     }
 

@@ -126,8 +126,8 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
                 pushPlayer = true;
             if (inDialogue)
             {
-                StoryDialoguePanel.SetActive(true);
-                //freeze player
+                EventSystem.StoryDialogue();
+                    //freeze player
                 Time.timeScale = 0.1f;
             }
             else
@@ -170,7 +170,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     public void Kill()
     {
         anim.SetTrigger("Die");
-        Key4.SetActive(true);
+        EventSystem.UI_KeyCount(1);
         FightMusic.GetComponent<FightMusic>().TurnOff();
     }
 
