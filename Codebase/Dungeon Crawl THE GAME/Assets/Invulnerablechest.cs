@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LifeChest : MonoBehaviour {
+public class LifeChestScript : MonoBehaviour
+{
     Animator anim;
     public GameObject LifePowerUp;
     bool notOpen = true;

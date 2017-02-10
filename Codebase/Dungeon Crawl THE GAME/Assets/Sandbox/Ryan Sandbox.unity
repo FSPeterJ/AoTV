@@ -91,48 +91,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     accuratePlacement: 0
   m_NavMeshData: {fileID: 23800000, guid: f2ead62589f0e904bab61a6c9c2432f1, type: 2}
---- !u!1001 &36407883
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4732513071945332, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 879.68896
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732513071945332, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 5.691184
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732513071945332, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -65.25693
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732513071945332, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0.02981799
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732513071945332, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.021162987
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732513071945332, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0.0059423326
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732513071945332, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.99931365
-      objectReference: {fileID: 0}
-    - target: {fileID: 4732513071945332, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &154598399
 Prefab:
   m_ObjectHideFlags: 0
@@ -333,57 +291,6 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2f3f54abea06a6342a8b5480bb2c00d9, type: 2}
-  m_IsPrefabParent: 0
---- !u!1001 &264771114
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4038385350181134, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 902.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038385350181134, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 5.691184
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038385350181134, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -36.56
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038385350181134, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038385350181134, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038385350181134, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038385350181134, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4038385350181134, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114409746085275234, guid: 880181269ffa6dc45b0f8da57c6da900,
-        type: 2}
-      propertyPath: LifePowerUp
-      value: 
-      objectReference: {fileID: 1692920122}
-    - target: {fileID: 1265464351296164, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
-      propertyPath: m_Name
-      value: Life Treasure Chest Real - Red
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 880181269ffa6dc45b0f8da57c6da900, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &517533252
 GameObject:
@@ -775,6 +682,51 @@ Prefab:
       value: 53
       objectReference: {fileID: 0}
     - target: {fileID: 224483108697736236, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 224492002059273918, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 49
+      objectReference: {fileID: 0}
+    - target: {fileID: 224492002059273918, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 224102867423686400, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224102867423686400, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224938108217500820, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224938108217500820, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224938108217500820, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224267405059573616, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 53
+      objectReference: {fileID: 0}
+    - target: {fileID: 224267405059573616, guid: 02dc20664816f25448e9caae42ab4000,
         type: 2}
       propertyPath: m_SizeDelta.y
       value: 16
@@ -3634,7 +3586,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 491076, guid: d2bb8296c2fea4f44a9d151466f87b4c, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 491076, guid: d2bb8296c2fea4f44a9d151466f87b4c, type: 2}
       propertyPath: m_LocalScale.x
@@ -6417,49 +6369,49 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4429186418830234, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
+    - target: {fileID: 4734947425843732, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
       propertyPath: m_LocalPosition.x
       value: 901.65
       objectReference: {fileID: 0}
-    - target: {fileID: 4429186418830234, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
+    - target: {fileID: 4734947425843732, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
       propertyPath: m_LocalPosition.y
       value: 5.67
       objectReference: {fileID: 0}
-    - target: {fileID: 4429186418830234, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
+    - target: {fileID: 4734947425843732, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
       propertyPath: m_LocalPosition.z
       value: -44.782
       objectReference: {fileID: 0}
-    - target: {fileID: 4429186418830234, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
+    - target: {fileID: 4734947425843732, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4429186418830234, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
+    - target: {fileID: 4734947425843732, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0.6553414
       objectReference: {fileID: 0}
-    - target: {fileID: 4429186418830234, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
+    - target: {fileID: 4734947425843732, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4429186418830234, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
+    - target: {fileID: 4734947425843732, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
       propertyPath: m_LocalRotation.w
       value: 0.7553328
       objectReference: {fileID: 0}
-    - target: {fileID: 4429186418830234, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
+    - target: {fileID: 4734947425843732, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 114426748133958040, guid: 9cb4d861adb188a4181223dbd2e6ec40,
+    - target: {fileID: 1405247585312834, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
+      propertyPath: m_Name
+      value: Toon Treasure Chest Real - Purple
+      objectReference: {fileID: 0}
+    - target: {fileID: 114731052810489108, guid: 6c8c747641c5a2c40a5915c68a302ae3,
         type: 2}
       propertyPath: ScorePowerUp
       value: 
       objectReference: {fileID: 1043239978}
-    - target: {fileID: 1345063974464034, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
-      propertyPath: m_Name
-      value: Toon Treasure Chest Real - Purple
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 9cb4d861adb188a4181223dbd2e6ec40, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: 6c8c747641c5a2c40a5915c68a302ae3, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1924545407
 Prefab:
@@ -6506,4 +6458,55 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fb5a9652227c545d98a413cd73b80b69, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1001 &1957591933
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4553094520726118, guid: 37f026e51d0aab3408366301038ff927, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 902.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553094520726118, guid: 37f026e51d0aab3408366301038ff927, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 5.691184
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553094520726118, guid: 37f026e51d0aab3408366301038ff927, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -36.56
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553094520726118, guid: 37f026e51d0aab3408366301038ff927, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553094520726118, guid: 37f026e51d0aab3408366301038ff927, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553094520726118, guid: 37f026e51d0aab3408366301038ff927, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553094520726118, guid: 37f026e51d0aab3408366301038ff927, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4553094520726118, guid: 37f026e51d0aab3408366301038ff927, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965263104998202, guid: 37f026e51d0aab3408366301038ff927, type: 2}
+      propertyPath: m_Name
+      value: Life Treasure Chest Real - Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 114718154232285772, guid: 37f026e51d0aab3408366301038ff927,
+        type: 2}
+      propertyPath: HealthPowerUp
+      value: 
+      objectReference: {fileID: 1692920122}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 37f026e51d0aab3408366301038ff927, type: 2}
   m_IsPrefabParent: 0
