@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     AudioClip deathSFX;
+    [SerializeField]
+    GameObject LossScreen;
 
 
     //Basic Settings - Edit in Unity
@@ -161,6 +163,8 @@ public class Player : MonoBehaviour
                         dead = true;
                         EventSystem.PlayerDeath();
                         EventSystem.LivesCount(lives);
+                        LossScreen.SetActive(true);
+
                         _cs = value;
                     }
                     else
@@ -268,7 +272,6 @@ public class Player : MonoBehaviour
         particle = GetComponent<ParticleSystem>();
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         EventSystem.SpinTime(spinTime, maxSpinTime);
-        EventSystem.LivesCount(lives);
         anim = GetComponent<Animator>();
         teleportMarker = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
         rangedScythe = (GameObject)Resources.Load("Prefabs/Player/ScytheRangedAttack");
@@ -279,6 +282,7 @@ public class Player : MonoBehaviour
         rBody = GetComponent<Rigidbody>();
         if(KeyManager.GetKeyCode("Space") == KeyCode.None)
             KeyManager.SetKey("Space", KeyCode.Space);
+        EventSystem.LivesCount(lives);
     }
     // Update is called once per frame
     void Update()
@@ -485,7 +489,7 @@ public class Player : MonoBehaviour
             if (health < 1)
             {
                 currentState = States.Die;
-                //LossScreen.SetActive(true);
+                
                 //Time.timeScale = 0;
             }
             else
@@ -571,8 +575,10 @@ public class Player : MonoBehaviour
             if (Input.GetButton("Use"))
                 SceneManager.LoadScene("Graveyard");
 
-        if (col.tag == "LastDoor")
+        if (col.tag == "ForestEnd")
             SceneManager.LoadScene("Graveyard");
+        if (col.tag == "SwampEnd")
+            SceneManager.LoadScene("Forest");
     }
 
    

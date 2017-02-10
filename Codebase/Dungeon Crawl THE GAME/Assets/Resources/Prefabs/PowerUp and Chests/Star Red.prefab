@@ -10,9 +10,10 @@ GameObject:
   - component: {fileID: 491076}
   - component: {fileID: 3391076}
   - component: {fileID: 2391076}
+  - component: {fileID: 65023380302987032}
   m_Layer: 0
   m_Name: Star Red
-  m_TagString: Untagged
+  m_TagString: InvunerablePowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24,8 +25,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 191076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: -19.100262, y: 2.39, z: -28.87714}
+  m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -79,3 +80,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 191076}
   m_IsPrefabParent: 1
+--- !u!65 &65023380302987032
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 191076}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.20279518, y: 0.19505802, z: 0.033090435}
+  m_Center: {x: -0.000000007450581, y: 0, z: 0.000000007450581}

@@ -5,11 +5,29 @@ using UnityEngine.SceneManagement;
 public class SceneTransfer : MonoBehaviour {
 
     public Scene nextLevel;
-    public GameObject key1;
-    public GameObject key2;
-    public GameObject key3;
-    public GameObject key4;
+    bool HasKey;
 
+    private void OnEnable()
+    {
+        EventSystem.onUI_KeyCount += KeyChange;
+    }
+
+    private void OnDisable()
+    {
+        EventSystem.onUI_KeyCount -= KeyChange;
+    }
+
+    void KeyChange(int keys)
+    {
+        if (keys > 3)
+        {
+            HasKey = true;
+        }
+        else
+        {
+            HasKey = false;
+        }
+    }
     // Use this for initialization
     void Start ()
     {
@@ -24,7 +42,7 @@ public class SceneTransfer : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && key1.activeSelf && key2.activeSelf && key3.activeSelf && key4.activeSelf)
+        if (other.tag == "Player" && HasKey)
         {
             SceneManager.LoadScene(nextLevel.ToString());
             SceneManager.LoadScene("Swamp");

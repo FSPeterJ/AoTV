@@ -10,9 +10,10 @@ GameObject:
   - component: {fileID: 464830}
   - component: {fileID: 3397690}
   - component: {fileID: 2373498}
+  - component: {fileID: 65356213286028730}
   m_Layer: 0
   m_Name: Potion_Health
-  m_TagString: Untagged
+  m_TagString: HealthPowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24,8 +25,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173500}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -15.75627, y: 1.1083701, z: -27.723684}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -103,3 +104,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 173500}
   m_IsPrefabParent: 1
+--- !u!65 &65356213286028730
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 173500}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.21674034, y: 0.21674028, z: 0.8306625}
+  m_Center: {x: 0, y: 0.000000007450581, z: 0.0511166}
