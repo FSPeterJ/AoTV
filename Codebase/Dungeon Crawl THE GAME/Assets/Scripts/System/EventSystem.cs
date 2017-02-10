@@ -93,4 +93,20 @@ public static class EventSystem
     {
         if (onSpinTime != null) onSpinTime(seconds, max);
     }
+
+    //Game Paused
+    public delegate void GamePausedToggleHandler();
+    public static event GamePausedToggleHandler onGamePausedToggle;
+    public static void GamePausedToggle()
+    {
+        if (onGamePausedToggle != null) onGamePausedToggle();
+    }
+
+    //UI Back Button
+    public delegate void UI_BackHandler();
+    public static event UI_BackHandler onUI_Back;
+    public static void UI_Back()
+    {
+        if (onUI_Back != null) onUI_Back();
+    }
 }
