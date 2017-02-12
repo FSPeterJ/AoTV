@@ -31,7 +31,7 @@ public class KeyActivation : MonoBehaviour {
     {
         if (HasKey != true)
         {
-            interactPanel.SetActive(true);
+            EventSystem.UI_Interact(true);
         }
     }
 
@@ -39,18 +39,18 @@ public class KeyActivation : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E) && !hasKey )
             {
-                HasKey = true;
+                hasKey = true;
+                EventSystem.UI_KeyChange(1);
                 Debug.Log("has key");
-                keyImage.SetActive(true);
                 if (hasKeySoundPlayed != true)
                 {
                     GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
                     GetComponent<AudioSource>().Play();
                     hasKeySoundPlayed = true;
                 }
-                interactPanel.SetActive(false);
+                EventSystem.UI_Interact(false);
                 Transform.Destroy(gameObject, 1);
             }
         }
@@ -58,7 +58,7 @@ public class KeyActivation : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-       interactPanel.SetActive(false);
+        EventSystem.UI_Interact(false);
     }
 
     //void OnGUI()

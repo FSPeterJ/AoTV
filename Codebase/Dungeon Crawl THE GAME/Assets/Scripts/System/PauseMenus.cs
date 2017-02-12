@@ -11,7 +11,6 @@ public class PauseMenus : MonoBehaviour
     GameObject _cs;
     GameObject currentScreen
     {
-
         get
         {
             return _cs;
@@ -100,7 +99,7 @@ public class PauseMenus : MonoBehaviour
     public void MainMenu(bool quit = false)
     {
         if (hasSaved || quit)
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("Main Menu");
         else
         {
             currentScreen = saveCheck;
@@ -117,6 +116,20 @@ public class PauseMenus : MonoBehaviour
         currentScreen = pause;
     }
 
+    public void ReloadCheckpoint()
+    {
+        currentScreen = null;
+        EventSystem.Player_ReloadCheckpoint();
+    }
 
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
 
+    public void LeaveGame()
+    {
+        Application.Quit();
+    }
+    
 }

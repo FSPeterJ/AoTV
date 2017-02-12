@@ -19,7 +19,6 @@ TagManager:
   - Enemy
   - Grass
   - Trapdoor
-  - LastDoor
   - HealthPowerUp
   - ScorePowerUp
   - LifePowerUp
@@ -30,7 +29,10 @@ TagManager:
   - Weapon
   - Poison Breath
   - Well
-  - InvulnerableChest
+  - InvunerablePowerUp
+  - ForestEnd
+  - SwampEnd
+  - WinArea
   layers:
   - Default
   - TransparentFX
@@ -59,10 +61,10 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - GroundSensor
+  - Trigger
+  - Not Solid
+  - Player
   - Terrain
   m_SortingLayers:
   - name: Default

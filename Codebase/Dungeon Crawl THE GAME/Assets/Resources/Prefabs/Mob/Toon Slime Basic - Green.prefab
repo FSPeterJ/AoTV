@@ -238,8 +238,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4238301717610192}
   - component: {fileID: 95523167161813378}
-  - component: {fileID: 114492021319779508}
   - component: {fileID: 114332512063606854}
+  - component: {fileID: 114430651609184062}
   - component: {fileID: 195874466367508736}
   - component: {fileID: 54977487207555936}
   - component: {fileID: 65005174864658500}
@@ -847,7 +847,7 @@ MonoBehaviour:
   Spawns:
   - {fileID: 4082370079192456}
   - {fileID: 4924670315090524}
---- !u!114 &114492021319779508
+--- !u!114 &114430651609184062
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -866,9 +866,24 @@ MonoBehaviour:
   searchingDuration: 4
   sightRange: 20
   wayPoints:
-  - {fileID: 1804486209541652, guid: 465b6ee3d8e6b414aa8def2c417480a8, type: 2}
-  - {fileID: 1170055906810770, guid: 13163e6728e30eb4eb23bc20e4704825, type: 2}
-  eyes: {fileID: 4283505112688362}
+  - {fileID: 1979981881101702, guid: 40374856e2f071147ae529a660835657, type: 2}
+  - {fileID: 1059556033601678, guid: 7965fbd03d5a3504bb68d2aa76ce2979, type: 2}
+  - {fileID: 1033223906603524, guid: 9996a5cc26378494bbce5ec70c1ab63b, type: 2}
+  - {fileID: 1227907034228628, guid: 11bf6d6ae14994747aa8a9d6eb1b4997, type: 2}
+  - {fileID: 1094246162124766, guid: d5aecdadf8ec7124eb9f92031fe5b8a0, type: 2}
+  - {fileID: 1688432889503938, guid: 7a93f22ed5b324349bc4b2e8370f336d, type: 2}
+  - {fileID: 1613802776026234, guid: 39efbec0106db4e45847b014e45c3ce6, type: 2}
+  - {fileID: 1062621472803362, guid: 08b1bbf51eec83e40828f222fc46ce00, type: 2}
+  - {fileID: 1866168846090868, guid: b9a33877a24d1cb459e81cb55a3c6389, type: 2}
+  - {fileID: 1309812477603176, guid: 439414722bdbe6147a71920a20945e26, type: 2}
+  - {fileID: 1318499410720020, guid: f298593bff808c347aa543f79b4e0f56, type: 2}
+  - {fileID: 1775613704089862, guid: a4a9d8204a88a3c49abdb5766bfebb47, type: 2}
+  - {fileID: 1616483824879000, guid: 656f626b56763fb469aa76e9968f0b89, type: 2}
+  - {fileID: 1827717938248274, guid: e84aa8c6f5f72784c8644704c28f9b19, type: 2}
+  - {fileID: 1451486281006060, guid: 21aef3d0f91930d4eaa055c48d4eb997, type: 2}
+  - {fileID: 1641746025454876, guid: e7389b57a846ab546803803b08975a32, type: 2}
+  - {fileID: 1597429135852242, guid: e76adfcd617af3e49b1c61c409293242, type: 2}
+  eyes: {fileID: 4119386639893924, guid: 2de3ad53fc99b9a4e956af343f48d167, type: 2}
   offset: {x: 0, y: 0.5, z: 0}
   attackDistance: 10
   DistanceToPlayer: 0

@@ -239,11 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a067a190f5ece34ab07088a4ee949c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuButtons:
-  - {fileID: 668247077}
-  - {fileID: 868436693}
-  - {fileID: 1537177669}
-  - {fileID: 1399878397}
 --- !u!4 &93971264
 Transform:
   m_ObjectHideFlags: 0
@@ -962,12 +957,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 93971262}
-        m_MethodName: 
+      - m_Target: {fileID: 93971263}
+        m_MethodName: exitLoader
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
