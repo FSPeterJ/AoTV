@@ -21,7 +21,7 @@ public class PlayerIsGrounded : MonoBehaviour {
             Notified = false;
         }
         collisionCount++;
-        Debug.Log(collisionCount);
+        //Debug.Log(collisionCount);
     }
     private void OnTriggerExit(Collider other)
     {
@@ -30,7 +30,7 @@ public class PlayerIsGrounded : MonoBehaviour {
         {
             Notified = false;
         }
-        Debug.Log(collisionCount);
+        //Debug.Log(collisionCount);
     }
 
     void Update()
