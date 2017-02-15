@@ -89,6 +89,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     _cs = value;
                     break;
                 case AI.TakeDamage:
+                    anim.SetBool("Take Damage", true);
                     _cs = value;
                     break;
             }
@@ -149,20 +150,17 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     if (idleTime > 1f)
                     {
                         if (targetdistance < 20f)
+                        {
                             currentState = AI.Slither;
-                      //  else if (targetdistance < 8f)
-                      //  {
-                      //      currentState = BoarState.Walk;
-                      //  }
+                            idleTime = 0;
+                        }  
                     }
                     if (idleTime > 3f)
                     {
-
                         currentState = AI.Wander;
                         navAgent.enabled = true;
                         idleTime = 0;
-                    }
-                    //idleTime += Time.deltaTime;
+                    }                  
                 }
                 break;
             case AI.Slither:
@@ -175,15 +173,10 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                             anim.SetBool("Slither", false);
                             currentState = AI.ProjectileAttack;
                         }
-                        if (targetdistance<5f && targetdistance >= 2f)
+                        if (targetdistance<5f)
                         {
                             anim.SetBool("Slither", false);
                             currentState = AI.BreathAttackStart;
-                        }
-                        if (targetdistance<2f)
-                        {
-                            anim.SetBool("Slither", false);
-                            currentState = AI.BiteAttack;
                         }
                     }
                 }
@@ -203,11 +196,23 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                 //  
                 break;
             case AI.BreathAttackStart:
+                if (health<1)
+                {
+                    currentState = AI.Die;
+                    break;
+                }
                 currentState = AI.BreathAttackLoop;
                 poisonBreathCreated = false;
                 idleTime = 0;
                 break;
             case AI.BreathAttackEnd:
+                if(health <1)
+                {
+                    Destroy(poisonBreath);
+                    anim.SetBool("Breath Attack", false);
+                    currentState = AI.Die;
+                    break;
+                }
                 if (idleTime > 3f)
                 {
                      Destroy(poisonBreath);
@@ -216,6 +221,11 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                 }
                 break;
             case AI.BreathAttackLoop:
+                if(health <1)
+                {
+                    currentState = AI.BreathAttackEnd;
+                    break;
+                }
                 if (idleTime >1f)
                 { 
                     Vector3 position1 = transform.position + transform.forward * 2f;
@@ -276,7 +286,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     }
     public void TakeDamage(int damage = 1)
     {
-        AttackFinished();
+       // AttackFinished();
         if (!dead)
         {
             health -= damage;
