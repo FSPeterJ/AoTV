@@ -290,7 +290,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1788770537499118}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.197778, y: 1, z: -34.53141}
+  m_LocalPosition: {x: -3.9830685, y: 1, z: -34.714302}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4999262795880592}
@@ -747,6 +747,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InvunerablePowerUp: {fileID: 191076, guid: d2bb8296c2fea4f44a9d151466f87b4c, type: 2}
+  Gold: {fileID: 1141204364375880}
+  GoldOne: {fileID: 1354215506322096}
+  GoldTwo: {fileID: 1669467227848566}
+  GoldThree: {fileID: 1533546087966528}
+  GoldFour: {fileID: 1106728307617468}
+  GoldFive: {fileID: 1566295799758382}
 --- !u!137 &137270815680011680
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

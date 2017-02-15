@@ -613,7 +613,7 @@ public class Player : MonoBehaviour
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
 
-        else if (col.tag == "Invulneraball")
+        else if (col.tag == "InvunerablePowerUp")
         {
             StartCoroutine(Invulnerable(10));
             Destroy(col.gameObject);
