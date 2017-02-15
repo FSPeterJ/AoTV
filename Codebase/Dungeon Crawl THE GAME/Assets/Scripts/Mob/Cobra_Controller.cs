@@ -280,7 +280,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
         if (!dead)
         {
             health -= damage;
-            if (health < 1)
+            if (health <= 0)
             {
                 Kill();
             }
