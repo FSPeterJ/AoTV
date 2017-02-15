@@ -23,7 +23,7 @@ public class OpenGate : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        key = keyCode.GetComponent<KeyActivation>();
+        //key = keyCode.GetComponent<KeyActivation>();
         startTime = Time.time;
         journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
     }
