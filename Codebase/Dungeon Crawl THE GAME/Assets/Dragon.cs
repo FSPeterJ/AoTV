@@ -1,95 +1,151 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Dragon : MonoBehaviour, IEnemyBehavior
 {
-    enum Dragon_States
+    public AudioClip Fallen;
+    public ParticleSystem fireBreath;
+    public GameObject Target;
+    public Vector3[] Waypoints;
+    NavMeshAgent navMeshAgent;
+    Animator anim;
+    Rigidbody body;
+    DragonStates dCurrentState;
+    bool biteAttacked;
+    bool alive;
+    int transitionNumber;
+    int Health;
+    float timer;
+    public enum DragonStates
     {
-       Idle, Bite, Walk, Firebreath, Firebreath_mid, Die, Takedamage, Fly_Idle, Fly_Bite, Fly_Firebreath, Fly_Forward
+        Dialogue, FlyBiteAttack, FlyBreathAttack, FlyForwardToWaypoint, FlyIdle, Land, Recover, Die
+    };
+
+
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+        body = GetComponent<Rigidbody>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        timer = 0;
+        Health = 50;
+        transitionNumber = 0;
+        biteAttacked = false;
+        alive = true;
+        dCurrentState = DragonStates.Dialogue;
     }
 
-    [SerializeField]
-    Dragon_States currentstate;
-    Dragon_States CurrentState
+    void Update()
     {
-        get { return currentstate; }
-
-        set
+        Debug.Log("Animation State: " + dCurrentState.ToString() + " " + transitionNumber);
+        if (alive)
         {
-            switch(value)
+            switch (dCurrentState)
             {
-                case Dragon_States.Idle:
-                    AttkAreaCollider.enabled = true;
-                    Anim.SetBool("Idle", true);
-                    NavAgent.Stop();
-                    NavAgent.speed = 0;
-                    currentstate = value;
+                case DragonStates.Dialogue:
+                    if (Input.GetKeyDown(KeyCode.F1))
+                    {
+                        transitionNumber++;
+                        anim.SetBool("Fly Idle", true);
+                        dCurrentState = DragonStates.FlyIdle;
+                        timer = 3;
+                    }
                     break;
-                case Dragon_States.Bite:
-                    AttkAreaCollider.enabled = true;
-                    Anim.SetTrigger("Bite attack");
-                    NavAgent.Stop();
-                    NavAgent.speed = 0;
-                    currentstate = value;
+                case DragonStates.FlyBiteAttack:
+                    timer -= Time.deltaTime;
+                    if (timer <= 0)
+                    {
+                        Waypoints[1] = Target.transform.position;
+                        navMeshAgent.SetDestination(Waypoints[1]);
+                        transitionNumber++;
+                        dCurrentState = DragonStates.FlyForwardToWaypoint;
+                    }
                     break;
-                case Dragon_States.Walk:
-                    AttkAreaCollider.enabled = true;
-                    Anim.SetBool("Walk", true);
-                    NavAgent.Resume();
-                    NavAgent.speed = 5.0f;
-                    currentstate = value;
+                case DragonStates.FlyBreathAttack:
+                    timer -= Time.deltaTime;
+                    body.rotation = Quaternion.Slerp(body.rotation, Quaternion.LookRotation(Target.transform.position - body.position), 10 * Time.deltaTime);
+                    body.AddForce(gameObject.transform.up * -1);
+                    anim.SetTrigger("Fly Fire Breath Attack");
+                    if (timer <= 0)
+                    {
+                        biteAttacked = false;
+                        anim.SetBool("Fly Idle", true);
+                        transitionNumber++;
+                        dCurrentState = DragonStates.Land;
+                    }
                     break;
-                case Dragon_States.Firebreath:
-                    AttkAreaCollider.enabled = true;
-                    Anim.SetBool("Fire Breath Attack", true);
-                    NavAgent.Stop();
-                    idleTime = 0;
-                    NavAgent.speed = 0;
-                    currentstate = value;
+                case DragonStates.FlyForwardToWaypoint:
+                    if (navMeshAgent.remainingDistance == 0 && !biteAttacked)
+                    {
+                        biteAttacked = true;
+                        anim.SetBool("Fly Forward", false);
+                        anim.SetBool("Fly Idle", true);
+                        anim.SetTrigger("Fly Bite Attack");
+                        transitionNumber++;
+                        dCurrentState = DragonStates.FlyBiteAttack;
+                    }
+                    else if (navMeshAgent.remainingDistance == 0 && biteAttacked)
+                    {
+                        anim.SetBool("Fly Forward", false);
+                        timer = 1.4f;
+                        transitionNumber++;
+                        dCurrentState = DragonStates.FlyIdle;
+                    }
                     break;
-                //case Dragon_States.Firebreath_mid:
-                //    AttkAreaCollider.enabled = true;
-                //    Anim.SetTrigger("Fire Breath Attack");
-                //    NavAgent.Stop();
-                //    NavAgent.speed = 0;
-                //    idleTime = 0;
-                //    currentstate = value;
-                //    break;
-                case Dragon_States.Die:
-                    Dead = true;
-                    GetComponent<BoxCollider>().enabled = false;
-                    Anim.SetBool("Die", true);
-                    Destroy(gameObject);
+                case DragonStates.FlyIdle:
+                    body.rotation = Quaternion.Slerp(body.rotation, Quaternion.LookRotation(Target.transform.position - body.position), 10 * Time.deltaTime);
+                    body.AddForce(gameObject.transform.up * -150);
+                    timer -= Time.deltaTime;
+                    if (timer <= 0)
+                    {
+                        if (!biteAttacked)
+                        {
+                            Waypoints[0] = Target.transform.position;
+                            navMeshAgent.SetDestination(Waypoints[0]);
+                            anim.SetBool("Fly Idle", false);
+                            anim.SetBool("Fly Forward", true);
+                            timer = 1.5f;
+                            transitionNumber++;
+                            dCurrentState = DragonStates.FlyForwardToWaypoint;
+                        }
+                        else
+                        {
+                            //anim.SetBool("Fly Idle", false);
+                            anim.SetTrigger("Fly Fire Breath Attack");
+                            timer = 5;
+                            transitionNumber++;
+                            dCurrentState = DragonStates.FlyBreathAttack;
+                        }
+                    }
                     break;
-                case Dragon_States.Takedamage:
-                    Anim.SetBool("Take Damage", true);
+                case DragonStates.Land:
+                    timer = 7;
+                    if (anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex("Base Layer")).IsTag("Fly Idle"))
+                    {
+                        anim.ResetTrigger("Fly Fire Breath Attack");
+                        anim.SetBool("Fly Idle", false);
+                        anim.SetBool("Idle", true);
+                        dCurrentState = DragonStates.Recover;
+                        transitionNumber++;
+                    }
                     break;
-                case Dragon_States.Fly_Idle:
-                    Anim.SetBool("Fly Idle", true);
-                    NavAgent.Stop();
-                    NavAgent.speed = 0;
-                    currentstate = value;
+                case DragonStates.Recover:
+                    timer -= Time.deltaTime;
+                    if (timer <= 0 && anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex("Base Layer")).IsTag("Idle"))
+                    {
+                        transitionNumber++;
+                        timer = 3;
+                        anim.SetBool("Idle", false);
+                        anim.SetBool("Fly Idle", true);
+                        dCurrentState = DragonStates.FlyIdle;
+                    }
                     break;
-                case Dragon_States.Fly_Bite:
-                    NavAgent.Stop();
-                    NavAgent.speed = 0;
-                    Anim.SetTrigger("Fly Bite Attack");
-                    currentstate = value;
-                    break;
-                case Dragon_States.Fly_Firebreath:
-                    Anim.SetTrigger("Fly Fire Breath Attack");
-                    firebreathTime = 0;
-                    NavAgent.Resume();
-                    NavAgent.speed = 5.0f;
-                    currentstate = value;
-                    break;
-                case Dragon_States.Fly_Forward:
-                    Anim.SetBool("Fly Forward", true);
-                    NavAgent.Resume();
-                    NavAgent.speed = 5.0f;
-                    currentstate = value;
+                case DragonStates.Die:
+                        anim.SetTrigger("Die");
+                    
                     break;
                 default:
                     break;
@@ -97,297 +153,49 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         }
     }
 
-   
-
-
-    
-
-    //variables
-    Animator Anim;
-    Vector3 Targetposition;
-    float TargetDist;
-    float groundTime = 0;
-    float airTime = 0;
-
-    //wandering variables
-    //Vector3 wanderSphere;
-    Vector3 Originpos;
-    NavMeshHit NavhitPos;
-
-    //Stat Variables
-    public int HP = 50;
-    bool Dead = false;
-
-    //References
-    NavMeshAgent NavAgent;
-    BoxCollider AttkAreaCollider;
-
-    float firebreathTime = 0;
-    float idleTime = 0;
-
-    void OnEnable()
+    public void ActivateFireBreath()
     {
-        EventSystem.onPlayerPositionUpdate += UpdatetargetPos;
+        fireBreath.Play();
     }
 
-    void OnDisable()
+    public void DeactivateFireBreath()
     {
-        EventSystem.onPlayerPositionUpdate -= UpdatetargetPos;
+        fireBreath.Stop();
     }
 
-	// Use this for initialization
-	void Start()
+    public void TakeDamage(int damage = 1)
     {
-        Anim = GetComponent<Animator>();
-        Originpos = transform.position;
-        NavAgent = GetComponent<NavMeshAgent>();
-        AttkAreaCollider = GetComponent<BoxCollider>();
-        currentstate = Dragon_States.Idle;
-        NavhitPos.hit = true;
-	}
-	
-	// Update is called once per frame
-	void Update()
-    {
-        TargetDist = Vector3.Distance(Targetposition, transform.position);
-        //Debug.Log("Target distance:" + TargetDist);
-        //Debug.Log("ground time:" + groundTime);
-
-        //State machine
-        switch (currentstate)
+        if (dCurrentState == DragonStates.Recover)
         {
-            case Dragon_States.Idle:
-                if (idleTime > 0)
-                {
-                    groundTime += Time.deltaTime;
-
-                    if (groundTime < 60f)
-                    {
-                        if (TargetDist <= 2f)
-                        {
-                            currentstate = Dragon_States.Bite;
-                            //Anim.SetTrigger("Bite");
-                            Anim.SetBool("Idle", false);
-                        }
-                        else if (TargetDist > 3f && TargetDist <= 5.0f)
-                        {
-                            Debug.Log("Fire Breath from idle");
-                            currentstate = Dragon_States.Firebreath;
-                            //Anim.SetBool("Fire Breath Attack", true);
-                            Anim.SetBool("Idle", false);
-                        }
-                        else if (TargetDist > 5.0f && TargetDist <= 10.0f)
-                        {
-                            currentstate = Dragon_States.Walk;
-                            Anim.SetBool("Walk", true);
-                            Anim.SetBool("Idle", false);
-                        }
-                    }
-                }
-                idleTime += Time.deltaTime;
-                
-                break;
-            case Dragon_States.Bite:
-               if (groundTime < 60f)
-                {
-                    if (TargetDist > 3f && TargetDist <= 5.0f)
-                    {
-                        currentstate = Dragon_States.Firebreath;
-                    }
-                    else if (TargetDist > 5.0f && TargetDist < 10.0f)
-                    {
-                        currentstate = Dragon_States.Walk;
-                        Anim.SetBool("Walk", true);
-                    }
-                    groundTime += Time.deltaTime;
-                }
-                break;
-            case Dragon_States.Walk:
-                if (groundTime < 60f)
-                {
-                    if (TargetDist > 3f && TargetDist <= 5.0f)
-                    {
-                        Debug.Log("Fire Breath from walk");
-                        currentstate = Dragon_States.Firebreath;
-                        //Anim.SetBool("Fire Breath Attack", true);
-                        Anim.SetBool("Walk", false);
-                        Debug.Log("idletime" + idleTime);
-                    }
-                    else if (TargetDist < 3f)
-                    {
-                        currentstate = Dragon_States.Bite;
-                        Anim.SetBool("Walk", false);
-                    }
-                    groundTime += Time.deltaTime;
-                }
-                
-                break;
-            case Dragon_States.Firebreath:
-                if (groundTime < 60f)
-                {
-                    if (firebreathTime > 6f)
-                    {
-                        Anim.SetBool("Fire Breath Attack", false);
-
-                        if (TargetDist > 5.0f && TargetDist < 10.0f)
-                        {
-                            currentstate = Dragon_States.Walk;
-                        }
-                        else if (TargetDist < 2.8f)
-                        {
-                            currentstate = Dragon_States.Bite;
-                        }
-                        else if (TargetDist > 10.0f)
-                        {
-                            currentstate = Dragon_States.Idle;
-                        }
-                        
-                    }
-                    firebreathTime += Time.deltaTime;
-                    //Debug.Log("firebreathtime:" + firebreathTime);
-                }
-                    groundTime += Time.deltaTime;
-                break;
-            case Dragon_States.Die:
-                break;
-            case Dragon_States.Takedamage:
-                break;
-            case Dragon_States.Fly_Idle:
-                if (airTime < 10)
-                {
-                    if (TargetDist > 2.8f && TargetDist < 5.0f)
-                    {
-                        currentstate = Dragon_States.Fly_Firebreath;
-                        Anim.SetBool("Fly Idle", false);
-                    }
-                    if (TargetDist > 5.0f && TargetDist < 10.0f)
-                    {
-                        currentstate = Dragon_States.Fly_Forward;
-                        Anim.SetBool("Fly Idle", false);
-                    }
-                    if (TargetDist < 2.8f)
-                    {
-                        currentstate = Dragon_States.Fly_Bite;
-                        Anim.SetBool("Fly Idle", false);
-                    }
-                }
-                airTime += Time.deltaTime;
-                break;
-            case Dragon_States.Fly_Bite:
-                if (airTime < 10)
-                {
-                    if (TargetDist > 2.8f && TargetDist < 5.0f)
-                    {
-                        currentstate = Dragon_States.Fly_Idle;
-                    }
-                    else if (TargetDist > 5.0f && TargetDist < 10.0f)
-                    {
-                        currentstate = Dragon_States.Fly_Idle;
-                    }
-                    else if (TargetDist < 2.8f)
-                    {
-                        currentstate = Dragon_States.Fly_Idle;
-                    }
-                }
-                airTime += Time.deltaTime;
-                break;
-            case Dragon_States.Fly_Firebreath:
-                if (airTime < 10)
-                {
-                    if (idleTime <= 2)
-                    {
-                        if (TargetDist > 2.8f && TargetDist < 5.0f)
-                        {
-                            currentstate = Dragon_States.Fly_Idle;
-                        }
-                        else if (TargetDist > 5.0f && TargetDist < 10.0f)
-                        {
-                            currentstate = Dragon_States.Fly_Idle;
-                        }
-                        else if (TargetDist < 2.8f)
-                        {
-                            currentstate = Dragon_States.Fly_Idle;
-                        }
-                    }
-                }
-                airTime += Time.deltaTime;
-                idleTime += Time.deltaTime;
-                break;
-            case Dragon_States.Fly_Forward:
-                if (airTime < 10)
-                {
-                    if (TargetDist > 2.8f && TargetDist < 5.0f)
-                    {
-                        currentstate = Dragon_States.Fly_Idle;
-                        Anim.SetBool("Fly Forward", false);
-                    }
-                    else if (TargetDist < 2.8f)
-                    {
-                        currentstate = Dragon_States.Fly_Idle;
-                        Anim.SetBool("Fly Forward", false);
-                    }
-                    else if (TargetDist > 5.0f && TargetDist < 10.0f)
-                    {
-                        currentstate = Dragon_States.Fly_Idle;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-
-        if (groundTime >= 60)
-        {
-            currentstate = Dragon_States.Fly_Idle;
-            Anim.SetBool("Fly Idle", true);
-        }
-        
-
-    }
-    
-    void UpdatetargetPos(Vector3 Pos)
-    {
-        Targetposition = Pos;
-    }
-
-    public void Kill()
-    {
-        currentstate = Dragon_States.Die;
-    }
-
-    public void TakeDamage(int damage  = 1)
-    {
-        if (!Dead)
-        {
-            HP -= damage;
-
-            if (HP < 1)
+            GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
+            GetComponent<AudioSource>().Play();
+            if (RemainingHealth() <= 0)
             {
+                alive = false;
+                anim.SetBool("Idle", false);
                 Kill();
             }
             else
             {
-                currentstate = Dragon_States.Takedamage;
+                anim.SetBool("Take Damage", true);
+                Health -= damage;
             }
         }
     }
 
-    public void ResetToIdle()
-    {
-        currentstate = Dragon_States.Walk;
-    }
-
     public int RemainingHealth()
     {
-        return HP;
+        return Health;
     }
 
-    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = .2f, float _AngleAdjustment = -90f)
+    public void Kill()
     {
-        Vector3 lookPos = (transform.position - _TargetPosition);
-        lookPos.y = 0;
-        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
-        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+        GetComponent<AudioSource>().PlayOneShot(Fallen);
+        dCurrentState = DragonStates.Die;
     }
 
+    public void ResetToIdle()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -881,7 +881,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1685722493309836}
-  m_LocalRotation: {x: -0.026185296, y: 0.71269363, z: 0.7008095, w: 0.015752824}
+  m_LocalRotation: {x: -0.026185293, y: 0.7126937, z: 0.70080954, w: 0.015752826}
   m_LocalPosition: {x: 0.4786917, y: 1.1699134, z: -0.2736895}
   m_LocalScale: {x: 0.99999857, y: 1.0000029, z: 1.0000045}
   m_Children: []
@@ -1022,7 +1022,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1736198987153152}
-  m_LocalRotation: {x: 0.0015770433, y: 0.7125952, z: 0.70155954, w: -0.0044423174}
+  m_LocalRotation: {x: 0.0015770431, y: 0.7125953, z: 0.7015596, w: -0.004442318}
   m_LocalPosition: {x: 0.74886376, y: 1.237434, z: -0.34065756}
   m_LocalScale: {x: 0.9999908, y: 1.0000023, z: 1.0000092}
   m_Children: []
@@ -1526,11 +1526,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deathSFX: {fileID: 8300000, guid: 9534190273d2b1a42beeba4fd604343c, type: 3}
+  LossScreen: {fileID: 0}
+  WinScreen: {fileID: 0}
   maxJump: 1
   strafeModfier: 0.75
-  health: 6
+  health: 10
   healthMax: 10
-  lives: 1
+  lives: 0
   speed: 11
   sprintSpeed: 6
   jumpSpeed: 10
@@ -1539,6 +1541,7 @@ MonoBehaviour:
   verticalVel: 0
   verticalAccel: 0
   isgrounded: 1
+  caveGate: {fileID: 0}
 --- !u!136 &136590617439146682
 CapsuleCollider:
   m_ObjectHideFlags: 1

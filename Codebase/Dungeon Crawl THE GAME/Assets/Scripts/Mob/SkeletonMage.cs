@@ -11,6 +11,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     public GameObject playerLocation;
     public GameObject Key4;
     public GameObject FightMusic;
+    public ParticleSystem pushParticle;
 
     SpawnManager spawn;
     StatePatternEnemy unitedStatePattern;
@@ -68,9 +69,12 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
             {
                 anim.ResetTrigger("Chanting");
                 anim.SetTrigger("Raise Dead");
-                anim.SetLookAtPosition(playerLocation.transform.position);
+                //anim.SetLookAtPosition(playerLocation.transform.position);
                 if (pushPlayer)
+                {
                     playerLocation.SendMessage("ForcePush", magePos);
+                    pushParticle.Emit(2000);
+                }
 
                 if (timer <= -2)
                 {
@@ -169,8 +173,9 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
 
     public void Kill()
     {
+        Debug.Log("test");
+        EventSystem.UI_KeyChange(1);
         anim.SetTrigger("Die");
-        EventSystem.UI_KeyCount(1);
         FightMusic.GetComponent<FightMusic>().TurnOff();
     }
 
