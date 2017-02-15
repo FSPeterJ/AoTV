@@ -77,6 +77,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     bool isgrounded;
 
+    [SerializeField]
+    GameObject caveGate;
+
     //Checkpoints
     Vector3 CurrentCheckpoint;
 
@@ -654,6 +657,11 @@ public class Player : MonoBehaviour
         else if (col.tag == "WinArea")
         {
             WinScreen.SetActive(true);
+        }
+        else if (col.tag == "Cave Switch")
+        {
+            caveGate = col.transform.Find("Cave Gate").gameObject;
+            
         }
     }
 
