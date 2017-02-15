@@ -264,7 +264,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1966772321809746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -19.26, y: 1, z: -34.43121}
+  m_LocalPosition: {x: -12.600795, y: 1, z: -34.824783}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4712162447774378}
@@ -747,6 +747,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthPowerUp: {fileID: 173500, guid: fb5a9652227c545d98a413cd73b80b69, type: 2}
+  Gold: {fileID: 1722674561098844}
+  GoldOne: {fileID: 1797081023210926}
+  GoldTwo: {fileID: 1110328489281442}
+  GoldThree: {fileID: 1465927658465632}
+  GoldFour: {fileID: 1559773904195830}
+  GoldFive: {fileID: 1591464231252460}
 --- !u!137 &137757983220948174
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

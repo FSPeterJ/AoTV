@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LifeChest : MonoBehaviour {
+public class LifeChestScript : MonoBehaviour {
     Animator anim;
+    public GameObject Gold;
+    public GameObject GoldOne;
+    public GameObject GoldTwo;
+    public GameObject GoldThree;
+    public GameObject GoldFour;
+    public GameObject GoldFive;
     public GameObject LifePowerUp;
     bool notOpen = true;
     void Start()
@@ -21,8 +27,13 @@ public class LifeChest : MonoBehaviour {
                 {
                     notOpen = false;
                     anim.SetBool("Open", true);
-                    Vector3 spawnLocation = (transform.forward*2)+ transform.position;
-                    //spawnLocation.x += 4;
+                    Vector3 spawnLocation = (transform.forward * 4) + transform.position;
+                    Destroy(Gold);
+                    Destroy(GoldOne);
+                    Destroy(GoldTwo);
+                    Destroy(GoldThree);
+                    Destroy(GoldFour);
+                    Destroy(GoldFive);
                     Instantiate(LifePowerUp, spawnLocation, Quaternion.identity);
                 }
             }
