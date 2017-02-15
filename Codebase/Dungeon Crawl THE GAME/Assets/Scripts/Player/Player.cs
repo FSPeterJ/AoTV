@@ -489,7 +489,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Invulnerable());
 
-            health--;
+            health-= dmg;
             EventSystem.PlayerHealthUpdate(health, healthMax);
             if (health < 1)
             {

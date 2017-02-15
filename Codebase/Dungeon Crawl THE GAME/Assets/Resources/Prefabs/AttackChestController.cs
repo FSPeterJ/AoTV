@@ -140,7 +140,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
         {
             currentState = AI.Idle;
         }
-        AttackFinished();
+        //AttackFinished();
         if (!dead)
         {
             health -= damage;
@@ -190,8 +190,8 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
-        mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
-        weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
+       // mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
+       //weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
         currentState = AI.Rest;
         navHitPos.hit = true;
     }
@@ -255,6 +255,8 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                 currentState = AI.BiteAttack;
                 anim.SetBool("Rest", false);
                 //kill player here
+                int damage = 100;
+                Col.GetComponent<Player>().TakeDamage(damage);
             }
         }
     }
