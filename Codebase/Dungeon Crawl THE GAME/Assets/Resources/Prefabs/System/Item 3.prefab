@@ -21,7 +21,10 @@ GameObject:
   - component: {fileID: 4773068177465744}
   - component: {fileID: 33941061285481588}
   - component: {fileID: 23025028776811094}
-  m_Layer: 0
+  - component: {fileID: 65662298436759500}
+  - component: {fileID: 82951456153239656}
+  - component: {fileID: 114377351550774380}
+  m_Layer: 31
   m_Name: Item 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4127566445207552}
   - component: {fileID: 108839363849954056}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Point light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +58,7 @@ GameObject:
   - component: {fileID: 33439320093434232}
   - component: {fileID: 23804693759116956}
   - component: {fileID: 95568080676087798}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Item 2 Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +99,7 @@ Transform:
   m_GameObject: {fileID: 1715757253949742}
   m_LocalRotation: {x: -0.0034117356, y: 0.7070986, z: 0.7070986, w: 0.0034117368}
   m_LocalPosition: {x: 77.9, y: 0.22999863, z: -20.8}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.5000006, y: 0.50000024, z: 0.50000024}
   m_Children:
   - {fileID: 4127566445207552}
   - {fileID: 4004721389020462}
@@ -179,6 +182,98 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1715757253949742}
   m_Mesh: {fileID: 4300116, guid: 299bf6902d84010429e91f5291287b50, type: 3}
+--- !u!65 &65662298436759500
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1715757253949742}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 3, z: 3}
+  m_Center: {x: 0.042289823, y: 0.020575695, z: 1.5610322}
+--- !u!82 &82951456153239656
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1715757253949742}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 717e630ba3a1f2b4a8d5b1e517add2bd, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95568080676087798
 Animator:
   serializedVersion: 3
@@ -230,3 +325,16 @@ Light:
   m_BounceIntensity: 2.5
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114377351550774380
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1715757253949742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca194eaed4bd7d940affcfea4c107878, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactPanel: {fileID: 0}
+  keyImage: {fileID: 0}
