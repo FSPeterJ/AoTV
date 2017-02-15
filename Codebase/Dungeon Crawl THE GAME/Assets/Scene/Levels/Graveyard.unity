@@ -5839,6 +5839,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &161095116 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1252191736417228, guid: 05e7383833a57d74d8bfce996344d1ca,
+    type: 2}
+  m_PrefabInternal: {fileID: 161095115}
 --- !u!1001 &163371872
 Prefab:
   m_ObjectHideFlags: 0
@@ -15503,23 +15508,33 @@ Prefab:
     - target: {fileID: 224756396691677470, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 183.95209
+      value: 182.42279
       objectReference: {fileID: 0}
     - target: {fileID: 224756396691677470, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 52.446552
       objectReference: {fileID: 0}
     - target: {fileID: 224153888453536544, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 172.4551
+      value: 171.02138
       objectReference: {fileID: 0}
     - target: {fileID: 224153888453536544, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 52.446552
       objectReference: {fileID: 0}
+    - target: {fileID: 114648407975452406, guid: 2c041a0fdf1202c488165d6b90c58ebe,
+        type: 2}
+      propertyPath: DialoguePanel
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114648407975452406, guid: 2c041a0fdf1202c488165d6b90c58ebe,
+        type: 2}
+      propertyPath: Mage
+      value: 
+      objectReference: {fileID: 161095116}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c041a0fdf1202c488165d6b90c58ebe, type: 2}
   m_IsPrefabParent: 0
