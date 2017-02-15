@@ -70,7 +70,9 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
                 anim.SetTrigger("Raise Dead");
                 anim.SetLookAtPosition(playerLocation.transform.position);
                 if (pushPlayer)
+                {
                     playerLocation.SendMessage("ForcePush", magePos);
+                }
 
                 if (timer <= -2)
                 {
