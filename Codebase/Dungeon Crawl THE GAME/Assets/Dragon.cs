@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Dragon : MonoBehaviour
 {
     public GameObject Target;
+    AnimatorStateInfo curAnim;
     public Vector3[] Waypoints;
     int transitionNumber;
     NavMeshAgent navMeshAgent;
@@ -61,7 +62,6 @@ public class Dragon : MonoBehaviour
                 if (timer <= 0)
                 {
                     biteAttacked = false;
-                    //anim.ResetTrigger("Fly Fire Breath Attack");
                     anim.SetBool("Fly Idle", true);
                     transitionNumber++;
                     dCurrentState = DragonStates.Land;
@@ -83,7 +83,7 @@ public class Dragon : MonoBehaviour
                     timer = 1.4f;
                     transitionNumber++;
                     dCurrentState = DragonStates.FlyIdle;
-                }   
+                }
                 break;
             case DragonStates.FlyIdle:
                 anim.SetBool("Fly Idle", true);
@@ -113,16 +113,18 @@ public class Dragon : MonoBehaviour
                 }
                 break;
             case DragonStates.Land:
-                transitionNumber++;
                 timer = 7;
-                dCurrentState = DragonStates.Recover;
+                if (anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex("Base Layer")).IsTag("Fly Idle"))
+                {
+                    anim.ResetTrigger("Fly Fire Breath Attack");
+                    anim.SetBool("Fly Idle", false);
+                    anim.SetBool("Idle", true);
+                    dCurrentState = DragonStates.Recover;
+                    transitionNumber++;
+                }
                 break;
             case DragonStates.Recover:
                 timer -= Time.deltaTime;
-                if (anim.GetCurrentAnimatorStateInfo(0).IsName("Fly Idle"))
-                {
-                    anim.SetBool("Idle", true);
-                }
                 if (timer <= 0)
                 {
                     transitionNumber++;
