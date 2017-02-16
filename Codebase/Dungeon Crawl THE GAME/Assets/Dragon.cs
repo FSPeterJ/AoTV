@@ -8,12 +8,15 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 {
     public AudioClip Fallen;
     public ParticleSystem fireBreath;
+    public GameObject mouth;
     public GameObject Target;
     public Vector3[] Waypoints;
     NavMeshAgent navMeshAgent;
     Animator anim;
     Rigidbody body;
     DragonStates dCurrentState;
+    IWeaponBehavior weaponBehavior;
+
     bool biteAttacked;
     bool alive;
     int transitionNumber;
@@ -30,6 +33,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         anim = GetComponent<Animator>();
         body = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        weaponBehavior = mouth.GetComponent<IWeaponBehavior>();
         timer = 0;
         Health = 50;
         transitionNumber = 0;
@@ -196,6 +200,16 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 
     public void ResetToIdle()
     {
-        throw new NotImplementedException();
+        anim.SetBool("Idle", true);
+    }
+
+    void BeginAttacking()
+    {
+        weaponBehavior.AttackStart();
+    }
+
+    void EndAttacking()
+    {
+        weaponBehavior.AttackEnd();
     }
 }

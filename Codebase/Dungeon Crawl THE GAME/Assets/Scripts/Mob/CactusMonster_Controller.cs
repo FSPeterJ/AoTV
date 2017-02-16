@@ -87,7 +87,6 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
 
     //Wandering variarables;
     Vector3 originPos;
-    NavMeshHit navHitPos;
     Vector3 wanderTarget;
     bool wanderTargetSet = false;
 
@@ -141,7 +140,6 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
         weaponScriptR = weaponR.GetComponent<IWeaponBehavior>();
         weaponScriptL = weaponL.GetComponent<IWeaponBehavior>();
         currentState = AI.Idle;
-        navHitPos.hit = true;
         attack = Random.Range(0, 1);
     }
 

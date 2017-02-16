@@ -7,8 +7,8 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
 {
     //Score variables
     int pScore;
-    int sX = Screen.width - 7;
-    int sY = 0;
+    //int sX = Screen.width - 7;
+    //int sY = 0;
 
 
     //Use for executing commands on when first entering a state
@@ -106,7 +106,8 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     //wandering variarables;
     Vector3 wanderingSphere;
     Vector3 originPos;
-    NavMeshHit navHitPos;
+    bool navPos;
+    Vector3 targetDestination;
 
 
 
@@ -150,7 +151,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
         mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
         weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
         currentState = AI.Idle;
-        navHitPos.hit = true;
+        navPos = true;
     }
 
     private void Update()
@@ -194,19 +195,19 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
             case AI.Wander:
                 {
 
-                    if (navHitPos.hit == true)
+                    if (navPos == true)
                     {
-                        navHitPos.hit = false;
+                        navPos = false;
                         float x = originPos.x + (-10 + Random.Range(0, 20));
                         float z = originPos.z + (-10 + Random.Range(0, 20));
                         Vector3 randDirection = new Vector3(x, transform.position.y, z);
-                        navHitPos.position = randDirection;
+                        targetDestination = randDirection;
                         anim.SetBool("Walk", true);
-                        navAgent.SetDestination(navHitPos.position);
+                        navAgent.SetDestination(targetDestination);
                     }
                     else if (navAgent.remainingDistance < 2)
                     {
-                        navHitPos.hit = true;
+                        navPos = true;
                         anim.SetBool("Walk", false);
                         currentState = AI.Idle;
                     }
@@ -248,14 +249,12 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                 break;
             case AI.BiteAttack:
                 {
-                    //RotateToFaceTarget(targetPos, .01f);
 
 
                 }
                 break;
             case AI.TuskAttack:
                 {
-                    //RotateToFaceTarget(targetPos, .01f);
 
                 }
                 break;
@@ -266,7 +265,6 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                 break;
             case AI.Defend:
                 {
-                    //RotateToFaceTarget(targetPos, .01f);
                 }
                 break;
             case AI.TakeDamage:
@@ -349,13 +347,6 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     void Scoreinc()
     {
         //Event goes here
-    }
-    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = .2f, float _AngleAdjustment = -90f)
-    {
-        Vector3 lookPos = (transform.position - _TargetPosition);
-        lookPos.y = 0;
-        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, _LerpSpeed);
-        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
     }
 
 

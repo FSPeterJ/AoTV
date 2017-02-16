@@ -19,12 +19,10 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
 
     public teams team;
 
-    bool attacking = true;
     List<int> damagedUnits = new List<int>();
 
     void Start()
     {
-        attacking = true;
         enabled = true;
     }
 
@@ -76,21 +74,16 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
             if (destoryOnImpact)
                 Destroy(gameObject);
         }
-        
     }
 
 
     public void AttackStart()
     {
         damagedUnits.Clear();
-        attacking = true;
-
     }
     public void AttackEnd()
     {
-        attacking = false;
         damagedUnits.Clear();
-
     }
 
     public void ResetAttack()

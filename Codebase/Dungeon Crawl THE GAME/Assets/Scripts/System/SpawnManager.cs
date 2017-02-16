@@ -12,9 +12,10 @@ public class SpawnManager : MonoBehaviour {
 	void Start ()
     {
         //StartCoroutine(EnemySpawn());
+        Trigger = GetComponent<Collider>();
 	}
 	
-    IEnumerator EnemySpawn()
+    public IEnumerator EnemySpawn()
     {
         if (!EnemiesHaveSpawned)
         {
@@ -23,13 +24,13 @@ public class SpawnManager : MonoBehaviour {
                 Instantiate(EnemyOne, SpawnPoints[i].transform.position, Quaternion.identity);
             }
             EnemiesHaveSpawned = true;
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(.5f);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && Trigger.gameObject.name != "Boss")
         {
             StartCoroutine(EnemySpawn());
         }

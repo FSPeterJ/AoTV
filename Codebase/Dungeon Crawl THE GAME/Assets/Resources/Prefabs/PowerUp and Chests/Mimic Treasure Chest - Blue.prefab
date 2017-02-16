@@ -856,7 +856,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1126410534638860}
-  m_LocalRotation: {x: 0.68906647, y: -0.15870571, z: -0.68906647, w: 0.15870558}
+  m_LocalRotation: {x: 0.6890664, y: -0.1587057, z: -0.6890664, w: 0.15870556}
   m_LocalPosition: {x: -0.000000009546935, y: 0.5656357, z: -0.20075774}
   m_LocalScale: {x: 1.0000004, y: 1.0000005, z: 1.0000001}
   m_Children: []
@@ -1122,7 +1122,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 0
+  randomSeed: -266209473
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3712,7 +3712,7 @@ ParticleSystemRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89

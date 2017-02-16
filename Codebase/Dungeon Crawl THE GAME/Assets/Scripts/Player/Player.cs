@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     bool invulnerable = false;
     bool burning = false;
     int maxJumpStored;
-    ParticleSystem particle;
+
 
     //Component References
     Animator anim;
@@ -76,9 +76,6 @@ public class Player : MonoBehaviour
     float jumpTime;
     [SerializeField]
     bool isgrounded;
-
-    [SerializeField]
-    GameObject caveGate;
 
     //Checkpoints
     Vector3 CurrentCheckpoint;
@@ -274,7 +271,6 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        particle = GetComponent<ParticleSystem>();
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         EventSystem.SpinTime(spinTime, maxSpinTime);
         anim = GetComponent<Animator>();
@@ -306,9 +302,11 @@ public class Player : MonoBehaviour
             EventSystem.TeleportCooldown(teleportCD, teleportCDMax);
             EventSystem.RangedCooldown(rangedAttackCD, rangedAttackCDMax);
 
+            Vector3 tempMousePostition = mousePosition;
+            tempMousePostition.y = transform.position.y;
+            mouseDistance = Vector3.Distance(tempMousePostition, transform.position);
 
             //Re-used a lot of Harrison's movement code
-            mouseDistance = Vector3.Distance(mousePosition, transform.position);
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
@@ -406,12 +404,14 @@ public class Player : MonoBehaviour
             if (teleportToggle)
             {
                 //tpMarker.transform.rotation = transform.rotation;
-                float md = (mouseDistance < 20) ? mouseDistance / 2 : 20;
-                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
+                float md = (mouseDistance/2 < 20) ? mouseDistance/2 : 20;
+                Debug.Log(mousePosition.y);
+                Debug.Log(transform.position.y);
+                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y/2 + .2f, md);
             }
 
             //Move
-            
+            EventSystem.PlayerPositionUpdate(transform.position);
 
         }
 
@@ -449,7 +449,7 @@ public class Player : MonoBehaviour
             Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.fixedDeltaTime);
         }
         rBody.velocity = moveDirection;
-        EventSystem.PlayerPositionUpdate(transform.position);
+        
     }
 
     void GetInput()
@@ -578,15 +578,20 @@ public class Player : MonoBehaviour
     {
         if (col.tag == "Trapdoor")
             if (Input.GetButton("Use"))
-                SceneManager.LoadScene("Graveyard");
+            {
+                gameObject.transform.localScale = new Vector3(2, 2, 2);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
 
         if (col.tag == "ForestEnd")
-            SceneManager.LoadScene("Graveyard");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
         if (col.tag == "SwampEnd")
-            SceneManager.LoadScene("Forest");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
 
-   
+
 
     void OnTriggerEnter(Collider col)
     {
@@ -657,11 +662,6 @@ public class Player : MonoBehaviour
         else if (col.tag == "WinArea")
         {
             WinScreen.SetActive(true);
-        }
-        else if (col.tag == "Cave Switch")
-        {
-            caveGate = col.transform.Find("Cave Gate").gameObject;
-            
         }
     }
 
