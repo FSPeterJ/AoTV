@@ -1144,8 +1144,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1878457047124984}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40.399467, y: 5.29268, z: 81.42537}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 40.399467, y: 5.29268, z: 82.26}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4696725151982160}
@@ -1168,7 +1168,7 @@ Transform:
   - {fileID: 4693104074892214}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!4 &4668337181483364
 Transform:
   m_ObjectHideFlags: 1
@@ -1327,7 +1327,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1190089587972742}
-  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.0074100588, w: 0.010324803}
+  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.0074100574, w: 0.010324802}
   m_LocalPosition: {x: -0.06706537, y: -0.0024251938, z: -0.009137694}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children: []
@@ -1594,10 +1594,10 @@ MonoBehaviour:
   anim: {fileID: 0}
   searchingTurnSpeed: 120
   searchingDuration: 4
-  sightRange: 80
+  sightRange: 100
   wayPoints:
-  - {fileID: 1555986823745016, guid: c0b7c410d1fbd4446919080daa3edc02, type: 2}
-  - {fileID: 1618841291468792, guid: 05319f9615b71b24c8ce1116649c04e3, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   eyes: {fileID: 4417290656954990}
   offset: {x: 0, y: 0.5, z: 0}
   attackDistance: 15
