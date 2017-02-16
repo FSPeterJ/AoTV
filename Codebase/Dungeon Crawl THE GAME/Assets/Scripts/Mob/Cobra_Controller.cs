@@ -243,6 +243,8 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
             case AI.CastSpell:
                 break;
             case AI.TakeDamage:
+                anim.SetBool("Projectile Attack", false);
+                anim.SetBool("Slither", false);
                 anim.SetBool("Breath Attack", false);
                 break;
             case AI.Die:

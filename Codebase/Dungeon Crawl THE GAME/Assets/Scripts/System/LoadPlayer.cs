@@ -12,6 +12,7 @@ public class LoadPlayer : MonoBehaviour {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         spawn = SpawnPoint.transform;
         Instantiate(Player, spawn);
+        Player.transform.localScale = new Vector3(.5f, .5f, .5f);
         SpawnPoint.transform.DetachChildren();
         Player.transform.position = SpawnPoint.transform.position;
 	}
