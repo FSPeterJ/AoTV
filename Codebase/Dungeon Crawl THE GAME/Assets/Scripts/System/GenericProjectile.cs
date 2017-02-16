@@ -6,11 +6,16 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
 {
 
 
-    public GameObject ImpactEffect;
-    public float speed = 1;
-    //public bool gravity = false;
-    public bool destoryOnImpact = true;
-
+    [SerializeField]
+    GameObject ImpactEffect;
+    [SerializeField]
+    float speed = 1;
+    [SerializeField]
+    bool destoryOnImpact = true;
+    [SerializeField]
+    float lifetime = 5f;
+    [SerializeField]
+    float timePassed = 0f;
 
     public enum teams
     {
@@ -29,6 +34,12 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
     public void Update()
     {
         transform.localPosition += transform.forward * speed;
+        timePassed += Time.deltaTime;
+
+        if (timePassed > lifetime)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -65,15 +76,18 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
                     Destroy(gameObject);
             }
         }
-        if(other.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Terrain"))
         {
             if (ImpactEffect)
             {
                 Instantiate(ImpactEffect, transform.position, transform.rotation);
             }
             if (destoryOnImpact)
+            {
                 Destroy(gameObject);
+            }
         }
+        
     }
 
 
