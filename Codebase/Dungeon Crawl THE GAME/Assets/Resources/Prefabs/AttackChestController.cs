@@ -191,8 +191,8 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
-       // mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
-       //weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
+        // mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
+        weaponScript = FindWeapon(transform).GetComponent<IWeaponBehavior>();
         currentState = AI.Rest;
         navHitPos.hit = true;
     }
@@ -271,5 +271,25 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                 Col.GetComponent<Player>().TakeDamage(damage);
             }
         }
+    }
+
+    GameObject FindWeapon(Transform obj)
+    {
+        foreach (Transform tr in obj)
+        {
+            if (tr.tag == "Weapon")
+            {
+                return tr.gameObject;
+            }
+            if (tr.childCount > 0)
+            {
+                GameObject temp = FindWeapon(tr);
+                if (temp)
+                {
+                    return temp;
+                }
+            }
+        }
+        return null;
     }
 }
