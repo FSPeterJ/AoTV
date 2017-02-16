@@ -28,6 +28,7 @@ public class LifeChestScript : MonoBehaviour {
                     notOpen = false;
                     anim.SetBool("Open", true);
                     Vector3 spawnLocation = (transform.forward * 4) + transform.position;
+                    spawnLocation.y += 1;
                     Destroy(Gold);
                     Destroy(GoldOne);
                     Destroy(GoldTwo);
