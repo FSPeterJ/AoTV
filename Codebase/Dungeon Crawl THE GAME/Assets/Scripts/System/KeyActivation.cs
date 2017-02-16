@@ -29,7 +29,7 @@ public class KeyActivation : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (HasKey != true)
+        if (HasKey != true && other.tag == "Player")
         {
             EventSystem.UI_Interact(true);
         }

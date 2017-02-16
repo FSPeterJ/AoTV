@@ -29,6 +29,7 @@ public class ScoreChestScript : MonoBehaviour {
                     anim.SetBool("Open", true);
                     Vector3 spawnLocation = (transform.forward * 4) + transform.position;
                     //spawnLocation.x += 4;
+                    spawnLocation.y += 1;
                     //Destroy(ChestContent);
                     Destroy(Gold);
                     Destroy(GoldOne);
@@ -36,6 +37,7 @@ public class ScoreChestScript : MonoBehaviour {
                     Destroy(GoldThree);
                     Destroy(GoldFour);
                     Destroy(GoldFive);
+                    ScorePowerUp.transform.RotateAroundLocal(Vector3.right,90);
                     Instantiate(ScorePowerUp, spawnLocation, Quaternion.identity);
                 }
             }
