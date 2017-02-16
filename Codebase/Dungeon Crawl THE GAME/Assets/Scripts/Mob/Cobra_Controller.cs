@@ -105,8 +105,8 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     //wandering variarables;
     Vector3 wanderingSphere;
     Vector3 originPos;
-    NavMeshHit navHitPos;
-
+    bool wanderTargetSet = false;
+    Vector3 wanderTarget;
 
 
     //Stat variables
@@ -117,7 +117,6 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
 
     //References
     NavMeshAgent navAgent;
-    Collider AttackRegionCollider;
     BoxCollider bCollider;
     float idleTime = 0;
     public Object projectile;
@@ -133,9 +132,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
-        AttackRegionCollider = GetComponent<Collider>();
         currentState = AI.Idle;
-        navHitPos.hit = true;
     }
 	
 	// Update is called once per frame
@@ -234,7 +231,8 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     {
                         poisonBreath = Instantiate(poisonbreath, position1, Quaternion.identity) as GameObject;
                         poisonBreath.transform.forward = transform.forward;
-                        poisonBreath.GetComponent<ParticleSystem>().enableEmission = true;
+                        ParticleSystem.EmissionModule PB =  poisonBreath.GetComponent<ParticleSystem>().emission;
+                        PB.enabled = true;
                         poisonBreath.GetComponent<GenericMeleeDamage>().AttackStart();
 
                         poisonBreathCreated = true;
@@ -251,23 +249,22 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                 break;
             case AI.Wander:
                 {
-                    if (navHitPos.hit == true)
+                    if (wanderTargetSet == false)
                     {
-                        navHitPos.hit = false;
                         float x = originPos.x + (-10 + Random.Range(0, 20));
                         float z = originPos.z + (-10 + Random.Range(0, 20));
-                        Vector3 randDirection = new Vector3(x, transform.position.y, z);
-                        navHitPos.position = randDirection;
+                        wanderTarget = new Vector3(x, transform.position.y, z);
                         anim.SetBool("Slither", true);
+                        wanderTargetSet = true;
+                        navAgent.SetDestination(wanderTarget);
                     }
                     else if (navAgent.remainingDistance < 2)
                     {
-                        navHitPos.hit = true;
                         anim.SetBool("Slither", false);
                         currentState = AI.Idle;
                     }
-                    navAgent.SetDestination(navHitPos.position);
                 }
+                
                 break;
         }
     }

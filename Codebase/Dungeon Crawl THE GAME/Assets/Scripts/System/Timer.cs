@@ -20,7 +20,7 @@ public class Timer : MonoBehaviour
 	void Update()
     {
         //increasing time by adding deltatime
-        time = time += Time.deltaTime;
+        time += Time.deltaTime;
     }
 
     void OnGUI()

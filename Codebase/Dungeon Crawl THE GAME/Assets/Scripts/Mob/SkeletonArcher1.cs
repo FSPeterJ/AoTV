@@ -26,7 +26,8 @@ public class SkeletonArcher1 : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         
         //AudioSource.PlayClipAtPoint(shootSound, transform.position, PlayerPrefs.GetFloat("SFXVolume"));
-        GameObject tempBullet = Instantiate(arrow, arrowSpawn.transform.position, arrowQuat);
+        //GameObject tempBullet = Instantiate(arrow, arrowSpawn.transform.position, arrowQuat);
+        Instantiate(arrow, arrowSpawn.transform.position, arrowQuat);
         //tempBullet.GetComponent<Rigidbody>().velocity = gameObject.transform.forward;
     }
 
