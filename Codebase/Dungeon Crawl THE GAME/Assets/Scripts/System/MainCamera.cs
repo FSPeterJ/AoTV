@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MainCamera : MonoBehaviour
@@ -49,7 +50,7 @@ public class MainCamera : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] temp = Physics.RaycastAll(ray);
+        RaycastHit[] temp = Physics.RaycastAll(ray).OrderBy(h => h.distance).ToArray();
 
         for (int i = 0; i < temp.Length; i++)
         {
@@ -59,6 +60,8 @@ public class MainCamera : MonoBehaviour
 
                 // Do something with the object that was hit by the raycast.
                 EventSystem.MousePositionUpdate(temp[i].point);
+
+                Debug.Log(temp[i].point);
                 break;
             }
 

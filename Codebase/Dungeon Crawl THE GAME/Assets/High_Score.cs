@@ -28,14 +28,14 @@ public class High_Score : MonoBehaviour
         //}
         direct.Create();
 
-        StreamWriter sw = new StreamWriter(direct);
-        sw = File.CreateText(NameofFile);
+        //StreamWriter sw = new StreamWriter(direct);
+        //sw = File.CreateText(NameofFile);
 
         for (uint i = 0; i <= info.Length; ++i)
         {
-            sw.WriteLine(PlayerPrefs.GetString(i + "Name") + PlayerPrefs.GetInt(i + "Score"));
+        //    sw.WriteLine(PlayerPrefs.GetString(i + "Name") + PlayerPrefs.GetInt(i + "Score"));
         }
-        sw.Close();
+      //  sw.Close();
 
         List(info);
     }

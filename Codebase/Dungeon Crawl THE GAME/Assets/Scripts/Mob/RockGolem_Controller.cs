@@ -281,7 +281,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
             if (health < 1)
             {
                 Kill();
-                Scoreinc();
             }
             else
             {
@@ -340,8 +339,5 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
     }
 
-    void Scoreinc()
-    {
-
-    }
+    
 }
