@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Scythe_Ranged : MonoBehaviour {
+public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack {
 
     float timePassed;
     float turnspeed = 2f;
     float speed = .25f;
     Vector3 playerPos;
     IWeaponBehavior weaponScript;
+    float scaleFactor;
 
     // Use this for initialization
     void OnEnable()
@@ -30,7 +31,7 @@ public class Scythe_Ranged : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.localPosition += transform.forward * speed;
+        transform.localPosition += transform.forward * speed * scaleFactor;
 
         if (timePassed > .5 && timePassed < 1)
         {
@@ -43,11 +44,11 @@ public class Scythe_Ranged : MonoBehaviour {
         if(timePassed > 4)
         {
             turnspeed += 4f * Time.deltaTime;
-            speed += .2f * Time.deltaTime;
+            speed += .1f * scaleFactor * Time.deltaTime;
         }
         timePassed += Time.deltaTime;
-        float heightdiff = playerPos.y - transform.position.y + .5f;
-        if (Mathf.Abs(heightdiff) > 1)
+        float heightdiff = playerPos.y - transform.position.y + .25f * scaleFactor;
+        if (Mathf.Abs(heightdiff) > .5 * scaleFactor)
         {
             transform.position += transform.up * heightdiff * Time.deltaTime;
         }
@@ -93,5 +94,11 @@ public class Scythe_Ranged : MonoBehaviour {
     public void PlayerDeath()
     {
         Destroy(this);
+    }
+
+    public void ScaleFactor(float num)
+    {
+        scaleFactor = num;
+        transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
     }
 }

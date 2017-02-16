@@ -4,20 +4,15 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class LoadPlayer : MonoBehaviour {
     public GameObject Player;
-    public GameObject SpawnPoint;
-    Transform spawn;
+    [SerializeField]
+    float scaleFactor = 2;
+
 	// Use this for initialization
 	void Start ()
     {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
-        spawn = SpawnPoint.transform;
-        Instantiate(Player, spawn);
-        if (SceneManager.GetActiveScene().ToString() == "Graveyard")
-        {
-            Player.transform.localScale = new Vector3(.5f, .5f, .5f);
-        }
-        SpawnPoint.transform.DetachChildren();
-        Player.transform.position = SpawnPoint.transform.position;
+        GameObject PlayerClone = Instantiate(Player,transform.position,transform.rotation);
+        EventSystem.PlayerScale(scaleFactor);
 	}
 	
 	// Update is called once per frame

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33750037659246676}
   - component: {fileID: 65511904217510790}
   - component: {fileID: 23756864884867772}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Stump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4204600986886528}
   - component: {fileID: 65579736361468780}
   - component: {fileID: 54269292406128102}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Graveyard Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,8 +56,8 @@ GameObject:
   - component: {fileID: 4188353576541606}
   - component: {fileID: 33131451248865364}
   - component: {fileID: 23342391153945240}
-  - component: {fileID: 65722011738477384}
-  m_Layer: 9
+  - component: {fileID: 64745144251705402}
+  m_Layer: 31
   m_Name: Cone Tree - Grey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,8 +83,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1472969759916706}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.13, y: 10.51, z: 17.86}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 83.35, y: 2.4800003, z: 50.42}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 4188353576541606}
@@ -196,6 +196,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &64745144251705402
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1588003653901040}
+  m_Material: {fileID: 13400000, guid: d457adc941c0b91419417f9f9875f63d, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 0
+  m_InflateMesh: 0
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 4300014, guid: 299bf6902d84010429e91f5291287b50, type: 3}
 --- !u!65 &65511904217510790
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -214,21 +228,9 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1472969759916706}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d457adc941c0b91419417f9f9875f63d, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65722011738477384
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1588003653901040}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.1193721, y: 2.1193721, z: 4.8141847}
-  m_Center: {x: 1.34138915e-11, y: 4.9029486e-10, z: 2.4070923}

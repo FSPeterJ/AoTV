@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     int healthMax = 30;
     [SerializeField]
     uint lives = 3;
+    [SerializeField]
+    float scaleFactor = 2;
 
     //This is not allowed.
     //[SerializeField] HUD Hud;
@@ -75,7 +77,7 @@ public class Player : MonoBehaviour
     float horizontalInput;
     float jumpTime;
     [SerializeField]
-    bool isgrounded;
+    bool isgrounded = false;
 
     //Checkpoints
     Vector3 CurrentCheckpoint;
@@ -105,7 +107,7 @@ public class Player : MonoBehaviour
         EventSystem.onPlayerGrounded += IsGrounded;
         EventSystem.onMousePositionUpdate += UpdateMousePosition;
         EventSystem.onPlayer_ReloadCheckpoint += ReloadCheckpoint;
-
+        EventSystem.onPlayerScale += ScaleFactor;
     }
     //unsubscribe from player movement
     void OnDisable()
@@ -113,6 +115,7 @@ public class Player : MonoBehaviour
         EventSystem.onPlayerGrounded -= IsGrounded;
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
         EventSystem.onPlayer_ReloadCheckpoint -= ReloadCheckpoint;
+        EventSystem.onPlayerScale -= ScaleFactor;
     }
 
 
@@ -251,8 +254,9 @@ public class Player : MonoBehaviour
                         rangedAttackTime = 0;
                         weapon.SetActive(false);
                         rangedScytheAttack = Instantiate(rangedScythe);
-                        rangedScytheAttack.transform.position = transform.position + transform.up * 2;
+                        rangedScytheAttack.transform.position = transform.position + transform.up * scaleFactor;
                         rangedScytheAttack.transform.rotation = transform.rotation;
+                        rangedScytheAttack.GetComponent<IRangedPlayerAttack>().ScaleFactor(scaleFactor);
                         _tS = value;
                     }
                 }
@@ -343,7 +347,7 @@ public class Player : MonoBehaviour
                 {
                     if (rangedAttackTime > 1.5)
                     {
-                        if (Vector3.Distance(transform.position, rangedScytheAttack.transform.position) < 5)
+                        if (Vector3.Distance(transform.position, rangedScytheAttack.transform.position) < 2.5 * scaleFactor)
                         {
                             throwScythe = false;
                         }
@@ -373,7 +377,7 @@ public class Player : MonoBehaviour
 
 
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
-                if (mouseDistance > .5f)
+                if (mouseDistance > .25f * scaleFactor)
                 {
                     //Turn player to face cursor on terrain
                     RotateToFaceTarget(mousePosition, rotationSpeed);
@@ -388,7 +392,7 @@ public class Player : MonoBehaviour
             if (Input.GetButton("Jump") && maxJump > 0)
             {
                 maxJump--;
-                verticalVel += jumpSpeed;
+                verticalVel += jumpSpeed * scaleFactor;
                 jumpTime = 0;
             }
 
@@ -404,10 +408,10 @@ public class Player : MonoBehaviour
             if (teleportToggle)
             {
                 //tpMarker.transform.rotation = transform.rotation;
-                float md = (mouseDistance/2 < 20) ? mouseDistance/2 : 20;
+                float md = (mouseDistance/ scaleFactor < 15 * scaleFactor) ? mouseDistance/ scaleFactor : 15 * scaleFactor;
                 Debug.Log(mousePosition.y);
                 Debug.Log(transform.position.y);
-                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y/2 + .2f, md);
+                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y/scaleFactor + .1f* scaleFactor, md);
             }
 
             //Move
@@ -436,14 +440,14 @@ public class Player : MonoBehaviour
         }
         else
         {
-            verticalAccel -= gravity * Time.fixedDeltaTime * 2;
+            verticalAccel -= gravity * Time.fixedDeltaTime * scaleFactor;
         }
         moveDirection = new Vector3(horizontalInput, 0, verticalInput);
-        moveDirection *= speed;
+        moveDirection *= speed * scaleFactor;
         verticalVel += verticalAccel * Time.fixedDeltaTime;
 
         moveDirection.y += verticalVel;
-        if (Impact.magnitude > 0.2)
+        if (Impact.magnitude > 0.2 * scaleFactor)
         {
             moveDirection += Impact;
             Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.fixedDeltaTime);
@@ -579,7 +583,7 @@ public class Player : MonoBehaviour
         if (col.tag == "Trapdoor")
             if (Input.GetButton("Use"))
             {
-                gameObject.transform.localScale = new Vector3(2, 2, 2);
+                //gameObject.transform.localScale = new Vector3(2, 2, 2);
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
         if (col.tag == "ForestEnd")
@@ -723,5 +727,11 @@ public class Player : MonoBehaviour
     {
         transform.position = CurrentCheckpoint;
         Time.timeScale = 1;
+    }
+
+    void ScaleFactor(float num = 2)
+    {
+        scaleFactor = num;
+        transform.localScale = new Vector3 (scaleFactor, scaleFactor, scaleFactor);
     }
 }

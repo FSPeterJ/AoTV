@@ -26,6 +26,8 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
     [SerializeField]
     float shockwaveCooldown = 9;
     GameObject Proj;
+    [SerializeField]
+    GameObject Shockwave;
 
     NavMeshAgent navAgent;
     Collider attackRangeCol;
@@ -191,13 +193,12 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                         anim.SetBool("Walk", false);
                         currentState = AI.Idle;
                     }
-
                 }
                 break;
             case AI.Walk:
                 {
                     navAgent.SetDestination(targetPos);
-                    if (targetDis < 2.9f)
+                    if (targetDis < 2.9f && AttackRangeCheck(3))
                     {
 
                         currentState = AI.Bite;
@@ -206,11 +207,6 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     else if (targetDis < 8f && shockwaveTime > shockwaveCooldown)
                     {
                         currentState = AI.Shockwave;
-                        anim.SetBool("Walk", false);
-                    }
-                    else if (targetDis < 14f)
-                    {
-                        currentState = AI.CastSpell;
                         anim.SetBool("Walk", false);
                     }
                     else if (targetDis < attackRange)
@@ -224,8 +220,18 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                 break;
             case AI.Projectile:
                 navAgent.SetDestination(targetPos);
-                
-                if (AttackRangeCheck())
+                if (targetDis < 2.9f && AttackRangeCheck(3))
+                {
+
+                    currentState = AI.Bite;
+                    anim.SetBool("Walk", false);
+                }
+                else if (targetDis < 8f && shockwaveTime > shockwaveCooldown)
+                {
+                    currentState = AI.Shockwave;
+                    anim.SetBool("Walk", false);
+                }
+                else if (AttackRangeCheck(attackRange))
                 {
                     anim.SetBool("Projectile Attack", true);
                     currentState = AI.Idle;
@@ -323,11 +329,11 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
         return null;
     }
 
-    bool AttackRangeCheck()
+    bool AttackRangeCheck(float range = 10f)
     {
-        Debug.DrawRay(transform.position + Vector3.up, transform.forward * attackRange, Color.red);
-        Ray attackRangeForward = new Ray(transform.position + Vector3.up, transform.forward * attackRange);
-        RaycastHit[] forwardHit = Physics.RaycastAll(attackRangeForward, attackRange);
+        Debug.DrawRay(transform.position + Vector3.up, transform.forward * range, Color.red);
+        Ray attackRangeForward = new Ray(transform.position + Vector3.up, transform.forward * range);
+        RaycastHit[] forwardHit = Physics.RaycastAll(attackRangeForward, range);
 
         for (int i = 0; i < forwardHit.Length; i++)
         {

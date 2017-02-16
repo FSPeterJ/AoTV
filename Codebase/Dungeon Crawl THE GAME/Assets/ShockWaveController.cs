@@ -7,6 +7,14 @@ public class ShockWaveController : MonoBehaviour {
     [SerializeField] bool shockwaveActive = false;
     CapsuleCollider cCollider;
     [SerializeField] GameObject pillarOne;
+    [SerializeField]
+    GameObject pillarTwo;
+    [SerializeField]
+    GameObject pillarThree;
+    [SerializeField]
+    GameObject pillarFour;
+    [SerializeField]
+    GameObject pillarFive;
     float velosity = 2;
     float newScale = 0;
     float yPos = -3;
