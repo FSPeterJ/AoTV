@@ -1,12 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class QueenWormController : MonoBehaviour
+public class QueenWormController : MonoBehaviour, IEnemyBehavior
 {
 
-    enum QueenState
+    enum AI
     {
         Idle,
         Move,
@@ -19,14 +20,15 @@ public class QueenWormController : MonoBehaviour
         Summon,
         Defend,
         TakeDamage,
-        Death
+        Die
     }
 
     [SerializeField]
     int maxHealth;
 
-    int currentHealth;
-    QueenState qs;
+    int health;
+    bool dead = false;
+
     Animator anim;
     float PlayerDist;
     Vector3 PlayerPos;
@@ -35,87 +37,94 @@ public class QueenWormController : MonoBehaviour
     NavMeshAgent navigate;
     ParticleSystem particles;
     public uint pointValue = 1;
+    public GameObject weapon;
+    IWeaponBehavior weaponScript;
 
 
-    QueenState currentState
+    [SerializeField]
+    int attackRange = 5;
+
+    AI cs;
+    AI currentState
     {
-        get { return qs; }
+        get { return cs; }
         set
         {
             switch (value)
             {
-                case QueenState.Idle:
+                case AI.Idle:
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.Move:
+                case AI.Move:
                     anim.SetBool("Move", true);
                     navigate.Resume();
                     navigate.speed = 8f;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.ClawAttack:
+                case AI.ClawAttack:
                     anim.SetBool("Claw Attack", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.BiteAttack:
+                case AI.BiteAttack:
                     anim.SetBool("Bite Attack", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.CastSpell:
+                case AI.CastSpell:
                     anim.SetBool("Cast Spell", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.BreathAttackStart:
+                case AI.BreathAttackStart:
                     anim.SetBool("Breath Attack", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.BreathAttackLoop:
-                    qs = value;
+                case AI.BreathAttackLoop:
+                    cs = value;
                     break;
-                case QueenState.BreathAttackEnd:
+                case AI.BreathAttackEnd:
                     anim.SetBool("Bite Attack", false);
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.Summon:
+                case AI.Summon:
                     anim.SetBool("Summon", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.Defend:
+                case AI.Defend:
                     anim.SetBool("Defend", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.TakeDamage:
+                case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
-                    qs = value;
                     break;
-                case QueenState.Death:
+                case AI.Die:
                     EventSystem.ScoreIncrease(pointValue);
+
 
                     navigate.speed = 0f;
                     navigate.enabled = false;
                     anim.SetBool("Die", true);
-                    qs = value;
+                    dead = true;
+                    cs = value;
                     break;
             }
         }
@@ -126,10 +135,14 @@ public class QueenWormController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         navigate = GetComponent<NavMeshAgent>();
-        currentState = QueenState.Idle;
-        currentHealth = maxHealth;
+        currentState = AI.Idle;
+        health = maxHealth;
         particles = GetComponent<ParticleSystem>();
-        particles.Stop();
+        //particles.Stop();
+
+        weapon = FindWeapon(transform).gameObject;
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
+
     }
 
     // Update is called once per frame
@@ -139,30 +152,30 @@ public class QueenWormController : MonoBehaviour
 
         switch (currentState)
         {
-            case QueenState.Idle:
+            case AI.Idle:
                 if (idleTime > 1f)
                 {
                     if (PlayerDist <= 5f)
                     {
                         if (defendTime)
                         {
-                            currentState = QueenState.Defend;
+                            currentState = AI.Defend;
                             defendTime = false;
                         }
                         else
                         {
-                            currentState = QueenState.BiteAttack;
+                            currentState = AI.ClawAttack;
                             defendTime = true;
                         }
                     }
                     else if (PlayerDist <= 8f)
-                        currentState = QueenState.ClawAttack;
+                        currentState = AI.BiteAttack;
                     else if (PlayerDist <= 15f)
                     {
-                        if (currentHealth <= 5)
-                            currentState = QueenState.BreathAttackStart;
+                        if (health <= 5)
+                            currentState = AI.BreathAttackStart;
                         else
-                            currentState = QueenState.CastSpell;
+                            currentState = AI.CastSpell;
                     }
                 }
                 if (idleTime > 3f)
@@ -170,75 +183,85 @@ public class QueenWormController : MonoBehaviour
                 idleTime += Time.deltaTime;
                 break;
 
-            case QueenState.Move:
+            case AI.Move:
                 navigate.SetDestination(PlayerPos);
                 if (PlayerDist <= 4f)
                 {
-                    currentState = QueenState.BiteAttack;
+                    currentState = AI.BiteAttack;
                     anim.SetBool("Move", false);
                 }
                 else if (PlayerDist <= 10f)
                 {
-                    currentState = QueenState.ClawAttack;
+                    currentState = AI.ClawAttack;
                     anim.SetBool("Move", false);
                 }
                 break;
 
-            case QueenState.ClawAttack:
-                if (idleTime > 1f)
-                    currentState = QueenState.Idle;
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.BiteAttack:
-                if (idleTime > 1f)
-                    currentState = QueenState.Idle;
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.CastSpell:
-                if (idleTime > 1f)
-                    currentState = QueenState.Idle;
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.BreathAttackStart:
-                particles.Play();
-                currentState = QueenState.BreathAttackLoop;
-                break;
-            case QueenState.BreathAttackLoop:
-                if (idleTime > 3f)
-                    currentState = QueenState.BreathAttackEnd;
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.BreathAttackEnd:
-                anim.SetBool("Breath Attack", false);
-                particles.Stop();
-                currentState = QueenState.Idle;
-                break;
-            case QueenState.Summon:
-                break;
-            case QueenState.Defend:
-                if (idleTime > 1f)
-                {
-                    currentState = QueenState.Idle;
-                    anim.SetBool("Defend", false);
-                }
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.TakeDamage:
-                currentHealth--;
-                if (currentHealth < 1)
-                    currentState = QueenState.Death;
+            case AI.ClawAttack:
 
                 break;
-            case QueenState.Death:
+            case AI.BiteAttack:
+
+                break;
+            case AI.CastSpell:
+
+                break;
+            case AI.BreathAttackStart:
+
+                break;
+            case AI.BreathAttackLoop:
+
+                break;
+            case AI.BreathAttackEnd:
+
+                break;
+            case AI.Summon:
+                break;
+            case AI.Defend:
+               
+                break;
+            case AI.TakeDamage:
+
+
+                break;
+            case AI.Die:
                 break;
         }
     }
 
+    public void Kill()
+    {
+        AttackFinished();
+        currentState = AI.Die;
+    }
+
+    public void AttackFinished()
+    {
+        weaponScript.AttackEnd();
+        currentState = AI.Idle;
+    }
+
+    public void AttackStart()
+    {
+        weaponScript.AttackStart();
+    }
+
+    public void TakeDamage(int damage = 1)
+    {
+        AttackFinished();
+        if (!dead)
+        {
+            health -= damage;
+            if (health < 1)
+            {
+                Kill();
+            }
+            else
+            {
+                currentState = AI.TakeDamage;
+            }
+        }
+    }
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosistion;
@@ -254,8 +277,54 @@ public class QueenWormController : MonoBehaviour
         PlayerPos = pos;
     }
 
-    void Kill()
-    {
 
+    GameObject FindWeapon(Transform obj)
+    {
+        foreach (Transform tr in obj)
+        {
+            if (tr.tag == "Weapon")
+            {
+                return tr.gameObject;
+            }
+            if (tr.childCount > 0)
+            {
+                GameObject temp = FindWeapon(tr);
+                if (temp)
+                {
+                    return temp;
+                }
+            }
+        }
+        return null;
+    }
+
+    bool AttackRangeCheck()
+    {
+        Debug.DrawRay(transform.position + Vector3.up, transform.forward * attackRange, Color.red);
+        Ray attackRangeForward = new Ray(transform.position + Vector3.up, transform.forward * attackRange);
+        RaycastHit[] forwardHit = Physics.RaycastAll(attackRangeForward, attackRange);
+
+        for (int i = 0; i < forwardHit.Length; i++)
+        {
+            if (forwardHit[i].collider.gameObject.tag == "Player")
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+
+
+
+    public int RemainingHealth()
+    {
+        return health;
+    }
+
+    public void ResetToIdle()
+    {
+        currentState = AI.Idle;
     }
 }
