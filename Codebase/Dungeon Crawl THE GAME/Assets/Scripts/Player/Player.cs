@@ -578,15 +578,20 @@ public class Player : MonoBehaviour
     {
         if (col.tag == "Trapdoor")
             if (Input.GetButton("Use"))
-                SceneManager.LoadScene("Graveyard");
+            {
+                gameObject.transform.localScale = new Vector3(2, 2, 2);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
 
         if (col.tag == "ForestEnd")
-            SceneManager.LoadScene("Graveyard");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
         if (col.tag == "SwampEnd")
-            SceneManager.LoadScene("Forest");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
 
-   
+
 
     void OnTriggerEnter(Collider col)
     {

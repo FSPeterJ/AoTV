@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class SceneTransfer : MonoBehaviour {
 
-    public Scene nextLevel;
     bool HasKey;
 
     private void OnEnable()
@@ -44,8 +43,8 @@ public class SceneTransfer : MonoBehaviour {
     {
         if (other.tag == "Player" && HasKey)
         {
-            SceneManager.LoadScene(nextLevel.ToString());
-            SceneManager.LoadScene("Bowser Model");
+            //SceneManager.LoadScene(nextLevel.ToString());
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }

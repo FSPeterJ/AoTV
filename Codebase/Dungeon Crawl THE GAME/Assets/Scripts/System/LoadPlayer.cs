@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class LoadPlayer : MonoBehaviour {
     public GameObject Player;
     public GameObject SpawnPoint;
@@ -12,7 +12,10 @@ public class LoadPlayer : MonoBehaviour {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         spawn = SpawnPoint.transform;
         Instantiate(Player, spawn);
-        Player.transform.localScale = new Vector3(.5f, .5f, .5f);
+        if (SceneManager.GetActiveScene().ToString() == "Graveyard")
+        {
+            Player.transform.localScale = new Vector3(.5f, .5f, .5f);
+        }
         SpawnPoint.transform.DetachChildren();
         Player.transform.position = SpawnPoint.transform.position;
 	}
