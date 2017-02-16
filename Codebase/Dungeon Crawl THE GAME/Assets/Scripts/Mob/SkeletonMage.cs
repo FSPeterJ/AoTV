@@ -12,6 +12,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     public GameObject Key4;
     public GameObject FightMusic;
     public ParticleSystem pushParticle;
+    public ParticleSystem[] spawnParticle;
 
     SpawnManager spawn;
     StatePatternEnemy unitedStatePattern;
@@ -81,7 +82,12 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
                     timer = 5;
                     if (spawnCount < 5)
                     {
+                        for (int i = 0; i < spawnParticle.Length; i++)
+                        {
+                            spawnParticle[i].Emit(3000);
+                        }
                         spawn.EnemiesHaveSpawned = false;
+                        StartCoroutine(spawn.EnemySpawn());
                         spawnCount++;
                     }
                     GetComponent<AudioSource>().PlayOneShot(RaiseDead);
