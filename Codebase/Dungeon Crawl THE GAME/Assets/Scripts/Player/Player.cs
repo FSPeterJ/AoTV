@@ -586,7 +586,6 @@ public class Player : MonoBehaviour
                 //gameObject.transform.localScale = new Vector3(2, 2, 2);
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
-
         if (col.tag == "ForestEnd")
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
@@ -660,7 +659,7 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "OutOfBounds")
         {
-            TakeDamage();
+            TakeDamage(100);
             ReturnToCheckpoint();
         }
         else if (col.tag == "WinArea")

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Dragon : MonoBehaviour, IEnemyBehavior
 {
@@ -196,6 +197,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     {
         GetComponent<AudioSource>().PlayOneShot(Fallen);
         dCurrentState = DragonStates.Die;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void ResetToIdle()
