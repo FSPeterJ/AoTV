@@ -12,9 +12,7 @@ public class PlayerIsGrounded : MonoBehaviour
     }
 
     // Update is called once per frame
-    int collisionCount = 0;
     bool isGrounded = false;
-    bool collisionOccured = false;
 
     List<Collider> collisionList = new List<Collider>();
 

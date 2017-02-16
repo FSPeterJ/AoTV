@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     bool invulnerable = false;
     bool burning = false;
     int maxJumpStored;
-    ParticleSystem particle;
+
 
     //Component References
     Animator anim;
@@ -274,7 +274,6 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        particle = GetComponent<ParticleSystem>();
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         EventSystem.SpinTime(spinTime, maxSpinTime);
         anim = GetComponent<Animator>();
@@ -411,7 +410,7 @@ public class Player : MonoBehaviour
             }
 
             //Move
-            
+            EventSystem.PlayerPositionUpdate(transform.position);
 
         }
 
@@ -449,7 +448,7 @@ public class Player : MonoBehaviour
             Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.fixedDeltaTime);
         }
         rBody.velocity = moveDirection;
-        EventSystem.PlayerPositionUpdate(transform.position);
+        
     }
 
     void GetInput()

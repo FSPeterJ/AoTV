@@ -25,7 +25,6 @@ public class DeathKnight : MonoBehaviour {
     }
 
     // Update is called once per frame
-    // Update is called once per frame
     void Update()
     {
         if (!asleep && unitedStatePattern.alive)
