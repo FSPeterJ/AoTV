@@ -1243,9 +1243,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4180803939350988}
+  - component: {fileID: 65871876565247202}
+  - component: {fileID: 114844310468823006}
   m_Layer: 20
   m_Name: RigHeadGizmo
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2357,7 +2359,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1403190521471410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.927616, y: -0.0000003838898, z: 4.2203016}
+  m_LocalPosition: {x: -1.4486566, y: 4.21, z: -1.4333179}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4454234449091760}
@@ -2558,6 +2560,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65871876565247202
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1869034044728942}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: -0.7, y: 0, z: 0}
 --- !u!65 &65972673992577736
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2680,10 +2694,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Fallen: {fileID: 8300000, guid: 59a691be24be2fb49a5c41425940f7a0, type: 3}
   fireBreath: {fileID: 198559901999020624}
-  Target: {fileID: 0}
+  Target: {fileID: 1622672066450468, guid: 2f3f54abea06a6342a8b5480bb2c00d9, type: 2}
   Waypoints:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+--- !u!114 &114844310468823006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1869034044728942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpactEffect: {fileID: 0}
+  Damage: 1
+  team: 0
 --- !u!137 &137182187994096064
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
