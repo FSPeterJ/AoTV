@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Scythe_Ranged : MonoBehaviour {
 
-    GameObject rotator;
     float timePassed;
     float turnspeed = 2f;
     float speed = .25f;
@@ -25,7 +24,6 @@ public class Scythe_Ranged : MonoBehaviour {
     }
 
     void Start () {
-        rotator = transform.GetChild(0).gameObject;
         weaponScript = FindWeapon(transform).GetComponent<IWeaponBehavior>();
         weaponScript.AttackStart();
     }

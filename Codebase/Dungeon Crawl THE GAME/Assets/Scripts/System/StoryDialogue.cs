@@ -52,8 +52,6 @@ public class StoryDialogue : MonoBehaviour
     {
         if (starting)
         {
-
-
             if (Input.GetKeyUp(KeyCode.Alpha1) && secondLevel == false)
             {
                 DialogueBranch_0_1();
@@ -84,6 +82,7 @@ public class StoryDialogue : MonoBehaviour
 
     void DialogueBranch_0_1()
     {
+        Mage.GetComponent<AudioSource>().Stop();
         Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[1]);
         EnemyDialogue.text = "You will not gain access to this Crypt.";
         PlayerResponse1.text = "(3) Death Knight defies the natural order. He will be reaped.";
@@ -93,6 +92,7 @@ public class StoryDialogue : MonoBehaviour
 
     void DialogueBranch_0_2()
     {
+        Mage.GetComponent<AudioSource>().Stop();
         Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[2]);
         EnemyDialogue.text = "So be it then.";
         PlayerResponse1.text = "";

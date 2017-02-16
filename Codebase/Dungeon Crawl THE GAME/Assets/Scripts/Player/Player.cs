@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     bool invulnerable = false;
     bool burning = false;
     int maxJumpStored;
-    ParticleSystem particle;
+
 
     //Component References
     Animator anim;
@@ -271,7 +271,6 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        particle = GetComponent<ParticleSystem>();
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         EventSystem.SpinTime(spinTime, maxSpinTime);
         anim = GetComponent<Animator>();
@@ -408,7 +407,7 @@ public class Player : MonoBehaviour
             }
 
             //Move
-            
+            EventSystem.PlayerPositionUpdate(transform.position);
 
         }
 
@@ -446,7 +445,7 @@ public class Player : MonoBehaviour
             Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.fixedDeltaTime);
         }
         rBody.velocity = moveDirection;
-        EventSystem.PlayerPositionUpdate(transform.position);
+        
     }
 
     void GetInput()
@@ -486,7 +485,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Invulnerable());
 
-            health--;
+            health-= dmg;
             EventSystem.PlayerHealthUpdate(health, healthMax);
             if (health < 1)
             {
@@ -610,7 +609,7 @@ public class Player : MonoBehaviour
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
 
-        else if (col.tag == "Invulneraball")
+        else if (col.tag == "InvunerablePowerUp")
         {
             StartCoroutine(Invulnerable(10));
             Destroy(col.gameObject);

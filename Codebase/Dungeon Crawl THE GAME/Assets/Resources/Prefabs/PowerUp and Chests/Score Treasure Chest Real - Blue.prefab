@@ -264,7 +264,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1681276776504716}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -63.456425, y: 0.000016212463, z: -252.90822}
+  m_LocalPosition: {x: 3.9768293, y: 1, z: -34.717255}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4707799970577572}
@@ -748,6 +748,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScorePowerUp: {fileID: 1424734673364796, guid: 85e10c62bf9273f44b921c7af8d5d882,
     type: 2}
+  Gold: {fileID: 1601813498073496}
+  GoldOne: {fileID: 1249387508688138}
+  GoldTwo: {fileID: 1582966384117232}
+  GoldThree: {fileID: 1090720476534628}
+  GoldFour: {fileID: 1061921585789022}
+  GoldFive: {fileID: 1612553946484992}
 --- !u!137 &137884938445314956
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
