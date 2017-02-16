@@ -61,6 +61,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                     break;
                 case AI.Die:
                     dead = true;
+                    idleTime = 0;
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     anim.SetBool("Die", true);
@@ -141,7 +142,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
             currentState = AI.Idle;
         }
         //AttackFinished();
-        if (!dead)
+        if (dead==false)
         {
             health -= damage;
             if (health < 1)
@@ -160,7 +161,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     }
     public void Kill()
     {
-        AttackFinished();
+        //AttackFinished();
         currentState = AI.Die;
     }
 
@@ -232,6 +233,17 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
             case AI.Wander:
                 break;
             case AI.Die:
+                anim.SetBool("", false);
+                anim.SetBool("Talking", false);
+                anim.SetBool("Take Damage", false);
+                anim.SetBool("Walk", false);
+                anim.SetBool("Bite Attack", false);
+                anim.SetBool("Idle",false);
+                //anim.SetBool("Die", true);
+                if (idleTime > 2)
+                {
+                    Destroy(gameObject);
+                }
                 break;
             case AI.Rest:
                     if (health != 4)

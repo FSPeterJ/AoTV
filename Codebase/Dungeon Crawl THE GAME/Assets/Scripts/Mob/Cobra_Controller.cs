@@ -7,14 +7,14 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
 
     
 
-    enum AI
+    public enum AI
     {
         Idle, Slither, BiteAttack, ProjectileAttack, BreathAttackStart, BreathAttackEnd,BreathAttackLoop, CastSpell, TakeDamage, Die, Wander
             
     }
 
-    AI _cs;
-    AI currentState
+   public AI _cs;
+   public AI currentState
     {
         get { return _cs; }
         set
@@ -245,6 +245,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
             case AI.CastSpell:
                 break;
             case AI.TakeDamage:
+                anim.SetBool("Breath Attack", false);
                 break;
             case AI.Die:
                 break;
@@ -287,7 +288,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     public void TakeDamage(int damage = 1)
     {
        // AttackFinished();
-        if (!dead)
+        if (dead==false)
         {
             health -= damage;
             if (health <= 0)
@@ -306,7 +307,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     }
     public void Kill()
     {
-        AttackFinished();
+        //AttackFinished();
         currentState = AI.Die;
     }
 
