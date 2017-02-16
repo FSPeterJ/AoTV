@@ -8,7 +8,7 @@ public class PlayerIsGrounded : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        EventSystem.PlayerGrounded(false);
     }
 
     // Update is called once per frame
@@ -18,10 +18,14 @@ public class PlayerIsGrounded : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Debug.Log("Added" + other.gameObject.name);
+
         collisionList.Add(other);
     }
     private void OnTriggerExit(Collider other)
     {
+        //Debug.Log("Removed" + other.gameObject.name);
+
         collisionList.Remove(other);
     }
 
