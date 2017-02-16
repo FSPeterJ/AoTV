@@ -302,9 +302,11 @@ public class Player : MonoBehaviour
             EventSystem.TeleportCooldown(teleportCD, teleportCDMax);
             EventSystem.RangedCooldown(rangedAttackCD, rangedAttackCDMax);
 
+            Vector3 tempMousePostition = mousePosition;
+            tempMousePostition.y = transform.position.y;
+            mouseDistance = Vector3.Distance(tempMousePostition, transform.position);
 
             //Re-used a lot of Harrison's movement code
-            mouseDistance = Vector3.Distance(mousePosition, transform.position);
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
@@ -402,8 +404,10 @@ public class Player : MonoBehaviour
             if (teleportToggle)
             {
                 //tpMarker.transform.rotation = transform.rotation;
-                float md = (mouseDistance < 20) ? mouseDistance / 2 : 20;
-                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
+                float md = (mouseDistance/2 < 20) ? mouseDistance/2 : 20;
+                Debug.Log(mousePosition.y);
+                Debug.Log(transform.position.y);
+                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y/2 + .2f, md);
             }
 
             //Move
