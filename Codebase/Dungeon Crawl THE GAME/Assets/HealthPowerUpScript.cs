@@ -29,6 +29,7 @@ public class HealthPowerUpScript : MonoBehaviour {
                     anim.SetBool("Open", true);
                     Vector3 spawnLocation = (transform.forward * 4) + transform.position;
                     //Destroy(ChestContent);
+                    spawnLocation.y += 1;
                     Destroy(Gold);
                     Destroy(GoldOne);
                     Destroy(GoldTwo);
@@ -36,6 +37,7 @@ public class HealthPowerUpScript : MonoBehaviour {
                     Destroy(GoldFour);
                     Destroy(GoldFive);
                     Instantiate(HealthPowerUp, spawnLocation, Quaternion.identity);
+
                 }
             }
         }

@@ -64,7 +64,7 @@ public class OpenGate : MonoBehaviour
     }
     void OnTriggerEnter(Collider c)
     {
-        if (HasKey == true)
+        if (HasKey == true && c.tag == "Player")
         {
             if (unlocked != true)
             {

@@ -61,6 +61,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                     break;
                 case AI.Die:
                     dead = true;
+                    idleTime = 0;
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     anim.SetBool("Die", true);
@@ -140,8 +141,8 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
         {
             currentState = AI.Idle;
         }
-        AttackFinished();
-        if (!dead)
+        //AttackFinished();
+        if (dead==false)
         {
             health -= damage;
             if (health < 1)
@@ -160,7 +161,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     }
     public void Kill()
     {
-        AttackFinished();
+        //AttackFinished();
         currentState = AI.Die;
     }
 
@@ -190,8 +191,8 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
-        mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
-        weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
+       // mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
+       //weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
         currentState = AI.Rest;
         navHitPos.hit = true;
     }
@@ -232,6 +233,10 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
             case AI.Wander:
                 break;
             case AI.Die:
+                if (idleTime > 2)
+                {
+                    Destroy(gameObject);
+                }
                 break;
             case AI.Rest:
                     if (health != 4)
@@ -255,6 +260,8 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                 currentState = AI.BiteAttack;
                 anim.SetBool("Rest", false);
                 //kill player here
+                int damage = 100;
+                Col.GetComponent<Player>().TakeDamage(damage);
             }
         }
     }
