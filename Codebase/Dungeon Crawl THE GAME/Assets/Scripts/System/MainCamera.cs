@@ -72,6 +72,7 @@ public class MainCamera : MonoBehaviour
 
         float zoom = Rail.localPosition.z;
         zoom -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
+        Rail.transform.localPosition = new Vector3(0, 0.5f * scaleFactor, 0);
         Rail.localPosition = new Vector3(0, 2, Mathf.Clamp(zoom, minZoom * scaleFactor + zoomOffset * scaleFactor,  maxZoom * scaleFactor + zoomOffset * scaleFactor));
 
 

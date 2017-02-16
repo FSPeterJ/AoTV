@@ -659,7 +659,7 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "OutOfBounds")
         {
-            TakeDamage();
+            TakeDamage(100);
             ReturnToCheckpoint();
         }
         else if (col.tag == "WinArea")
