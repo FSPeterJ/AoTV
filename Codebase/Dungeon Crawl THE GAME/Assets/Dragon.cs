@@ -181,7 +181,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     public void TakeDamage(int damage = 1)
     {
         Health -= damage;
-        if (dCurrentState == DragonStates.Recover)
+       // if (dCurrentState == DragonStates.Recover)
         {
             GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
             GetComponent<AudioSource>().Play();
