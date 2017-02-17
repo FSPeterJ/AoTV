@@ -36,10 +36,12 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     float idleTime;
     NavMeshAgent navigate;
     //ParticleSystem particles;
-    public uint pointValue = 1;
-    public GameObject weapon;
+    [SerializeField]
+    uint pointValue = 1;
+    GameObject weapon;
     IWeaponBehavior weaponScript;
-
+    [SerializeField]
+    GameObject Exit;
 
     [SerializeField]
     int attackRange = 5;
@@ -119,7 +121,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                 case AI.Die:
                     EventSystem.ScoreIncrease(pointValue);
 
-
+                    Exit.SetActive(true);
                     navigate.speed = 0f;
                     navigate.enabled = false;
                     anim.SetBool("Die", true);

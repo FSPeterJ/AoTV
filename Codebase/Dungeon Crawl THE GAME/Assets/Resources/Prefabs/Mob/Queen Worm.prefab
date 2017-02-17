@@ -1104,8 +1104,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1884634970460536}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 11.672817, y: -13.9, z: -8.096098}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 513.58276, y: 10.097577, z: 180.98335}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4199242577562358}
@@ -1478,9 +1478,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e2d62ff5864174b9d523a000ed23cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 20
   pointValue: 1
-  weapon: {fileID: 0}
+  Exit: {fileID: 0}
   attackRange: 5
 --- !u!114 &114863952893619922
 MonoBehaviour:
@@ -1496,6 +1496,7 @@ MonoBehaviour:
   ImpactEffect: {fileID: 0}
   Damage: 1
   team: 0
+  attacking: 0
 --- !u!137 &137645238518399838
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
