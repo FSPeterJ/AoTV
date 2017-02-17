@@ -11,9 +11,9 @@ public class SkeletonArcher : MonoBehaviour
     Vector3 arrowPos;
     Quaternion arrowQuat;
     bool asleep;
-    bool attacking = false;
+    //bool attacking = false;
     float attackDistance = 15;
-    float reloadTime = 2;
+    //float reloadTime = 2;
     public uint pointValue = 1;
     Rigidbody body;
 

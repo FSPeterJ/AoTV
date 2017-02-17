@@ -11,7 +11,7 @@ public class LoadPlayer : MonoBehaviour {
 	void Start ()
     {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
-        GameObject PlayerClone = Instantiate(Player,transform.position,transform.rotation);
+        Instantiate(Player,transform.position,transform.rotation);
         EventSystem.PlayerScale(scaleFactor);
 	}
 	
