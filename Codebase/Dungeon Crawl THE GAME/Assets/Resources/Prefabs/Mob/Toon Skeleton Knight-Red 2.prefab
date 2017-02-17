@@ -4150,7 +4150,9 @@ MonoBehaviour:
   searchingTurnSpeed: 120
   searchingDuration: 4
   sightRange: 35
-  wayPoints: []
+  wayPoints:
+  - {fileID: 1370295508823128, guid: 9f14acfb07fed0c4982d0fddf0bfa414, type: 2}
+  - {fileID: 1676663815583942, guid: 4eb019a7018a8e24e9685402e7527431, type: 2}
   eyes: {fileID: 4488859854562302}
   offset: {x: 0, y: 0.5, z: 0}
   attackDistance: 2.5
