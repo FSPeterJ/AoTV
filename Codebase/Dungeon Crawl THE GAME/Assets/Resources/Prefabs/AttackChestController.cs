@@ -16,7 +16,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
             {
                 case AI.Idle:
                     navAgent.speed = 0;
-                    navAgent.Stop();
+                    navAgent.enabled = false;
                     //navAgent.
                     idleTime = 0;
                     //navAgent.enabled = false;
@@ -42,7 +42,6 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                     break;
                 case AI.Walk:
                     anim.SetBool("Walk", true);
-                    navAgent.Resume();
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
@@ -189,8 +188,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
         bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
         navAgent = GetComponent<NavMeshAgent>();
-       // mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
-       //weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
+        weaponScript = FindWeapon(transform).GetComponent<IWeaponBehavior>();
         currentState = AI.Rest;
        
     }
@@ -262,5 +260,25 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                 Col.GetComponent<Player>().TakeDamage(damage);
             }
         }
+    }
+
+    GameObject FindWeapon(Transform obj)
+    {
+        foreach (Transform tr in obj)
+        {
+            if (tr.tag == "Weapon")
+            {
+                return tr.gameObject;
+            }
+            if (tr.childCount > 0)
+            {
+                GameObject temp = FindWeapon(tr);
+                if (temp)
+                {
+                    return temp;
+                }
+            }
+        }
+        return null;
     }
 }

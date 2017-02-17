@@ -48,6 +48,11 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            TakeDamage(999);
+        }
         Debug.Log("Animation State: " + dCurrentState.ToString() + " " + transitionNumber);
         if (alive)
         {
@@ -175,6 +180,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        Health -= damage;
         if (dCurrentState == DragonStates.Recover)
         {
             GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
@@ -188,7 +194,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
             else
             {
                 anim.SetBool("Take Damage", true);
-                Health -= damage;
+                
             }
         }
     }
