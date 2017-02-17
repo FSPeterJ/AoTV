@@ -10,8 +10,6 @@ public class SkeletonKnight : MonoBehaviour{
     IWeaponBehavior weaponBehavior;
     Animator anim;
     bool asleep = true;
-    //bool attacking = false;
-    //bool dead = false;
     public uint pointValue = 1;
     Rigidbody body;
 

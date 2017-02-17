@@ -35,7 +35,6 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     bool defendTime;
     float idleTime;
     NavMeshAgent navigate;
-    //ParticleSystem particles;
     [SerializeField]
     uint pointValue = 1;
     GameObject weapon;
@@ -139,8 +138,6 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
         navigate = GetComponent<NavMeshAgent>();
         currentState = AI.Idle;
         health = maxHealth;
-        //particles = GetComponent<ParticleSystem>();
-        //particles.Stop();
 
         weapon = FindWeapon(transform).gameObject;
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
