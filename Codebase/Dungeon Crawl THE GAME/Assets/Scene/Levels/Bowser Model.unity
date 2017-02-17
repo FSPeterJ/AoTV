@@ -6031,22 +6031,22 @@ Prefab:
     - target: {fileID: 224756396691677470, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 181.04773
+      value: 184.28572
       objectReference: {fileID: 0}
     - target: {fileID: 224756396691677470, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 55.87893
+      value: 55.714287
       objectReference: {fileID: 0}
     - target: {fileID: 224153888453536544, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 167.6368
+      value: 171.42857
       objectReference: {fileID: 0}
     - target: {fileID: 224153888453536544, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 55.87893
+      value: 55.714287
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c041a0fdf1202c488165d6b90c58ebe, type: 2}
@@ -7070,10 +7070,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48d53987229bde44698e8a5e072379d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 0.02
-  variableSpeed: 0
-  scrollVert: 1
-  scrollHorz: 1
 --- !u!1 &528912907 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: b0e423cf233360742ab46b41ef7c1aa3, type: 3}
@@ -13048,6 +13044,18 @@ Prefab:
         type: 2}
       propertyPath: m_Size.z
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891869158955854, guid: 844a98393aef1824ab8d04aaa3445777, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891869158955854, guid: 844a98393aef1824ab8d04aaa3445777, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891869158955854, guid: 844a98393aef1824ab8d04aaa3445777, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 844a98393aef1824ab8d04aaa3445777, type: 2}
