@@ -7,7 +7,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
 {
 
 
-
+    public GameObject levelExit;
     Animator anim;
     Vector3 targetPos;
     float targetDis;
@@ -138,6 +138,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     navAgent.enabled = false;
                     GetComponent<BoxCollider>().enabled = false;
                     anim.SetBool("Die", true);
+                    levelExit.SetActive(true);
                     EventSystem.ScoreIncrease(pointValue);
                     _cs = value;
                     break;
