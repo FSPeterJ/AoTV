@@ -159,6 +159,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                 case DragonStates.Die:
                         anim.SetTrigger("Die");
                     
+                    
                     break;
                 default:
                     break;
