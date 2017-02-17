@@ -49,10 +49,7 @@ public class Player : MonoBehaviour
 
     //Physics Settings
     float gravity = 9.8F;
-    [SerializeField]
-    float speed = 3.0F;
-    //[SerializeField]
-    ////float sprintSpeed = 6.0f;
+    float speed = 7.5F;
     [SerializeField]
     float jumpSpeed = 10.0F;
     [SerializeField]
@@ -77,7 +74,7 @@ public class Player : MonoBehaviour
     float horizontalInput;
     float jumpTime;
     [SerializeField]
-    bool isgrounded = false;
+    bool isgrounded;
 
     //Checkpoints
     Vector3 CurrentCheckpoint;
@@ -117,7 +114,6 @@ public class Player : MonoBehaviour
         EventSystem.onPlayer_ReloadCheckpoint -= ReloadCheckpoint;
         EventSystem.onPlayerScale -= ScaleFactor;
     }
-
 
     //States
     enum States
@@ -224,6 +220,7 @@ public class Player : MonoBehaviour
                     tpMarker = Instantiate(teleportMarker);
                     tpMarker.transform.parent = transform;
                     tpMarker.transform.position = transform.position;
+                    tpMarker.transform.localScale = new Vector3(scaleFactor,scaleFactor,scaleFactor);
                     _tT = value;
                 }
                 else
@@ -408,10 +405,9 @@ public class Player : MonoBehaviour
             if (teleportToggle)
             {
                 //tpMarker.transform.rotation = transform.rotation;
-                float md = (mouseDistance/ scaleFactor < 15 * scaleFactor) ? mouseDistance/ scaleFactor : 15 * scaleFactor;
-                Debug.Log(mousePosition.y);
-                Debug.Log(transform.position.y);
-                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y/scaleFactor + .1f* scaleFactor, md);
+                float md = (mouseDistance / scaleFactor < 15 * scaleFactor) ? mouseDistance / scaleFactor : 15 * scaleFactor;
+                tpMarker.transform.localPosition = new Vector3(0, 0, md);
+                tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y +.1f, tpMarker.transform.position.z);
             }
 
             //Move
@@ -425,7 +421,6 @@ public class Player : MonoBehaviour
     {
         Move();
     }
-     //bool landed;
     //Calculate Physics movement
     void Move()
     {
@@ -436,7 +431,6 @@ public class Player : MonoBehaviour
             maxJump = maxJumpStored;
             verticalAccel = 0;
             verticalVel = 0;
-            //landed = true;
         }
         else
         {
@@ -583,9 +577,10 @@ public class Player : MonoBehaviour
         if (col.tag == "Trapdoor")
             if (Input.GetButton("Use"))
             {
-                //gameObject.transform.localScale = new Vector3(2, 2, 2);
+                gameObject.transform.localScale = new Vector3(2, 2, 2);
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
+
         if (col.tag == "ForestEnd")
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
@@ -659,13 +654,10 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "OutOfBounds")
         {
-            TakeDamage(100);
+            TakeDamage();
             ReturnToCheckpoint();
         }
-        else if (col.tag == "WinArea")
-        {
-            WinScreen.SetActive(true);
-        }
+
     }
 
     void ReturnToCheckpoint()
@@ -732,6 +724,6 @@ public class Player : MonoBehaviour
     void ScaleFactor(float num = 2)
     {
         scaleFactor = num;
-        transform.localScale = new Vector3 (scaleFactor, scaleFactor, scaleFactor);
+        transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
     }
 }

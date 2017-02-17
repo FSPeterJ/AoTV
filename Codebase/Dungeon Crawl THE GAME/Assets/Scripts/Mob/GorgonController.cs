@@ -34,7 +34,6 @@ public class GorgonController : MonoBehaviour
     public uint pointValue = 1;
     AI gs;
     Vector3 wanderTarget;
-    //bool wanderTargetSet = false;
 
     AI currentState
     {
@@ -106,7 +105,6 @@ public class GorgonController : MonoBehaviour
     }
 
 
-    //ParticleSystem particles;
 
     // Use this for initialization
     void Start()
@@ -115,7 +113,6 @@ public class GorgonController : MonoBehaviour
         navigate = GetComponent<NavMeshAgent>();
         currentState = AI.idle;
         currentHealth = maxHealth;
-        //particles = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame

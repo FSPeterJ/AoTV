@@ -21,6 +21,9 @@ GameObject:
   - component: {fileID: 4909457132721168}
   - component: {fileID: 198859685383117290}
   - component: {fileID: 199562776351546596}
+  - component: {fileID: 135080866451568550}
+  - component: {fileID: 114308533008159622}
+  - component: {fileID: 114623935596709922}
   m_Layer: 0
   m_Name: Tornado
   m_TagString: Untagged
@@ -41,6 +44,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114308533008159622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1921853977181634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e202064b4124a74e916ef03f93a401d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeout: 1.5
+--- !u!114 &114623935596709922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1921853977181634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpactEffect: {fileID: 0}
+  Damage: 1
+  team: 0
+  attacking: 0
+--- !u!135 &135080866451568550
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1921853977181634}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.7307006
+  m_Center: {x: -0.0000009536743, y: -0.0000004768373, z: 1}
 --- !u!198 &198859685383117290
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -96,7 +138,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 1999946204
+  randomSeed: 670610505
   InitialModule:
     serializedVersion: 3
     enabled: 1

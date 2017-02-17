@@ -248,9 +248,12 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     }
     void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
     {
-        Vector3 lookPos = (transform.position - _TargetPosition);
-        lookPos.y = 0;
-        float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, Time.deltaTime * _LerpSpeed);
-        transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+        if (!dead)
+        {
+            Vector3 lookPos = (transform.position - _TargetPosition);
+            lookPos.y = 0;
+            float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, Time.deltaTime * _LerpSpeed);
+            transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
+        }
     }
-}
+} 

@@ -195,7 +195,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1108470319746054
 GameObject:
   m_ObjectHideFlags: 1
@@ -1569,6 +1569,7 @@ MonoBehaviour:
   ImpactEffect: {fileID: 0}
   Damage: 1
   team: 0
+  attacking: 0
 --- !u!114 &114183428738226922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1584,7 +1585,7 @@ MonoBehaviour:
   pointValue: 1
   shockwaveCooldown: 9
   shotCooldown: 9
-  Shockwave: {fileID: 0}
+  Shockwave: {fileID: 1944176501217664, guid: 8e77d43b9d75d9641b1be98ef2f68cd5, type: 2}
   attackRange: 40
   _cs: 0
 --- !u!137 &137914245402721356

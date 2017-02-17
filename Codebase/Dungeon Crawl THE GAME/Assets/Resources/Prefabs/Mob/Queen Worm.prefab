@@ -323,6 +323,9 @@ GameObject:
   - component: {fileID: 4034710596092952}
   - component: {fileID: 199235149400595640}
   - component: {fileID: 198809240100207344}
+  - component: {fileID: 65414366432838312}
+  - component: {fileID: 114163285259364896}
+  - component: {fileID: 114365010157111650}
   m_Layer: 0
   m_Name: BreathAttack
   m_TagString: Untagged
@@ -1414,6 +1417,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.0229328, y: 1.5293324, z: 1.7280698}
   m_Center: {x: -0.8480459, y: -0.031202793, z: -0.36400956}
+--- !u!65 &65414366432838312
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308387140500686}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2.5}
+  m_Center: {x: 0, y: 0, z: 1.25}
 --- !u!65 &65751953022141128
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1467,6 +1482,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114163285259364896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308387140500686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpactEffect: {fileID: 0}
+  Damage: 1
+  team: 0
+  attacking: 0
 --- !u!114 &114166557359561448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1478,10 +1508,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18e2d62ff5864174b9d523a000ed23cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 5
   pointValue: 1
-  weapon: {fileID: 0}
+  weaponBreath: {fileID: 1308387140500686}
+  Exit: {fileID: 0}
   attackRange: 5
+--- !u!114 &114365010157111650
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308387140500686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f63d1e83caa1574db4fee20c1978191, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114863952893619922
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1496,6 +1538,7 @@ MonoBehaviour:
   ImpactEffect: {fileID: 0}
   Damage: 1
   team: 0
+  attacking: 0
 --- !u!137 &137645238518399838
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -4248,10 +4291,10 @@ ParticleSystem:
       m_PostInfinity: 2
       m_RotationOrder: 4
     minMaxState: 0
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 263124264
+  randomSeed: -455664257
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4727,7 +4770,7 @@ ParticleSystem:
     randomDirectionAmount: 0
     sphericalDirectionAmount: 0
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 3
     rateOverTime:
       scalar: 100
