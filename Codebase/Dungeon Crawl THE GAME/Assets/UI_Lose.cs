@@ -21,6 +21,6 @@ public class UI_Lose : MonoBehaviour {
 
     void Lose()
     {
-        transform.GetChild(0).gameObject.SetActive(true);
+        transform.gameObject.SetActive(true);
     }
 }
