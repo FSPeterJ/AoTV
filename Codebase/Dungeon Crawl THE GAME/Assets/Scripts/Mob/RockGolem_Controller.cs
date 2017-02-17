@@ -105,7 +105,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     public GameObject weaponL;
     IWeaponBehavior weaponScriptR;
     IWeaponBehavior weaponScriptL;
-    GameObject attacktornado;
 
     int attack;
 
@@ -132,7 +131,6 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         navAgent = GetComponent<NavMeshAgent>();
         weaponScriptR = weaponR.GetComponent<IWeaponBehavior>();
         weaponScriptL = weaponL.GetComponent<IWeaponBehavior>();
-        attacktornado = (GameObject)Resources.Load("Prefabs/Particles/TeleportTarget");
         currentState = AI.Idle;
         attack = Random.Range(0, 1);
     }

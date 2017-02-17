@@ -6,8 +6,6 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
 
     //Score variables
     int pScore;
-    int sX = Screen.width - 7;
-    int sY = 0;
 
     enum SnakeState
     {
@@ -91,7 +89,6 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
 
     //References
     NavMeshAgent navAgent;
-    Collider AttackRegionCollider;
 
     float idleTime = 0;
 
@@ -102,7 +99,6 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
-        AttackRegionCollider = GetComponent<Collider>();
         currentState = SnakeState.Idle;
         navHitPos.hit = true;
     }

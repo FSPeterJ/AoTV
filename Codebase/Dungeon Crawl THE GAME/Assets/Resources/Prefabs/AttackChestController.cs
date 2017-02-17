@@ -97,7 +97,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
 
     //wandering variarables;
     Vector3 wanderingSphere;
-    Vector3 originPos;
+  
     NavMeshHit navHitPos;
 
 
@@ -189,7 +189,6 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     {
         bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
-        originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
        // mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
        //weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();

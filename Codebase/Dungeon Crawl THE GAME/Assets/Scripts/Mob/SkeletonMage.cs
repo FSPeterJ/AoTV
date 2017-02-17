@@ -23,8 +23,8 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     int Health;
     int spawnCount;
     float timer;
-    float force;
-    float radius;
+    //float force;
+    //float radius;
     bool alive;
     bool pushPlayer;
     bool inDialogue;
@@ -41,8 +41,8 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
         spawnCount = 0;
 
         timer = 5;
-        force = 5;
-        radius = 10;
+        //force = 5;
+        //radius = 10;
 
         alive = true;
         pushPlayer = false;

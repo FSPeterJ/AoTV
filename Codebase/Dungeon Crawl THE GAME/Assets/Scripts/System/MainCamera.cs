@@ -61,7 +61,7 @@ public class MainCamera : MonoBehaviour
                 // Do something with the object that was hit by the raycast.
                 EventSystem.MousePositionUpdate(temp[i].point);
 
-                Debug.Log(temp[i].point);
+                //Debug.Log(temp[i].point);
                 break;
             }
 

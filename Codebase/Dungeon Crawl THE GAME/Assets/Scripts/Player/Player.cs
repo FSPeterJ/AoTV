@@ -50,8 +50,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     float speed = 3.0F;
     [SerializeField]
-    float sprintSpeed = 6.0f;
-    [SerializeField]
     float jumpSpeed = 10.0F;
     [SerializeField]
     float mass = 20.0F;
@@ -421,7 +419,6 @@ public class Player : MonoBehaviour
     {
         Move();
     }
-     bool landed;
     //Calculate Physics movement
     void Move()
     {
@@ -432,7 +429,6 @@ public class Player : MonoBehaviour
             maxJump = maxJumpStored;
             verticalAccel = 0;
             verticalVel = 0;
-            landed = true;
         }
         else
         {

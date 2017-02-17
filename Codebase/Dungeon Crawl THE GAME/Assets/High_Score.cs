@@ -19,7 +19,6 @@ public class High_Score : MonoBehaviour
     void Start()
     {
         Playerinfo[] info = new Playerinfo[10];
-        Text rank = GetComponent<Text>();
 
         if (File.Exists(FileName))
         {
