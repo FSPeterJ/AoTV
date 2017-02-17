@@ -11,6 +11,8 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     public GameObject playerLocation;
     public GameObject Key4;
     public GameObject FightMusic;
+    public ParticleSystem pushParticle;
+    public ParticleSystem[] spawnParticle;
 
     SpawnManager spawn;
     StatePatternEnemy unitedStatePattern;
@@ -21,8 +23,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     int Health;
     int spawnCount;
     float timer;
-    float force;
-    float radius;
+    //float radius;
     bool alive;
     bool pushPlayer;
     bool inDialogue;
@@ -39,8 +40,6 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
         spawnCount = 0;
 
         timer = 5;
-        force = 5;
-        radius = 10;
 
         alive = true;
         pushPlayer = false;
@@ -68,16 +67,24 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
             {
                 anim.ResetTrigger("Chanting");
                 anim.SetTrigger("Raise Dead");
-                anim.SetLookAtPosition(playerLocation.transform.position);
+                //anim.SetLookAtPosition(playerLocation.transform.position);
                 if (pushPlayer)
+                {
                     playerLocation.SendMessage("ForcePush", magePos);
+                    pushParticle.Emit(2000);
+                }
 
                 if (timer <= -2)
                 {
                     timer = 5;
                     if (spawnCount < 5)
                     {
+                        for (int i = 0; i < spawnParticle.Length; i++)
+                        {
+                            spawnParticle[i].Emit(3000);
+                        }
                         spawn.EnemiesHaveSpawned = false;
+                        StartCoroutine(spawn.EnemySpawn());
                         spawnCount++;
                     }
                     GetComponent<AudioSource>().PlayOneShot(RaiseDead);
@@ -169,8 +176,9 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
 
     public void Kill()
     {
+        Debug.Log("test");
+        EventSystem.UI_KeyChange(1);
         anim.SetTrigger("Die");
-        EventSystem.UI_KeyCount(1);
         FightMusic.GetComponent<FightMusic>().TurnOff();
     }
 

@@ -1,12 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class QueenWormController : MonoBehaviour
+public class QueenWormController : MonoBehaviour, IEnemyBehavior
 {
 
-    enum QueenState
+    enum AI
     {
         Idle,
         Move,
@@ -19,103 +20,123 @@ public class QueenWormController : MonoBehaviour
         Summon,
         Defend,
         TakeDamage,
-        Death
+        Die
     }
 
     [SerializeField]
     int maxHealth;
 
-    int currentHealth;
-    QueenState qs;
+    int health;
+    bool dead = false;
+
     Animator anim;
     float PlayerDist;
     Vector3 PlayerPos;
     bool defendTime;
     float idleTime;
     NavMeshAgent navigate;
-    ParticleSystem particles;
-    public uint pointValue = 1;
+    [SerializeField]
+    uint pointValue = 1;
+    GameObject weapon;
+    IWeaponBehavior weaponScript;
 
+    [SerializeField]
+    GameObject weaponBreath;
+    IWeaponBehavior weaponScriptBreath;
+    BreathAttack Breath;
+    [SerializeField]
+    GameObject Exit;
 
-    QueenState currentState
+    [SerializeField]
+    float BreathAttackTime = 888;
+    float BreathAttackCD = 15;
+
+    [SerializeField]
+    int attackRange = 5;
+
+    [SerializeField]
+    AI cs;
+    AI currentState
     {
-        get { return qs; }
+        get { return cs; }
         set
         {
             switch (value)
             {
-                case QueenState.Idle:
+                case AI.Idle:
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.Move:
+                case AI.Move:
                     anim.SetBool("Move", true);
                     navigate.Resume();
-                    navigate.speed = 8f;
-                    qs = value;
+                    navigate.speed = 10f;
+                    cs = value;
                     break;
-                case QueenState.ClawAttack:
+                case AI.ClawAttack:
                     anim.SetBool("Claw Attack", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.BiteAttack:
+                case AI.BiteAttack:
                     anim.SetBool("Bite Attack", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.CastSpell:
+                case AI.CastSpell:
                     anim.SetBool("Cast Spell", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.BreathAttackStart:
+                case AI.BreathAttackStart:
+                    BreathAttackTime = 0;
                     anim.SetBool("Breath Attack", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.BreathAttackLoop:
-                    qs = value;
+                case AI.BreathAttackLoop:
+                    cs = value;
                     break;
-                case QueenState.BreathAttackEnd:
+                case AI.BreathAttackEnd:
                     anim.SetBool("Bite Attack", false);
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.Summon:
+                case AI.Summon:
                     anim.SetBool("Summon", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.Defend:
+                case AI.Defend:
                     anim.SetBool("Defend", true);
                     navigate.speed = 0;
                     navigate.Stop();
                     idleTime = 0;
-                    qs = value;
+                    cs = value;
                     break;
-                case QueenState.TakeDamage:
+                case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
-                    qs = value;
                     break;
-                case QueenState.Death:
+                case AI.Die:
                     EventSystem.ScoreIncrease(pointValue);
 
+                    Exit.SetActive(true);
                     navigate.speed = 0f;
                     navigate.enabled = false;
                     anim.SetBool("Die", true);
-                    qs = value;
+                    dead = true;
+                    cs = value;
                     break;
             }
         }
@@ -126,43 +147,54 @@ public class QueenWormController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         navigate = GetComponent<NavMeshAgent>();
-        currentState = QueenState.Idle;
-        currentHealth = maxHealth;
-        particles = GetComponent<ParticleSystem>();
-        particles.Stop();
+        currentState = AI.Idle;
+        health = maxHealth;
+
+        weapon = FindWeapon(transform).gameObject;
+        weaponScript = weapon.GetComponent<IWeaponBehavior>();
+
+        weaponScriptBreath = weaponBreath.GetComponent<IWeaponBehavior>();
+        Breath = weaponBreath.GetComponent<BreathAttack>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        BreathAttackTime += Time.deltaTime;
+
         PlayerDist = Vector3.Distance(PlayerPos, transform.position);
 
         switch (currentState)
         {
-            case QueenState.Idle:
+            case AI.Idle:
                 if (idleTime > 1f)
                 {
-                    if (PlayerDist <= 5f)
+                    if (PlayerDist <= 5f && AttackRangeCheck(5))
                     {
                         if (defendTime)
                         {
-                            currentState = QueenState.Defend;
+                            currentState = AI.Defend;
                             defendTime = false;
                         }
                         else
                         {
-                            currentState = QueenState.BiteAttack;
+                            currentState = AI.ClawAttack;
                             defendTime = true;
                         }
                     }
-                    else if (PlayerDist <= 8f)
-                        currentState = QueenState.ClawAttack;
-                    else if (PlayerDist <= 15f)
+                    else if (PlayerDist <= 8f && AttackRangeCheck(9))
+                        currentState = AI.BiteAttack;
+                    else if (PlayerDist <= 30f)
                     {
-                        if (currentHealth <= 5)
-                            currentState = QueenState.BreathAttackStart;
+                        if (health <= 10 && AttackRangeCheck(9) && BreathAttackTime > BreathAttackCD )
+                        {
+                            currentState = AI.BreathAttackStart;
+                        }
                         else
-                            currentState = QueenState.CastSpell;
+                        {
+                            currentState = AI.Move;
+                        }
                     }
                 }
                 if (idleTime > 3f)
@@ -170,75 +202,106 @@ public class QueenWormController : MonoBehaviour
                 idleTime += Time.deltaTime;
                 break;
 
-            case QueenState.Move:
+            case AI.Move:
                 navigate.SetDestination(PlayerPos);
-                if (PlayerDist <= 4f)
+                if (PlayerDist <= 12f )
                 {
-                    currentState = QueenState.BiteAttack;
-                    anim.SetBool("Move", false);
+                    if (health <= 10 && AttackRangeCheck(11) && BreathAttackTime > BreathAttackCD)
+                    {
+                        currentState = AI.BreathAttackStart;
+                        anim.SetBool("Move", false);
+                    }
+                    else if (AttackRangeCheck(5))
+                    {
+                        currentState = AI.BiteAttack;
+                        anim.SetBool("Move", false);
+                    }
+                        
                 }
-                else if (PlayerDist <= 10f)
+                else if (PlayerDist <= 5f && AttackRangeCheck(5))
                 {
-                    currentState = QueenState.ClawAttack;
+                    currentState = AI.ClawAttack;
                     anim.SetBool("Move", false);
                 }
                 break;
 
-            case QueenState.ClawAttack:
-                if (idleTime > 1f)
-                    currentState = QueenState.Idle;
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.BiteAttack:
-                if (idleTime > 1f)
-                    currentState = QueenState.Idle;
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.CastSpell:
-                if (idleTime > 1f)
-                    currentState = QueenState.Idle;
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.BreathAttackStart:
-                particles.Play();
-                currentState = QueenState.BreathAttackLoop;
-                break;
-            case QueenState.BreathAttackLoop:
-                if (idleTime > 3f)
-                    currentState = QueenState.BreathAttackEnd;
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.BreathAttackEnd:
-                anim.SetBool("Breath Attack", false);
-                particles.Stop();
-                currentState = QueenState.Idle;
-                break;
-            case QueenState.Summon:
-                break;
-            case QueenState.Defend:
-                if (idleTime > 1f)
-                {
-                    currentState = QueenState.Idle;
-                    anim.SetBool("Defend", false);
-                }
-                else
-                    idleTime += Time.deltaTime;
-                break;
-            case QueenState.TakeDamage:
-                currentHealth--;
-                if (currentHealth < 1)
-                    currentState = QueenState.Death;
+            case AI.ClawAttack:
 
                 break;
-            case QueenState.Death:
+            case AI.BiteAttack:
+
+                break;
+            case AI.CastSpell:
+
+                break;
+            case AI.BreathAttackStart:
+
+                break;
+            case AI.BreathAttackLoop:
+
+                break;
+            case AI.BreathAttackEnd:
+
+                break;
+            case AI.Summon:
+                break;
+            case AI.Defend:
+
+                break;
+            case AI.TakeDamage:
+
+
+                break;
+            case AI.Die:
                 break;
         }
     }
 
+    public void Kill()
+    {
+        AttackFinished();
+        currentState = AI.Die;
+    }
+
+    public void AttackFinished()
+    {
+        weaponScript.AttackEnd();
+        currentState = AI.Idle;
+    }
+
+    public void AttackStart()
+    {
+        weaponScript.AttackStart();
+    }
+
+    public void BreathStart()
+    {
+        Breath.StartAttack();
+    }
+
+    public void BreathFinished()
+    {
+        Breath.EndAttack();
+        currentState = AI.Idle;
+        anim.SetBool("Breath Attack", false);
+    }
+
+    public void TakeDamage(int damage = 1)
+    {
+        AttackFinished();
+        if (!dead)
+        {
+            health -= damage;
+            if (health < 1)
+            {
+                Kill();
+            }
+            else
+            {
+                currentState = AI.TakeDamage;
+            }
+        }
+    }
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosistion;
@@ -254,8 +317,55 @@ public class QueenWormController : MonoBehaviour
         PlayerPos = pos;
     }
 
-    void Kill()
-    {
 
+    GameObject FindWeapon(Transform obj)
+    {
+        foreach (Transform tr in obj)
+        {
+            if (tr.tag == "Weapon")
+            {
+                return tr.gameObject;
+            }
+            if (tr.childCount > 0)
+            {
+                GameObject temp = FindWeapon(tr);
+                if (temp)
+                {
+                    return temp;
+                }
+            }
+        }
+        return null;
+    }
+    Ray rangeForward;
+    Ray rangeLeft;
+    Ray rangeRight;
+    bool AttackRangeCheck(float range = 10f)
+    {
+        Debug.DrawRay(transform.position + Vector3.up, transform.forward * range, Color.red);
+        Debug.DrawRay(transform.position + Vector3.up, (transform.forward + transform.right * 0.25f) * range, Color.red);
+        Debug.DrawRay(transform.position + Vector3.up, (transform.forward - transform.right * 0.25f) * range, Color.red);
+        rangeForward = new Ray(transform.position + Vector3.up, transform.forward * range);
+        rangeRight = new Ray(transform.position + Vector3.up, (transform.forward - transform.right * 0.25f) * range);
+        rangeLeft = new Ray(transform.position + Vector3.up, (transform.forward + transform.right * 0.25f) * range);
+        RaycastHit forwardHit;
+        RaycastHit leftHit;
+        RaycastHit rightHit;
+
+        if (Physics.Raycast(rangeForward, out forwardHit, range) && forwardHit.transform.tag == "Player" || Physics.Raycast(rangeLeft, out leftHit, range) && leftHit.transform.tag == "Player" || Physics.Raycast(rangeRight, out rightHit, range) && rightHit.transform.tag == "Player")
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public int RemainingHealth()
+    {
+        return health;
+    }
+
+    public void ResetToIdle()
+    {
+        currentState = AI.Idle;
     }
 }

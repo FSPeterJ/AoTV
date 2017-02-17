@@ -2,55 +2,58 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerIsGrounded : MonoBehaviour {
+public class PlayerIsGrounded : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
+        EventSystem.PlayerGrounded(false);
+    }
 
     // Update is called once per frame
-    int collisionCount = 0;
-    bool Notified = false;
+    bool isGrounded = false;
 
+    List<Collider> collisionList = new List<Collider>();
 
     private void OnTriggerEnter(Collider other)
     {
-        if (collisionCount == 0)
-        {
-            Notified = false;
-        }
-        collisionCount++;
-        Debug.Log(collisionCount);
+        //Debug.Log("Added" + other.gameObject.name);
+
+        collisionList.Add(other);
     }
     private void OnTriggerExit(Collider other)
     {
-        collisionCount--;
-        if (collisionCount == 0)
-        {
-            Notified = false;
-        }
-        Debug.Log(collisionCount);
+        //Debug.Log("Removed" + other.gameObject.name);
+
+        collisionList.Remove(other);
     }
 
     void Update()
 
     {
-        if(Notified == false)
+        collisionList.RemoveAll(IsEMpty);
+        if (isGrounded)
         {
-            if ( collisionCount == 0 )
+            if (collisionList.Count < 1)
             {
                 EventSystem.PlayerGrounded(false);
-                Notified = true;
+                isGrounded = false;
             }
-            else
+
+        }
+        else
+        {
+            if (collisionList.Count > 0)
             {
                 EventSystem.PlayerGrounded(true);
-                Notified = true;
+                isGrounded = true;
             }
         }
-        
-         
     }
 
+    private bool IsEMpty(Collider col)
+    {
+        return col == null;
+    }
 }

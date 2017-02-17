@@ -87,7 +87,6 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
 
     //Wandering variarables;
     Vector3 originPos;
-    NavMeshHit navHitPos;
     Vector3 wanderTarget;
     bool wanderTargetSet = false;
 
@@ -141,7 +140,6 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
         weaponScriptR = weaponR.GetComponent<IWeaponBehavior>();
         weaponScriptL = weaponL.GetComponent<IWeaponBehavior>();
         currentState = AI.Idle;
-        navHitPos.hit = true;
         attack = Random.Range(0, 1);
     }
 
@@ -161,7 +159,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
             case AI.Idle:
                 {
                     idleTime += Time.deltaTime;
-                    if (targetdistance < 2f)
+                    if (targetdistance < attackRange)
                     {
                         currentState = AI.Attack;
                         break;
@@ -209,21 +207,21 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
                     navAgent.SetDestination(targetPos);
                     if (targetdistance > aggroRange)
                     {
-                        
-                        currentState = AI.Idle;
                         anim.SetBool("Walk", false);
+                        currentState = AI.Idle;
                     }
                     else if (targetdistance < attackRange)
                     {
-                        currentState = AI.Attack;
                         anim.SetBool("Walk", false);
+                        currentState = AI.Attack;
+                        
 
                     }
                     else if (targetdistance < aggroRange && targetdistance > minrunRange)
                     {
-                        
-                        currentState = AI.Run;
                         anim.SetBool("Walk", false);
+                        currentState = AI.Run;
+                        
                     }
                 }
                 break;

@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour {
 
    public void NewGameLoader()
     {
-        SceneManager.LoadScene("Swamp", LoadSceneMode.Single);
+        SceneManager.LoadScene("Opening Scene", LoadSceneMode.Single);
     }
 
    public void OptionsLoader()

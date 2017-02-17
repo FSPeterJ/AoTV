@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MainCamera : MonoBehaviour
@@ -9,6 +10,7 @@ public class MainCamera : MonoBehaviour
     Transform Rail;
     RaycastHit hitInfo;
     int layerMask = 31;
+    float scaleFactor = 2;
 
     [SerializeField]
     float minZoom = -10;
@@ -23,11 +25,13 @@ public class MainCamera : MonoBehaviour
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
+        EventSystem.onPlayerScale += ScaleFactor;
     }
     //unsubscribe from player movement
     void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        EventSystem.onPlayerScale -= ScaleFactor;
     }
 
 
@@ -49,7 +53,7 @@ public class MainCamera : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] temp = Physics.RaycastAll(ray);
+        RaycastHit[] temp = Physics.RaycastAll(ray).OrderBy(h => h.distance).ToArray();
 
         for (int i = 0; i < temp.Length; i++)
         {
@@ -59,6 +63,7 @@ public class MainCamera : MonoBehaviour
 
                 // Do something with the object that was hit by the raycast.
                 EventSystem.MousePositionUpdate(temp[i].point);
+
                 break;
             }
 
@@ -67,7 +72,8 @@ public class MainCamera : MonoBehaviour
 
         float zoom = Rail.localPosition.z;
         zoom -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
-        Rail.localPosition = new Vector3(0, 2, Mathf.Clamp(zoom, minZoom + zoomOffset,  maxZoom+ zoomOffset));
+        Rail.transform.localPosition = new Vector3(0, 0.5f * scaleFactor, 0);
+        Rail.localPosition = new Vector3(0, 2, Mathf.Clamp(zoom, minZoom * scaleFactor + zoomOffset * scaleFactor,  maxZoom * scaleFactor + zoomOffset * scaleFactor));
 
 
     }
@@ -81,6 +87,12 @@ public class MainCamera : MonoBehaviour
     void PlayerDied()
     {
 
+    }
+
+    void ScaleFactor(float num)
+    {
+        scaleFactor = num;
+        transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
     }
 
 }

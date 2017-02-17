@@ -50,9 +50,11 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4791111497444672}
+  - component: {fileID: 65422076147473544}
+  - component: {fileID: 114075941521682026}
   m_Layer: 0
   m_Name: RigTongue1Gizmo
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -186,8 +188,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4892990355584904}
   - component: {fileID: 95628487905313450}
-  - component: {fileID: 65663603465259856}
   - component: {fileID: 65474894344993222}
+  - component: {fileID: 65663603465259856}
   - component: {fileID: 114476700599341502}
   - component: {fileID: 195699814586952650}
   - component: {fileID: 54202872001972578}
@@ -829,7 +831,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1310479934390756}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8959016, y: 1, z: -7.284466}
+  m_LocalPosition: {x: -0.30714193, y: 1, z: -23.359283}
   m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4079875174044484}
@@ -854,7 +856,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1126410534638860}
-  m_LocalRotation: {x: 0.68906647, y: -0.15870571, z: -0.68906647, w: 0.15870558}
+  m_LocalRotation: {x: 0.6890664, y: -0.1587057, z: -0.6890664, w: 0.15870556}
   m_LocalPosition: {x: -0.000000009546935, y: 0.5656357, z: -0.20075774}
   m_LocalScale: {x: 1.0000004, y: 1.0000005, z: 1.0000001}
   m_Children: []
@@ -900,10 +902,22 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65422076147473544
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1068027042372290}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0829397, y: 1.1857549, z: 0.9493529}
+  m_Center: {x: -0.6999846, y: 0.092835605, z: 0.025322914}
 --- !u!65 &65474894344993222
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -945,6 +959,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114075941521682026
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1068027042372290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ImpactEffect: {fileID: 0}
+  Damage: 1
+  team: 0
 --- !u!114 &114476700599341502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1094,7 +1122,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 0
+  randomSeed: -266209473
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -1307,15 +1335,9 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - serializedVersion: 2
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_RotationOrder: 0
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1325,16 +1347,10 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - serializedVersion: 2
-          time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
-      minMaxState: 0
+        m_RotationOrder: 0
+      minMaxState: 3
     startSizeZ:
       scalar: 1
       maxCurve:
@@ -1346,15 +1362,9 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - serializedVersion: 2
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_RotationOrder: 0
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -1364,16 +1374,10 @@ ParticleSystem:
           inSlope: 0
           outSlope: 0
           tangentMode: 0
-        - serializedVersion: 2
-          time: 1
-          value: 0
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
-      minMaxState: 0
+        m_RotationOrder: 0
+      minMaxState: 3
     startRotationX:
       scalar: 0
       maxCurve:
@@ -3708,7 +3712,7 @@ ParticleSystemRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89

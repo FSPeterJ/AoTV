@@ -11,17 +11,16 @@ public class SkeletonArcher : MonoBehaviour
     Vector3 arrowPos;
     Quaternion arrowQuat;
     bool asleep;
-    bool attacking = false;
     float attackDistance = 15;
-    float reloadTime = 2;
     public uint pointValue = 1;
-
+    Rigidbody body;
 
     // Use this for initialization
     void Start()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
+        body = GetComponent<Rigidbody>();
         asleep = false;
     }
 
@@ -44,11 +43,12 @@ public class SkeletonArcher : MonoBehaviour
             if (unitedStatePattern.currentState.ToString() == "ChaseState") //&& unitedStatePattern.DistanceToPlayer > stopToAttackDistance)
             {
                 CancelCurrentAnimation();
+                body.rotation = Quaternion.Slerp(body.rotation, Quaternion.LookRotation(unitedStatePattern.chaseTarget.transform.position - body.position), 10 * Time.deltaTime);
+                body.AddForce(gameObject.transform.up * -150);
                 if (unitedStatePattern.navMeshAgent.remainingDistance < attackDistance)
                 {
                     unitedStatePattern.navMeshAgent.Stop();
                     anim.SetBool("Run", false);
-                    anim.SetLookAtPosition(unitedStatePattern.chaseTarget.transform.position);
                     anim.SetTrigger("Arrow Attack");
                 }
                 else

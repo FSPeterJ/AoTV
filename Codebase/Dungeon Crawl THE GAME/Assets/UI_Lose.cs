@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UI_Lose : MonoBehaviour {
 
@@ -22,5 +23,15 @@ public class UI_Lose : MonoBehaviour {
     void Lose()
     {
         transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    public void Quitter()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public void Continue()
+    {
+        EventSystem.Cont();
     }
 }

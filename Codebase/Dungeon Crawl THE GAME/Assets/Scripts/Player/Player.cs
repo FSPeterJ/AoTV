@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     int healthMax = 30;
     [SerializeField]
     uint lives = 3;
+    [SerializeField]
+    float scaleFactor = 2;
 
     //This is not allowed.
     //[SerializeField] HUD Hud;
@@ -32,7 +34,7 @@ public class Player : MonoBehaviour
     bool invulnerable = false;
     bool burning = false;
     int maxJumpStored;
-    ParticleSystem particle;
+
 
     //Component References
     Animator anim;
@@ -47,10 +49,7 @@ public class Player : MonoBehaviour
 
     //Physics Settings
     float gravity = 9.8F;
-    [SerializeField]
-    float speed = 3.0F;
-    [SerializeField]
-    float sprintSpeed = 6.0f;
+    float speed = 7.5F;
     [SerializeField]
     float jumpSpeed = 10.0F;
     [SerializeField]
@@ -105,7 +104,7 @@ public class Player : MonoBehaviour
         EventSystem.onPlayerGrounded += IsGrounded;
         EventSystem.onMousePositionUpdate += UpdateMousePosition;
         EventSystem.onPlayer_ReloadCheckpoint += ReloadCheckpoint;
-
+        EventSystem.onPlayerScale += ScaleFactor;
     }
     //unsubscribe from player movement
     void OnDisable()
@@ -113,8 +112,8 @@ public class Player : MonoBehaviour
         EventSystem.onPlayerGrounded -= IsGrounded;
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
         EventSystem.onPlayer_ReloadCheckpoint -= ReloadCheckpoint;
+        EventSystem.onPlayerScale -= ScaleFactor;
     }
-
 
     //States
     enum States
@@ -221,6 +220,7 @@ public class Player : MonoBehaviour
                     tpMarker = Instantiate(teleportMarker);
                     tpMarker.transform.parent = transform;
                     tpMarker.transform.position = transform.position;
+                    tpMarker.transform.localScale = new Vector3(scaleFactor,scaleFactor,scaleFactor);
                     _tT = value;
                 }
                 else
@@ -251,8 +251,9 @@ public class Player : MonoBehaviour
                         rangedAttackTime = 0;
                         weapon.SetActive(false);
                         rangedScytheAttack = Instantiate(rangedScythe);
-                        rangedScytheAttack.transform.position = transform.position + transform.up * 2;
+                        rangedScytheAttack.transform.position = transform.position + transform.up * scaleFactor;
                         rangedScytheAttack.transform.rotation = transform.rotation;
+                        rangedScytheAttack.GetComponent<IRangedPlayerAttack>().ScaleFactor(scaleFactor);
                         _tS = value;
                     }
                 }
@@ -271,7 +272,6 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        particle = GetComponent<ParticleSystem>();
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         EventSystem.SpinTime(spinTime, maxSpinTime);
         anim = GetComponent<Animator>();
@@ -303,9 +303,11 @@ public class Player : MonoBehaviour
             EventSystem.TeleportCooldown(teleportCD, teleportCDMax);
             EventSystem.RangedCooldown(rangedAttackCD, rangedAttackCDMax);
 
+            Vector3 tempMousePostition = mousePosition;
+            tempMousePostition.y = transform.position.y;
+            mouseDistance = Vector3.Distance(tempMousePostition, transform.position);
 
             //Re-used a lot of Harrison's movement code
-            mouseDistance = Vector3.Distance(mousePosition, transform.position);
 
             if (!throwScythe && (currentState == States.Idle || currentState == States.MoveForward))
             {
@@ -342,7 +344,7 @@ public class Player : MonoBehaviour
                 {
                     if (rangedAttackTime > 1.5)
                     {
-                        if (Vector3.Distance(transform.position, rangedScytheAttack.transform.position) < 5)
+                        if (Vector3.Distance(transform.position, rangedScytheAttack.transform.position) < 2.5 * scaleFactor)
                         {
                             throwScythe = false;
                         }
@@ -372,7 +374,7 @@ public class Player : MonoBehaviour
 
 
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
-                if (mouseDistance > .5f)
+                if (mouseDistance > .25f * scaleFactor)
                 {
                     //Turn player to face cursor on terrain
                     RotateToFaceTarget(mousePosition, rotationSpeed);
@@ -387,7 +389,7 @@ public class Player : MonoBehaviour
             if (Input.GetButton("Jump") && maxJump > 0)
             {
                 maxJump--;
-                verticalVel += jumpSpeed;
+                verticalVel += jumpSpeed * scaleFactor;
                 jumpTime = 0;
             }
 
@@ -403,12 +405,13 @@ public class Player : MonoBehaviour
             if (teleportToggle)
             {
                 //tpMarker.transform.rotation = transform.rotation;
-                float md = (mouseDistance < 20) ? mouseDistance / 2 : 20;
-                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y + .2f, md);
+                float md = (mouseDistance / scaleFactor < 15 * scaleFactor) ? mouseDistance / scaleFactor : 15 * scaleFactor;
+                tpMarker.transform.localPosition = new Vector3(0, 0, md);
+                tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y +.1f, tpMarker.transform.position.z);
             }
 
             //Move
-            
+            EventSystem.PlayerPositionUpdate(transform.position);
 
         }
 
@@ -418,7 +421,6 @@ public class Player : MonoBehaviour
     {
         Move();
     }
-     bool landed;
     //Calculate Physics movement
     void Move()
     {
@@ -429,24 +431,23 @@ public class Player : MonoBehaviour
             maxJump = maxJumpStored;
             verticalAccel = 0;
             verticalVel = 0;
-            landed = true;
         }
         else
         {
-            verticalAccel -= gravity * Time.fixedDeltaTime * 2;
+            verticalAccel -= gravity * Time.fixedDeltaTime * scaleFactor;
         }
         moveDirection = new Vector3(horizontalInput, 0, verticalInput);
-        moveDirection *= speed;
+        moveDirection *= speed * scaleFactor;
         verticalVel += verticalAccel * Time.fixedDeltaTime;
 
         moveDirection.y += verticalVel;
-        if (Impact.magnitude > 0.2)
+        if (Impact.magnitude > 0.2 * scaleFactor)
         {
             moveDirection += Impact;
             Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.fixedDeltaTime);
         }
         rBody.velocity = moveDirection;
-        EventSystem.PlayerPositionUpdate(transform.position);
+        
     }
 
     void GetInput()
@@ -486,7 +487,7 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Invulnerable());
 
-            health--;
+            health-= dmg;
             EventSystem.PlayerHealthUpdate(health, healthMax);
             if (health < 1)
             {
@@ -575,15 +576,20 @@ public class Player : MonoBehaviour
     {
         if (col.tag == "Trapdoor")
             if (Input.GetButton("Use"))
-                SceneManager.LoadScene("Graveyard");
+            {
+                gameObject.transform.localScale = new Vector3(2, 2, 2);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
 
         if (col.tag == "ForestEnd")
-            SceneManager.LoadScene("Graveyard");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
         if (col.tag == "SwampEnd")
-            SceneManager.LoadScene("Forest");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
 
-   
+
 
     void OnTriggerEnter(Collider col)
     {
@@ -610,7 +616,7 @@ public class Player : MonoBehaviour
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
 
-        else if (col.tag == "Invulneraball")
+        else if (col.tag == "InvunerablePowerUp")
         {
             StartCoroutine(Invulnerable(10));
             Destroy(col.gameObject);
@@ -651,10 +657,7 @@ public class Player : MonoBehaviour
             TakeDamage();
             ReturnToCheckpoint();
         }
-        else if (col.tag == "WinArea")
-        {
-            WinScreen.SetActive(true);
-        }
+
     }
 
     void ReturnToCheckpoint()
@@ -716,5 +719,11 @@ public class Player : MonoBehaviour
     {
         transform.position = CurrentCheckpoint;
         Time.timeScale = 1;
+    }
+
+    void ScaleFactor(float num = 2)
+    {
+        scaleFactor = num;
+        transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
     }
 }

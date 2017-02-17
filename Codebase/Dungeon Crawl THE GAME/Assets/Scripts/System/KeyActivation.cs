@@ -29,7 +29,7 @@ public class KeyActivation : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (HasKey != true)
+        if (HasKey != true && other.tag == "Player")
         {
             EventSystem.UI_Interact(true);
         }
@@ -43,7 +43,6 @@ public class KeyActivation : MonoBehaviour {
             {
                 hasKey = true;
                 EventSystem.UI_KeyChange(1);
-                Debug.Log("has key");
                 if (hasKeySoundPlayed != true)
                 {
                     GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");

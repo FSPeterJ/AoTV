@@ -5,17 +5,17 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 463030}
-  - 33: {fileID: 3374356}
-  - 23: {fileID: 2342248}
-  - 65: {fileID: 6552574}
+  - component: {fileID: 463030}
+  - component: {fileID: 3374356}
+  - component: {fileID: 2342248}
+  - component: {fileID: 6552574}
   m_Layer: 0
   m_Name: Hut 01 Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &463030
@@ -24,12 +24,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 184498}
-  m_LocalRotation: {x: .00537507422, y: -.707086384, z: -.707086384, w: -.00537504721}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.21007144, y: .938720167, z: .82615155}
+  m_LocalRotation: {x: 0.6172921, y: -0.344892, z: -0.34489194, w: -0.61729217}
+  m_LocalPosition: {x: 109.7145, y: 0, z: -38.707573}
+  m_LocalScale: {x: 0.66666675, y: 0.66666675, z: 0.66666675}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 148.386}
 --- !u!23 &2342248
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -39,17 +40,24 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
   m_Materials:
   - {fileID: 2100000, guid: cb153d31634579a48ab5a4ede905e204, type: 2}
-  m_SubsetIndices: 
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -67,12 +75,12 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 184498}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: d457adc941c0b91419417f9f9875f63d, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.89322519, y: 5.38198042, z: 6.00597}
-  m_Center: {x: 3.70654663e-09, y: -4.44323723e-06, z: 3.00298429}
+  m_Size: {x: 4.893225, y: 5.3819804, z: 6.00597}
+  m_Center: {x: 0.0000000037065466, y: -0.0000044432372, z: 3.0029843}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

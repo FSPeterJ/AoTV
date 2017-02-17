@@ -16,7 +16,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
             {
                 case AI.Idle:
                     navAgent.speed = 0;
-                    navAgent.Stop();
+                    navAgent.enabled = false;
                     //navAgent.
                     idleTime = 0;
                     //navAgent.enabled = false;
@@ -42,7 +42,6 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                     break;
                 case AI.Walk:
                     anim.SetBool("Walk", true);
-                    navAgent.Resume();
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
@@ -61,6 +60,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                     break;
                 case AI.Die:
                     dead = true;
+                    idleTime = 0;
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     anim.SetBool("Die", true);
@@ -96,8 +96,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
 
     //wandering variarables;
     Vector3 wanderingSphere;
-    Vector3 originPos;
-    NavMeshHit navHitPos;
+
 
 
 
@@ -140,8 +139,8 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
         {
             currentState = AI.Idle;
         }
-        AttackFinished();
-        if (!dead)
+        //AttackFinished();
+        if (dead==false)
         {
             health -= damage;
             if (health < 1)
@@ -160,7 +159,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     }
     public void Kill()
     {
-        AttackFinished();
+        //AttackFinished();
         currentState = AI.Die;
     }
 
@@ -188,12 +187,10 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     {
         bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
-        originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
-        mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
-        weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
+        weaponScript = FindWeapon(transform).GetComponent<IWeaponBehavior>();
         currentState = AI.Rest;
-        navHitPos.hit = true;
+       
     }
     void Update()
     {
@@ -232,6 +229,10 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
             case AI.Wander:
                 break;
             case AI.Die:
+                if (idleTime > 2)
+                {
+                    Destroy(gameObject);
+                }
                 break;
             case AI.Rest:
                     if (health != 4)
@@ -255,7 +256,29 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                 currentState = AI.BiteAttack;
                 anim.SetBool("Rest", false);
                 //kill player here
+                int damage = 100;
+                Col.GetComponent<Player>().TakeDamage(damage);
             }
         }
+    }
+
+    GameObject FindWeapon(Transform obj)
+    {
+        foreach (Transform tr in obj)
+        {
+            if (tr.tag == "Weapon")
+            {
+                return tr.gameObject;
+            }
+            if (tr.childCount > 0)
+            {
+                GameObject temp = FindWeapon(tr);
+                if (temp)
+                {
+                    return temp;
+                }
+            }
+        }
+        return null;
     }
 }

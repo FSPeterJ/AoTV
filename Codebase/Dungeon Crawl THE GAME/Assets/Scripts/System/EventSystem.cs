@@ -161,5 +161,22 @@ public static class EventSystem
     public static void PlayerLose()
     {
         if (onPlayerLose != null) onPlayerLose();
+
+    }
+
+
+    public delegate void PlayerScaleHandler(float scale);
+    public static event PlayerScaleHandler onPlayerScale;
+    public static void PlayerScale(float scale)
+    {
+        if (onPlayerScale != null) onPlayerScale(scale);
+    }
+
+
+    public delegate void ContinuePlayer();
+    public static event ContinuePlayer onCont;
+    public static void Cont()
+    {
+        if (onCont != null) onCont();
     }
 }

@@ -6,8 +6,6 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
 
     //Score variables
     int pScore;
-    int sX = Screen.width - 7;
-    int sY = 0;
 
     enum SnakeState
     {
@@ -79,7 +77,7 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
     //wandering variarables;
     Vector3 wanderingSphere;
     Vector3 originPos;
-    NavMeshHit navHitPos;
+   // NavMeshHit navHitPos;
 
 
 
@@ -91,7 +89,6 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
 
     //References
     NavMeshAgent navAgent;
-    Collider AttackRegionCollider;
 
     float idleTime = 0;
 
@@ -102,9 +99,8 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
-        AttackRegionCollider = GetComponent<Collider>();
         currentState = SnakeState.Idle;
-        navHitPos.hit = true;
+      //  navHitPos.hit = true;
     }
 	
 	// Update is called once per frame
@@ -158,22 +154,22 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
                 break;
             case SnakeState.Wander:
                 {
-                    if (navHitPos.hit == true)
-                    {
-                        navHitPos.hit = false;
-                        float x = originPos.x + (-10 + Random.Range(0, 20));
-                        float z = originPos.z + (-10 + Random.Range(0, 20));
-                        Vector3 randDirection = new Vector3(x, transform.position.y, z);
-                        navHitPos.position = randDirection;
-                        anim.SetBool("Slither", true);
-                    }
-                    else if (navAgent.remainingDistance < 2)
-                    {
-                        navHitPos.hit = true;
-                        anim.SetBool("Slither", false);
-                        currentState = SnakeState.Idle;
-                    }
-                    navAgent.SetDestination(navHitPos.position);
+          //      if (navHitPos.hit == true)
+          //      {
+          //          navHitPos.hit = false;
+          //          float x = originPos.x + (-10 + Random.Range(0, 20));
+          //          float z = originPos.z + (-10 + Random.Range(0, 20));
+          //          Vector3 randDirection = new Vector3(x, transform.position.y, z);
+          //          navHitPos.position = randDirection;
+          //          anim.SetBool("Slither", true);
+          //      }
+          //      else if (navAgent.remainingDistance < 2)
+          //      {
+          //          navHitPos.hit = true;
+          //          anim.SetBool("Slither", false);
+          //          currentState = SnakeState.Idle;
+          //      }
+          //      navAgent.SetDestination(navHitPos.position);
                 }
                 break;
         }

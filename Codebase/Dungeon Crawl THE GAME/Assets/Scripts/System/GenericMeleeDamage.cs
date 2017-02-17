@@ -6,19 +6,21 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
 {
     bool AddForce = false;
     public GameObject ImpactEffect;
+    [SerializeField]
+    int Damage = 1;
     public enum teams
     {
         Enemy, Ally, Neutral
     }
-        
-    public teams team;
 
+    public teams team;
+    [SerializeField]
     bool attacking = false;
     List<int> damagedUnits = new List<int>();
 
     void Start()
     {
-        enabled = false;
+
     }
 
 
@@ -30,7 +32,7 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
             {
                 if (other.gameObject.tag == "Enemy" && !damagedUnits.Contains(other.gameObject.GetInstanceID()))
                 {
-                    other.gameObject.GetComponentInParent<IEnemyBehavior>().TakeDamage();
+                    other.gameObject.GetComponentInParent<IEnemyBehavior>().TakeDamage(Damage);
                     //Prevent multiple hits per second.
                     damagedUnits.Add(other.gameObject.GetInstanceID());
                     if (ImpactEffect)
@@ -40,23 +42,22 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
                 }
             }
 
-            if(team != teams.Ally) 
+            if (team != teams.Ally)
             {
                 if (other.gameObject.tag == "Player" && !damagedUnits.Contains(other.gameObject.GetInstanceID()))
                 {
                     if (AddForce == true)
                     {
-                        Debug.Log("Apply Impact Force");
                         other.gameObject.GetComponent<Player>().AddImpact(transform.position, 1100f);
                     }
-                    other.gameObject.GetComponent<Player>().TakeDamage();
+                    other.gameObject.GetComponent<Player>().TakeDamage(Damage);
                     //Prevent multiple hits per second.
                     damagedUnits.Add(other.gameObject.GetInstanceID());
                     if (ImpactEffect)
                     {
                         Instantiate(ImpactEffect, transform.position, transform.rotation);
                     }
-                    
+
                 }
             }
         }
@@ -67,14 +68,12 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
     {
         damagedUnits.Clear();
         attacking = true;
-
     }
     public void AttackEnd()
     {
         AddForce = false;
         attacking = false;
         damagedUnits.Clear();
-
     }
 
     public void ResetAttack()

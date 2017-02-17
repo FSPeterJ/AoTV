@@ -7,14 +7,13 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
 {
 
 
-
+    public GameObject levelExit;
     Animator anim;
     Vector3 targetPos;
     float targetDis;
 
     Vector3 wanderingSphere;
     Vector3 origin;
-    NavMeshHit navHit;
 
     GameObject weapon;
     IWeaponBehavior weaponScript;
@@ -26,13 +25,25 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
     float shockwaveTime = 0;
     [SerializeField]
     float shockwaveCooldown = 9;
+    float shotTime = 100;
+    [SerializeField]
+    float shotCooldown = 9;
     GameObject Proj;
+    [SerializeField]
+    GameObject Shockwave;
 
     NavMeshAgent navAgent;
     Collider attackRangeCol;
+    bool navPos;
+    Vector3 targetDestination;
+
+    [SerializeField]
+    float attackRange = 20f;
 
     float idleTime = 0;
     bool dead = false;
+    int Shots = 0;
+    int maxShots = 4;
 
     enum AI
     {
@@ -44,9 +55,10 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
         Projectile,
         Shockwave,
         TakeDamage,
-        Death
+        Death,
+        Aiming
     }
-
+    [SerializeField]
     AI _cs;
     AI currentState
     {
@@ -58,6 +70,9 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                 case AI.Idle:
                     idleTime = 0;
                     navAgent.enabled = false;
+                    navAgent.angularSpeed = 120;
+                    navAgent.acceleration = 50;
+
                     _cs = value;
                     break;
                 case AI.Wander:
@@ -77,23 +92,32 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     anim.SetBool("Bite Attack", true);
                     navAgent.speed = 0;
                     navAgent.enabled = false;
+
                     idleTime = 0;
                     _cs = value;
                     break;
                 case AI.Projectile:
-                    attackRangeCol.enabled = true;
+                    Shots++;
+                    if (Shots > maxShots)
+                    {
+                        shotTime = 0;
+                        Shots = 0;
+                    }
+                    anim.SetBool("Walk", false);
                     anim.SetBool("Projectile Attack", true);
-                    navAgent.speed = 0;
-                    navAgent.enabled = false;
-                    idleTime = 0;
+                    navAgent.speed = .1f;
                     _cs = value;
                     break;
                 case AI.Shockwave:
+                    shockwaveTime = 0;
                     attackRangeCol.enabled = true;
                     anim.SetBool("Shockwave Attack", true);
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     idleTime = 0;
+                    
+                    //ParticleSystem.EmissionModule temp = Shockwave.GetComponent<ParticleSystem.EmissionModule>();
+                    //temp.enabled = true;
                     _cs = value;
                     break;
                 case AI.CastSpell:
@@ -114,13 +138,18 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     navAgent.enabled = false;
                     GetComponent<BoxCollider>().enabled = false;
                     anim.SetBool("Die", true);
+                    levelExit.SetActive(true);
                     EventSystem.ScoreIncrease(pointValue);
+                    _cs = value;
+                    break;
+                case AI.Aiming:
+                    navAgent.angularSpeed = 1420;
+                    navAgent.acceleration = 500;
                     _cs = value;
                     break;
                 default:
                     _cs = value;
                     break;
-
             }
         }
     }
@@ -145,14 +174,15 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
         navAgent = GetComponent<NavMeshAgent>();
         attackRangeCol = GetComponent<Collider>();
         currentState = AI.Idle;
-        navHit.hit = true;
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
+       
     }
 
     void Update()
     {
         shockwaveTime += Time.deltaTime;
+        shotTime += Time.deltaTime;
         targetDis = Vector3.Distance(targetPos, transform.position);
 
         switch (currentState)
@@ -160,7 +190,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
             case AI.Idle:
                 {
                     if (idleTime > 1f)
-                        if (targetDis < 20f)
+                        if (targetDis < attackRange * 1.5f)
                             currentState = AI.Walk;
                     if (idleTime > 3f)
                     {
@@ -173,29 +203,28 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                 break;
             case AI.Wander:
                 {
-                    if (navHit.hit)
+                    if (navPos == true)
                     {
-                        navHit.hit = false;
+                        navPos = false;
                         float x = origin.x + (-10 + Random.Range(0, 20));
                         float z = origin.z + (-10 + Random.Range(0, 20));
                         Vector3 randDirection = new Vector3(x, transform.position.y, z);
-                        navHit.position = randDirection;
+                        targetDestination = randDirection;
                         anim.SetBool("Walk", true);
-                        navAgent.SetDestination(navHit.position);
+                        navAgent.SetDestination(targetDestination);
                     }
                     else if (navAgent.remainingDistance < 2)
                     {
-                        navHit.hit = true;
+                        navPos = true;
                         anim.SetBool("Walk", false);
                         currentState = AI.Idle;
                     }
-                    
                 }
                 break;
             case AI.Walk:
                 {
                     navAgent.SetDestination(targetPos);
-                    if (targetDis < 2.9f)
+                    if (targetDis < 5.5f && AttackRangeCheck(6))
                     {
 
                         currentState = AI.Bite;
@@ -206,27 +235,33 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                         currentState = AI.Shockwave;
                         anim.SetBool("Walk", false);
                     }
-                    else if (targetDis < 14f)
+                    else if (targetDis < attackRange && shotTime > shotCooldown)
                     {
-                        currentState = AI.CastSpell;
-                        anim.SetBool("Walk", false);
-                    }
-                    else if (targetDis < 20f)
-                    {
-                        currentState = AI.Projectile;
-                        anim.SetBool("Walk", false);
-                    }
+                        currentState = AI.Aiming;
 
+                    }
                 }
                 break;
             case AI.Bite:
-
                 break;
-            case AI.Projectile:
-
+            case AI.Aiming:
+                navAgent.SetDestination(targetPos);
+                if (targetDis < 2.9f && AttackRangeCheck(3))
+                {
+                    anim.SetBool("Walk", false);
+                    currentState = AI.Bite;
+                }
+                else if (targetDis < 8f && shockwaveTime > shockwaveCooldown)
+                {
+                    anim.SetBool("Walk", false);
+                    currentState = AI.Shockwave;
+                }
+                else if (AttackRangeCheck(attackRange) && shotTime > shotCooldown)
+                {
+                    currentState = AI.Projectile;
+                }
                 break;
             case AI.Shockwave:
-
                 break;
             case AI.CastSpell:
                 break;
@@ -279,7 +314,14 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
 
     public void CreateProjectile()
     {
-        GameObject projectile = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, 0, 0));
+        GameObject temp = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, 0, 0));
+        temp.transform.localScale = new Vector3(2, 2, 2);
+        temp = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, 2, 0));
+        temp.transform.localScale = new Vector3(2, 2, 2);
+
+        temp = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, -2, 0));
+        temp.transform.localScale = new Vector3(2, 2, 2);
+
     }
 
     public void AttackStart()
@@ -316,5 +358,27 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
             }
         }
         return null;
+    }
+
+    bool AttackRangeCheck(float range = 10f)
+    {
+        Debug.DrawRay(transform.position + Vector3.up, transform.forward * range, Color.red);
+        Ray attackRangeForward = new Ray(transform.position + Vector3.up, transform.forward * range);
+        RaycastHit[] forwardHit = Physics.RaycastAll(attackRangeForward, range);
+
+        for (int i = 0; i < forwardHit.Length; i++)
+        {
+            if (forwardHit[i].collider.gameObject.tag == "Player")
+            {
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    void ShockwaveAttack()
+    {
+        Instantiate(Shockwave, transform.position, Quaternion.Euler(-90, 0, 0));
     }
 }

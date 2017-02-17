@@ -33,7 +33,7 @@ public class ChaseState : IEnemyState
 
     public void ToChaseState()
     {
-        Debug.Log("In Chase State");//Can't transition to same state, but must have this function for the interface
+       // Debug.Log("In Chase State");//Can't transition to same state, but must have this function for the interface
     }
 
     private void Look()//In patrol state, ray cast 20 units from his eyes

@@ -67,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1896568683682856}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.8255463, y: -13.104, z: 8.843962}
+  m_LocalPosition: {x: -9.052095, y: -1.2676153, z: 0.8073139}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4038150660671032}
@@ -99,8 +99,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ImpactEffect: {fileID: 1942907453184030, guid: 579a85c06c9a2334983544ec65396995,
     type: 2}
-  speed: 0.5
+  speed: 1
   destoryOnImpact: 1
+  lifetime: 5
+  timePassed: 0
   team: 0
 --- !u!198 &198190100861339808
 ParticleSystem:
@@ -157,7 +159,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 71781111
+  randomSeed: -122514899
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -2793,7 +2795,7 @@ ParticleSystem:
     minMaxState: 0
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
-  scalingMode: 2
+  scalingMode: 1
   randomSeed: 1933458656
   InitialModule:
     serializedVersion: 3
@@ -3328,7 +3330,7 @@ ParticleSystem:
     time3: 0
     m_BurstCount: 0
   SizeModule:
-    enabled: 1
+    enabled: 0
     curve:
       scalar: 1
       maxCurve:
@@ -3336,19 +3338,19 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 0.3958333
-          inSlope: 0.6041667
-          outSlope: 0.6041667
+          value: 1
+          inSlope: 0
+          outSlope: 0
           tangentMode: 34
         - serializedVersion: 2
           time: 1
           value: 1
-          inSlope: 0.6041667
-          outSlope: 0.6041667
+          inSlope: 0
+          outSlope: 0
           tangentMode: 34
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_RotationOrder: 0
       minCurve:
         serializedVersion: 2
         m_Curve:

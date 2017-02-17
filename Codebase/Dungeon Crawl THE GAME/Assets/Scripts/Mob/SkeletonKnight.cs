@@ -10,16 +10,15 @@ public class SkeletonKnight : MonoBehaviour{
     IWeaponBehavior weaponBehavior;
     Animator anim;
     bool asleep = true;
-    bool attacking = false;
-    bool dead = false;
     public uint pointValue = 1;
-
+    Rigidbody body;
 
     // Use this for initialization
     void Start ()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
+        body = GetComponent<Rigidbody>();
         //StartCoroutine(WakeMeUpInside());
         weaponBehavior = sword.GetComponent<IWeaponBehavior>();
         asleep = false;
@@ -43,8 +42,9 @@ public class SkeletonKnight : MonoBehaviour{
             if (unitedStatePattern.currentState.ToString() == "ChaseState") //&& unitedStatePattern.DistanceToPlayer > stopToAttackDistance)
             {
                 CancelCurrentAnimation();
-                anim.SetLookAtPosition(unitedStatePattern.chaseTarget.position);
-                if(unitedStatePattern.navMeshAgent.remainingDistance < unitedStatePattern.attackDistance)
+                body.rotation = Quaternion.Slerp(body.rotation, Quaternion.LookRotation(unitedStatePattern.chaseTarget.transform.position - body.position), 10 * Time.deltaTime);
+                body.AddForce(gameObject.transform.up * -150);
+                if (unitedStatePattern.navMeshAgent.remainingDistance < unitedStatePattern.attackDistance)
                 {
                     unitedStatePattern.navMeshAgent.Stop();
                     anim.SetBool("Run", false);

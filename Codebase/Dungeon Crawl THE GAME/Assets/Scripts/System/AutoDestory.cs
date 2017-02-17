@@ -15,9 +15,8 @@ public class AutoDestory : MonoBehaviour {
 		while(true)
 		{
 			yield return new WaitForSeconds(delaytime);
-			if(!GetComponent<ParticleSystem>().IsAlive(true))
-				this.gameObject.SetActive(false);
-
+            if (!GetComponent<ParticleSystem>().IsAlive(true))
+                Destroy(gameObject);
 		}
 	}
 }
