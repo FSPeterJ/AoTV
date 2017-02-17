@@ -406,7 +406,7 @@ public class Player : MonoBehaviour
             {
                 //tpMarker.transform.rotation = transform.rotation;
                 float md = (mouseDistance / scaleFactor < 15 * scaleFactor) ? mouseDistance / scaleFactor : 15 * scaleFactor;
-                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y / scaleFactor + .1f * scaleFactor, md);
+                tpMarker.transform.localPosition = new Vector3(0, mousePosition.y / scaleFactor - 4.5f / scaleFactor, md);
             }
 
             //Move

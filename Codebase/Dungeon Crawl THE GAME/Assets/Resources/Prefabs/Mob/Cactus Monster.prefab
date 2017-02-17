@@ -1183,9 +1183,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1471309450178536}
-  m_LocalRotation: {x: -0, y: 0.40249327, z: -0, w: 0.915423}
-  m_LocalPosition: {x: -6.974156, y: -14.09222, z: -46.1}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: -0.42269534, y: 0.3570159, z: -0.18585072, w: 0.8119901}
+  m_LocalPosition: {x: 0.30220342, y: -47.904465, z: -36.765915}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.49999997}
   m_Children:
   - {fileID: 4746429045158428}
   - {fileID: 4619224168932076}
@@ -1380,7 +1380,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ImpactEffect: {fileID: 0}
+  Damage: 1
   team: 0
+  attacking: 0
 --- !u!114 &114609099547735710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1395,13 +1398,14 @@ MonoBehaviour:
   huD: {fileID: 0}
   _cs: 0
   targetdistance: 0
-  health: 3
+  health: 15
   idleTime: 4
   aggroRange: 40
   minrunRange: 20
-  attackRange: 1.5
+  attackRange: 3
   walkSpeed: 4
-  runSpeed: 6
+  runSpeed: 10
+  pointValue: 1
   weaponR: {fileID: 1201573905730408}
   weaponL: {fileID: 1054398582952048}
 --- !u!114 &114987014515214270
@@ -1415,7 +1419,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ImpactEffect: {fileID: 0}
+  Damage: 1
   team: 0
+  attacking: 0
 --- !u!137 &137965336699167890
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -23,6 +23,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     bool biteAttacked;
     bool alive;
     int transitionNumber;
+    [SerializeField]
     int Health;
     float timer;
     public enum DragonStates
@@ -39,7 +40,6 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         weaponBehavior = mouth.GetComponent<IWeaponBehavior>();
         fireBreathBehavior = fireBreathCollider.GetComponent<IWeaponBehavior>();
         timer = 0;
-        Health = 50;
         transitionNumber = 0;
         biteAttacked = false;
         alive = true;
@@ -182,7 +182,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     public void TakeDamage(int damage = 1)
     {
         Health -= damage;
-        if (dCurrentState == DragonStates.Recover)
+       // if (dCurrentState == DragonStates.Recover)
         {
             GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
             GetComponent<AudioSource>().Play();
