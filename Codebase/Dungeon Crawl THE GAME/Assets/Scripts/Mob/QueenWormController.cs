@@ -39,12 +39,22 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     uint pointValue = 1;
     GameObject weapon;
     IWeaponBehavior weaponScript;
+
+    [SerializeField]
+    GameObject weaponBreath;
+    IWeaponBehavior weaponScriptBreath;
+    BreathAttack Breath;
     [SerializeField]
     GameObject Exit;
 
     [SerializeField]
+    float BreathAttackTime = 888;
+    float BreathAttackCD = 15;
+
+    [SerializeField]
     int attackRange = 5;
 
+    [SerializeField]
     AI cs;
     AI currentState
     {
@@ -62,7 +72,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                 case AI.Move:
                     anim.SetBool("Move", true);
                     navigate.Resume();
-                    navigate.speed = 8f;
+                    navigate.speed = 10f;
                     cs = value;
                     break;
                 case AI.ClawAttack:
@@ -87,6 +97,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                     cs = value;
                     break;
                 case AI.BreathAttackStart:
+                    BreathAttackTime = 0;
                     anim.SetBool("Breath Attack", true);
                     navigate.speed = 0;
                     navigate.Stop();
@@ -142,11 +153,16 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
         weapon = FindWeapon(transform).gameObject;
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
 
+        weaponScriptBreath = weaponBreath.GetComponent<IWeaponBehavior>();
+        Breath = weaponBreath.GetComponent<BreathAttack>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        BreathAttackTime += Time.deltaTime;
+
         PlayerDist = Vector3.Distance(PlayerPos, transform.position);
 
         switch (currentState)
@@ -154,7 +170,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
             case AI.Idle:
                 if (idleTime > 1f)
                 {
-                    if (PlayerDist <= 5f)
+                    if (PlayerDist <= 5f && AttackRangeCheck(5))
                     {
                         if (defendTime)
                         {
@@ -167,14 +183,18 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                             defendTime = true;
                         }
                     }
-                    else if (PlayerDist <= 8f)
+                    else if (PlayerDist <= 8f && AttackRangeCheck(9))
                         currentState = AI.BiteAttack;
-                    else if (PlayerDist <= 15f)
+                    else if (PlayerDist <= 30f)
                     {
-                        if (health <= 5)
+                        if (health <= 10 && AttackRangeCheck(9) && BreathAttackTime > BreathAttackCD )
+                        {
                             currentState = AI.BreathAttackStart;
+                        }
                         else
-                            currentState = AI.CastSpell;
+                        {
+                            currentState = AI.Move;
+                        }
                     }
                 }
                 if (idleTime > 3f)
@@ -184,12 +204,21 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
 
             case AI.Move:
                 navigate.SetDestination(PlayerPos);
-                if (PlayerDist <= 4f)
+                if (PlayerDist <= 12f )
                 {
-                    currentState = AI.BiteAttack;
-                    anim.SetBool("Move", false);
+                    if (health <= 10 && AttackRangeCheck(11) && BreathAttackTime > BreathAttackCD)
+                    {
+                        currentState = AI.BreathAttackStart;
+                        anim.SetBool("Move", false);
+                    }
+                    else if (AttackRangeCheck(5))
+                    {
+                        currentState = AI.BiteAttack;
+                        anim.SetBool("Move", false);
+                    }
+                        
                 }
-                else if (PlayerDist <= 10f)
+                else if (PlayerDist <= 5f && AttackRangeCheck(5))
                 {
                     currentState = AI.ClawAttack;
                     anim.SetBool("Move", false);
@@ -217,7 +246,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
             case AI.Summon:
                 break;
             case AI.Defend:
-               
+
                 break;
             case AI.TakeDamage:
 
@@ -243,6 +272,18 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     public void AttackStart()
     {
         weaponScript.AttackStart();
+    }
+
+    public void BreathStart()
+    {
+        Breath.StartAttack();
+    }
+
+    public void BreathFinished()
+    {
+        Breath.EndAttack();
+        currentState = AI.Idle;
+        anim.SetBool("Breath Attack", false);
     }
 
     public void TakeDamage(int damage = 1)
@@ -296,26 +337,27 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
         }
         return null;
     }
-
-    bool AttackRangeCheck()
+    Ray rangeForward;
+    Ray rangeLeft;
+    Ray rangeRight;
+    bool AttackRangeCheck(float range = 10f)
     {
-        Debug.DrawRay(transform.position + Vector3.up, transform.forward * attackRange, Color.red);
-        Ray attackRangeForward = new Ray(transform.position + Vector3.up, transform.forward * attackRange);
-        RaycastHit[] forwardHit = Physics.RaycastAll(attackRangeForward, attackRange);
+        Debug.DrawRay(transform.position + Vector3.up, transform.forward * range, Color.red);
+        Debug.DrawRay(transform.position + Vector3.up, (transform.forward + transform.right * 0.25f) * range, Color.red);
+        Debug.DrawRay(transform.position + Vector3.up, (transform.forward - transform.right * 0.25f) * range, Color.red);
+        rangeForward = new Ray(transform.position + Vector3.up, transform.forward * range);
+        rangeRight = new Ray(transform.position + Vector3.up, (transform.forward - transform.right * 0.25f) * range);
+        rangeLeft = new Ray(transform.position + Vector3.up, (transform.forward + transform.right * 0.25f) * range);
+        RaycastHit forwardHit;
+        RaycastHit leftHit;
+        RaycastHit rightHit;
 
-        for (int i = 0; i < forwardHit.Length; i++)
+        if (Physics.Raycast(rangeForward, out forwardHit, range) && forwardHit.transform.tag == "Player" || Physics.Raycast(rangeLeft, out leftHit, range) && leftHit.transform.tag == "Player" || Physics.Raycast(rangeRight, out rightHit, range) && rightHit.transform.tag == "Player")
         {
-            if (forwardHit[i].collider.gameObject.tag == "Player")
-            {
-                return true;
-            }
-
+            return true;
         }
         return false;
     }
-
-
-
 
     public int RemainingHealth()
     {
