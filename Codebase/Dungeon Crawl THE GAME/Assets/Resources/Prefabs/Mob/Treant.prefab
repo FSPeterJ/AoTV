@@ -1207,7 +1207,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103264612161462}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 10.003422, y: -13.9, z: -16.186634}
+  m_LocalPosition: {x: 23.97383, y: -13.9, z: -23.458841}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4321625432194446}
@@ -1567,6 +1567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImpactEffect: {fileID: 0}
+  Damage: 1
   team: 0
 --- !u!114 &114183428738226922
 MonoBehaviour:
@@ -1581,6 +1582,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 3
   pointValue: 1
+  shockwaveCooldown: 9
+  shotCooldown: 9
+  Shockwave: {fileID: 0}
+  attackRange: 40
+  _cs: 0
 --- !u!137 &137914245402721356
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

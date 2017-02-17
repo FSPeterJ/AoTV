@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 
 public class Dragon : MonoBehaviour, IEnemyBehavior
 {
     public AudioClip Fallen;
     public ParticleSystem fireBreath;
     public GameObject mouth;
+    public GameObject fireBreathCollider;
     public GameObject Target;
     public Vector3[] Waypoints;
     NavMeshAgent navMeshAgent;
@@ -16,6 +18,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     Rigidbody body;
     DragonStates dCurrentState;
     IWeaponBehavior weaponBehavior;
+    IWeaponBehavior fireBreathBehavior;
 
     bool biteAttacked;
     bool alive;
@@ -34,6 +37,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         body = GetComponent<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         weaponBehavior = mouth.GetComponent<IWeaponBehavior>();
+        fireBreathBehavior = fireBreathCollider.GetComponent<IWeaponBehavior>();
         timer = 0;
         Health = 50;
         transitionNumber = 0;
@@ -160,11 +164,13 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     public void ActivateFireBreath()
     {
         fireBreath.Play();
+        fireBreathBehavior.AttackStart();
     }
 
     public void DeactivateFireBreath()
     {
         fireBreath.Stop();
+        fireBreathBehavior.AttackEnd();
     }
 
     public void TakeDamage(int damage = 1)
@@ -196,6 +202,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     {
         GetComponent<AudioSource>().PlayOneShot(Fallen);
         dCurrentState = DragonStates.Die;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void ResetToIdle()

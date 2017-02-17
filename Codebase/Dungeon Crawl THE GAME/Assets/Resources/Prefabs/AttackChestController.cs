@@ -97,8 +97,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
 
     //wandering variarables;
     Vector3 wanderingSphere;
-  
-    NavMeshHit navHitPos;
+
 
 
 
@@ -193,7 +192,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
        // mouthGizmo = transform.Find("RigMouthTGizmo").gameObject;
        //weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
         currentState = AI.Rest;
-        navHitPos.hit = true;
+       
     }
     void Update()
     {
