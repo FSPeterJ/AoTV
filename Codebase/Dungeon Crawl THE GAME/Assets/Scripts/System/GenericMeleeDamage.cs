@@ -14,13 +14,13 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
     }
 
     public teams team;
-
+    [SerializeField]
     bool attacking = false;
     List<int> damagedUnits = new List<int>();
 
     void Start()
     {
-        enabled = false;
+
     }
 
 
@@ -68,14 +68,12 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
     {
         damagedUnits.Clear();
         attacking = true;
-
     }
     public void AttackEnd()
     {
         AddForce = false;
         attacking = false;
         damagedUnits.Clear();
-
     }
 
     public void ResetAttack()
