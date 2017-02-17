@@ -48,7 +48,6 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
                 {
                     if (AddForce == true)
                     {
-                        Debug.Log("Apply Impact Force");
                         other.gameObject.GetComponent<Player>().AddImpact(transform.position, 1100f);
                     }
                     other.gameObject.GetComponent<Player>().TakeDamage(Damage);
