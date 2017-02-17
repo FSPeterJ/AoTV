@@ -654,10 +654,7 @@ public class Player : MonoBehaviour
             TakeDamage();
             ReturnToCheckpoint();
         }
-        else if (col.tag == "WinArea")
-        {
-            WinScreen.SetActive(true);
-        }
+
     }
 
     void ReturnToCheckpoint()
