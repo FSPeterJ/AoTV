@@ -161,6 +161,7 @@ public static class EventSystem
     public static void PlayerLose()
     {
         if (onPlayerLose != null) onPlayerLose();
+
     }
 
 

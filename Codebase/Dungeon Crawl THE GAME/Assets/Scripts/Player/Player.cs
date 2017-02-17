@@ -47,8 +47,7 @@ public class Player : MonoBehaviour
 
     //Physics Settings
     float gravity = 9.8F;
-    [SerializeField]
-    float speed = 3.0F;
+    float speed = 7.5F;
     [SerializeField]
     float jumpSpeed = 10.0F;
     [SerializeField]

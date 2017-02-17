@@ -28,7 +28,7 @@ public class MainMenu : MonoBehaviour {
 
    public void NewGameLoader()
     {
-        SceneManager.LoadScene("Opening Cutscene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Opening Scene", LoadSceneMode.Single);
     }
 
    public void OptionsLoader()
