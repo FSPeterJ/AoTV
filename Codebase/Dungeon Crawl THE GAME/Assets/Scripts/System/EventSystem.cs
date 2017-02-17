@@ -171,4 +171,12 @@ public static class EventSystem
     {
         if (onPlayerScale != null) onPlayerScale(scale);
     }
+
+
+    public delegate void ContinuePlayer();
+    public static event ContinuePlayer onCont;
+    public static void Cont()
+    {
+        if (onCont != null) onCont();
+    }
 }
