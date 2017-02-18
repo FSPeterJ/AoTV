@@ -61,24 +61,19 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     _cs = value;
                     break;
                 case AI.Die:
-                    dead = true;
-                    navAgent.speed = 0;
-                    navAgent.enabled = false;
-                    anim.SetBool("Die", true);
-                    bCollider.enabled = false;
                     EventSystem.ScoreIncrease(pointValue);
-
+                    idleTime = 0;
                     dead = true;
                     navAgent.speed = 0;
                     navAgent.enabled = false;
+                    anim.SetBool("Slither", false);
                     anim.SetBool("Die", true);
                     bCollider.enabled = false;
                     _cs = value;
                     break;
                 case AI.ProjectileAttack:
                     anim.SetBool("Projectile Attack", true);
-                    navAgent.speed = 0;
-                    navAgent.Stop();
+                   
                     _cs = value;
                     break;
                 case AI.Slither:
@@ -146,7 +141,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                 {
                     if (idleTime > 1f)
                     {
-                        if (targetdistance < 20f)
+                        if (targetdistance < 30f)
                         {
                             currentState = AI.Slither;
                             idleTime = 0;
@@ -183,7 +178,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
 
                 break;
             case AI.ProjectileAttack:
-               
+               navAgent.SetDestination(targetPos);
                 Vector3 position = transform.position + transform.forward * 2f;
                 position.y = position.y + 2;
                 GameObject PoisonBall = Instantiate(projectile,position,Quaternion.identity) as GameObject;
@@ -246,8 +241,13 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                 anim.SetBool("Projectile Attack", false);
                 anim.SetBool("Slither", false);
                 anim.SetBool("Breath Attack", false);
+                currentState = AI.Idle;
                 break;
             case AI.Die:
+                if (idleTime > 2.5f)
+                {
+                    Destroy(gameObject);
+                }
                 break;
             case AI.Wander:
                 {
@@ -286,19 +286,22 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     }
     public void TakeDamage(int damage = 1)
     {
-       // AttackFinished();
-        if (dead==false)
+        Destroy(poisonBreath);
+        // AttackFinished();
+        if (dead == false)
         {
             health -= damage;
             if (health <= 0)
             {
                 Kill();
+                
             }
             else
             {
                 currentState = AI.TakeDamage;
             }
         }
+        
     }
     public int RemainingHealth()
     {
@@ -306,6 +309,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     }
     public void Kill()
     {
+        anim.SetBool("Die", true);
         //AttackFinished();
         currentState = AI.Die;
     }
