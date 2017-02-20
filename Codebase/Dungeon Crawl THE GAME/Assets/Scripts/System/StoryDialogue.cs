@@ -32,6 +32,7 @@ public class StoryDialogue : MonoBehaviour
         if (!starting)
         {
             DialoguePanel.SetActive(true);
+            Debug.Log(DialoguePanel.activeInHierarchy);
             Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[0]);
             timer = .03f;
             starting = true;
@@ -44,7 +45,6 @@ public class StoryDialogue : MonoBehaviour
     void Start()
     {
         EventSystem.onStoryDialogue += EnableDia;
-        
     }
 
     // Update is called once per frame
@@ -75,6 +75,7 @@ public class StoryDialogue : MonoBehaviour
             if (timer <= 0)
             {
                 Mage.SendMessage("Fight");
+                starting = false;
                 DialoguePanel.SetActive(false);
             }
         }
