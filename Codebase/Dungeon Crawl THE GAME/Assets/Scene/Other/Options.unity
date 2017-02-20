@@ -185,6 +185,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1265775963}
     m_Modifications:
+    - target: {fileID: 114136515601320494, guid: 271e14521bcdac849ad0fee79b53d6f9,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 224703907690981418, guid: 271e14521bcdac849ad0fee79b53d6f9,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -410,6 +415,36 @@ Prefab:
     - target: {fileID: 1180735814778148, guid: 271e14521bcdac849ad0fee79b53d6f9, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114554772855434086, guid: 271e14521bcdac849ad0fee79b53d6f9,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114136515601320494, guid: 271e14521bcdac849ad0fee79b53d6f9,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114136515601320494, guid: 271e14521bcdac849ad0fee79b53d6f9,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114136515601320494, guid: 271e14521bcdac849ad0fee79b53d6f9,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1543835305}
+    - target: {fileID: 114136515601320494, guid: 271e14521bcdac849ad0fee79b53d6f9,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FullScreenToggle
+      objectReference: {fileID: 0}
+    - target: {fileID: 114136515601320494, guid: 271e14521bcdac849ad0fee79b53d6f9,
+        type: 2}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 271e14521bcdac849ad0fee79b53d6f9, type: 2}
