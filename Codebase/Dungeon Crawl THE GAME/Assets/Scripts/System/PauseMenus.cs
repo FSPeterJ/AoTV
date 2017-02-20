@@ -99,7 +99,10 @@ public class PauseMenus : MonoBehaviour
     public void MainMenu(bool quit = false)
     {
         if (hasSaved || quit)
+        {
+            Time.timeScale = 1;
             SceneManager.LoadScene("Main Menu");
+        }
         else
         {
             currentScreen = saveCheck;
@@ -108,6 +111,7 @@ public class PauseMenus : MonoBehaviour
 
     public void exit()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Main Menu");
     }
 
@@ -124,6 +128,7 @@ public class PauseMenus : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("Main Menu");
     }
 
@@ -131,5 +136,5 @@ public class PauseMenus : MonoBehaviour
     {
         Application.Quit();
     }
-    
+
 }
