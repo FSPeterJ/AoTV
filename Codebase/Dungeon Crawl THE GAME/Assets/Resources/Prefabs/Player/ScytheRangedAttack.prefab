@@ -224,7 +224,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ImpactEffect: {fileID: 0}
+  Damage: 1
   team: 1
+  attacking: 0
 --- !u!198 &198587118624238498
 ParticleSystem:
   m_ObjectHideFlags: 1
