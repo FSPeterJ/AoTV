@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     uint lives = 3;
     [SerializeField]
     float scaleFactor = 2;
+    [SerializeField]
+    float teleportRange = 20;
 
     //This is not allowed.
     //[SerializeField] HUD Hud;
@@ -75,6 +77,7 @@ public class Player : MonoBehaviour
     float jumpTime;
     [SerializeField]
     bool isgrounded;
+    public LayerMask mask;
 
     //Checkpoints
     Vector3 CurrentCheckpoint;
@@ -214,13 +217,13 @@ public class Player : MonoBehaviour
         {
             if (_tT != value)
             {
-                
+
                 if (value)
                 {
                     tpMarker = Instantiate(teleportMarker);
                     tpMarker.transform.parent = transform;
                     tpMarker.transform.position = transform.position;
-                    tpMarker.transform.localScale = new Vector3(scaleFactor,scaleFactor,scaleFactor);
+                    tpMarker.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
                     _tT = value;
                 }
                 else
@@ -282,9 +285,11 @@ public class Player : MonoBehaviour
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
         rBody = GetComponent<Rigidbody>();
-        if(KeyManager.GetKeyCode("Space") == KeyCode.None)
+        if (KeyManager.GetKeyCode("Space") == KeyCode.None)
             KeyManager.SetKey("Space", KeyCode.Space);
         EventSystem.LivesCount(lives);
+        mask = LayerMask.NameToLayer("TeleportBlock");
+        Debug.Log(mask.value);
     }
     // Update is called once per frame
     void Update()
@@ -404,10 +409,32 @@ public class Player : MonoBehaviour
 
             if (teleportToggle)
             {
+
+                //This code is shit
+
+                //Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange, Color.red);
+                //attackRangeForward = new Ray(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange);
+
                 //tpMarker.transform.rotation = transform.rotation;
-                float md = (mouseDistance / scaleFactor < 15 * scaleFactor) ? mouseDistance / scaleFactor : 15 * scaleFactor;
-                tpMarker.transform.localPosition = new Vector3(0, 0, md);
-                tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y + .1f, tpMarker.transform.position.z);
+                RaycastHit hitpoint;
+                Vector3 intersection =  mousePosition - transform.position - new Vector3(0, 3, 0);
+                Ray teleblock = new Ray(transform.position + new Vector3(0, 3, 0), intersection);
+                //Debug.DrawLine(transform.position + new Vector3(0, 3, 0), teleblock.GetPoint(10 * scaleFactor * scaleFactor),Color.yellow);
+                if (Physics.Raycast(teleblock, out hitpoint, teleportRange * scaleFactor , (1 << 15) + (1<<31)))
+                {
+                    //I hit something I can't teleport through
+                    //hitpoint.point;
+                    tpMarker.transform.position = hitpoint.point + new Vector3(0, .1f, 0);
+                    //Debug.DrawRay(transform.position + new Vector3(0, 3, 0), hitpoint.point - transform.position - new Vector3(0, 3, 0));
+                }
+                else
+                {
+                    //max distance on ground hits
+                    //Notice that scale factor applies twice
+                    float md = (mouseDistance   < teleportRange) ? mouseDistance  : teleportRange;
+                    tpMarker.transform.localPosition = new Vector3(0, 0, md);
+                    tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y + .1f, tpMarker.transform.position.z);
+                }
             }
 
             //Move
@@ -431,9 +458,9 @@ public class Player : MonoBehaviour
     //Calculate Physics movement
     void Move()
     {
-        jumpTime+= Time.fixedDeltaTime;
+        jumpTime += Time.fixedDeltaTime;
 
-        if (isgrounded  && jumpTime > 1f)
+        if (isgrounded && jumpTime > 1f)
         {
             maxJump = maxJumpStored;
             verticalAccel = 0;
@@ -454,7 +481,7 @@ public class Player : MonoBehaviour
             Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.fixedDeltaTime);
         }
         rBody.velocity = moveDirection;
-        
+
     }
 
     void GetInput()
@@ -494,12 +521,12 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Invulnerable());
 
-            health-= dmg;
+            health -= dmg;
             EventSystem.PlayerHealthUpdate(health, healthMax);
             if (health < 1)
             {
                 currentState = States.Die;
-                
+
                 //Time.timeScale = 0;
             }
             else
@@ -546,7 +573,7 @@ public class Player : MonoBehaviour
         invulnerable = true;
 
         yield return new WaitForSeconds(seconds);
-            
+
         invulnerable = false;
     }
 
@@ -606,7 +633,7 @@ public class Player : MonoBehaviour
             EventSystem.IncScore(5);
             //waiting on fixxed score system 
         }
-        else if (col.tag =="LifePowerUp")
+        else if (col.tag == "LifePowerUp")
         {
             lives += 1;
             EventSystem.LivesCount(lives);
