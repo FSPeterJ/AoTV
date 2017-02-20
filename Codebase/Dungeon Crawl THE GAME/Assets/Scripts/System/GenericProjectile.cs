@@ -76,7 +76,7 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
                     Destroy(gameObject);
             }
         }
-        if (other.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Terrain")  || other.gameObject.layer == LayerMask.NameToLayer("TeleportBlock"))
         {
             if (ImpactEffect)
             {

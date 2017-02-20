@@ -516,7 +516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1916115168007292
 GameObject:
   m_ObjectHideFlags: 1
@@ -1004,7 +1004,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1906890659497678}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: -16.07}
+  m_LocalPosition: {x: -137.87683, y: 33.5, z: -574.33545}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4540180371691778}
@@ -1032,7 +1032,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1130164611278746}
-  m_LocalRotation: {x: 0.37296197, y: -0.60074914, z: -0.37296185, w: 0.6007491}
+  m_LocalRotation: {x: 0.37296194, y: -0.6007491, z: -0.37296182, w: 0.600749}
   m_LocalPosition: {x: -0.000000061384554, y: 0.9227329, z: -0.18855007}
   m_LocalScale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
   m_Children: []
@@ -1201,7 +1201,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImpactEffect: {fileID: 0}
+  Damage: 1
   team: 0
+  attacking: 0
 --- !u!137 &137172806003424114
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

@@ -26,6 +26,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     [SerializeField]
     int Health;
     float timer;
+    bool start = false;
     public enum DragonStates
     {
         Dialogue, FlyBiteAttack, FlyBreathAttack, FlyForwardToWaypoint, FlyIdle, Land, Recover, Die
@@ -48,18 +49,18 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 
     void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (Target != null)
         {
-            TakeDamage(999);
+            Target = GameObject.FindGameObjectWithTag("Player");
         }
+
         Debug.Log("Animation State: " + dCurrentState.ToString() + " " + transitionNumber);
         if (alive)
         {
             switch (dCurrentState)
             {
                 case DragonStates.Dialogue:
-                    if (Input.GetKeyDown(KeyCode.F1))
+                    if (start)
                     {
                         transitionNumber++;
                         anim.SetBool("Fly Idle", true);
@@ -182,7 +183,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     public void TakeDamage(int damage = 1)
     {
         Health -= damage;
-       // if (dCurrentState == DragonStates.Recover)
+        if (dCurrentState == DragonStates.Recover)
         {
             GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
             GetComponent<AudioSource>().Play();
@@ -225,5 +226,10 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     void EndAttacking()
     {
         weaponBehavior.AttackEnd();
+    }
+
+    public void StartFight()
+    {
+        start = true;
     }
 }
