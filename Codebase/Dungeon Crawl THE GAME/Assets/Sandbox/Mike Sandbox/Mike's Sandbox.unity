@@ -249,28 +249,18 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1403190521471410, guid: 844a98393aef1824ab8d04aaa3445777, type: 2}
-      propertyPath: m_Name
-      value: Toon Dragon-Fire (1)
-      objectReference: {fileID: 0}
     - target: {fileID: 114291314633267266, guid: 844a98393aef1824ab8d04aaa3445777,
         type: 2}
       propertyPath: Target
       value: 
       objectReference: {fileID: 770606540}
-    - target: {fileID: 114291314633267266, guid: 844a98393aef1824ab8d04aaa3445777,
-        type: 2}
-      propertyPath: fireBreathCollider
-      value: 
-      objectReference: {fileID: 262516697}
+    - target: {fileID: 1403190521471410, guid: 844a98393aef1824ab8d04aaa3445777, type: 2}
+      propertyPath: m_Name
+      value: Toon Dragon-Fire (1)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 844a98393aef1824ab8d04aaa3445777, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &262516697 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1674551921505568, guid: 844a98393aef1824ab8d04aaa3445777,
-    type: 2}
-  m_PrefabInternal: {fileID: 262516696}
 --- !u!1 &359840018
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,22 +790,22 @@ Prefab:
     - target: {fileID: 224267405059573616, guid: 02dc20664816f25448e9caae42ab4000,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 187.40671
+      value: 177.10103
       objectReference: {fileID: 0}
     - target: {fileID: 224267405059573616, guid: 02dc20664816f25448e9caae42ab4000,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 53.41142
       objectReference: {fileID: 0}
     - target: {fileID: 224492002059273918, guid: 02dc20664816f25448e9caae42ab4000,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 174.54546
+      value: 165.85652
       objectReference: {fileID: 0}
     - target: {fileID: 224492002059273918, guid: 02dc20664816f25448e9caae42ab4000,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 53.41142
       objectReference: {fileID: 0}
     - target: {fileID: 4628742094024486, guid: 02dc20664816f25448e9caae42ab4000, type: 2}
       propertyPath: m_RootOrder
