@@ -44,7 +44,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
                     anim.SetBool("Run", true);
                     navAgent.Resume();
                     //navAgent.enabled = true;
-                    navAgent.speed = 15f;
+                    navAgent.speed = 25f;
                     _cs = value;
                     break;
                 case AI.Walk:
