@@ -407,14 +407,21 @@ public class Player : MonoBehaviour
                 //tpMarker.transform.rotation = transform.rotation;
                 float md = (mouseDistance / scaleFactor < 15 * scaleFactor) ? mouseDistance / scaleFactor : 15 * scaleFactor;
                 tpMarker.transform.localPosition = new Vector3(0, 0, md);
-                tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y +.1f, tpMarker.transform.position.z);
+                tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y + .1f, tpMarker.transform.position.z);
             }
 
             //Move
             EventSystem.PlayerPositionUpdate(transform.position);
 
         }
-
+        if (Input.GetKey(KeyCode.F12))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else if (Input.GetKey(KeyCode.F11))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
     }
 
     void FixedUpdate()
