@@ -21,7 +21,7 @@ public class UI_Interact : MonoBehaviour {
     {
         EventSystem.onUI_Interact -= En;
     }
-
+        
     void En(bool stat)
     {
         transform.GetChild(0).gameObject.SetActive(stat);

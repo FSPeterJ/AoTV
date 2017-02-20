@@ -31,7 +31,7 @@ public class StoryDialogue : MonoBehaviour
     {
         if (!starting)
         {
-            transform.GetChild(0).gameObject.SetActive(true);
+            DialoguePanel.SetActive(true);
             Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[0]);
             timer = .03f;
             starting = true;
