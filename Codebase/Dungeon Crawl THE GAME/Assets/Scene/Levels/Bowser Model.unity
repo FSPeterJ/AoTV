@@ -9921,7 +9921,7 @@ Transform:
   m_GameObject: {fileID: 527222162}
   m_LocalRotation: {x: 0.70710576, y: -0, z: -0, w: 0.70710784}
   m_LocalPosition: {x: 20.7, y: 0, z: 84.1}
-  m_LocalScale: {x: 400, y: 350, z: 1}
+  m_LocalScale: {x: 600, y: 500, z: 1}
   m_Children: []
   m_Father: {fileID: 1057860897}
   m_RootOrder: 7
@@ -18434,6 +18434,17 @@ Prefab:
       propertyPath: Health
       value: 25
       objectReference: {fileID: 0}
+    - target: {fileID: 54327142770869532, guid: 844a98393aef1824ab8d04aaa3445777,
+        type: 2}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114291314633267266, guid: 844a98393aef1824ab8d04aaa3445777,
+        type: 2}
+      propertyPath: Target
+      value: 
+      objectReference: {fileID: 1622672066450468, guid: 2f3f54abea06a6342a8b5480bb2c00d9,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 844a98393aef1824ab8d04aaa3445777, type: 2}
   m_IsPrefabParent: 0
@@ -18516,6 +18527,100 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 973762583}
+--- !u!1 &974500936
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 974500940}
+  - component: {fileID: 974500939}
+  - component: {fileID: 974500938}
+  - component: {fileID: 974500937}
+  - component: {fileID: 974500941}
+  m_Layer: 0
+  m_Name: Boss Battle Start Collider
+  m_TagString: Final Battle
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &974500937
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 974500936}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!65 &974500938
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 974500936}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &974500939
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 974500936}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &974500940
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 974500936}
+  m_LocalRotation: {x: -0, y: 0.22838674, z: -0, w: 0.9735705}
+  m_LocalPosition: {x: 2.52, y: 9.5, z: -0.11}
+  m_LocalScale: {x: 45, y: 10, z: 45}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 26.404001, z: 0}
+--- !u!114 &974500941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 974500936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9b45dfe3d2fba34990b6c1bede66610, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drag: {fileID: 1933209021}
 --- !u!1 &975443957
 GameObject:
   m_ObjectHideFlags: 0
@@ -20016,7 +20121,7 @@ GameObject:
   - component: {fileID: 1021897752}
   - component: {fileID: 1021897750}
   - component: {fileID: 1021897751}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Stage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37455,6 +37560,12 @@ GameObject:
   m_PrefabParentObject: {fileID: 1403190521471410, guid: 844a98393aef1824ab8d04aaa3445777,
     type: 2}
   m_PrefabInternal: {fileID: 965936748}
+--- !u!114 &1933209021 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114291314633267266, guid: 844a98393aef1824ab8d04aaa3445777,
+    type: 2}
+  m_PrefabInternal: {fileID: 965936748}
+  m_Script: {fileID: 11500000, guid: 60b71257499bb764294fd9b5fde815db, type: 3}
 --- !u!65 &1933209027
 BoxCollider:
   m_ObjectHideFlags: 0

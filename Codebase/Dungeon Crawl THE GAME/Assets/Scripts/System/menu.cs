@@ -42,6 +42,7 @@ public class menu : MonoBehaviour {
 
     public void Quit()
     {
+
         Application.Quit();
     }
 }

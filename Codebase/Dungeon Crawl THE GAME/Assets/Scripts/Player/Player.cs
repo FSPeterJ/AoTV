@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     uint lives = 3;
     [SerializeField]
     float scaleFactor = 2;
+    [SerializeField]
+    float teleportRange = 20;
 
     //This is not allowed.
     //[SerializeField] HUD Hud;
@@ -75,6 +77,7 @@ public class Player : MonoBehaviour
     float jumpTime;
     [SerializeField]
     bool isgrounded;
+    public LayerMask mask;
 
     //Checkpoints
     Vector3 CurrentCheckpoint;
@@ -285,10 +288,16 @@ public class Player : MonoBehaviour
         if (KeyManager.GetKeyCode("Space") == KeyCode.None)
             KeyManager.SetKey("Space", KeyCode.Space);
         EventSystem.LivesCount(lives);
+        mask = LayerMask.NameToLayer("TeleportBlock");
+        Debug.Log(mask.value);
     }
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F12))
+        {
+            SceneManager.LoadScene("Graveyard");
+        }
         if (Input.GetButtonDown("Pause"))
         {
             EventSystem.GamePausedToggle();
@@ -404,17 +413,46 @@ public class Player : MonoBehaviour
 
             if (teleportToggle)
             {
+
+                //This code is shit
+
+                //Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange, Color.red);
+                //attackRangeForward = new Ray(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange);
+
                 //tpMarker.transform.rotation = transform.rotation;
-                float md = (mouseDistance / scaleFactor < 15 * scaleFactor) ? mouseDistance / scaleFactor : 15 * scaleFactor;
-                tpMarker.transform.localPosition = new Vector3(0, 0, md);
-                tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y + .1f, tpMarker.transform.position.z);
+                RaycastHit hitpoint;
+                Vector3 intersection =  mousePosition - transform.position - new Vector3(0, 3, 0);
+                Ray teleblock = new Ray(transform.position + new Vector3(0, 3, 0), intersection);
+                //Debug.DrawLine(transform.position + new Vector3(0, 3, 0), teleblock.GetPoint(10 * scaleFactor * scaleFactor),Color.yellow);
+                if (Physics.Raycast(teleblock, out hitpoint, teleportRange * scaleFactor , (1 << 15) + (1<<31)))
+                {
+                    //I hit something I can't teleport through
+                    //hitpoint.point;
+                    tpMarker.transform.position = hitpoint.point + new Vector3(0, .1f, 0);
+                    //Debug.DrawRay(transform.position + new Vector3(0, 3, 0), hitpoint.point - transform.position - new Vector3(0, 3, 0));
+                }
+                else
+                {
+                    //max distance on ground hits
+                    //Notice that scale factor applies twice
+                    float md = (mouseDistance   < teleportRange) ? mouseDistance  : teleportRange;
+                    tpMarker.transform.localPosition = new Vector3(0, 0, md);
+                    tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y + .1f, tpMarker.transform.position.z);
+                }
             }
 
             //Move
             EventSystem.PlayerPositionUpdate(transform.position);
 
         }
-
+        if (Input.GetKey(KeyCode.F12))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else if (Input.GetKey(KeyCode.F11))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
     }
 
     void FixedUpdate()
@@ -571,14 +609,11 @@ public class Player : MonoBehaviour
     void OnTriggerStay(Collider col)
     {
         if (col.tag == "Trapdoor")
-            if (Input.GetButton("Use"))
-            {
-                gameObject.transform.localScale = new Vector3(2, 2, 2);
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            }
-
-        if (col.tag == "ForestEnd")
+        {
+            gameObject.transform.localScale = new Vector3(2, 2, 2);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        
 
         if (col.tag == "SwampEnd")
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -593,7 +628,7 @@ public class Player : MonoBehaviour
         {
             Destroy(col.gameObject);
             EventSystem.IncScore(5);
-            //waiting on fixxed score system 
+            //waiting on fixed score system 
         }
         else if (col.tag == "LifePowerUp")
         {
@@ -601,7 +636,7 @@ public class Player : MonoBehaviour
             EventSystem.LivesCount(lives);
             Destroy(col.gameObject);
 
-            //waiting on fixxed score system
+            //waiting on fixed score system
         }
         else if (col.tag == "HealthPowerUp")
         {
@@ -629,23 +664,6 @@ public class Player : MonoBehaviour
                 GameObject glow = col.transform.Find("Ground Glow").gameObject;
 
                 glow.SetActive(true);
-                // GameObject temp = GameObject.Find("Ground Glow");
-                //temp.SetActive(true);
-
-                //GameObject[] terribleStuff;
-                //terribleStuff = col.GetComponentsInChildren<GameObject>();
-                //foreach (GameObject GO in terribleStuff)
-                //    if (GO.name == "Ground Glow")
-                //        GO.SetActive(true);
-
-
-
-                // GameObject.Find("Ground Glow").SetActive(true);
-
-
-
-
-                // col.GetComponentInChildren<ParticleSystem>().Play();
             }
         }
         else if (col.tag == "OutOfBounds")

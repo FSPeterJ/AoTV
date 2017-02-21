@@ -6,7 +6,7 @@ public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack {
 
     float timePassed;
     float turnspeed = 2f;
-    float speed = .25f;
+    float speed = 20f;
     Vector3 playerPos;
     IWeaponBehavior weaponScript;
     float scaleFactor;
@@ -31,7 +31,7 @@ public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.localPosition += transform.forward * speed * scaleFactor;
+        transform.localPosition += transform.forward * speed * scaleFactor * Time.deltaTime;
 
         if (timePassed > .5 && timePassed < 1)
         {
@@ -43,9 +43,8 @@ public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack {
         }
         if(timePassed > 4)
         {
-            //Bugfix - https://trello.com/c/GgpQodPs/28-scythe-can-get-into-orbit
-            turnspeed += 4f * Time.deltaTime * scaleFactor;
-            speed += .1f * scaleFactor * Time.deltaTime;
+            turnspeed += 8f * Time.deltaTime;
+            speed += 4f * scaleFactor * Time.deltaTime;
         }
         timePassed += Time.deltaTime;
         float heightdiff = playerPos.y - transform.position.y + .25f * scaleFactor;
