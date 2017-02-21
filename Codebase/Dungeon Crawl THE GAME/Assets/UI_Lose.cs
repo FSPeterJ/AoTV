@@ -33,5 +33,6 @@ public class UI_Lose : MonoBehaviour {
     public void Continue()
     {
         EventSystem.Cont();
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 }
