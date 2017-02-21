@@ -29,7 +29,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     bool dead = false;
     GameObject weapon;
     IWeaponBehavior weaponScript;
-    public uint pointValue = 1;
+    public int pointValue = 1;
 
 
     GameObject Proj;

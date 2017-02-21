@@ -28,7 +28,7 @@ public class High_Score : MonoBehaviour
 
         //writing to the file
         StreamWriter sw = File.CreateText(FileName);
-        for (uint i = 0; i <= 10; ++i)
+        for (int i = 0; i <= 10; ++i)
         {
             sw.WriteLine(PlayerPrefs.GetString(i + "Name") + PlayerPrefs.GetInt(i + "Score"));
         }
@@ -43,7 +43,7 @@ public class High_Score : MonoBehaviour
             while (line != null)
             {
                 Debug.Log(line);
-                for (uint i = 0; i < 10; ++i)
+                for (int i = 0; i < 10; ++i)
                 {
                     info[i].name = PlayerPrefs.GetString(i + "Name");
                     info[i].score = PlayerPrefs.GetInt(i + "Score");
@@ -81,7 +81,7 @@ public class High_Score : MonoBehaviour
 
     //    sw = File.CreateText(NameofFile);
 
-    //    for (uint i = 0; i <= info.Length; ++i)
+    //    for (int i = 0; i <= info.Length; ++i)
     //    {
     //        sw.WriteLine(PlayerPrefs.GetString(i + "Name") + PlayerPrefs.GetInt(i + "Score"));
     //    }
@@ -106,7 +106,7 @@ public class High_Score : MonoBehaviour
 
     //        while(line != null)
     //        {
-    //            for (uint i = 0; i < file.Length; ++i)
+    //            for (int i = 0; i < file.Length; ++i)
     //            {
     //                line = sRead.ReadLine();
     //            }

@@ -12,7 +12,7 @@ public class SkeletonArcher : MonoBehaviour
     Quaternion arrowQuat;
     bool asleep;
     float attackDistance = 15;
-    public uint pointValue = 1;
+    public int pointValue = 1;
     Rigidbody body;
 
     // Use this for initialization

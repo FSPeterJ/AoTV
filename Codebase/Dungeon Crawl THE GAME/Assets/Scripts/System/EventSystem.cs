@@ -71,17 +71,17 @@ public static class EventSystem
     }
 
     //Increase Score
-    public delegate void ScoreIncreaseHandler(uint score);
+    public delegate void ScoreIncreaseHandler(int score);
     public static event ScoreIncreaseHandler onScoreIncrease;
-    public static void ScoreIncrease(uint score)
+    public static void ScoreIncrease(int score)
     {
         if (onScoreIncrease != null) onScoreIncrease(score);
     }
 
     //Lives Count
-    public delegate void LivesCountHandler(uint lives);
+    public delegate void LivesCountHandler(int lives);
     public static event LivesCountHandler onLivesCount;
-    public static void LivesCount(uint lives)
+    public static void LivesCount(int lives)
     {
         if (onLivesCount != null) onLivesCount(lives);
     }

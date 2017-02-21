@@ -10,7 +10,7 @@ public class SkeletonKnight : MonoBehaviour{
     IWeaponBehavior weaponBehavior;
     Animator anim;
     bool asleep = true;
-    public uint pointValue = 1;
+    public int pointValue = 1;
     Rigidbody body;
 
     // Use this for initialization

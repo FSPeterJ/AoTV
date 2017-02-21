@@ -9,7 +9,7 @@ public class Slime : MonoBehaviour {
     IWeaponBehavior weaponBehavior;
     Animator anim;
     bool asleep = true;
-    public uint pointValue = 1;
+    public int pointValue = 1;
     public GameObject[] Slimes;
     public Transform[] Spawns;
     // Use this for initialization

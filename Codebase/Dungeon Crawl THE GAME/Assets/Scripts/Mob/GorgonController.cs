@@ -31,7 +31,7 @@ public class GorgonController : MonoBehaviour
     bool defendTime;
     float idleTime;
     NavMeshAgent navigate;
-    public uint pointValue = 1;
+    public int pointValue = 1;
     AI gs;
     Vector3 wanderTarget;
 

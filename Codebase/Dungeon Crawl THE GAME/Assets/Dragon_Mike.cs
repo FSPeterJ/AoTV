@@ -9,7 +9,7 @@ public class Dragon_Mike : MonoBehaviour {
     IWeaponBehavior weaponBehavior;
     Animator anim;
     bool asleep = true;
-    public uint pointValue = 1;
+    public int pointValue = 1;
 
     // Use this for initialization
     void Start()

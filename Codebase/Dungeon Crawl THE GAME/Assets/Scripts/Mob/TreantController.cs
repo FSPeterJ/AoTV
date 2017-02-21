@@ -21,7 +21,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
     [SerializeField]
     int health;
     [SerializeField]
-    uint pointValue = 1;
+    int pointValue = 1;
     float shockwaveTime = 0;
     [SerializeField]
     float shockwaveCooldown = 9;

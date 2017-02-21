@@ -91,7 +91,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     public int health;
     public float idleTime = 0;
     public float aggroRange = 20f;
-    public uint pointValue = 1;
+    public int pointValue = 1;
 
 
 

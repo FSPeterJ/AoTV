@@ -7,7 +7,7 @@ public class UI_Score : MonoBehaviour {
 
 
     Text score;
-    uint scorevalue;
+    int scorevalue;
 
 
     void OnEnable()
@@ -29,7 +29,7 @@ public class UI_Score : MonoBehaviour {
 
 
 
-    public void UpdateScore(uint _score)
+    public void UpdateScore(int _score)
     {
         scorevalue += _score;
     }

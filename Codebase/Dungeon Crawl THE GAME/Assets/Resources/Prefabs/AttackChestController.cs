@@ -105,7 +105,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     public int health=4;
     bool dead = false;
     [SerializeField]
-    public uint pointValue = 1;
+    public int pointValue = 1;
 
 
     //References

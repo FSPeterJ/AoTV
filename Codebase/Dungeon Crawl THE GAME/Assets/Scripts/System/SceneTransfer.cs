@@ -44,6 +44,9 @@ public class SceneTransfer : MonoBehaviour {
         if (other.tag == "Player" && HasKey)
         {
             //SceneManager.LoadScene(nextLevel.ToString());
+
+            PlayerPrefs.SetInt("lives", other.gameObject.GetComponent<Player>().GetLives());
+            ;
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }

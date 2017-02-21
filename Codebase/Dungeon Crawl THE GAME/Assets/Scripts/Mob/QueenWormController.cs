@@ -36,7 +36,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     float idleTime;
     NavMeshAgent navigate;
     [SerializeField]
-    uint pointValue = 1;
+    int pointValue = 1;
     GameObject weapon;
     IWeaponBehavior weaponScript;
 

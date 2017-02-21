@@ -116,7 +116,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     public int health;
     bool dead = false;
     [SerializeField]
-    public uint pointValue = 1;
+    public int pointValue = 1;
 
 
     //References

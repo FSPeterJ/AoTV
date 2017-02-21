@@ -84,7 +84,7 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
     //Stat variables
     int health;
     bool death = false;
-    public uint pointValue = 1;
+    public int pointValue = 1;
 
 
     //References

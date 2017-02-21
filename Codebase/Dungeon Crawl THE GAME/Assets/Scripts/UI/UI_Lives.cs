@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UI_Lives : MonoBehaviour {
 
     Text lives;
-    uint livesvalue;
+    int livesvalue;
 
 
     void OnEnable()
@@ -28,7 +28,7 @@ public class UI_Lives : MonoBehaviour {
 
 
 
-    public void UpdateLives(uint _lives)
+    public void UpdateLives(int _lives)
     {
         livesvalue = _lives;
     }

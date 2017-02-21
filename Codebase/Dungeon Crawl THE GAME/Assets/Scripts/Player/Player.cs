@@ -23,14 +23,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     int healthMax = 30;
     [SerializeField]
-    uint lives = 3;
+    int lives = 3;
     [SerializeField]
     float scaleFactor = 2;
     [SerializeField]
     float teleportRange = 20;
 
-    //This is not allowed.
-    //[SerializeField] HUD Hud;
 
     //Variables
     bool invulnerable = false;
@@ -108,6 +106,7 @@ public class Player : MonoBehaviour
         EventSystem.onMousePositionUpdate += UpdateMousePosition;
         EventSystem.onPlayer_ReloadCheckpoint += ReloadCheckpoint;
         EventSystem.onPlayerScale += ScaleFactor;
+        EventSystem.onCont += Continue;
     }
     //unsubscribe from player movement
     void OnDisable()
@@ -116,6 +115,7 @@ public class Player : MonoBehaviour
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
         EventSystem.onPlayer_ReloadCheckpoint -= ReloadCheckpoint;
         EventSystem.onPlayerScale -= ScaleFactor;
+        EventSystem.onCont -= Continue;
     }
 
     //States
@@ -723,8 +723,7 @@ public class Player : MonoBehaviour
     public void Continue()
     {
         lives++;
-        health = 3;
-
+        health = healthMax;
         //Score -= Score >> 1;
         Time.timeScale = 1;
     }
@@ -739,5 +738,10 @@ public class Player : MonoBehaviour
     {
         scaleFactor = num;
         transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+    }
+
+    public int GetLives()
+    {
+        return lives;
     }
 }

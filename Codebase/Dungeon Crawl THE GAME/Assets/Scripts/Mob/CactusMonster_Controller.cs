@@ -100,7 +100,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     public float attackRange = 1.5f;
     public float walkSpeed = 5f;
     public float runSpeed = 10f;
-    public uint pointValue = 1;
+    public int pointValue = 1;
 
 
 

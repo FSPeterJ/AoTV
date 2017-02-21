@@ -106,7 +106,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
 
     //Stat variables
     public int health = 2;
-    public uint pointValue = 1;
+    public int pointValue = 1;
     bool dead = false;
 
 

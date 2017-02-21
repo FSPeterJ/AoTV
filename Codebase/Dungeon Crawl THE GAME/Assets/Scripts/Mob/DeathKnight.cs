@@ -9,7 +9,7 @@ public class DeathKnight : MonoBehaviour {
     IWeaponBehavior weaponBehavior;
     Animator anim;
     bool asleep = true;
-    public uint pointValue = 1;
+    public int pointValue = 1;
 
 
     // Use this for initialization
