@@ -632,7 +632,7 @@ public class Player : MonoBehaviour
         {
             Destroy(col.gameObject);
             EventSystem.IncScore(5);
-            //waiting on fixxed score system 
+            //waiting on fixed score system 
         }
         else if (col.tag == "LifePowerUp")
         {
@@ -640,7 +640,7 @@ public class Player : MonoBehaviour
             EventSystem.LivesCount(lives);
             Destroy(col.gameObject);
 
-            //waiting on fixxed score system
+            //waiting on fixed score system
         }
         else if (col.tag == "HealthPowerUp")
         {
@@ -668,23 +668,6 @@ public class Player : MonoBehaviour
                 GameObject glow = col.transform.Find("Ground Glow").gameObject;
 
                 glow.SetActive(true);
-                // GameObject temp = GameObject.Find("Ground Glow");
-                //temp.SetActive(true);
-
-                //GameObject[] terribleStuff;
-                //terribleStuff = col.GetComponentsInChildren<GameObject>();
-                //foreach (GameObject GO in terribleStuff)
-                //    if (GO.name == "Ground Glow")
-                //        GO.SetActive(true);
-
-
-
-                // GameObject.Find("Ground Glow").SetActive(true);
-
-
-
-
-                // col.GetComponentInChildren<ParticleSystem>().Play();
             }
         }
         else if (col.tag == "OutOfBounds")
