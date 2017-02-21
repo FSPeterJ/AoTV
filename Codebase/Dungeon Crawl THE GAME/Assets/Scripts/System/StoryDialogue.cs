@@ -46,6 +46,10 @@ public class StoryDialogue : MonoBehaviour
     {
         EventSystem.onStoryDialogue += EnableDia;
     }
+    private void OnDisable()
+    {
+        EventSystem.onStoryDialogue -= EnableDia;
+    }
 
     // Update is called once per frame
     void Update()

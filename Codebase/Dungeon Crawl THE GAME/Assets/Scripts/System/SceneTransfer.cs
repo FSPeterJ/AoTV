@@ -46,7 +46,7 @@ public class SceneTransfer : MonoBehaviour {
             //SceneManager.LoadScene(nextLevel.ToString());
 
             PlayerPrefs.SetInt("lives", other.gameObject.GetComponent<Player>().GetLives());
-            ;
+            PlayerPrefs.SetInt("score", other.gameObject.GetComponent<Player>().GetScore());
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }

@@ -273,11 +273,13 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
+        EventSystem.onPlayerDeath += PlayerDied;
     }
     //unsubscribe from player movement
     void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        EventSystem.onPlayerDeath -= PlayerDied;
     }
     public void ResetToIdle()
     {
@@ -332,7 +334,6 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
 
     void PlayerDied()
     {
-        EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
     }
 }

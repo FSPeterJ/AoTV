@@ -78,6 +78,15 @@ public static class EventSystem
         if (onScoreIncrease != null) onScoreIncrease(score);
     }
 
+    //Change Score
+    public delegate void ScoreChangeHandler(int score);
+    public static event ScoreChangeHandler onScoreChange;
+    public static void ScoreChange(int score)
+    {
+        if (onScoreChange != null) onScoreChange(score);
+    }
+
+
     //Lives Count
     public delegate void LivesCountHandler(int lives);
     public static event LivesCountHandler onLivesCount;
@@ -133,7 +142,7 @@ public static class EventSystem
         if (onUI_Interact != null) onUI_Interact(interact);
     }
 
-    
+
     public delegate void UI_KeyChangeHandler(int interact);
     public static event UI_KeyChangeHandler onUI_KeyChange;
     public static void UI_KeyChange(int interact)

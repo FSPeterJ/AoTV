@@ -12,12 +12,12 @@ public class UI_Score : MonoBehaviour {
 
     void OnEnable()
     {
-        EventSystem.onScoreIncrease += UpdateScore;
+        EventSystem.onScoreChange += UpdateScore;
     }
     //unsubscribe
     void OnDisable()
     {
-        EventSystem.onScoreIncrease -= UpdateScore;
+        EventSystem.onScoreChange -= UpdateScore;
 
     }
 
@@ -31,7 +31,7 @@ public class UI_Score : MonoBehaviour {
 
     public void UpdateScore(int _score)
     {
-        scorevalue += _score;
+        scorevalue = _score;
     }
 
 	

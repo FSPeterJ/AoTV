@@ -19,6 +19,10 @@ public class UI_Lose : MonoBehaviour {
     {
         EventSystem.onPlayerLose += Lose;
     }
+    private void OnDisable()
+    {
+        EventSystem.onPlayerLose -= Lose;
+    }
 
     void Lose()
     {

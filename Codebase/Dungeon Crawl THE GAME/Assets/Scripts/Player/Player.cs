@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     int lives = 3;
     [SerializeField]
+    int score = 0;
+    [SerializeField]
     float scaleFactor = 2;
     [SerializeField]
     float teleportRange = 20;
@@ -107,6 +109,7 @@ public class Player : MonoBehaviour
         EventSystem.onPlayer_ReloadCheckpoint += ReloadCheckpoint;
         EventSystem.onPlayerScale += ScaleFactor;
         EventSystem.onCont += Continue;
+        EventSystem.onScoreIncrease += ScoreIncrease;
     }
     //unsubscribe from player movement
     void OnDisable()
@@ -116,6 +119,7 @@ public class Player : MonoBehaviour
         EventSystem.onPlayer_ReloadCheckpoint -= ReloadCheckpoint;
         EventSystem.onPlayerScale -= ScaleFactor;
         EventSystem.onCont -= Continue;
+        EventSystem.onScoreIncrease -= ScoreIncrease;
     }
 
     //States
@@ -287,17 +291,16 @@ public class Player : MonoBehaviour
         rBody = GetComponent<Rigidbody>();
         if (KeyManager.GetKeyCode("Space") == KeyCode.None)
             KeyManager.SetKey("Space", KeyCode.Space);
-        EventSystem.LivesCount(lives);
         mask = LayerMask.NameToLayer("TeleportBlock");
-        Debug.Log(mask.value);
+
+        lives = PlayerPrefs.GetInt("lives");
+        EventSystem.LivesCount(lives);
+
+        ScoreIncrease(PlayerPrefs.GetInt("score"));
     }
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F12))
-        {
-            SceneManager.LoadScene("Graveyard");
-        }
         if (Input.GetButtonDown("Pause"))
         {
             EventSystem.GamePausedToggle();
@@ -421,10 +424,10 @@ public class Player : MonoBehaviour
 
                 //tpMarker.transform.rotation = transform.rotation;
                 RaycastHit hitpoint;
-                Vector3 intersection =  mousePosition - transform.position - new Vector3(0, 3, 0);
+                Vector3 intersection = mousePosition - transform.position - new Vector3(0, 3, 0);
                 Ray teleblock = new Ray(transform.position + new Vector3(0, 3, 0), intersection);
                 //Debug.DrawLine(transform.position + new Vector3(0, 3, 0), teleblock.GetPoint(10 * scaleFactor * scaleFactor),Color.yellow);
-                if (Physics.Raycast(teleblock, out hitpoint, teleportRange * scaleFactor , (1 << 15) + (1<<31)))
+                if (Physics.Raycast(teleblock, out hitpoint, teleportRange * scaleFactor, (1 << 15) + (1 << 31)))
                 {
                     //I hit something I can't teleport through
                     //hitpoint.point;
@@ -435,7 +438,7 @@ public class Player : MonoBehaviour
                 {
                     //max distance on ground hits
                     //Notice that scale factor applies twice
-                    float md = (mouseDistance   < teleportRange) ? mouseDistance  : teleportRange;
+                    float md = (mouseDistance < teleportRange) ? mouseDistance : teleportRange;
                     tpMarker.transform.localPosition = new Vector3(0, 0, md);
                     tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y + .1f, tpMarker.transform.position.z);
                 }
@@ -447,11 +450,15 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.F12))
         {
+            PlayerPrefs.SetInt("lives", GetLives());
+            PlayerPrefs.SetInt("score", GetScore());
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         else if (Input.GetKey(KeyCode.F11))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            PlayerPrefs.SetInt("lives", GetLives());
+            PlayerPrefs.SetInt("score", GetScore());
+           SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 
@@ -611,12 +618,19 @@ public class Player : MonoBehaviour
         if (col.tag == "Trapdoor")
         {
             gameObject.transform.localScale = new Vector3(2, 2, 2);
+            PlayerPrefs.SetInt("lives", lives);
+            PlayerPrefs.SetInt("score", score);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-        
+
 
         if (col.tag == "SwampEnd")
+        {
+            PlayerPrefs.SetInt("lives", lives);
+            PlayerPrefs.SetInt("score", score);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+
 
     }
 
@@ -724,7 +738,7 @@ public class Player : MonoBehaviour
     {
         lives++;
         health = healthMax;
-        //Score -= Score >> 1;
+        ScoreIncrease(-(score >> 1));
         Time.timeScale = 1;
     }
 
@@ -743,5 +757,16 @@ public class Player : MonoBehaviour
     public int GetLives()
     {
         return lives;
+    }
+
+    public int GetScore()
+    {
+        return score;
+    }
+
+    void ScoreIncrease(int val)
+    {
+        score += val;
+        EventSystem.ScoreChange(score);
     }
 }

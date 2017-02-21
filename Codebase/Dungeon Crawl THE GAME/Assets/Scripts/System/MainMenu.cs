@@ -8,7 +8,8 @@ public class MainMenu : MonoBehaviour {
     //public Button[] menuButtons;
     void Start()
     {
-        
+        PlayerPrefs.SetInt("lives", 3);
+        PlayerPrefs.SetInt("score", 0);
     }
 
     void Update()
