@@ -58323,11 +58323,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114476262609341756, guid: 2c041a0fdf1202c488165d6b90c58ebe,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 224069276631737234, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -58442,31 +58437,6 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114476262609341756, guid: 2c041a0fdf1202c488165d6b90c58ebe,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114476262609341756, guid: 2c041a0fdf1202c488165d6b90c58ebe,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114476262609341756, guid: 2c041a0fdf1202c488165d6b90c58ebe,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2097013756}
-    - target: {fileID: 114476262609341756, guid: 2c041a0fdf1202c488165d6b90c58ebe,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Quitter
-      objectReference: {fileID: 0}
-    - target: {fileID: 114476262609341756, guid: 2c041a0fdf1202c488165d6b90c58ebe,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c041a0fdf1202c488165d6b90c58ebe, type: 2}
@@ -69835,12 +69805,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 414280, guid: b58aa857a1e8340408f703dea6c40399, type: 2}
   m_PrefabInternal: {fileID: 2096519476}
---- !u!114 &2097013756 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114003867901439500, guid: 2c041a0fdf1202c488165d6b90c58ebe,
-    type: 2}
-  m_PrefabInternal: {fileID: 1723757264}
-  m_Script: {fileID: 11500000, guid: 008df05e1e6a8694db1d8240ead98a15, type: 3}
 --- !u!1001 &2100218985
 Prefab:
   m_ObjectHideFlags: 0
