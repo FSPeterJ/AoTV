@@ -42,7 +42,6 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
 
     [SerializeField]
     GameObject weaponBreath;
-    IWeaponBehavior weaponScriptBreath;
     BreathAttack Breath;
     [SerializeField]
     GameObject Exit;
@@ -153,7 +152,6 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
         weapon = FindWeapon(transform).gameObject;
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
 
-        weaponScriptBreath = weaponBreath.GetComponent<IWeaponBehavior>();
         Breath = weaponBreath.GetComponent<BreathAttack>();
 
     }

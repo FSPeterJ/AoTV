@@ -65,7 +65,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1944176501217664}
-  m_LocalRotation: {x: -0, y: 0.7071068, z: 0.7071068, w: 0}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 6.28, y: -13.38, z: -15.91}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -98,6 +98,7 @@ MonoBehaviour:
   ImpactEffect: {fileID: 0}
   Damage: 1
   team: 0
+  attacking: 0
 --- !u!136 &136028383188840934
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -120,7 +121,7 @@ ParticleSystem:
   serializedVersion: 5
   lengthInSec: 1
   speed: 1
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   autoRandomSeed: 1
@@ -163,7 +164,7 @@ ParticleSystem:
       m_PostInfinity: 2
       m_RotationOrder: 4
     minMaxState: 0
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 645567160
@@ -210,7 +211,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 10
+      scalar: 5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -640,7 +641,7 @@ ParticleSystem:
     m_UseMeshColors: 1
     alignToDirection: 1
     randomDirectionAmount: 0
-    sphericalDirectionAmount: 1
+    sphericalDirectionAmount: 0
   EmissionModule:
     enabled: 1
     serializedVersion: 3
@@ -736,7 +737,7 @@ ParticleSystem:
     time3: 0
     m_BurstCount: 0
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       scalar: 1
       maxCurve:
@@ -750,13 +751,13 @@ ParticleSystem:
           tangentMode: 0
         - serializedVersion: 2
           time: 1
-          value: 1
-          inSlope: 0
+          value: 0
+          inSlope: -1
           outSlope: 0
-          tangentMode: 0
+          tangentMode: 69
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 4
+        m_RotationOrder: 0
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -856,7 +857,7 @@ ParticleSystem:
       minMaxState: 1
     separateAxes: 0
   RotationModule:
-    enabled: 1
+    enabled: 0
     x:
       scalar: 0
       maxCurve:

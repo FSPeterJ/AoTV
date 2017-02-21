@@ -214,13 +214,13 @@ public class Player : MonoBehaviour
         {
             if (_tT != value)
             {
-                
+
                 if (value)
                 {
                     tpMarker = Instantiate(teleportMarker);
                     tpMarker.transform.parent = transform;
                     tpMarker.transform.position = transform.position;
-                    tpMarker.transform.localScale = new Vector3(scaleFactor,scaleFactor,scaleFactor);
+                    tpMarker.transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
                     _tT = value;
                 }
                 else
@@ -282,7 +282,7 @@ public class Player : MonoBehaviour
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
         rBody = GetComponent<Rigidbody>();
-        if(KeyManager.GetKeyCode("Space") == KeyCode.None)
+        if (KeyManager.GetKeyCode("Space") == KeyCode.None)
             KeyManager.SetKey("Space", KeyCode.Space);
         EventSystem.LivesCount(lives);
     }
@@ -407,7 +407,7 @@ public class Player : MonoBehaviour
                 //tpMarker.transform.rotation = transform.rotation;
                 float md = (mouseDistance / scaleFactor < 15 * scaleFactor) ? mouseDistance / scaleFactor : 15 * scaleFactor;
                 tpMarker.transform.localPosition = new Vector3(0, 0, md);
-                tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y +.1f, tpMarker.transform.position.z);
+                tpMarker.transform.position = new Vector3(tpMarker.transform.position.x, mousePosition.y + .1f, tpMarker.transform.position.z);
             }
 
             //Move
@@ -424,9 +424,9 @@ public class Player : MonoBehaviour
     //Calculate Physics movement
     void Move()
     {
-        jumpTime+= Time.fixedDeltaTime;
+        jumpTime += Time.fixedDeltaTime;
 
-        if (isgrounded  && jumpTime > 1f)
+        if (isgrounded && jumpTime > 1f)
         {
             maxJump = maxJumpStored;
             verticalAccel = 0;
@@ -447,7 +447,7 @@ public class Player : MonoBehaviour
             Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.fixedDeltaTime);
         }
         rBody.velocity = moveDirection;
-        
+
     }
 
     void GetInput()
@@ -487,12 +487,12 @@ public class Player : MonoBehaviour
         {
             StartCoroutine(Invulnerable());
 
-            health-= dmg;
+            health -= dmg;
             EventSystem.PlayerHealthUpdate(health, healthMax);
             if (health < 1)
             {
                 currentState = States.Die;
-                
+
                 //Time.timeScale = 0;
             }
             else
@@ -539,7 +539,7 @@ public class Player : MonoBehaviour
         invulnerable = true;
 
         yield return new WaitForSeconds(seconds);
-            
+
         invulnerable = false;
     }
 
@@ -554,17 +554,13 @@ public class Player : MonoBehaviour
 
     public void AttackFinished(int attack)
     {
-        if (currentState == States.Attack)
-        {
+        currentState = States.Idle;
+        weaponScript.AttackEnd();
+    }
 
-            if (attack == 1)
-                anim.SetBool("Slash Attack 01", false);
-            else
-                anim.SetBool("Slash Attack 02", false);
-
-            currentState = States.Idle;
-            weaponScript.AttackEnd();
-        }
+    public void AttackStart()
+    {
+        weaponScript.AttackStart();
     }
 
     public void ResetAttackStack()
@@ -599,7 +595,7 @@ public class Player : MonoBehaviour
             EventSystem.IncScore(5);
             //waiting on fixxed score system 
         }
-        else if (col.tag =="LifePowerUp")
+        else if (col.tag == "LifePowerUp")
         {
             lives += 1;
             EventSystem.LivesCount(lives);

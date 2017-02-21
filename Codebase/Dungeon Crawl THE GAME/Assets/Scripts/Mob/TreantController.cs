@@ -315,12 +315,12 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
     public void CreateProjectile()
     {
         GameObject temp = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, 0, 0));
-        temp.transform.localScale = new Vector3(2, 2, 2);
-        temp = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, 2, 0));
-        temp.transform.localScale = new Vector3(2, 2, 2);
+        temp.transform.localScale = new Vector3(15, 15, 15);
+        temp = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, 10, 0));
+        temp.transform.localScale = new Vector3(15, 15, 15);
 
-        temp = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, -2, 0));
-        temp.transform.localScale = new Vector3(2, 2, 2);
+        temp = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, -10, 0));
+        temp.transform.localScale = new Vector3(15, 15, 15);
 
     }
 
@@ -379,6 +379,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
 
     void ShockwaveAttack()
     {
-        Instantiate(Shockwave, transform.position, Quaternion.Euler(-90, 0, 0));
+        GameObject Obj = Instantiate(Shockwave, transform.position, Quaternion.Euler(-90, 0, 0));
+        Obj.transform.localScale = new Vector3(4, 4, 4);
     }
 }

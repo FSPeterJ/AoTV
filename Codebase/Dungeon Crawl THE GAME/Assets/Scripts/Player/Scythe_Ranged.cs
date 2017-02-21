@@ -43,7 +43,8 @@ public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack {
         }
         if(timePassed > 4)
         {
-            turnspeed += 4f * Time.deltaTime;
+            //Bugfix - https://trello.com/c/GgpQodPs/28-scythe-can-get-into-orbit
+            turnspeed += 4f * Time.deltaTime * scaleFactor;
             speed += .1f * scaleFactor * Time.deltaTime;
         }
         timePassed += Time.deltaTime;

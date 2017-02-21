@@ -139,6 +139,22 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.41369045
+        functionName: AttackStart
+        data: 
+        objectReferenceParameter: {fileID: 1622672066450468, guid: 2f3f54abea06a6342a8b5480bb2c00d9,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.99107146
+        functionName: AttackFinished
+        data: 
+        objectReferenceParameter: {fileID: 1622672066450468, guid: 2f3f54abea06a6342a8b5480bb2c00d9,
+          type: 2}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 1
         functionName: TeleportMove
         data: 

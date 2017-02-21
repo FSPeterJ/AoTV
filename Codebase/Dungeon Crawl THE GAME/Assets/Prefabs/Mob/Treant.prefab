@@ -1012,9 +1012,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1302373426909264}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 202.4, y: -0.0000023841858, z: -49.4}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4859904651392842}
   - {fileID: 4794540214890100}
@@ -1036,7 +1036,7 @@ Transform:
   - {fileID: 4924066491795776}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4423374985427440
 Transform:
   m_ObjectHideFlags: 1
@@ -1566,9 +1566,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00371708a6ac6d5489b6f8d2060a1055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelExit: {fileID: 0}
   health: 3
   pointValue: 1
   shockwaveCooldown: 9
+  shotCooldown: 9
+  Shockwave: {fileID: 0}
+  attackRange: 40
+  _cs: 0
 --- !u!114 &114985847673978254
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1581,7 +1586,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImpactEffect: {fileID: 0}
+  Damage: 1
   team: 0
+  attacking: 0
 --- !u!137 &137035069384815834
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
