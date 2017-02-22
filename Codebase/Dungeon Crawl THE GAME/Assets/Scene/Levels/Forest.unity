@@ -23726,6 +23726,11 @@ Prefab:
       propertyPath: health
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114702547446388324, guid: 2f3f54abea06a6342a8b5480bb2c00d9,
+        type: 2}
+      propertyPath: lives
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2f3f54abea06a6342a8b5480bb2c00d9, type: 2}
   m_IsPrefabParent: 0
@@ -58446,7 +58451,7 @@ Prefab:
     - target: {fileID: 224153888453536544, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 55.147396
       objectReference: {fileID: 0}
     - target: {fileID: 224756396691677470, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
@@ -58456,7 +58461,7 @@ Prefab:
     - target: {fileID: 224756396691677470, guid: 2c041a0fdf1202c488165d6b90c58ebe,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 55.147396
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c041a0fdf1202c488165d6b90c58ebe, type: 2}
