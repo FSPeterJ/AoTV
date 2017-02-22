@@ -750,6 +750,7 @@ public class Player : MonoBehaviour
     {
         transform.position = CurrentCheckpoint;
         Time.timeScale = 1;
+        dead = false;
     }
 
     void ScaleFactor(float num = 2)
