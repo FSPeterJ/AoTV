@@ -28,6 +28,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     int health;
     bool dead = false;
     GameObject weapon;
+    BoxCollider bCollider;
     IWeaponBehavior weaponScript;
     public int pointValue = 1;
 
@@ -64,9 +65,11 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
                     anim.SetBool("Take Damage", true);
                     break;
                 case AI.Die:
-                    //GetComponent<BoxCollider>().enabled = false;
                     EventSystem.ScoreIncrease(pointValue);
-
+                    foreach (Collider c in GetComponentsInChildren<Collider>())
+                    {
+                        c.enabled = false;
+                    }
                     anim.SetTrigger("Die");
                     dead = true;
                     _ws = value;
@@ -78,8 +81,9 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     // Use this for initialization
     void Start()
     {
+        bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
-        Proj = (GameObject)Resources.Load("Prefabs/Projectiles/Worm Projectile");
+        Proj = (GameObject)Resources.Load("Prefabs/Projectiles/Fireball Projectile");
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
         defendTime = true;
@@ -89,7 +93,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     // Update is called once per frame
     void Update()
     {
-        
+
 
         PlayerDist = Vector3.Distance(targetPos, transform.position);
         switch (currentState)
@@ -208,7 +212,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
 
     public void CreateProjectile()
     {
-        Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(0, -90, 0)); 
+        Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(0, -90, 0));
     }
 
     public void AttackStart()
@@ -256,4 +260,4 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
             transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
         }
     }
-} 
+}
