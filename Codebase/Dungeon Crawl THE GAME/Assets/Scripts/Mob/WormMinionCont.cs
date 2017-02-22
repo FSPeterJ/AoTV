@@ -83,7 +83,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     {
         bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
-        Proj = (GameObject)Resources.Load("Prefabs/Projectiles/Worm Projectile");
+        Proj = (GameObject)Resources.Load("Prefabs/Projectiles/Fireball Projectile");
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
         defendTime = true;
