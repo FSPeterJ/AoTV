@@ -738,9 +738,12 @@ public class Player : MonoBehaviour
     public void Continue()
     {
         lives++;
+        EventSystem.LivesCount(lives);
         health = healthMax;
         ScoreIncrease(-(score >> 1));
         Time.timeScale = 1;
+        dead = false;
+        ReturnToCheckpoint();
     }
 
     public void ReloadCheckpoint()
