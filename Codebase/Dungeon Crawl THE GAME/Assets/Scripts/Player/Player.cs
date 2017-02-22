@@ -178,6 +178,7 @@ public class Player : MonoBehaviour
                     else
                     {
                         lives--;
+                        EventSystem.LivesCount(lives);
                         currentState = States.Idle;
                         health = healthMax;
                         ReturnToCheckpoint();
