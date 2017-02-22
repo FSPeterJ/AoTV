@@ -683,7 +683,7 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "OutOfBounds")
         {
-            TakeDamage();
+            TakeDamage(10);
             ReturnToCheckpoint();
         }
 
