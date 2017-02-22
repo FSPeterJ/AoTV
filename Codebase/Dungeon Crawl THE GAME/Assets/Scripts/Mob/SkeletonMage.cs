@@ -155,18 +155,22 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
-        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
-        GetComponent<AudioSource>().Play();
-        if (RemainingHealth() <= 0)
+        if (alive)
         {
-            alive = false;
-            Kill();
+            GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
+            GetComponent<AudioSource>().Play();
+            if (RemainingHealth() <= 0)
+            {
+                alive = false;
+                Kill();
+            }
+            else
+            {
+                anim.SetBool("Take Damage", true);
+                Health -= damage;
+            }
         }
-        else
-        {
-            anim.SetBool("Take Damage", true);
-            Health -= damage;
-        }
+        
     }
 
     public int RemainingHealth()
