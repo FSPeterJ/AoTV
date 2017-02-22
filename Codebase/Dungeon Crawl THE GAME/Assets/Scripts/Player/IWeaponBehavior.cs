@@ -9,6 +9,7 @@ public interface IWeaponBehavior
 
     void ResetAttack();
     void ImpactAttack(bool enabled);
+    void SetDamage(int dmg);
 }
 
 

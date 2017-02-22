@@ -598,7 +598,7 @@ public class Player : MonoBehaviour
     //    Destroy(particle, 10);
     //}
 
-    public void AttackFinished(int attack)
+    public void AttackFinished()
     {
         currentState = States.Idle;
         weaponScript.AttackEnd();

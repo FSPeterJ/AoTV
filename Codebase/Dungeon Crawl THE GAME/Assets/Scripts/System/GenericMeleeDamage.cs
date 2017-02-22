@@ -84,4 +84,9 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
     {
         AddForce = enabled;
     }
+
+    public void SetDamage(int dmg)
+    {
+        Damage = dmg;
+    }
 }

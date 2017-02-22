@@ -12,21 +12,23 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
         get { return _cs; }
         set
         {
+
+            if(value == AI.SuperBite)
+            {
+                weaponScript.SetDamage(1);
+            }
+
             switch (value)
             {
                 case AI.Idle:
                     navAgent.speed = 0;
                     navAgent.enabled = false;
-                    //navAgent.
                     idleTime = 0;
-                    //navAgent.enabled = false;
-                    //You can prevent a state assignment with a check here
                     _cs = value;
                     break;
                 case AI.Wander:
                     anim.SetBool("Walk", true);
                     navAgent.Resume();
-                    //navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
@@ -36,7 +38,6 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                 case AI.Run:
                     anim.SetBool("Run", true);
                     navAgent.Resume();
-                    //navAgent.enabled = true;
                     navAgent.speed = 15f;
                     _cs = value;
                     break;
@@ -49,14 +50,23 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
                 case AI.BiteAttack:
                     anim.SetBool("Bite Attack", true);
                     navAgent.speed = 0;
+                    if (navAgent.enabled)
+                        navAgent.Stop();
+                    idleTime = 0;
+                    _cs = value;
+                    break;
+                case AI.SuperBite:
+                    weaponScript.SetDamage(999);
+                    anim.SetBool("Rest", false);
+                    anim.SetBool("Bite Attack", true);
+                    navAgent.speed = 0;
+                    if(navAgent.enabled)
                     navAgent.Stop();
-                    //navAgent.enabled = false;
                     idleTime = 0;
                     _cs = value;
                     break;
                 case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
-
                     break;
                 case AI.Die:
                     dead = true;
@@ -85,7 +95,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     }
     public enum AI
     {
-        Idle, Walk, Jump, Run, BiteAttack, CastSpell, Defend, TakeDamage, Wander, Die, Rest
+        Idle, Walk, Jump, Run, BiteAttack, CastSpell, Defend, TakeDamage, Wander, Die, Rest, SuperBite
     }
 
     //variables
@@ -214,10 +224,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
             case AI.Run:
                 break;
             case AI.BiteAttack:
-                if (idleTime > 1f)
-                {
-                    currentState = AI.Walk;
-                }
+                
                 break;
             case AI.CastSpell:
                 break;
@@ -251,12 +258,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("Triggered Brah!!!");
-                currentState = AI.BiteAttack;
-                anim.SetBool("Rest", false);
-                //kill player here
-                int damage = 100;
-                Col.GetComponent<Player>().TakeDamage(damage);
+                currentState = AI.SuperBite;
             }
         }
     }

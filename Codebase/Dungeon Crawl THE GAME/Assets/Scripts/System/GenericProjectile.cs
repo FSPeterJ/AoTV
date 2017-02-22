@@ -17,6 +17,9 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
     [SerializeField]
     float timePassed = 0f;
 
+    [SerializeField]
+    int Damage = 1;
+
     public enum teams
     {
         Enemy, Ally, Neutral
@@ -49,7 +52,7 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
         {
             if (other.gameObject.tag == "Enemy" && !damagedUnits.Contains(other.gameObject.GetInstanceID()))
             {
-                other.gameObject.GetComponentInParent<IEnemyBehavior>().TakeDamage();
+                other.gameObject.GetComponentInParent<IEnemyBehavior>().TakeDamage(Damage);
                 //Prevent multiple hits per second.
                 damagedUnits.Add(other.gameObject.GetInstanceID());
                 if (ImpactEffect)
@@ -65,7 +68,7 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
         {
             if (other.gameObject.tag == "Player" && !damagedUnits.Contains(other.gameObject.GetInstanceID()))
             {
-                other.gameObject.GetComponent<Player>().TakeDamage();
+                other.gameObject.GetComponent<Player>().TakeDamage(Damage);
                 //Prevent multiple hits per second.
                 damagedUnits.Add(other.gameObject.GetInstanceID());
                 if (ImpactEffect)
@@ -107,5 +110,10 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
     public void ImpactAttack(bool enabled)
     {
 
+    }
+
+    public void SetDamage(int dmg)
+    {
+        Damage = dmg;
     }
 }
