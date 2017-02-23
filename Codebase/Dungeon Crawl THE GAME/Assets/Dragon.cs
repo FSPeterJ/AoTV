@@ -27,6 +27,10 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     int Health;
     float timer;
     bool start = false;
+
+    public string monsterName = "Mikael the Dragon";
+    public int maxHP;
+    public int HP;
     public enum DragonStates
     {
         Dialogue, FlyBiteAttack, FlyBreathAttack, FlyForwardToWaypoint, FlyIdle, Land, Recover, Die
@@ -44,11 +48,15 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         transitionNumber = 0;
         biteAttacked = false;
         alive = true;
+        start = true;
         dCurrentState = DragonStates.Dialogue;
+        maxHP = Health;
+        HP = Health;
     }
 
     void Update()
     {
+        HP = RemainingHealth();
         if (Target != null)
         {
             Target = GameObject.FindGameObjectWithTag("Player");

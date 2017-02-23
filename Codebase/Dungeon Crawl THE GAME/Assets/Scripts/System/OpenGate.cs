@@ -39,7 +39,6 @@ public class OpenGate : MonoBehaviour
         EventSystem.onUI_KeyCount -= KeyChange;
     }
 
-
     void KeyChange(int keys)
     {
         if (keys > 0)
@@ -54,12 +53,9 @@ public class OpenGate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (unlocked == true)
+        if (unlocked == true && transform.position.y > -200)
         {
-            float distCovered = (Time.deltaTime - startTime) * speed;
-            float fracJourney = distCovered / journeyLength;
-            gate.transform.position = Vector3.Lerp(startMarker.position, endMarker.position, fracJourney);
-
+            gate.transform.position -= new Vector3(0, 1 * Time.deltaTime, 0);
         }
     }
     void OnTriggerEnter(Collider c)
@@ -80,7 +76,6 @@ public class OpenGate : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("test");
                 unlocked = true;
                 if (unlockSoundPlayed != true)
                 {
