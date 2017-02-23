@@ -167,8 +167,6 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                     break;
                 case DragonStates.Die:
                         anim.SetTrigger("Die");
-                    
-                    
                     break;
                 default:
                     break;
@@ -190,9 +188,9 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
-        Health -= damage;
         if (dCurrentState == DragonStates.Recover)
         {
+            Health -= damage;
             GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
             GetComponent<AudioSource>().Play();
             if (RemainingHealth() <= 0)

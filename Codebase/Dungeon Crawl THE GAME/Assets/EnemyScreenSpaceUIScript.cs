@@ -14,6 +14,7 @@ public class EnemyScreenSpaceUIScript : MonoBehaviour {
     private Slider healthSlider;
     private DepthUIScript depthUIScript;
 
+
     // Use this for initialization
     void Start ()
     {
