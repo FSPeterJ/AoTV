@@ -158,6 +158,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                     timer -= Time.deltaTime;
                     if (timer <= 0 && anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex("Base Layer")).IsTag("Idle"))
                     {
+                        ResetToIdle();
                         transitionNumber++;
                         timer = 3;
                         anim.SetBool("Idle", false);
