@@ -34,6 +34,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
 
 
     GameObject Proj;
+    string monsterName;
 
     AI currentState
     {
@@ -259,5 +260,9 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
             float angle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, -(Mathf.Atan2(lookPos.z, lookPos.x) * Mathf.Rad2Deg) + _AngleAdjustment, Time.deltaTime * _LerpSpeed);
             transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
         }
+    }
+    public string Name()
+    {
+        return monsterName;
     }
 }

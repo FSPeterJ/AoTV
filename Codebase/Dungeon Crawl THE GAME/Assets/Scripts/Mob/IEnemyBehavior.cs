@@ -9,4 +9,6 @@ public interface IEnemyBehavior {
     void Kill();
 
     void ResetToIdle();
+
+    string Name();
 }

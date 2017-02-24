@@ -118,6 +118,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     public Object poisonbreath;
     GameObject poisonBreath;
     IWeaponBehavior weaponScript;
+    private string monsterName;
 
     // Use this for initialization
     void Start ()
@@ -335,5 +336,9 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     void PlayerDied()
     {
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
+    }
+    public string Name()
+    {
+        return monsterName;
     }
 }

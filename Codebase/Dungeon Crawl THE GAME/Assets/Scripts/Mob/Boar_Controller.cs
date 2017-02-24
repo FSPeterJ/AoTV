@@ -354,6 +354,8 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     Ray attackRangeLeft;
     Ray attackRangeRight;
     float attackRange = 5.5f;
+    private string monsterName;
+
     bool AttackRangeCheck()
     {
         //what the hell is this?
@@ -375,5 +377,8 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     }
 
 
-
+    public string Name()
+    {
+        return monsterName;
+    }
 }

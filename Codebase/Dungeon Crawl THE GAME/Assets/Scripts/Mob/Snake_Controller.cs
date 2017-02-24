@@ -91,6 +91,7 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
     NavMeshAgent navAgent;
 
     float idleTime = 0;
+    private string monsterName;
 
 
     // Use this for initialization
@@ -224,5 +225,10 @@ public class Snake_Controller : MonoBehaviour, IEnemyBehavior {
     public void ResetToIdle()
     {
         currentState = SnakeState.Idle;
+    }
+
+    public string Name()
+    {
+        return monsterName;
     }
 }

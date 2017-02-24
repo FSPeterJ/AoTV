@@ -27,11 +27,10 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     int Health;
     float timer;
     bool start = false;
-
-    public string monsterName = "Mikael the Dragon";
-    public int maxHP;
-    public int HP;
-    public enum DragonStates
+    [SerializeField]
+    string monsterName = "Mikael the Dragon";
+    [SerializeField]
+    enum DragonStates
     {
         Dialogue, FlyBiteAttack, FlyBreathAttack, FlyForwardToWaypoint, FlyIdle, Land, Recover, Die
     };
@@ -50,13 +49,10 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         alive = true;
         start = true;
         dCurrentState = DragonStates.Dialogue;
-        maxHP = Health;
-        HP = Health;
     }
 
     void Update()
     {
-        HP = RemainingHealth();
         if (Target != null)
         {
             Target = GameObject.FindGameObjectWithTag("Player");
@@ -240,4 +236,10 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     {
         start = true;
     }
+
+    public string Name()
+    {
+        return monsterName;
+    }
 }
+

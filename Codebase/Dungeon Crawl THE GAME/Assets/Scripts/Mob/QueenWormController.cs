@@ -338,6 +338,8 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     Ray rangeForward;
     Ray rangeLeft;
     Ray rangeRight;
+    private string monsterName;
+
     bool AttackRangeCheck(float range = 10f)
     {
         Debug.DrawRay(transform.position + Vector3.up, transform.forward * range, Color.red);
@@ -365,5 +367,9 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     public void ResetToIdle()
     {
         currentState = AI.Idle;
+    }
+    public string Name()
+    {
+        return monsterName;
     }
 }

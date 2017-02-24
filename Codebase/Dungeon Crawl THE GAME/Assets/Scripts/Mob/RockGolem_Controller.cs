@@ -107,6 +107,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     IWeaponBehavior weaponScriptL;
 
     int attack;
+    private string monsterName;
 
     void OnEnable()
     {
@@ -337,5 +338,8 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
     }
 
-    
+    public string Name()
+    {
+        return monsterName;
+    }
 }

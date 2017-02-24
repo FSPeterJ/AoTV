@@ -35,7 +35,7 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
 
     [HideInInspector]
     public UnityEngine.AI.NavMeshAgent navMeshAgent;
-
+    private string monsterName;
 
     private void Awake()//Before Start, initializes states and gets component reference for NavMeshAgent attached to enemy
     {
@@ -109,5 +109,10 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     public void ResetToIdle()
     {
         anim.SetBool("Idle", true);
+    }
+
+    public string Name()
+    {
+        return monsterName;
     }
 }

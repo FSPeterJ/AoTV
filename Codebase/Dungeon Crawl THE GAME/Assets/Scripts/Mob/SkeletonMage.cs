@@ -27,6 +27,8 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     bool alive;
     bool pushPlayer;
     bool inDialogue;
+    private string monsterName;
+
     // Use this for initialization
     void Start ()
     {
@@ -189,5 +191,10 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
     public void ResetToIdle()
     {
         anim.SetBool("Idle", true);
+    }
+
+    public string Name()
+    {
+        return monsterName;
     }
 }
