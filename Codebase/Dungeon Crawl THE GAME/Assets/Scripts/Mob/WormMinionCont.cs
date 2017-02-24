@@ -222,7 +222,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
 
     void PlayerDied()
     {
-        EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
+        //EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
     }
 
