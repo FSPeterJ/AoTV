@@ -203,6 +203,7 @@ GameObject:
   - component: {fileID: 95687979462121400}
   - component: {fileID: 114251969665625488}
   - component: {fileID: 54379703740434260}
+  - component: {fileID: 82881806956264274}
   m_Layer: 0
   m_Name: Worm Minion
   m_TagString: Enemy
@@ -1075,7 +1076,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1788018507317664}
-  m_LocalRotation: {x: 0.37296194, y: -0.6007491, z: -0.37296182, w: 0.600749}
+  m_LocalRotation: {x: 0.37296197, y: -0.60074914, z: -0.37296185, w: 0.6007491}
   m_LocalPosition: {x: -0.000000061384554, y: 0.9227329, z: -0.18855007}
   m_LocalScale: {x: 1.0000002, y: 1.0000002, z: 1.0000001}
   m_Children: []
@@ -1159,6 +1160,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 0.65, z: 0.5}
   m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!82 &82881806956264274
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1408976772172578}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 11363797aa035ff408ff44c4d9aaa4d4, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95687979462121400
 Animator:
   serializedVersion: 3
@@ -1188,7 +1269,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ws: 0
-  Proj: {fileID: 0}
+  pointValue: 1
+  deathSFX: {fileID: 8300000, guid: 8da0c99718f1f7b449c197470ef2c637, type: 3}
 --- !u!114 &114690323160072690
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1200,7 +1282,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1347db0b5fc44f449a0c33c433aa9278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ImpactEffect: {fileID: 0}
+  Damage: 1
   team: 0
+  attacking: 0
 --- !u!137 &137609244668743474
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

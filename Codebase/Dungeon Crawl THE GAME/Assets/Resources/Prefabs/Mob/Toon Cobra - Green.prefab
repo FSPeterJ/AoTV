@@ -490,6 +490,7 @@ GameObject:
   - component: {fileID: 114905530495953766}
   - component: {fileID: 65491897998793976}
   - component: {fileID: 54080141712130218}
+  - component: {fileID: 82039752551698040}
   m_Layer: 0
   m_Name: Toon Cobra - Green
   m_TagString: Enemy
@@ -873,7 +874,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1976317173384732}
-  m_LocalRotation: {x: 0.6255328, y: -0.32971007, z: -0.6255328, w: 0.32970998}
+  m_LocalRotation: {x: 0.62553287, y: -0.3297101, z: -0.62553287, w: 0.32971}
   m_LocalPosition: {x: 0.000000004756483, y: 0.15436462, z: 0.10881373}
   m_LocalScale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
   m_Children: []
@@ -1068,7 +1069,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1756189097604228}
-  m_LocalRotation: {x: 0.6255328, y: -0.32971007, z: -0.6255328, w: 0.32970998}
+  m_LocalRotation: {x: 0.62553287, y: -0.3297101, z: -0.62553287, w: 0.32971}
   m_LocalPosition: {x: 0.000000004756483, y: 0.15436462, z: 0.10881373}
   m_LocalScale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
   m_Children:
@@ -1290,6 +1291,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1868635, y: 1.3594975, z: 2.917646}
   m_Center: {x: -0.09343195, y: 0.76502395, z: -0.6588578}
+--- !u!82 &82039752551698040
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1784785049761700}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 6e528590fa3e8874aa029835f05e9a2d, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95158202440875588
 Animator:
   serializedVersion: 3
@@ -1323,6 +1404,7 @@ MonoBehaviour:
   pointValue: 1
   projectile: {fileID: 190672, guid: 525d3769018f1a246be6e5063f79bf93, type: 2}
   poisonbreath: {fileID: 125172, guid: aac8671e3285ff04999e982c01239c06, type: 2}
+  deathSFX: {fileID: 8300000, guid: 72b28711a479d0740b8b7d61bd4a47d1, type: 3}
 --- !u!137 &137868244670449282
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

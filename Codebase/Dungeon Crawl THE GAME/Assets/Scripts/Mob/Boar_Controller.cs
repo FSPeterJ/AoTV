@@ -124,6 +124,7 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     BoxCollider bCollider;
     IWeaponBehavior weaponScript;
     GameObject mouthGizmo;
+    public AudioClip deathSFX;
 
     float idleTime = 0;
 
@@ -297,17 +298,20 @@ public class Boar_Controller : MonoBehaviour, IEnemyBehavior
     }
     public void TakeDamage(int damage = 1)
     {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         AttackFinished();
         if (!dead)
         {
             health -= damage;
             if (health < 1)
             {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 Kill();
                 Scoreinc();
             }
             else
             {
+                GetComponent<AudioSource>().Play();
                 currentState = AI.TakeDamage;
             }
         }

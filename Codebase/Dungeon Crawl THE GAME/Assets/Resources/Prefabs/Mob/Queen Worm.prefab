@@ -648,6 +648,7 @@ GameObject:
   - component: {fileID: 195686311813288764}
   - component: {fileID: 114166557359561448}
   - component: {fileID: 54823870083288686}
+  - component: {fileID: 82272078829838430}
   m_Layer: 0
   m_Name: Queen Worm
   m_TagString: Enemy
@@ -1465,6 +1466,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.4205549, y: 1.2525119, z: 1.3237176}
   m_Center: {x: -0.7102164, y: -0.12624824, z: 0.016889215}
+--- !u!82 &82272078829838430
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884634970460536}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 726f4ab92457fda44a05235d3d138525, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95827825380724166
 Animator:
   serializedVersion: 3
@@ -1510,9 +1591,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 5
   pointValue: 1
+  deathSFX: {fileID: 8300000, guid: b30d684120798b3478e2ed428da08c38, type: 3}
   weaponBreath: {fileID: 1308387140500686}
   Exit: {fileID: 0}
+  BreathAttackTime: 888
   attackRange: 5
+  cs: 0
 --- !u!114 &114365010157111650
 MonoBehaviour:
   m_ObjectHideFlags: 1

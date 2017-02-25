@@ -117,6 +117,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     public Object projectile;
     public Object poisonbreath;
     GameObject poisonBreath;
+    public AudioClip deathSFX;
     IWeaponBehavior weaponScript;
     private string monsterName;
 
@@ -289,6 +290,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     }
     public void TakeDamage(int damage = 1)
     {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         Destroy(poisonBreath);
         // AttackFinished();
         if (dead == false)
@@ -296,11 +298,12 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
             health -= damage;
             if (health <= 0)
             {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 Kill();
-                
             }
             else
             {
+                GetComponent<AudioSource>().Play();
                 currentState = AI.TakeDamage;
             }
         }

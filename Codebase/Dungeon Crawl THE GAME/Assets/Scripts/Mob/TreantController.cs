@@ -17,6 +17,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
 
     GameObject weapon;
     IWeaponBehavior weaponScript;
+    public AudioClip deathSFX;
 
     [SerializeField]
     int health;
@@ -283,13 +284,21 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
 
     public void TakeDamage(int damage = 1)
     {
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         if (!dead)
         {
             health -= damage;
             if (health < 1)
+            {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 Kill();
+            }
             else
+            {
+                GetComponent<AudioSource>().Play();
                 currentState = AI.TakeDamage;
+            }
+
         }
     }
 

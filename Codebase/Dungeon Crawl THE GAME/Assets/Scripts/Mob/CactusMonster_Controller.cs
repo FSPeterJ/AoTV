@@ -113,7 +113,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     public GameObject weaponL;
     IWeaponBehavior weaponScriptR;
     IWeaponBehavior weaponScriptL;
-
+    public AudioClip deathSFX;
     int attack;
     private string monsterName;
 
@@ -303,16 +303,19 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     public void TakeDamage(int damage = 1)
     {
         AttackFinished();
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         if (!dead)
         {
             health -= damage;
             if (health < 1)
             {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 Kill();
                 ScoreInc();
             }
             else
             {
+                GetComponent<AudioSource>().Play();
                 currentState = AI.TakeDamage;
             }
         }

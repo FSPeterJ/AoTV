@@ -39,6 +39,8 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     int pointValue = 1;
     GameObject weapon;
     IWeaponBehavior weaponScript;
+    public AudioClip deathSFX;
+
 
     [SerializeField]
     GameObject weaponBreath;
@@ -287,16 +289,20 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     public void TakeDamage(int damage = 1)
     {
         AttackFinished();
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
+
         if (!dead)
         {
             health -= damage;
             if (health < 1)
             {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 Kill();
             }
             else
             {
                 currentState = AI.TakeDamage;
+                GetComponent<AudioSource>().Play();
             }
         }
     }

@@ -31,7 +31,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     BoxCollider bCollider;
     IWeaponBehavior weaponScript;
     public int pointValue = 1;
-
+    public AudioClip deathSFX;
 
     GameObject Proj;
     string monsterName;
@@ -174,16 +174,19 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     public void TakeDamage(int damage = 1)
     {
         AttackFinished();
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         if (!dead)
         {
             health -= damage;
             if (health < 1)
             {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 Kill();
                 Scoreinc();
             }
             else
             {
+                GetComponent<AudioSource>().Play();
                 currentState = AI.TakeDamage;
             }
         }

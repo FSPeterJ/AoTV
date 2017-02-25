@@ -123,6 +123,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     BoxCollider bCollider;
     IWeaponBehavior weaponScript;
     GameObject mouthGizmo;
+    public AudioClip deathSFX;
 
     float idleTime = 0;
     private string monsterName;
@@ -145,7 +146,8 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     }
     public void TakeDamage(int damage = 1)
     {
-        if(currentState == AI.Rest)
+        GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
+        if (currentState == AI.Rest)
         {
             currentState = AI.Idle;
         }
@@ -155,10 +157,12 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
             health -= damage;
             if (health < 1)
             {
+                GetComponent<AudioSource>().PlayOneShot(deathSFX);
                 Kill();
             }
             else
             {
+                GetComponent<AudioSource>().Play();
                 currentState = AI.TakeDamage;
             }
         }
