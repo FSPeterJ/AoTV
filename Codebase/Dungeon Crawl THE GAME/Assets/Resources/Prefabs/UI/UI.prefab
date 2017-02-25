@@ -364,6 +364,7 @@ GameObject:
   - component: {fileID: 4628742094024486}
   - component: {fileID: 114274736150662442}
   - component: {fileID: 114002855109178696}
+  - component: {fileID: 114244799417952738}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1363,7 +1364,7 @@ GameObject:
   - component: {fileID: 114808123417817618}
   m_Layer: 5
   m_Name: UI
-  m_TagString: Untagged
+  m_TagString: UI Main
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2771,7 +2772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2718e36ac1f9344b669855838f052c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seconds: 1001.12036
+  seconds: 1008.17413
   max: 8
   secondaryseconds: 999
   secondarymax: 3
@@ -4537,6 +4538,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114244799417952738
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1133919760153010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1327945023, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114247400162914374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7049,9 +7061,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5a2a98362994945875ff0b0c782261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pause: {fileID: 0}
-  options: {fileID: 0}
-  saveCheck: {fileID: 0}
+  pause: {fileID: 1062636386610444}
+  options: {fileID: 1345608068798666}
+  saveCheck: {fileID: 1264794474650580}
 --- !u!114 &114733196465728746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7486,7 +7498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51205bdbc4f7b32458b18326772d1d2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seconds: 1001.12036
+  seconds: 1008.17413
   max: 8
   secondaryseconds: 0
   secondarymax: 0
@@ -7732,7 +7744,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Lives: 1'
+  m_Text: 'Lives: 0'
 --- !u!114 &114873548969110542
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7910,7 +7922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6b1855e5d673f42a497779cf67d409, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seconds: 1001.12036
+  seconds: 1008.17413
   max: 8
   secondaryseconds: 0
   secondarymax: 0

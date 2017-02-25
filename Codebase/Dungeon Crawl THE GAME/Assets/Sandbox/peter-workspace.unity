@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -468,6 +468,26 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2de3ad53fc99b9a4e956af343f48d167, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &797668990 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1635351956302488, guid: 2de3ad53fc99b9a4e956af343f48d167,
+    type: 2}
+  m_PrefabInternal: {fileID: 797668989}
+--- !u!114 &797668991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 797668990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!1001 &947451630
 Prefab:
   m_ObjectHideFlags: 0
@@ -718,6 +738,26 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a885eb8fdcb0f884bb89bf19ed2cf62b, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1246864133 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1310479934390756, guid: 2e76dad7034d19b47a1f47c25d306dcb,
+    type: 2}
+  m_PrefabInternal: {fileID: 15915404}
+--- !u!114 &1246864134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1246864133}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!1001 &1280011999
 Prefab:
   m_ObjectHideFlags: 0
@@ -1101,3 +1141,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 02dc20664816f25448e9caae42ab4000, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2015500861 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1408976772172578, guid: bfb2d346f2d39004c8b12b2ca65db045,
+    type: 2}
+  m_PrefabInternal: {fileID: 1280011999}
+--- !u!114 &2015500866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2015500861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}

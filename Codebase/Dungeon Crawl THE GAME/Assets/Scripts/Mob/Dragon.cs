@@ -241,5 +241,10 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     {
         return monsterName;
     }
+
+    public float HPOffsetHeight()
+    {
+        return GetComponent<Renderer>().bounds.size.y + 1;
+    }
 }
 

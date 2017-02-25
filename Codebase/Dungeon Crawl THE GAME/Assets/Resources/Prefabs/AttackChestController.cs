@@ -286,4 +286,9 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     {
         return monsterName;
     }
+
+    public float HPOffsetHeight()
+    {
+        return GetComponentInChildren<Renderer>().bounds.size.y + 1;
+    }
 }

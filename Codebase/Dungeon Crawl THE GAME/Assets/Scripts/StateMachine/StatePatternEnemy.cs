@@ -115,4 +115,9 @@ public class StatePatternEnemy : MonoBehaviour, IEnemyBehavior
     {
         return monsterName;
     }
+
+    public float HPOffsetHeight()
+    {
+        return GetComponentInChildren<Renderer>().bounds.size.y + 1;
+    }
 }

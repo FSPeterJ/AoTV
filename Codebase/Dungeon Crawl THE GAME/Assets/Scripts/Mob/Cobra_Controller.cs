@@ -341,4 +341,9 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
     {
         return monsterName;
     }
+
+    public float HPOffsetHeight()
+    {
+        return GetComponent<Renderer>().bounds.size.y + 1;
+    }
 }

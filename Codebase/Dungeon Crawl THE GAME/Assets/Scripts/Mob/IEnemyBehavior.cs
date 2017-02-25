@@ -11,4 +11,5 @@ public interface IEnemyBehavior {
     void ResetToIdle();
 
     string Name();
+    float HPOffsetHeight();
 }

@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public class EnemyScreenSpaceUIScript : MonoBehaviour {
 
     IEnemyBehavior enemyScript;
-    public Canvas canvas;
-    public GameObject healthPrefab;
+    [SerializeField]
+    Canvas canvas;
+    [SerializeField]
     public float healthPanelOffset = 0.35f;
-    public GameObject healthPanel;
+    [SerializeField]
+    GameObject healthPanel;
     Text enemyName;
+    [SerializeField]
     Slider healthSlider;
     DepthUIScript depthUIScript;
     float maxHP;
@@ -19,9 +22,11 @@ public class EnemyScreenSpaceUIScript : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        healthPanel = Instantiate((GameObject)Resources.Load("Prefabs/UI/UI_EnemyHealth"));
         enemyScript = GetComponent<IEnemyBehavior>();
-        healthPanel = Instantiate(healthPrefab) as GameObject;
+        canvas = GameObject.FindGameObjectWithTag("UI Main").GetComponent<Canvas>();
         healthPanel.transform.SetParent(canvas.transform, false);
+
 
         enemyName = healthPanel.GetComponentInChildren<Text>();
         enemyName.text = enemyScript.Name();
@@ -31,13 +36,15 @@ public class EnemyScreenSpaceUIScript : MonoBehaviour {
         depthUIScript = healthPanel.GetComponent<DepthUIScript>();
         canvas.GetComponent<ScreenSpaceCanvasScript>().AddToCanvas(healthPanel);
         maxHP = enemyScript.RemainingHealth();
+        healthPanelOffset = enemyScript.HPOffsetHeight();
+        healthSlider.value = (enemyScript.RemainingHealth() / maxHP);
+
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
         healthSlider.value = (enemyScript.RemainingHealth() / maxHP);
-        Debug.Log((enemyScript.RemainingHealth() / maxHP));
 
         Vector3 worldPos = new Vector3(transform.position.x, transform.position.y + healthPanelOffset, transform.position.z);
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
