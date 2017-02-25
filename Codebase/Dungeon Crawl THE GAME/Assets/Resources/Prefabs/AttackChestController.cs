@@ -125,7 +125,7 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
     GameObject mouthGizmo;
 
     float idleTime = 0;
-
+    private string monsterName;
 
     void OnEnable()
     {
@@ -281,5 +281,14 @@ public class AttackChestController : MonoBehaviour, IEnemyBehavior
             }
         }
         return null;
+    }
+    public string Name()
+    {
+        return monsterName;
+    }
+
+    public float HPOffsetHeight()
+    {
+        return GetComponentInChildren<Renderer>().bounds.size.y + 1;
     }
 }

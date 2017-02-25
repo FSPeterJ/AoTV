@@ -115,6 +115,7 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     IWeaponBehavior weaponScriptL;
 
     int attack;
+    private string monsterName;
 
     void OnEnable()
     {
@@ -371,5 +372,14 @@ public class CactusMonster_Controller : MonoBehaviour, IEnemyBehavior
     {
         //Cannot call huD
         //huD.UpdateScore();
+    }
+    public string Name()
+    {
+        return monsterName;
+    }
+
+    public float HPOffsetHeight()
+    {
+        return GetComponent<Renderer>().bounds.size.y + 1;
     }
 }

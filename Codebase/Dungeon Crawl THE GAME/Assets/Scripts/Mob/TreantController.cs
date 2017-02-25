@@ -60,6 +60,8 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
     }
     [SerializeField]
     AI _cs;
+    private string monsterName;
+
     AI currentState
     {
         get { return _cs; }
@@ -381,5 +383,15 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
     {
         GameObject Obj = Instantiate(Shockwave, transform.position, Quaternion.Euler(-90, 0, 0));
         Obj.transform.localScale = new Vector3(4, 4, 4);
+    }
+
+    public string Name()
+    {
+        return monsterName;
+    }
+
+    public float HPOffsetHeight()
+    {
+        return GetComponent<Renderer>().bounds.size.y + 1;
     }
 }

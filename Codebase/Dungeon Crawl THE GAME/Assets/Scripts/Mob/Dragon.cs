@@ -27,11 +27,10 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     int Health;
     float timer;
     bool start = false;
-
-    public string monsterName = "Mikael the Dragon";
-    public int maxHP;
-    public int HP;
-    public enum DragonStates
+    [SerializeField]
+    string monsterName = "Mikael the Dragon";
+    [SerializeField]
+    enum DragonStates
     {
         Dialogue, FlyBiteAttack, FlyBreathAttack, FlyForwardToWaypoint, FlyIdle, Land, Recover, Die
     };
@@ -50,13 +49,10 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         alive = true;
         start = true;
         dCurrentState = DragonStates.Dialogue;
-        maxHP = Health;
-        HP = Health;
     }
 
     void Update()
     {
-        HP = RemainingHealth();
         if (Target != null)
         {
             Target = GameObject.FindGameObjectWithTag("Player");
@@ -90,9 +86,10 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                     timer -= Time.deltaTime;
                     body.rotation = Quaternion.Slerp(body.rotation, Quaternion.LookRotation(Target.transform.position - body.position), 10 * Time.deltaTime);
                     body.AddForce(gameObject.transform.up * -1);
-                    anim.SetTrigger("Fly Fire Breath Attack");
-                    if (timer <= 0)
+                    anim.SetBool("Fly Fire Breath Attack", true);
+                    if (timer <= 2)
                     {
+                        anim.SetBool("Fly Fire Breath Attack", false);
                         biteAttacked = false;
                         anim.SetBool("Fly Idle", true);
                         transitionNumber++;
@@ -239,4 +236,15 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     {
         start = true;
     }
+
+    public string Name()
+    {
+        return monsterName;
+    }
+
+    public float HPOffsetHeight()
+    {
+        return GetComponent<Renderer>().bounds.size.y + 1;
+    }
 }
+

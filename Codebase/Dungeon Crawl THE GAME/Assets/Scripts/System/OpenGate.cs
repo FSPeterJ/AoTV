@@ -13,8 +13,6 @@ public class OpenGate : MonoBehaviour
     public Transform startMarker;
     public Transform endMarker;
     public float speed = 0.000050F;
-    private float startTime;
-    private float journeyLength;
     public GameObject gate;
     public GameObject keyImage;
     bool unlockSoundPlayed = false;
@@ -24,8 +22,6 @@ public class OpenGate : MonoBehaviour
     void Start()
     {
         //key = keyCode.GetComponent<KeyActivation>();
-        startTime = Time.time;
-        journeyLength = Vector3.Distance(startMarker.position, endMarker.position);
     }
 
 
