@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 195106544691749812}
   - component: {fileID: 65771629047978946}
   - component: {fileID: 82663056936302814}
+  - component: {fileID: 114207236423978454}
   m_Layer: 20
   m_Name: Toon Slime Basic - Blue
   m_TagString: Enemy
@@ -390,7 +391,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1635351956302488}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 160.00635, y: -0.07001591, z: -123.03366}
+  m_LocalPosition: {x: -20.885376, y: -13.9, z: -20.170414}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4740572916302974}
@@ -563,7 +564,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ddb9b34c96ff4f341b7ad89139e30178, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 62840c5efa9a44c479df0f974ad97c00, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -651,6 +652,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114207236423978454
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1635351956302488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &114207785511189152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -662,7 +678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80610c61a369f29488d9a04d911999ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathSFX: {fileID: 8300000, guid: 60729ab9eb0ccf047a79df98656d6e4b, type: 3}
+  deathSFX: {fileID: 8300000, guid: 0b67ea74f250d854a9b38fde176044c4, type: 3}
   Health: 1
   alive: 1
   anim: {fileID: 0}
@@ -720,7 +736,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImpactEffect: {fileID: 0}
+  Damage: 1
   team: 0
+  attacking: 0
 --- !u!137 &137950523079975258
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

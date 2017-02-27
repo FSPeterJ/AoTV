@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 54869104149395660}
   - component: {fileID: 65556596643314638}
   - component: {fileID: 82892573978061114}
+  - component: {fileID: 114628350015584264}
   m_Layer: 0
   m_Name: Toon Skeleton Archer-Red 1
   m_TagString: Enemy
@@ -1008,7 +1009,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1906366429063926}
-  m_LocalRotation: {x: 0.21360454, y: 0.71870416, z: 0.5371163, w: 0.3864501}
+  m_LocalRotation: {x: 0.21360451, y: 0.71870416, z: 0.5371163, w: 0.38645005}
   m_LocalPosition: {x: 0.30726147, y: 0.3816303, z: -0.017958578}
   m_LocalScale: {x: 1.0000013, y: 1.0000018, z: 1.0000015}
   m_Children: []
@@ -1145,7 +1146,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1878457047124984}
   m_LocalRotation: {x: 0, y: 0.7098396, z: 0, w: 0.7043634}
-  m_LocalPosition: {x: 21, y: 12.666668, z: 23.333334}
+  m_LocalPosition: {x: -8.7677765, y: -13.9, z: -45.51369}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4696725151982160}
@@ -1175,7 +1176,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1969436512770788}
-  m_LocalRotation: {x: 0.50223297, y: -0.49762702, z: -0.49702433, w: 0.5030866}
+  m_LocalRotation: {x: 0.502233, y: -0.49762705, z: -0.49702436, w: 0.5030867}
   m_LocalPosition: {x: -0.07850241, y: -0.055669464, z: -0.06643423}
   m_LocalScale: {x: 1, y: 0.99999994, z: 1}
   m_Children: []
@@ -1327,7 +1328,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1190089587972742}
-  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.007410059, w: 0.010324803}
+  m_LocalRotation: {x: 0.71122646, y: 0.7028482, z: -0.0074100583, w: 0.010324803}
   m_LocalPosition: {x: -0.06706537, y: -0.0024251938, z: -0.009137694}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children: []
@@ -1588,6 +1589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80610c61a369f29488d9a04d911999ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathSFX: {fileID: 0}
   Health: 2
   alive: 1
   anim: {fileID: 95435875337617432}
@@ -1617,6 +1619,21 @@ MonoBehaviour:
   arrow: {fileID: 1873954634203052, guid: ddac10868a7f45140989f8ba93d910ac, type: 2}
   arrowSpawn: {fileID: 1303027911033012}
   pointValue: 1
+--- !u!114 &114628350015584264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1878457047124984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!137 &137556300977240446
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

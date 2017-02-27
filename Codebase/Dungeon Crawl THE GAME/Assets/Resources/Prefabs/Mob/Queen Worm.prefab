@@ -649,6 +649,7 @@ GameObject:
   - component: {fileID: 114166557359561448}
   - component: {fileID: 54823870083288686}
   - component: {fileID: 82272078829838430}
+  - component: {fileID: 114824469477681880}
   m_Layer: 0
   m_Name: Queen Worm
   m_TagString: Enemy
@@ -1109,7 +1110,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1884634970460536}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 11.672817, y: -13.9, z: -8.096098}
+  m_LocalPosition: {x: -40.03241, y: -13.899998, z: -2.5923653}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4199242577562358}
@@ -1608,6 +1609,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f63d1e83caa1574db4fee20c1978191, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114824469477681880
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1884634970460536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &114863952893619922
 MonoBehaviour:
   m_ObjectHideFlags: 1

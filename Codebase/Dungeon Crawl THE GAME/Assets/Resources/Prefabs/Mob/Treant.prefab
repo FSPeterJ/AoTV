@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 54556416291461004}
   - component: {fileID: 65954542574450618}
   - component: {fileID: 82839342669591324}
+  - component: {fileID: 114200705102708188}
   m_Layer: 0
   m_Name: Treant
   m_TagString: Enemy
@@ -1208,7 +1209,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103264612161462}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 218.21791, y: 0.000009536743, z: -51.21134}
+  m_LocalPosition: {x: -36.17222, y: -13.899998, z: -21.998945}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 4321625432194446}
@@ -1671,6 +1672,21 @@ MonoBehaviour:
   Shockwave: {fileID: 1944176501217664, guid: 8e77d43b9d75d9641b1be98ef2f68cd5, type: 2}
   attackRange: 40
   _cs: 0
+--- !u!114 &114200705102708188
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1103264612161462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!137 &137914245402721356
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

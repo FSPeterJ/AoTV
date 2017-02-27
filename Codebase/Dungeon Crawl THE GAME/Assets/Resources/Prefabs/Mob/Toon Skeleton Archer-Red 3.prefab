@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 54869104149395660}
   - component: {fileID: 65556596643314638}
   - component: {fileID: 82892573978061114}
+  - component: {fileID: 114868130327105804}
   m_Layer: 20
   m_Name: Toon Skeleton Archer-Red 3
   m_TagString: Enemy
@@ -1145,7 +1146,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1878457047124984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40.399467, y: 5.29268, z: 81.42537}
+  m_LocalPosition: {x: -2.5076447, y: -13.899998, z: -44.62545}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4696725151982160}
@@ -1327,7 +1328,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1190089587972742}
-  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.007410058, w: 0.010324802}
+  m_LocalRotation: {x: 0.7112264, y: 0.70284814, z: -0.007410057, w: 0.010324802}
   m_LocalPosition: {x: -0.06706537, y: -0.0024251938, z: -0.009137694}
   m_LocalScale: {x: 0.9999999, y: 1.0000001, z: 1.0000004}
   m_Children: []
@@ -1618,6 +1619,21 @@ MonoBehaviour:
   arrow: {fileID: 1873954634203052, guid: ddac10868a7f45140989f8ba93d910ac, type: 2}
   arrowSpawn: {fileID: 1303027911033012}
   pointValue: 1
+--- !u!114 &114868130327105804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1878457047124984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!137 &137556300977240446
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

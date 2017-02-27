@@ -767,6 +767,7 @@ GameObject:
   - component: {fileID: 54645424767057334}
   - component: {fileID: 65654500654573410}
   - component: {fileID: 82496351482404808}
+  - component: {fileID: 114973966444749750}
   m_Layer: 20
   m_Name: Wild Boar
   m_TagString: Enemy
@@ -1385,7 +1386,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1844979064593276}
   m_LocalRotation: {x: 0.02981799, y: 0.021162987, z: 0.0059423326, w: 0.99931365}
-  m_LocalPosition: {x: 6.042534, y: -13.9, z: -18.117708}
+  m_LocalPosition: {x: -11.95343, y: -13.9, z: -21.473099}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4917851524540446}
@@ -1750,6 +1751,21 @@ MonoBehaviour:
   Damage: 1
   team: 0
   attacking: 0
+--- !u!114 &114973966444749750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1844979064593276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!137 &137688480836544658
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

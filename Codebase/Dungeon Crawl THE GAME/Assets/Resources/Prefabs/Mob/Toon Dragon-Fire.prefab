@@ -536,6 +536,7 @@ GameObject:
   - component: {fileID: 114291314633267266}
   - component: {fileID: 82329618533633152}
   - component: {fileID: 65578583229130824}
+  - component: {fileID: 114538815627103818}
   m_Layer: 20
   m_Name: Toon Dragon-Fire
   m_TagString: Enemy
@@ -2362,7 +2363,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1403190521471410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.4486566, y: 4.21, z: -1.4333179}
+  m_LocalPosition: {x: 16.384645, y: -13.9, z: -36.66024}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4454234449091760}
@@ -2729,8 +2730,21 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   Health: 25
   monsterName: Mikael the Dragon
-  maxHP: 0
-  HP: 0
+--- !u!114 &114538815627103818
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1403190521471410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &114609986900653660
 MonoBehaviour:
   m_ObjectHideFlags: 1

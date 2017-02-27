@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 65458223044068482}
   - component: {fileID: 195650293824133316}
   - component: {fileID: 82883333790253214}
+  - component: {fileID: 114438115065896628}
   m_Layer: 20
   m_Name: Toon Slime Basic - Purple
   m_TagString: Enemy
@@ -482,7 +483,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1909725173612826}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.30711, y: -0.000001920065, z: 17.106674}
+  m_LocalPosition: {x: -31.110764, y: -13.900002, z: -37.54683}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4629445806189698}
@@ -827,7 +828,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ImpactEffect: {fileID: 0}
+  Damage: 1
   team: 0
+  attacking: 0
+--- !u!114 &114438115065896628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1909725173612826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &114596502774138328
 MonoBehaviour:
   m_ObjectHideFlags: 1

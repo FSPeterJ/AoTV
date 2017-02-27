@@ -381,6 +381,6 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
 
     public float HPOffsetHeight()
     {
-        return GetComponent<Renderer>().bounds.size.y + 1;
+        return GetComponentInChildren<Renderer>().bounds.size.y + 1;
     }
 }
