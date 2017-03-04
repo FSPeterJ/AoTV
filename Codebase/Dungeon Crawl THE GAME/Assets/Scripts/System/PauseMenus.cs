@@ -1,15 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenus : MonoBehaviour
 {
     [SerializeField]
-    GameObject pause, options, saveCheck;
+    private GameObject pause, options, saveCheck;
 
-    GameObject _cs;
-    GameObject currentScreen
+    private GameObject _cs;
+
+    private GameObject currentScreen
     {
         get
         {
@@ -28,23 +27,22 @@ public class PauseMenus : MonoBehaviour
         }
     }
 
+    private bool hasSaved;
 
-
-    bool hasSaved;
-
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onGamePausedToggle += PausedToggle;
         EventSystem.onUI_Back += Return;
     }
+
     //unsubscribe from player movement
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onGamePausedToggle -= PausedToggle;
         EventSystem.onUI_Back -= Return;
     }
 
-    void Start()
+    private void Start()
     {
         pause = transform.GetChild(0).gameObject;
         saveCheck = transform.GetChild(1).gameObject;
@@ -53,14 +51,12 @@ public class PauseMenus : MonoBehaviour
         hasSaved = false;
     }
 
-    void Update()
+    private void Update()
     {
-
     }
 
-
     //Pause menu should control time since pausing the game is for the menu
-    void PausedToggle()
+    private void PausedToggle()
     {
         if (Time.timeScale == 0)
         {
@@ -78,7 +74,6 @@ public class PauseMenus : MonoBehaviour
     public void Resume()
     {
         EventSystem.GamePausedToggle();
-
     }
 
     public void Options()
@@ -136,5 +131,4 @@ public class PauseMenus : MonoBehaviour
     {
         Application.Quit();
     }
-
 }

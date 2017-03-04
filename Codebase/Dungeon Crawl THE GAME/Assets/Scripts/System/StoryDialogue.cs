@@ -1,37 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class StoryDialogue : MonoBehaviour
 {
     [SerializeField]
-    GameObject Mage;
-    [SerializeField]
-    GameObject DialoguePanel;
-    [SerializeField]
-    Text EnemyDialogue;
-    [SerializeField]
-    Text PlayerResponse1;
-    [SerializeField]
-    Text PlayerResponse2;
+    private GameObject Mage;
 
     [SerializeField]
-    AudioClip[] EnemyDialogueResponses;
+    private GameObject DialoguePanel;
 
-    float timer;
+    [SerializeField]
+    private Text EnemyDialogue;
 
-    bool secondLevel;
+    [SerializeField]
+    private Text PlayerResponse1;
 
-    bool rumble;
+    [SerializeField]
+    private Text PlayerResponse2;
 
-    bool starting = false;
+    [SerializeField]
+    private AudioClip[] EnemyDialogueResponses;
 
-    void EnableDia()
+    private float timer;
+
+    private bool secondLevel;
+
+    private bool rumble;
+
+    private bool starting = false;
+
+    private void EnableDia()
     {
         if (!starting)
         {
             transform.GetChild(0).gameObject.SetActive(true);
+            Mage = GameObject.Find("Boss");
             Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[0]);
             timer = .03f;
             starting = true;
@@ -41,17 +44,19 @@ public class StoryDialogue : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         EventSystem.onStoryDialogue += EnableDia;
+        
     }
+
     private void OnDisable()
     {
         EventSystem.onStoryDialogue -= EnableDia;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (starting)
         {
@@ -84,7 +89,7 @@ public class StoryDialogue : MonoBehaviour
         }
     }
 
-    void DialogueBranch_0_1()
+    private void DialogueBranch_0_1()
     {
         Mage.GetComponent<AudioSource>().Stop();
         Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[1]);
@@ -94,7 +99,7 @@ public class StoryDialogue : MonoBehaviour
         secondLevel = true;
     }
 
-    void DialogueBranch_0_2()
+    private void DialogueBranch_0_2()
     {
         Mage.GetComponent<AudioSource>().Stop();
         Mage.GetComponent<AudioSource>().PlayOneShot(EnemyDialogueResponses[2]);

@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class KeySystem : MonoBehaviour {
+public class KeySystem : MonoBehaviour
+{
     [SerializeField]
-    int keycount = 0;
+    private int keycount = 0;
 
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    private void Start()
+    {
         KeyChange(0);
     }
 
@@ -23,11 +22,11 @@ public class KeySystem : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    private void Update()
+    {
+    }
 
-    void KeyChange(int count)
+    private void KeyChange(int count)
     {
         keycount += count;
         EventSystem.UI_KeyCount(keycount);

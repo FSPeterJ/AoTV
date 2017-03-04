@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ScoreChestScript : MonoBehaviour {
-    Animator anim;
+public class ScoreChestScript : MonoBehaviour
+{
+    private Animator anim;
     public GameObject ScorePowerUp;
     public GameObject Gold;
     public GameObject GoldOne;
@@ -11,13 +10,15 @@ public class ScoreChestScript : MonoBehaviour {
     public GameObject GoldThree;
     public GameObject GoldFour;
     public GameObject GoldFive;
-    bool notOpen = true;
-    void Start()
+    private bool notOpen = true;
+
+    private void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetBool("Open", false);
     }
-    void OnTriggerStay(Collider Col)
+
+    private void OnTriggerStay(Collider Col)
     {
         if (Col.tag == "Player")
         {
@@ -37,7 +38,7 @@ public class ScoreChestScript : MonoBehaviour {
                     Destroy(GoldThree);
                     Destroy(GoldFour);
                     Destroy(GoldFive);
-                    ScorePowerUp.transform.RotateAroundLocal(Vector3.right,90);
+                    ScorePowerUp.transform.RotateAroundLocal(Vector3.right, 90);
                     Instantiate(ScorePowerUp, spawnLocation, Quaternion.identity);
                 }
             }

@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SoundTest : MonoBehaviour {
+public class SoundTest : MonoBehaviour
+{
     public AudioClip SFX;
 
     public void TestSFX()

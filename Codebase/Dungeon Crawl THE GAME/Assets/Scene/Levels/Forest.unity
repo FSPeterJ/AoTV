@@ -17575,6 +17575,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &521206980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 521206978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!1 &521543381
 GameObject:
   m_ObjectHideFlags: 0
@@ -22767,6 +22782,16 @@ Prefab:
       propertyPath: deathSFX
       value: 
       objectReference: {fileID: 8300000, guid: b77795f93cd4d0b469bdd5b3d1788a47, type: 3}
+    - target: {fileID: 114964640364081766, guid: 880b7473c5578d24ba9e62818ebff641,
+        type: 2}
+      propertyPath: health
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 195898887840084212, guid: 880b7473c5578d24ba9e62818ebff641,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 880b7473c5578d24ba9e62818ebff641, type: 2}
   m_IsPrefabParent: 0
@@ -34846,7 +34871,7 @@ Prefab:
     - target: {fileID: 224267405059573616, guid: 02dc20664816f25448e9caae42ab4000,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 178.85931
+      value: 181.99052
       objectReference: {fileID: 0}
     - target: {fileID: 224267405059573616, guid: 02dc20664816f25448e9caae42ab4000,
         type: 2}
@@ -34856,7 +34881,7 @@ Prefab:
     - target: {fileID: 224492002059273918, guid: 02dc20664816f25448e9caae42ab4000,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 167.90875
+      value: 170.61612
       objectReference: {fileID: 0}
     - target: {fileID: 224492002059273918, guid: 02dc20664816f25448e9caae42ab4000,
         type: 2}
@@ -35631,6 +35656,21 @@ Prefab:
     - target: {fileID: 4645381299705588, guid: b018b5b080d8e4843b36c4cb9294d475, type: 2}
       propertyPath: m_RootOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 20233201142051312, guid: b018b5b080d8e4843b36c4cb9294d475,
+        type: 2}
+      propertyPath: m_BackGroundColor.r
+      value: 0.35288712
+      objectReference: {fileID: 0}
+    - target: {fileID: 20233201142051312, guid: b018b5b080d8e4843b36c4cb9294d475,
+        type: 2}
+      propertyPath: m_BackGroundColor.g
+      value: 0.4049957
+      objectReference: {fileID: 0}
+    - target: {fileID: 20233201142051312, guid: b018b5b080d8e4843b36c4cb9294d475,
+        type: 2}
+      propertyPath: m_BackGroundColor.b
+      value: 0.44852942
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b018b5b080d8e4843b36c4cb9294d475, type: 2}
@@ -39704,6 +39744,11 @@ Prefab:
     - target: {fileID: 4732513071945332, guid: b76755ed14a71b44e8a96305df11117c, type: 2}
       propertyPath: m_LocalScale.z
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114089739870163584, guid: b76755ed14a71b44e8a96305df11117c,
+        type: 2}
+      propertyPath: _cs
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b76755ed14a71b44e8a96305df11117c, type: 2}

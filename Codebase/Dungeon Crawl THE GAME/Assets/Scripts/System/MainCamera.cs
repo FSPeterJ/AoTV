@@ -1,46 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
+    private Camera cam;
+    private Transform Rail;
+    private RaycastHit hitInfo;
+    private int layerMask = 31;
+    private float scaleFactor = 2;
 
-    Camera cam;
-    Transform Rail;
-    RaycastHit hitInfo;
-    int layerMask = 31;
-    float scaleFactor = 2;
+    [SerializeField]
+    private float minZoom = -10;
 
     [SerializeField]
-    float minZoom = -10;
+    private float maxZoom = 0;
+
     [SerializeField]
-    float maxZoom = 0;
+    private float zoomOffset = -10;
+
     [SerializeField]
-    float zoomOffset = -10;
-    [SerializeField]
-    float sensitivity = 10f;
+    private float sensitivity = 10f;
 
     //subscribe to player movement
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
         EventSystem.onPlayerScale += ScaleFactor;
     }
+
     //unsubscribe from player movement
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         EventSystem.onPlayerScale -= ScaleFactor;
     }
 
-
     //public Transform target;
-    Vector3 targetpos;
+    private Vector3 targetpos;
+
     public float smoothTime = 0.3f;
 
     private Vector3 velocity = Vector3.zero;
-
 
     private void Start()
     {
@@ -48,7 +48,7 @@ public class MainCamera : MonoBehaviour
         cam = Rail.GetChild(0).GetComponent<Camera>();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         transform.position = Vector3.SmoothDamp(transform.position, targetpos, ref velocity, smoothTime);
 
@@ -66,33 +66,26 @@ public class MainCamera : MonoBehaviour
 
                 break;
             }
-
         }
-
 
         float zoom = Rail.localPosition.z;
         zoom -= Input.GetAxis("Mouse ScrollWheel") * sensitivity;
         Rail.transform.localPosition = new Vector3(0, 0.5f * scaleFactor, 0);
-        Rail.localPosition = new Vector3(0, 2, Mathf.Clamp(zoom, minZoom * scaleFactor + zoomOffset * scaleFactor,  maxZoom * scaleFactor + zoomOffset * scaleFactor));
-
-
+        Rail.localPosition = new Vector3(0, 2, Mathf.Clamp(zoom, minZoom * scaleFactor + zoomOffset * scaleFactor, maxZoom * scaleFactor + zoomOffset * scaleFactor));
     }
 
-    void UpdateTargetPosition(Vector3 pos)
+    private void UpdateTargetPosition(Vector3 pos)
     {
         targetpos = pos;
-
     }
 
-    void PlayerDied()
+    private void PlayerDied()
     {
-
     }
 
-    void ScaleFactor(float num)
+    private void ScaleFactor(float num)
     {
         scaleFactor = num;
         transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
     }
-
 }

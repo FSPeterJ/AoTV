@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class HealthPowerUpScript : MonoBehaviour {
-    Animator anim;
+public class HealthPowerUpScript : MonoBehaviour
+{
+    private Animator anim;
     public GameObject HealthPowerUp;
     public GameObject Gold;
     public GameObject GoldOne;
@@ -11,13 +10,15 @@ public class HealthPowerUpScript : MonoBehaviour {
     public GameObject GoldThree;
     public GameObject GoldFour;
     public GameObject GoldFive;
-    bool notOpen = true;
-    void Start()
+    private bool notOpen = true;
+
+    private void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetBool("Open", false);
     }
-    void OnTriggerStay(Collider Col)
+
+    private void OnTriggerStay(Collider Col)
     {
         if (Col.tag == "Player")
         {
@@ -37,7 +38,6 @@ public class HealthPowerUpScript : MonoBehaviour {
                     Destroy(GoldFour);
                     Destroy(GoldFive);
                     Instantiate(HealthPowerUp, spawnLocation, Quaternion.identity);
-
                 }
             }
         }

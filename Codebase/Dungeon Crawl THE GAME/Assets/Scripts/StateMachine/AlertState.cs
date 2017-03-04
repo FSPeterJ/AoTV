@@ -7,6 +7,7 @@ public class AlertState : IEnemyState
     private float searchTimer;//current amount of time searched
     public float heightMultiplier;
     public float sightDistance = 10;
+
     public AlertState(StatePatternEnemy unitedStatePattern)//constructor
     {
         enemy = unitedStatePattern;//when an instance is created pass in the current enemy state pattern.

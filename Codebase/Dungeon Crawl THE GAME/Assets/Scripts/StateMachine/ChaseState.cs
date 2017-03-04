@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+
 public class ChaseState : IEnemyState
 {
     private readonly StatePatternEnemy enemy;//Keeps track of the current enemy state
@@ -17,7 +17,6 @@ public class ChaseState : IEnemyState
         Chase();
     }
 
-
     public void ToPatrolState()
     {
         Debug.Log("Can't transition to patrol state from chase state");//can't go to patrol from chase
@@ -33,7 +32,7 @@ public class ChaseState : IEnemyState
 
     public void ToChaseState()
     {
-       // Debug.Log("In Chase State");//Can't transition to same state, but must have this function for the interface
+        // Debug.Log("In Chase State");//Can't transition to same state, but must have this function for the interface
     }
 
     private void Look()//In patrol state, ray cast 20 units from his eyes
@@ -59,5 +58,4 @@ public class ChaseState : IEnemyState
         enemy.navMeshAgent.destination = enemy.chaseTarget.position;//set destination to the position of the target being chased
         //enemy.navMeshAgent.Resume();
     }
-
 }

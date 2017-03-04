@@ -1,19 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class FightMusic : MonoBehaviour {
+public class FightMusic : MonoBehaviour
+{
     public GameObject BackgroundMusic;
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    private void Start()
+    {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("Music Volume");
         TurnOff();
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    private void Update()
+    {
+    }
 
     public void TurnOn()
     {

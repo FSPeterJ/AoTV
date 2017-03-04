@@ -1,24 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GenericProjectile : MonoBehaviour, IWeaponBehavior
 {
-
-
     [SerializeField]
-    GameObject ImpactEffect;
-    [SerializeField]
-    float speed = 1;
-    [SerializeField]
-    bool destoryOnImpact = true;
-    [SerializeField]
-    float lifetime = 5f;
-    [SerializeField]
-    float timePassed = 0f;
+    private GameObject ImpactEffect;
 
     [SerializeField]
-    int Damage = 1;
+    private float speed = 1;
+
+    [SerializeField]
+    private bool destoryOnImpact = true;
+
+    [SerializeField]
+    private float lifetime = 5f;
+
+    [SerializeField]
+    private float timePassed = 0f;
+
+    [SerializeField]
+    private int Damage = 1;
 
     public enum teams
     {
@@ -27,9 +28,9 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
 
     public teams team;
 
-    List<int> damagedUnits = new List<int>();
+    private List<int> damagedUnits = new List<int>();
 
-    void Start()
+    private void Start()
     {
         enabled = true;
     }
@@ -45,9 +46,8 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
         }
     }
 
-    void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-
         if (team != teams.Enemy)
         {
             if (other.gameObject.tag == "Enemy" && !damagedUnits.Contains(other.gameObject.GetInstanceID()))
@@ -79,7 +79,7 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
                     Destroy(gameObject);
             }
         }
-        if (other.gameObject.layer == LayerMask.NameToLayer("Terrain")  || other.gameObject.layer == LayerMask.NameToLayer("TeleportBlock"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Terrain") || other.gameObject.layer == LayerMask.NameToLayer("TeleportBlock"))
         {
             if (ImpactEffect)
             {
@@ -90,14 +90,13 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
                 Destroy(gameObject);
             }
         }
-        
     }
-
 
     public void AttackStart()
     {
         damagedUnits.Clear();
     }
+
     public void AttackEnd()
     {
         damagedUnits.Clear();
@@ -107,9 +106,9 @@ public class GenericProjectile : MonoBehaviour, IWeaponBehavior
     {
         damagedUnits.Clear();
     }
+
     public void ImpactAttack(bool enabled)
     {
-
     }
 
     public void SetDamage(int dmg)

@@ -1,26 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class togglePlatform : MonoBehaviour
 {
-    Transform start;
+    private Transform start;
     public Transform destination;
-    bool swap;
+    private bool swap;
 
     public float speed;
 
-
-    void Start()
+    private void Start()
     {
         start = transform;
         destination.parent = null;
     }
-    void Update()
+
+    private void Update()
     {
         Move();
     }
 
-    void Move()
+    private void Move()
     {
         if (transform.position.x < start.position.x + 0.1 && transform.position.x > start.position.x - 0.1)
             swap = true;

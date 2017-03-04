@@ -7,9 +7,10 @@ public class PatrolState : IEnemyState
     public int nextWayPoint;//Count through the way points
     public float heightMultiplier;
     public float sightDistance = 10;
+
     public PatrolState(StatePatternEnemy unitedStatePattern)//constructor
     {
-        enemy = unitedStatePattern;//when an instance is created pass in the current enemy state pattern.        
+        enemy = unitedStatePattern;//when an instance is created pass in the current enemy state pattern.
     }
 
     public void UpdateState()
@@ -33,7 +34,6 @@ public class PatrolState : IEnemyState
     {
         enemy.currentState = enemy.alertState;//change current state to alert state
         Debug.Log("Patrol -> Alert");//Can't transition to same state, but must have this function for the interface
-
     }
 
     public void ToChaseState()

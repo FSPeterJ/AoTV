@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
 
 public static class EventSystem
 {
-
     //Player Movements
     public delegate void PlayerPositionUpdateHandler(Vector3 PlayerPosition);
+
     public static event PlayerPositionUpdateHandler onPlayerPositionUpdate;
+
     public static void PlayerPositionUpdate(Vector3 PlayerPosition)
     {
         if (onPlayerPositionUpdate != null) onPlayerPositionUpdate(PlayerPosition);
@@ -15,7 +14,9 @@ public static class EventSystem
 
     //Mouse to world events
     public delegate void MousePositionUpdateHandler(Vector3 MousePosition);
+
     public static event MousePositionUpdateHandler onMousePositionUpdate;
+
     public static void MousePositionUpdate(Vector3 MousePosition)
     {
         if (onMousePositionUpdate != null) onMousePositionUpdate(MousePosition);
@@ -23,16 +24,19 @@ public static class EventSystem
 
     //player damage events
     public delegate void PlayerHealthUpdateHandler(int hp, int hpmax);
+
     public static event PlayerHealthUpdateHandler onPlayerHealthUpdate;
+
     public static void PlayerHealthUpdate(int hp, int hpmax)
     {
-
         if (onPlayerHealthUpdate != null) onPlayerHealthUpdate(hp, hpmax);
     }
 
     //player Died
     public delegate void PlayerDeathHandler();
+
     public static event PlayerDeathHandler onPlayerDeath;
+
     public static void PlayerDeath()
     {
         if (onPlayerDeath != null) onPlayerDeath();
@@ -40,23 +44,29 @@ public static class EventSystem
 
     //Teleport Cooldown
     public delegate void TeleportCooldownHandler(float seconds, float max);
+
     public static event TeleportCooldownHandler onTeleportCooldown;
+
     public static void TeleportCooldown(float seconds, float max)
     {
         if (onTeleportCooldown != null) onTeleportCooldown(seconds, max);
     }
+
     //Player Score
     public delegate void PlayerScorehandler(int score);
+
     public static event PlayerScorehandler onPlayerScore;
+
     public static void IncScore(int score)
     {
         if (onPlayerScore != null) onPlayerScore(score);
     }
 
-
     //Ranged Cooldown
     public delegate void RangedCooldownHandler(float seconds, float max);
+
     public static event RangedCooldownHandler onRangedCooldown;
+
     public static void RangedCooldown(float seconds, float max)
     {
         if (onRangedCooldown != null) onRangedCooldown(seconds, max);
@@ -64,7 +74,9 @@ public static class EventSystem
 
     //Spin Cooldown
     public delegate void SpinCooldownHandler(float seconds, float max);
+
     public static event SpinCooldownHandler onSpinCooldown;
+
     public static void SpinCooldown(float seconds, float max)
     {
         if (onSpinCooldown != null) onSpinCooldown(seconds, max);
@@ -72,7 +84,9 @@ public static class EventSystem
 
     //Increase Score
     public delegate void ScoreIncreaseHandler(int score);
+
     public static event ScoreIncreaseHandler onScoreIncrease;
+
     public static void ScoreIncrease(int score)
     {
         if (onScoreIncrease != null) onScoreIncrease(score);
@@ -80,16 +94,19 @@ public static class EventSystem
 
     //Change Score
     public delegate void ScoreChangeHandler(int score);
+
     public static event ScoreChangeHandler onScoreChange;
+
     public static void ScoreChange(int score)
     {
         if (onScoreChange != null) onScoreChange(score);
     }
 
-
     //Lives Count
     public delegate void LivesCountHandler(int lives);
+
     public static event LivesCountHandler onLivesCount;
+
     public static void LivesCount(int lives)
     {
         if (onLivesCount != null) onLivesCount(lives);
@@ -97,7 +114,9 @@ public static class EventSystem
 
     //Spin Time
     public delegate void SpinTimeHandler(float seconds, float max);
+
     public static event SpinTimeHandler onSpinTime;
+
     public static void SpinTime(float seconds, float max)
     {
         if (onSpinTime != null) onSpinTime(seconds, max);
@@ -105,7 +124,9 @@ public static class EventSystem
 
     //Game Paused
     public delegate void GamePausedToggleHandler();
+
     public static event GamePausedToggleHandler onGamePausedToggle;
+
     public static void GamePausedToggle()
     {
         if (onGamePausedToggle != null) onGamePausedToggle();
@@ -113,14 +134,19 @@ public static class EventSystem
 
     //UI Back Button
     public delegate void UI_BackHandler();
+
     public static event UI_BackHandler onUI_Back;
+
     public static void UI_Back()
     {
         if (onUI_Back != null) onUI_Back();
     }
+
     //Player Grounded
     public delegate void PlayerGroundedHandler(bool grounded);
+
     public static event PlayerGroundedHandler onPlayerGrounded;
+
     public static void PlayerGrounded(bool grounded)
     {
         if (onPlayerGrounded != null) onPlayerGrounded(grounded);
@@ -128,7 +154,9 @@ public static class EventSystem
 
     // Story Dialogue
     public delegate void StoryDialogueHandler();
+
     public static event StoryDialogueHandler onStoryDialogue;
+
     public static void StoryDialogue()
     {
         if (onStoryDialogue != null) onStoryDialogue();
@@ -136,54 +164,63 @@ public static class EventSystem
 
     // Display Interact
     public delegate void UI_InteractHandler(bool interact);
+
     public static event UI_InteractHandler onUI_Interact;
+
     public static void UI_Interact(bool interact)
     {
         if (onUI_Interact != null) onUI_Interact(interact);
     }
 
-
     public delegate void UI_KeyChangeHandler(int interact);
+
     public static event UI_KeyChangeHandler onUI_KeyChange;
+
     public static void UI_KeyChange(int interact)
     {
         if (onUI_KeyChange != null) onUI_KeyChange(interact);
     }
 
     public delegate void UI_KeyCountHandler(int interact);
+
     public static event UI_KeyCountHandler onUI_KeyCount;
+
     public static void UI_KeyCount(int interact)
     {
         if (onUI_KeyCount != null) onUI_KeyCount(interact);
     }
 
     public delegate void Player_ReloadCheckpointHandler();
+
     public static event Player_ReloadCheckpointHandler onPlayer_ReloadCheckpoint;
+
     public static void Player_ReloadCheckpoint()
     {
         if (onPlayer_ReloadCheckpoint != null) onPlayer_ReloadCheckpoint();
     }
 
-
     public delegate void PlayerLoseHandler();
+
     public static event PlayerLoseHandler onPlayerLose;
+
     public static void PlayerLose()
     {
         if (onPlayerLose != null) onPlayerLose();
-
     }
 
-
     public delegate void PlayerScaleHandler(float scale);
+
     public static event PlayerScaleHandler onPlayerScale;
+
     public static void PlayerScale(float scale)
     {
         if (onPlayerScale != null) onPlayerScale(scale);
     }
 
-
     public delegate void ContinuePlayer();
+
     public static event ContinuePlayer onCont;
+
     public static void Cont()
     {
         if (onCont != null) onCont();

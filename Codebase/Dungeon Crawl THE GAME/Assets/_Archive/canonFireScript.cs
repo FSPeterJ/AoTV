@@ -1,25 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class canonFireScript : MonoBehaviour
 {
-    GameObject fireball;
-    
-    float passedTime;
+    private GameObject fireball;
+
+    private float passedTime;
+
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         fireball = (GameObject)Resources.Load("Prefabs/Projectiles/Fireball Projectile");
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         passedTime += Time.deltaTime;
     }
 
-    void OnTriggerStay(Collider col)
+    private void OnTriggerStay(Collider col)
     {
         if (col.tag == "Player")
         {
@@ -31,5 +30,5 @@ public class canonFireScript : MonoBehaviour
                 passedTime = 0;
             }
         }
-    }    
+    }
 }

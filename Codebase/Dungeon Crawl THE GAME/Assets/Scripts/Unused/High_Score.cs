@@ -1,22 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
 
-struct Playerinfo
+internal struct Playerinfo
 {
     public string name;
     public int score;
 }
 
-
 public class High_Score : MonoBehaviour
 {
-    string FileName = "MyFile.txt";
-    InputField GiveYourName;
+    private string FileName = "MyFile.txt";
+    private InputField GiveYourName;
 
-    void Start()
+    private void Start()
     {
         Playerinfo[] info = new Playerinfo[10];
 
@@ -92,7 +89,6 @@ public class High_Score : MonoBehaviour
 
     //void Update()
     //{
-
     //}
 
     //void ReadFile(string file)
@@ -117,14 +113,12 @@ public class High_Score : MonoBehaviour
 
     //void List(Playerinfo[] info)
     //{
-
     //    for (int i = 0; i < info.Length; ++i)
     //    {
     //      info[i].name = PlayerPrefs.GetString(i + "Name");
     //            //PlayerPrefs.GetString(i + "Name");
     //      info[i].score = PlayerPrefs.GetInt(i + "Score");
     //            //PlayerPrefs.GetInt(i + "Score");
-
 
     //        rank.text = "Name: " + info[i].name + "Score: " + info[i].score;
     //    }

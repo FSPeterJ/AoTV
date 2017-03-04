@@ -1,24 +1,25 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Cannon : MonoBehaviour
 {
     public Rigidbody Cannonball;
+
     //Transform SpawnPoint;
     public float firerate = 0.5f;
+
     private float nextfire = 5.0f;
     public float speed = 20;
     //float SpawnTime;
-	
-    void Start()
+
+    private void Start()
     {
-       // SpawnTime = Time.time;
+        // SpawnTime = Time.time;
     }
 
-	// Update is called once per frame
-	void Update()
+    // Update is called once per frame
+    private void Update()
     {
-	    if (true)
+        if (true)
         {
             Rigidbody cannonball = (Rigidbody)Instantiate(Cannonball, transform.position, transform.rotation);
             //cannonball.transform.position = SpawnPoint.position;
@@ -28,8 +29,8 @@ public class Cannon : MonoBehaviour
             {
                 nextfire = Time.time + firerate;
                 Destroy(cannonball);
-              //  GameObject clone = (GameObject)Instantiate(Cannonball, transform.position, transform.rotation);
+                //  GameObject clone = (GameObject)Instantiate(Cannonball, transform.position, transform.rotation);
             }
         }
-	}
+    }
 }

@@ -1,25 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class UI_Spin : UI_Cooldown
+﻿public class UI_Spin : UI_Cooldown
 {
-
-
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onSpinCooldown += CooldownUpdate;
         EventSystem.onSpinTime += SecondaryCooldownUpdate;
     }
+
     //unsubscribe
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onSpinCooldown -= CooldownUpdate;
         EventSystem.onSpinTime -= SecondaryCooldownUpdate;
-
     }
-
-
-
-
 }

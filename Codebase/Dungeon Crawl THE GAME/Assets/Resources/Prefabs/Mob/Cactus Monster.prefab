@@ -362,6 +362,7 @@ GameObject:
   - component: {fileID: 114609099547735710}
   - component: {fileID: 54527017992565866}
   - component: {fileID: 82462785354870186}
+  - component: {fileID: 114494654952794072}
   m_Layer: 20
   m_Name: Cactus Monster
   m_TagString: Enemy
@@ -1465,6 +1466,21 @@ MonoBehaviour:
   Damage: 1
   team: 0
   attacking: 0
+--- !u!114 &114494654952794072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1471309450178536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &114609099547735710
 MonoBehaviour:
   m_ObjectHideFlags: 1

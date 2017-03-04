@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+
 //using UnityEngine.Events;
 
 public class UI_ControlChange : MonoBehaviour
 {
-
-    static GameObject CurrentControl;
+    private static GameObject CurrentControl;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
-
         CurrentControl = null;
 
         for (int i = 0; i < transform.childCount; i++)
@@ -42,11 +39,11 @@ public class UI_ControlChange : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
     }
-    void OnGUI()
+
+    private void OnGUI()
     {
         if (CurrentControl != null)
         {
@@ -61,10 +58,8 @@ public class UI_ControlChange : MonoBehaviour
                 CurrentControl = null;
                 PlayerPrefs.Save();
             }
-
             else if (e != null && e.isMouse)
             {
-
                 KeyManager.SetKey("Mousebutton " + CurrentControl.name, e.keyCode);
                 PlayerPrefs.SetString("Mousebutton " + CurrentControl.name, e.keyCode.ToString());
                 CurrentControl.GetComponent<Image>().color = Color.white;
@@ -72,11 +67,9 @@ public class UI_ControlChange : MonoBehaviour
                 CurrentControl.transform.GetChild(0).GetComponent<Text>().text = KeyManager.GetKeyName("Mousebutton " + CurrentControl.name);
                 CurrentControl = null;
                 PlayerPrefs.Save();
-
             }
         }
     }
-
 
     public void AssignControl(GameObject inputName)
     {

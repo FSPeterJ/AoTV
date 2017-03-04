@@ -1,20 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerIsGrounded : MonoBehaviour
 {
-
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         EventSystem.PlayerGrounded(false);
     }
 
     // Update is called once per frame
-    bool isGrounded = false;
+    private bool isGrounded = false;
 
-    List<Collider> collisionList = new List<Collider>();
+    private List<Collider> collisionList = new List<Collider>();
 
     private void OnTriggerEnter(Collider other)
     {
@@ -22,6 +20,7 @@ public class PlayerIsGrounded : MonoBehaviour
 
         collisionList.Add(other);
     }
+
     private void OnTriggerExit(Collider other)
     {
         //Debug.Log("Removed" + other.gameObject.name);
@@ -29,7 +28,7 @@ public class PlayerIsGrounded : MonoBehaviour
         collisionList.Remove(other);
     }
 
-    void Update()
+    private void Update()
 
     {
         collisionList.RemoveAll(IsEMpty);
@@ -40,7 +39,6 @@ public class PlayerIsGrounded : MonoBehaviour
                 EventSystem.PlayerGrounded(false);
                 isGrounded = false;
             }
-
         }
         else
         {

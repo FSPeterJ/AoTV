@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WormMinionCont : MonoBehaviour, IEnemyBehavior
 {
-    enum AI
+    private enum AI
     {
         Idle,
         Bite,
@@ -17,26 +14,25 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     }
 
     [SerializeField]
-    AI _ws;
+    private AI _ws;
 
-
-    Animator anim;
-    float PlayerDist;
-    Vector3 targetPos;
-    bool defendTime;
-    float idleTime;
-    int health;
-    bool dead = false;
-    GameObject weapon;
-    BoxCollider bCollider;
-    IWeaponBehavior weaponScript;
+    private Animator anim;
+    private float PlayerDist;
+    private Vector3 targetPos;
+    private bool defendTime;
+    private float idleTime;
+    private int health;
+    private bool dead = false;
+    private GameObject weapon;
+    private BoxCollider bCollider;
+    private IWeaponBehavior weaponScript;
     public int pointValue = 1;
     public AudioClip deathSFX;
 
-    GameObject Proj;
-    string monsterName;
+    private GameObject Proj;
+    private string monsterName = "Worm Minion";
 
-    AI currentState
+    private AI currentState
     {
         get { return _ws; }
         set
@@ -46,25 +42,31 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
                 case AI.Idle:
                     _ws = value;
                     break;
+
                 case AI.Bite:
                     anim.SetBool("Bite Attack", true);
                     _ws = value;
                     break;
+
                 case AI.Projectile:
                     anim.SetBool("Projectile Attack", true);
                     _ws = value;
                     break;
+
                 case AI.CastSpell:
                     anim.SetBool("Cast Spell", true);
                     _ws = value;
                     break;
+
                 case AI.Defend:
                     anim.SetBool("Defend", true);
                     _ws = value;
                     break;
+
                 case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
                     break;
+
                 case AI.Die:
                     EventSystem.ScoreIncrease(pointValue);
                     foreach (Collider c in GetComponentsInChildren<Collider>())
@@ -80,22 +82,22 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
         Proj = (GameObject)Resources.Load("Prefabs/Projectiles/Fireball Projectile");
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
+        monsterName = "Worm Minion";
         defendTime = true;
+        health = 2;
         idleTime = 0;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
-
         PlayerDist = Vector3.Distance(targetPos, transform.position);
         switch (currentState)
         {
@@ -126,14 +128,18 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
                 }
                 idleTime += Time.deltaTime;
                 break;
+
             case AI.Bite:
                 RotateToFaceTarget(targetPos);
                 break;
+
             case AI.Projectile:
                 RotateToFaceTarget(targetPos);
                 break;
+
             case AI.CastSpell:
                 break;
+
             case AI.Defend:
                 RotateToFaceTarget(targetPos);
                 if (idleTime > 1f)
@@ -143,30 +149,34 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
                 }
                 idleTime += Time.deltaTime;
                 break;
+
             case AI.TakeDamage:
                 RotateToFaceTarget(targetPos);
                 break;
+
             case AI.Die:
                 break;
+
             default:
                 currentState = AI.Idle;
                 break;
         }
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
         EventSystem.onPlayerDeath += PlayerDied;
     }
+
     //unsubscribe from player movement
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         EventSystem.onPlayerDeath -= PlayerDied;
     }
 
-    void UpdateTargetPosition(Vector3 pos)
+    private void UpdateTargetPosition(Vector3 pos)
     {
         targetPos = pos;
     }
@@ -192,7 +202,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
         }
     }
 
-    void Scoreinc()
+    private void Scoreinc()
     {
         //Event goes here
     }
@@ -224,7 +234,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
         weaponScript.AttackStart();
     }
 
-    void PlayerDied()
+    private void PlayerDied()
     {
         //EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
@@ -235,7 +245,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
         currentState = AI.Idle;
     }
 
-    GameObject FindWeapon(Transform obj)
+    private GameObject FindWeapon(Transform obj)
     {
         foreach (Transform tr in obj)
         {
@@ -254,7 +264,8 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
         }
         return null;
     }
-    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
+
+    private void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
     {
         if (!dead)
         {
@@ -264,6 +275,7 @@ public class WormMinionCont : MonoBehaviour, IEnemyBehavior
             transform.rotation = Quaternion.AngleAxis(angle, new Vector3(0, 1, 0));
         }
     }
+
     public string Name()
     {
         return monsterName;

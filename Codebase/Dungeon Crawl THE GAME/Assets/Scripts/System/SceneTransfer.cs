@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-public class SceneTransfer : MonoBehaviour {
 
-    bool HasKey;
+public class SceneTransfer : MonoBehaviour
+{
+    private bool HasKey;
 
     private void OnEnable()
     {
@@ -16,7 +15,7 @@ public class SceneTransfer : MonoBehaviour {
         EventSystem.onUI_KeyCount -= KeyChange;
     }
 
-    void KeyChange(int keys)
+    private void KeyChange(int keys)
     {
         if (keys > 3)
         {
@@ -27,17 +26,16 @@ public class SceneTransfer : MonoBehaviour {
             HasKey = false;
         }
     }
+
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    }
+
+    // Update is called once per frame
+    private void Update()
     {
-		
-	}
+    }
 
     private void OnTriggerEnter(Collider other)
     {

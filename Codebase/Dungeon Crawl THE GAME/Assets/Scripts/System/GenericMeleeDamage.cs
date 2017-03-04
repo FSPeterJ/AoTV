@@ -1,30 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
 {
-    bool AddForce = false;
+    private bool AddForce = false;
     public GameObject ImpactEffect;
+
     [SerializeField]
-    int Damage = 1;
+    private int Damage = 1;
+
     public enum teams
     {
         Enemy, Ally, Neutral
     }
 
     public teams team;
+
     [SerializeField]
-    bool attacking = false;
-    List<int> damagedUnits = new List<int>();
+    private bool attacking = false;
 
-    void Start()
+    private List<int> damagedUnits = new List<int>();
+
+    private void Start()
     {
-
     }
 
-
-    void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (attacking)
         {
@@ -57,18 +58,17 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
                     {
                         Instantiate(ImpactEffect, transform.position, transform.rotation);
                     }
-
                 }
             }
         }
     }
-
 
     public void AttackStart()
     {
         damagedUnits.Clear();
         attacking = true;
     }
+
     public void AttackEnd()
     {
         AddForce = false;
@@ -80,6 +80,7 @@ public class GenericMeleeDamage : MonoBehaviour, IWeaponBehavior
     {
         damagedUnits.Clear();
     }
+
     public void ImpactAttack(bool enabled)
     {
         AddForce = enabled;

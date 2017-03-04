@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class LifeChestScript : MonoBehaviour {
-    Animator anim;
+public class LifeChestScript : MonoBehaviour
+{
+    private Animator anim;
     public GameObject Gold;
     public GameObject GoldOne;
     public GameObject GoldTwo;
@@ -11,13 +10,15 @@ public class LifeChestScript : MonoBehaviour {
     public GameObject GoldFour;
     public GameObject GoldFive;
     public GameObject LifePowerUp;
-    bool notOpen = true;
-    void Start()
+    private bool notOpen = true;
+
+    private void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetBool("Open", false);
     }
-    void OnTriggerStay(Collider Col)
+
+    private void OnTriggerStay(Collider Col)
     {
         if (Col.tag == "Player")
         {

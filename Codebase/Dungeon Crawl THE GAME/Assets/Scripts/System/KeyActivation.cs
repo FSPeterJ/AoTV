@@ -1,15 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class KeyActivation : MonoBehaviour {
+public class KeyActivation : MonoBehaviour
+{
     //public Texture key;
-    bool hasKey;
-    bool hasKeySoundPlayed = false;
+    private bool hasKey;
+
+    private bool hasKeySoundPlayed = false;
     public GameObject interactPanel;
     public GameObject keyImage;
-    void Start()
+
+    private void Start()
     {
         hasKey = false;
     }
@@ -39,7 +39,7 @@ public class KeyActivation : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            if (Input.GetKeyDown(KeyCode.E) && !hasKey )
+            if (Input.GetKeyDown(KeyCode.E) && !hasKey)
             {
                 hasKey = true;
                 EventSystem.UI_KeyChange(1);

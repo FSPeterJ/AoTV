@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-
-public interface IEnemyBehavior {
-
+﻿public interface IEnemyBehavior
+{
     void TakeDamage(int damage = 1);
 
     int RemainingHealth();
@@ -11,5 +9,6 @@ public interface IEnemyBehavior {
     void ResetToIdle();
 
     string Name();
+
     float HPOffsetHeight();
 }

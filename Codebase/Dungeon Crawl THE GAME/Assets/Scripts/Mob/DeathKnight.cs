@@ -1,19 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class DeathKnight : MonoBehaviour {
-
+public class DeathKnight : MonoBehaviour
+{
     public GameObject sword;
-    StatePatternEnemy unitedStatePattern;
-    IWeaponBehavior weaponBehavior;
-    Animator anim;
-    bool asleep = true;
+    private StatePatternEnemy unitedStatePattern;
+    private IWeaponBehavior weaponBehavior;
+    private Animator anim;
+    private bool asleep = true;
     public int pointValue = 1;
 
-
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
@@ -23,7 +20,7 @@ public class DeathKnight : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!asleep && unitedStatePattern.alive)
         {
@@ -44,14 +41,12 @@ public class DeathKnight : MonoBehaviour {
                     anim.ResetTrigger("Run");
                     anim.SetTrigger("Double Attack");
                     unitedStatePattern.navMeshAgent.Stop();
-
                 }
                 else
                 {
                     anim.ResetTrigger("Double Attack");
                     anim.SetTrigger("Run");
                     unitedStatePattern.navMeshAgent.Resume();
-
                 }
             }
         }
@@ -61,17 +56,17 @@ public class DeathKnight : MonoBehaviour {
         }
     }
 
-    void BeginAttacking()
+    private void BeginAttacking()
     {
         weaponBehavior.AttackStart();
     }
 
-    void EndAttacking()
+    private void EndAttacking()
     {
         weaponBehavior.AttackEnd();
     }
 
-    void CancelCurrentAnimation()
+    private void CancelCurrentAnimation()
     {
         if (unitedStatePattern.currentState.ToString() != "PatrolState")
         {

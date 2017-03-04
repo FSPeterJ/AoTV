@@ -1,18 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-public class MainMenu : MonoBehaviour {
-    
+
+public class MainMenu : MonoBehaviour
+{
     //public Button[] menuButtons;
-    void Start()
+    private void Start()
     {
         PlayerPrefs.SetInt("lives", 3);
         PlayerPrefs.SetInt("score", 0);
     }
 
-    void Update()
+    private void Update()
     {
         //if (Input.GetKey(KeyCode.Return))
         //{
@@ -27,12 +25,12 @@ public class MainMenu : MonoBehaviour {
         SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
     }
 
-   public void NewGameLoader()
+    public void NewGameLoader()
     {
         SceneManager.LoadScene("Opening Scene", LoadSceneMode.Single);
     }
 
-   public void OptionsLoader()
+    public void OptionsLoader()
     {
         SceneManager.LoadScene("Options", LoadSceneMode.Single);
     }
@@ -41,7 +39,6 @@ public class MainMenu : MonoBehaviour {
     {
         SceneManager.LoadScene("Credits", LoadSceneMode.Single);
     }
-
 
     public void exitLoader()
     {
@@ -54,6 +51,5 @@ public class MainMenu : MonoBehaviour {
             Screen.fullScreen = false;
         else
             Screen.fullScreen = true;
-
     }
 }

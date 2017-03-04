@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
@@ -13,30 +10,33 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
     public GameObject fireBreathCollider;
     public GameObject Target;
     public Vector3[] Waypoints;
-    NavMeshAgent navMeshAgent;
-    Animator anim;
-    Rigidbody body;
-    DragonStates dCurrentState;
-    IWeaponBehavior weaponBehavior;
-    IWeaponBehavior fireBreathBehavior;
+    private NavMeshAgent navMeshAgent;
+    private Animator anim;
+    private Rigidbody body;
+    private DragonStates dCurrentState;
+    private IWeaponBehavior weaponBehavior;
+    private IWeaponBehavior fireBreathBehavior;
 
-    bool biteAttacked;
-    bool alive;
-    int transitionNumber;
+    private bool biteAttacked;
+    private bool alive;
+    private int transitionNumber;
+
     [SerializeField]
-    int Health;
-    float timer;
-    bool start = false;
+    private int Health;
+
+    private float timer;
+    private bool start = false;
+
     [SerializeField]
-    string monsterName = "Mikael the Dragon";
+    private string monsterName = "Mikael the Dragon";
+
     [SerializeField]
-    enum DragonStates
+    private enum DragonStates
     {
         Dialogue, FlyBiteAttack, FlyBreathAttack, FlyForwardToWaypoint, FlyIdle, Land, Recover, Die
     };
 
-
-    void Start()
+    private void Start()
     {
         anim = GetComponent<Animator>();
         body = GetComponent<Rigidbody>();
@@ -51,7 +51,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         dCurrentState = DragonStates.Dialogue;
     }
 
-    void Update()
+    private void Update()
     {
         if (Target != null)
         {
@@ -72,6 +72,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                         timer = 3;
                     }
                     break;
+
                 case DragonStates.FlyBiteAttack:
                     timer -= Time.deltaTime;
                     if (timer <= 0)
@@ -82,6 +83,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                         dCurrentState = DragonStates.FlyForwardToWaypoint;
                     }
                     break;
+
                 case DragonStates.FlyBreathAttack:
                     timer -= Time.deltaTime;
                     body.rotation = Quaternion.Slerp(body.rotation, Quaternion.LookRotation(Target.transform.position - body.position), 10 * Time.deltaTime);
@@ -96,6 +98,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                         dCurrentState = DragonStates.Land;
                     }
                     break;
+
                 case DragonStates.FlyForwardToWaypoint:
                     if (navMeshAgent.remainingDistance == 0 && !biteAttacked)
                     {
@@ -114,6 +117,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                         dCurrentState = DragonStates.FlyIdle;
                     }
                     break;
+
                 case DragonStates.FlyIdle:
                     body.rotation = Quaternion.Slerp(body.rotation, Quaternion.LookRotation(Target.transform.position - body.position), 10 * Time.deltaTime);
                     body.AddForce(gameObject.transform.up * -150);
@@ -140,6 +144,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                         }
                     }
                     break;
+
                 case DragonStates.Land:
                     timer = 7;
                     if (anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex("Base Layer")).IsTag("Fly Idle"))
@@ -151,6 +156,7 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                         transitionNumber++;
                     }
                     break;
+
                 case DragonStates.Recover:
                     timer -= Time.deltaTime;
                     if (timer <= 0 && anim.GetCurrentAnimatorStateInfo(anim.GetLayerIndex("Base Layer")).IsTag("Idle"))
@@ -163,9 +169,11 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
                         dCurrentState = DragonStates.FlyIdle;
                     }
                     break;
+
                 case DragonStates.Die:
-                        anim.SetTrigger("Die");
+                    anim.SetTrigger("Die");
                     break;
+
                 default:
                     break;
             }
@@ -200,7 +208,6 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
             else
             {
                 anim.SetBool("Take Damage", true);
-                
             }
         }
     }
@@ -222,12 +229,12 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         anim.SetBool("Idle", true);
     }
 
-    void BeginAttacking()
+    private void BeginAttacking()
     {
         weaponBehavior.AttackStart();
     }
 
-    void EndAttacking()
+    private void EndAttacking()
     {
         weaponBehavior.AttackEnd();
     }
@@ -247,4 +254,3 @@ public class Dragon : MonoBehaviour, IEnemyBehavior
         return GetComponentInChildren<Renderer>().bounds.size.y + 1;
     }
 }
-

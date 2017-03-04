@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-
-
-internal interface IRangedPlayerAttack
+﻿internal interface IRangedPlayerAttack
 {
-
     void ScaleFactor(float num);
 }

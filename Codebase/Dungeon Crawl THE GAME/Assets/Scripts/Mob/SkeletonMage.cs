@@ -1,36 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SkeletonMage : MonoBehaviour, IEnemyBehavior
 {
     [SerializeField]
-    AudioClip RaiseDead;
+    private AudioClip RaiseDead;
+
     [SerializeField]
-    GameObject StoryDialoguePanel;
+    private GameObject StoryDialoguePanel;
+
     public GameObject playerLocation;
     public GameObject Key4;
     public GameObject FightMusic;
     public ParticleSystem pushParticle;
     public ParticleSystem[] spawnParticle;
 
-    SpawnManager spawn;
-    StatePatternEnemy unitedStatePattern;
-    Animator anim;
-    Vector3 magePos;
+    private SpawnManager spawn;
+    private StatePatternEnemy unitedStatePattern;
+    private Animator anim;
+    private Vector3 magePos;
 
     [SerializeField]
-    int Health;
-    int spawnCount;
-    float timer;
+    private int Health;
+
+    private int spawnCount;
+    private float timer;
+
     //float radius;
-    bool alive;
-    bool pushPlayer;
-    bool inDialogue;
+    private bool alive;
+
+    private bool pushPlayer;
+    private bool inDialogue;
     private string monsterName;
 
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
         spawn = GetComponent<SpawnManager>();
         unitedStatePattern = GetComponent<StatePatternEnemy>();
@@ -46,10 +49,12 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
         alive = true;
         pushPlayer = false;
         inDialogue = true;
-}
-	
-	// Update is called once per frame
-	void Update ()
+
+        monsterName = "Skeleton Mage ABOMINATION";
+    }
+
+    // Update is called once per frame
+    private void Update()
     {
         if (playerLocation == null)
         {
@@ -93,9 +98,9 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
                 }
             }
         }
-	}
+    }
 
-    void Fight()
+    private void Fight()
     {
         inDialogue = false;
         spawn.enabled = true;
@@ -103,11 +108,11 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
         FightMusic.GetComponent<FightMusic>().TurnOn();
     }
 
-    void CancelCurrentAnimation()
+    private void CancelCurrentAnimation()
     {
         //if (unitedStatePattern.currentState.ToString() != "PatrolState")
         //{
-            anim.SetBool("Walk", false);
+        anim.SetBool("Walk", false);
         //}
         if (unitedStatePattern.currentState.ToString() != "AlertState")
         {
@@ -119,7 +124,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
         }
     }
 
-    void OnTriggerEnter(Collider C)
+    private void OnTriggerEnter(Collider C)
     {
         if (C.gameObject.tag == "Player" && timer <= 0)
         {
@@ -127,16 +132,16 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
         }
     }
 
-    void OnTriggerStay(Collider C)
+    private void OnTriggerStay(Collider C)
     {
         if (C.gameObject.tag == "Player")
         {
-            if (timer<= 0)
+            if (timer <= 0)
                 pushPlayer = true;
             if (inDialogue)
             {
                 EventSystem.StoryDialogue();
-                    //freeze player
+                //freeze player
                 Time.timeScale = 0.1f;
             }
             else
@@ -147,7 +152,7 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
         }
     }
 
-    void OnTriggerExit(Collider C)
+    private void OnTriggerExit(Collider C)
     {
         if (C.gameObject.tag == "Player")
         {
@@ -172,7 +177,6 @@ public class SkeletonMage : MonoBehaviour, IEnemyBehavior
                 Health -= damage;
             }
         }
-        
     }
 
     public int RemainingHealth()

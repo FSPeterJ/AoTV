@@ -1,19 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Slime : MonoBehaviour {
-
+public class Slime : MonoBehaviour
+{
     public GameObject sword;
-    StatePatternEnemy unitedStatePattern;
-    IWeaponBehavior weaponBehavior;
-    Animator anim;
-    bool asleep = true;
+    private StatePatternEnemy unitedStatePattern;
+    private IWeaponBehavior weaponBehavior;
+    private Animator anim;
+    private bool asleep = true;
     public int pointValue = 1;
     public GameObject[] Slimes;
     public Transform[] Spawns;
+
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         gameObject.transform.parent = null;
         unitedStatePattern = GetComponent<StatePatternEnemy>();
@@ -24,7 +23,7 @@ public class Slime : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!asleep && unitedStatePattern.alive)
         {
@@ -62,17 +61,17 @@ public class Slime : MonoBehaviour {
         }
     }
 
-    void BeginAttacking()
+    private void BeginAttacking()
     {
         weaponBehavior.AttackStart();
     }
 
-    void EndAttacking()
+    private void EndAttacking()
     {
         weaponBehavior.AttackEnd();
     }
 
-    void CancelCurrentAnimation()
+    private void CancelCurrentAnimation()
     {
         //if (unitedStatePattern.currentState.ToString() != "PatrolState")
         //{
@@ -95,5 +94,4 @@ public class Slime : MonoBehaviour {
             Instantiate(Slimes[i], Spawns[i], true);
         }
     }
-
 }

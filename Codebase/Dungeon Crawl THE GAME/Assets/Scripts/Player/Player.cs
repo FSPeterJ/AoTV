@@ -1,108 +1,122 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    AudioClip deathSFX;
-    [SerializeField]
-    GameObject LossScreen, WinScreen;
+    private AudioClip deathSFX;
 
+    [SerializeField]
+    private GameObject LossScreen, WinScreen;
 
     //Basic Settings - Edit in Unity
 
     [SerializeField]
-    int maxJump = 1;
-    [SerializeField]
-    float strafeModfier = .75f;
-    [SerializeField]
-    int health = 30;
-    [SerializeField]
-    int healthMax = 30;
-    [SerializeField]
-    int lives = 3;
-    [SerializeField]
-    int score = 0;
-    [SerializeField]
-    float scaleFactor = 2;
-    [SerializeField]
-    float teleportRange = 20;
+    private int maxJump = 1;
 
+    [SerializeField]
+    private float strafeModfier = .75f;
+
+    [SerializeField]
+    private int health = 30;
+
+    [SerializeField]
+    private int healthMax = 30;
+
+    [SerializeField]
+    private int lives = 3;
+
+    [SerializeField]
+    private int score = 0;
+
+    [SerializeField]
+    private float scaleFactor = 2;
+
+    [SerializeField]
+    private float teleportRange = 20;
 
     //Variables
-    bool invulnerable = false;
-    bool burning = false;
-    int maxJumpStored;
+    private bool invulnerable = false;
 
+    private bool burning = false;
+    private int maxJumpStored;
 
     //Component References
-    Animator anim;
-    CharacterController controller;
-    GameObject weapon;
-    IWeaponBehavior weaponScript;
-    GameObject teleportMarker;
-    GameObject tpMarker;
-    Vector3 tpDestination;
-    GameObject rangedScythe;
-    GameObject rangedScytheAttack;
+    private Animator anim;
+
+    private CharacterController controller;
+    private GameObject weapon;
+    private IWeaponBehavior weaponScript;
+    private GameObject teleportMarker;
+    private GameObject tpMarker;
+    private Vector3 tpDestination;
+    private GameObject rangedScythe;
+    private GameObject rangedScytheAttack;
 
     //Physics Settings
-    float gravity = 9.8F;
-    float speed = 7.5F;
+    private float gravity = 9.8F;
+
+    private float speed = 7.5F;
+
     [SerializeField]
-    float jumpSpeed = 10.0F;
+    private float jumpSpeed = 10.0F;
+
     [SerializeField]
-    float mass = 20.0F;
+    private float mass = 20.0F;
+
     [SerializeField]
-    float rotationSpeed = 5.0f;
+    private float rotationSpeed = 5.0f;
 
     //Physics Internals
-    Vector3 moveDirection = Vector3.zero;
-    Vector3 Impact = Vector3.zero;
+    private Vector3 moveDirection = Vector3.zero;
+
+    private Vector3 Impact = Vector3.zero;
+
     [SerializeField]
-    float verticalVel = 0;
+    private float verticalVel = 0;
+
     [SerializeField]
-    float verticalAccel = 0;
-    bool dead = false;
+    private float verticalAccel = 0;
+
+    private bool dead = false;
 
     //Control Settings
-    Vector3 mousePosition;
-    float mouseDistance;
-    Rigidbody rBody;
-    float verticalInput;
-    float horizontalInput;
-    float jumpTime;
+    private Vector3 mousePosition;
+
+    private float mouseDistance;
+    private Rigidbody rBody;
+    private float verticalInput;
+    private float horizontalInput;
+    private float jumpTime;
+
     [SerializeField]
-    bool isgrounded;
+    private bool isgrounded;
+
     public LayerMask mask;
 
     //Checkpoints
-    Vector3 CurrentCheckpoint;
+    private Vector3 CurrentCheckpoint;
 
     //Spin Attack CD
-    float spinTime = 999;
-    float maxSpinTime = 3;
-    float spinCDMax = 8;
-    float spinCD = 999;
+    private float spinTime = 999;
+
+    private float maxSpinTime = 3;
+    private float spinCDMax = 8;
+    private float spinCD = 999;
 
     //Teleport CD
-    float teleportCDMax = 8;
-    float teleportCD = 999;
+    private float teleportCDMax = 8;
 
-
+    private float teleportCD = 999;
 
     //Ranged attack
-    float rangedAttackTime = 0;
-    float rangedAttackCDMax = 8;
-    float rangedAttackCD = 999;
+    private float rangedAttackTime = 0;
 
+    private float rangedAttackCDMax = 8;
+    private float rangedAttackCD = 999;
 
-
-
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onPlayerGrounded += IsGrounded;
         EventSystem.onMousePositionUpdate += UpdateMousePosition;
@@ -111,8 +125,9 @@ public class Player : MonoBehaviour
         EventSystem.onCont += Continue;
         EventSystem.onScoreIncrease += ScoreIncrease;
     }
+
     //unsubscribe from player movement
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerGrounded -= IsGrounded;
         EventSystem.onMousePositionUpdate -= UpdateMousePosition;
@@ -123,17 +138,18 @@ public class Player : MonoBehaviour
     }
 
     //States
-    enum States
+    private enum States
     {
         Idle, MoveForward, Attack, SpinAttack, Die, TakeDamage, Teleport, LowPriorityIdle, ThrowScythe
     }
-    States _cs;
-    States currentState
+
+    private States _cs;
+
+    private States currentState
     {
         get { return _cs; }
         set
         {
-
             if (_cs == States.SpinAttack)
             {
                 anim.SetBool("Spin Attack", false);
@@ -146,6 +162,7 @@ public class Player : MonoBehaviour
                     anim.SetBool("Move Forward", false);
                     _cs = value;
                     break;
+
                 case States.MoveForward:
                     if (_cs == States.Idle)
                     {
@@ -153,17 +170,20 @@ public class Player : MonoBehaviour
                         _cs = value;
                     }
                     break;
+
                 case States.Attack:
                     anim.SetBool("Slash Attack 01", true);
                     weaponScript.AttackStart();
                     _cs = value;
                     break;
+
                 case States.SpinAttack:
                     anim.SetBool("Spin Attack", true);
                     weaponScript.AttackStart();
                     spinTime = 0;
                     _cs = value;
                     break;
+
                 case States.Die:
                     if (!dead && lives < 1)
                     {
@@ -184,12 +204,14 @@ public class Player : MonoBehaviour
                         ReturnToCheckpoint();
                     }
                     break;
+
                 case States.TakeDamage:
                     GetComponent<AudioSource>().Play();
                     weaponScript.AttackEnd();
                     anim.SetBool("Take Damage", true);
                     _cs = value;
                     break;
+
                 case States.Teleport:
                     tpDestination = tpMarker.transform.position;
                     Destroy(tpMarker);
@@ -197,12 +219,14 @@ public class Player : MonoBehaviour
                     teleportCD = 0;
                     //_cs = value;
                     break;
+
                 case States.LowPriorityIdle:
                     if (_cs == States.MoveForward)
                     {
                         currentState = States.Idle;
                     }
                     break;
+
                 default:
                     _cs = value;
                     break;
@@ -210,9 +234,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    private bool _tT = false;
 
-    bool _tT = false;
-    bool teleportToggle
+    private bool teleportToggle
     {
         get
         {
@@ -222,7 +246,6 @@ public class Player : MonoBehaviour
         {
             if (_tT != value)
             {
-
                 if (value)
                 {
                     tpMarker = Instantiate(teleportMarker);
@@ -239,8 +262,10 @@ public class Player : MonoBehaviour
             }
         }
     }
-    bool _tS = false;
-    bool throwScythe
+
+    private bool _tS = false;
+
+    private bool throwScythe
     {
         get
         {
@@ -250,7 +275,6 @@ public class Player : MonoBehaviour
         {
             if (_tS != value)
             {
-
                 if (value)
                 {
                     if (rangedAttackCD > rangedAttackCDMax)
@@ -271,14 +295,12 @@ public class Player : MonoBehaviour
                     weapon.SetActive(true);
                     _tS = value;
                 }
-
             }
         }
     }
 
-
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
         EventSystem.SpinTime(spinTime, maxSpinTime);
@@ -299,8 +321,9 @@ public class Player : MonoBehaviour
 
         ScoreIncrease(PlayerPrefs.GetInt("score"));
     }
+
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetButtonDown("Pause"))
         {
@@ -327,7 +350,6 @@ public class Player : MonoBehaviour
                 if (Input.GetButton("Fire2"))
                 {
                     currentState = States.Attack;
-
                 }
                 else if (Input.GetButton("Fire3") && spinCD > spinCDMax)
                 {
@@ -382,21 +404,15 @@ public class Player : MonoBehaviour
                 localVel.x = localVel.x * strafeModfier;
                 moveDirection = transform.TransformDirection(localVel);
 
-
-
-
-
                 //The character still twitches a bit in very specific positions due to his vertical bobbing
                 if (mouseDistance > .25f * scaleFactor)
                 {
                     //Turn player to face cursor on terrain
                     RotateToFaceTarget(mousePosition, rotationSpeed);
                 }
-
             }
 
             //Landed / Grounded
-
 
             //Jump
             if (Input.GetButton("Jump") && maxJump > 0)
@@ -417,7 +433,6 @@ public class Player : MonoBehaviour
 
             if (teleportToggle)
             {
-
                 //This code is shit
 
                 //Debug.DrawRay(mouthGizmo.transform.position + Vector3.up, -mouthGizmo.transform.right * attackRange, Color.red);
@@ -447,7 +462,6 @@ public class Player : MonoBehaviour
 
             //Move
             EventSystem.PlayerPositionUpdate(transform.position);
-
         }
         if (Input.GetKey(KeyCode.F12))
         {
@@ -459,16 +473,17 @@ public class Player : MonoBehaviour
         {
             PlayerPrefs.SetInt("lives", GetLives());
             PlayerPrefs.SetInt("score", GetScore());
-           SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         Move();
     }
+
     //Calculate Physics movement
-    void Move()
+    private void Move()
     {
         jumpTime += Time.fixedDeltaTime;
 
@@ -493,16 +508,15 @@ public class Player : MonoBehaviour
             Impact = Vector3.Lerp(Impact, Vector3.zero, 5 * Time.fixedDeltaTime);
         }
         rBody.velocity = moveDirection;
-
     }
 
-    void GetInput()
+    private void GetInput()
     {
         verticalInput = Input.GetAxis("Vertical");
         horizontalInput = Input.GetAxis("Horizontal");
     }
 
-    void ForcePush(Vector3 direction)
+    private void ForcePush(Vector3 direction)
     {
         Vector3 norm = gameObject.transform.position - direction;
         norm.Normalize();
@@ -510,22 +524,21 @@ public class Player : MonoBehaviour
             norm.y = -norm.y;
         Impact = norm.normalized * 1000 / mass;
     }
-    void IsGrounded(bool grounded)
+
+    private void IsGrounded(bool grounded)
     {
         isgrounded = grounded;
-
-
     }
+
     public void ResetToIdle()
     {
         currentState = States.Idle;
     }
 
-    void UpdateMousePosition(Vector3 MousePos)
+    private void UpdateMousePosition(Vector3 MousePos)
     {
         mousePosition = MousePos;
     }
-
 
     public void TakeDamage(int dmg = 1)
     {
@@ -545,6 +558,7 @@ public class Player : MonoBehaviour
                 currentState = States.TakeDamage;
         }
     }
+
     //Use this to send the character flying with a force from a given direction
     public void AddImpact(Vector3 direction, float force)
     {
@@ -556,7 +570,6 @@ public class Player : MonoBehaviour
 
     public void TakeFireDamage()
     {
-
         if (!burning)
         {
             TakeDamage();
@@ -564,10 +577,8 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    IEnumerator Burning()
+    private IEnumerator Burning()
     {
-
         burning = true;
         //Generate Burn Flames
         //GameObject Flames = (GameObject)Instantiate(BurnEffect, transform.position, new Quaternion(0, 45, 45, 0));
@@ -577,10 +588,9 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(2);
         //Destroy(Flames);
         burning = false;
-
     }
 
-    IEnumerator Invulnerable(int seconds = 1)
+    private IEnumerator Invulnerable(int seconds = 1)
     {
         invulnerable = true;
 
@@ -614,7 +624,7 @@ public class Player : MonoBehaviour
         weaponScript.ResetAttack();
     }
 
-    void OnTriggerStay(Collider col)
+    private void OnTriggerStay(Collider col)
     {
         if (col.tag == "Trapdoor")
         {
@@ -624,26 +634,21 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
-
         if (col.tag == "SwampEnd")
         {
             PlayerPrefs.SetInt("lives", lives);
             PlayerPrefs.SetInt("score", score);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-
-
     }
 
-
-
-    void OnTriggerEnter(Collider col)
+    private void OnTriggerEnter(Collider col)
     {
         if (col.tag == "ScorePowerUp")
         {
             Destroy(col.gameObject);
             EventSystem.IncScore(5);
-            //waiting on fixed score system 
+            //waiting on fixed score system
         }
         else if (col.tag == "LifePowerUp")
         {
@@ -661,7 +666,6 @@ public class Player : MonoBehaviour
         }
         else if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", false);
-
         else if (col.tag == "InvunerablePowerUp")
         {
             StartCoroutine(Invulnerable(10));
@@ -675,7 +679,6 @@ public class Player : MonoBehaviour
                 CurrentCheckpoint.y = col.transform.position.y + 3;
                 CurrentCheckpoint.z = col.transform.position.z;
 
-
                 GameObject glow = col.transform.Find("Ground Glow").gameObject;
 
                 glow.SetActive(true);
@@ -686,28 +689,28 @@ public class Player : MonoBehaviour
             TakeDamage(10);
             ReturnToCheckpoint();
         }
-
     }
 
-    void ReturnToCheckpoint()
+    private void ReturnToCheckpoint()
     {
         anim.SetBool("Teleport Appear", true);
         transform.position = CurrentCheckpoint;
         throwScythe = false;
         EventSystem.PlayerHealthUpdate(health, healthMax);
     }
-    void OnTriggerExit(Collider col)
+
+    private void OnTriggerExit(Collider col)
     {
         if (col.tag == "Trapdoor")
             col.gameObject.GetComponent<Animator>().SetBool("Close", true);
     }
 
-    void TeleportMove()
+    private void TeleportMove()
     {
         transform.position = tpDestination;
     }
 
-    GameObject FindWeapon(Transform obj)
+    private GameObject FindWeapon(Transform obj)
     {
         foreach (Transform tr in obj)
         {
@@ -727,7 +730,7 @@ public class Player : MonoBehaviour
         return null;
     }
 
-    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
+    private void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
     {
         Vector3 lookPos = (transform.position - _TargetPosition);
         lookPos.y = 0;
@@ -753,7 +756,7 @@ public class Player : MonoBehaviour
         dead = false;
     }
 
-    void ScaleFactor(float num = 2)
+    private void ScaleFactor(float num = 2)
     {
         scaleFactor = num;
         transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
@@ -769,7 +772,7 @@ public class Player : MonoBehaviour
         return score;
     }
 
-    void ScoreIncrease(int val)
+    private void ScoreIncrease(int val)
     {
         score += val;
         EventSystem.ScoreChange(score);

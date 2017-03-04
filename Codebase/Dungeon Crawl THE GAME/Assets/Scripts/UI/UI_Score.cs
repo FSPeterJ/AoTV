@@ -1,43 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Score : MonoBehaviour {
+public class UI_Score : MonoBehaviour
+{
+    private Text score;
+    private int scorevalue;
 
-
-    Text score;
-    int scorevalue;
-
-
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onScoreChange += UpdateScore;
     }
+
     //unsubscribe
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onScoreChange -= UpdateScore;
-
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         score = GetComponent<Text>();
     }
-
-
 
     public void UpdateScore(int _score)
     {
         scorevalue = _score;
     }
 
-	
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    private void Update()
+    {
         score.text = "Score: " + scorevalue;
-	}
-
+    }
 }

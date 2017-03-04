@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
-public class SkeletonKnight : MonoBehaviour{
-
+public class SkeletonKnight : MonoBehaviour
+{
     public GameObject sword;
-    StatePatternEnemy unitedStatePattern;
-    IWeaponBehavior weaponBehavior;
-    Animator anim;
-    bool asleep = true;
+    private StatePatternEnemy unitedStatePattern;
+    private IWeaponBehavior weaponBehavior;
+    private Animator anim;
+    private bool asleep = true;
     public int pointValue = 1;
-    Rigidbody body;
+    private Rigidbody body;
 
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
@@ -25,7 +23,7 @@ public class SkeletonKnight : MonoBehaviour{
     }
 
     // Update is called once per frame
-    void Update ()
+    private void Update()
     {
         if (!asleep && unitedStatePattern.alive)
         {
@@ -64,17 +62,17 @@ public class SkeletonKnight : MonoBehaviour{
         }
     }
 
-    void BeginAttacking()
+    private void BeginAttacking()
     {
         weaponBehavior.AttackStart();
     }
 
-    void EndAttacking()
+    private void EndAttacking()
     {
         weaponBehavior.AttackEnd();
     }
 
-    void CancelCurrentAnimation()
+    private void CancelCurrentAnimation()
     {
         if (unitedStatePattern.currentState.ToString() != "PatrolState")
         {
@@ -90,7 +88,7 @@ public class SkeletonKnight : MonoBehaviour{
         }
     }
 
-    IEnumerator WakeMeUpInside()
+    private IEnumerator WakeMeUpInside()
     {
         while (asleep)
         {
@@ -99,5 +97,4 @@ public class SkeletonKnight : MonoBehaviour{
             yield return new WaitForSeconds(5);
         }
     }
-
 }

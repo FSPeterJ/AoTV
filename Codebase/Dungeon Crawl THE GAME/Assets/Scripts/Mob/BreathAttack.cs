@@ -1,21 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class BreathAttack : MonoBehaviour {
-    float timePassed = 0;
-    float lifetime = 2f;
-    ParticleSystem.EmissionModule particlesEM;
-    IWeaponBehavior damage;
+public class BreathAttack : MonoBehaviour
+{
+    private float timePassed = 0;
+    private float lifetime = 2f;
+    private ParticleSystem.EmissionModule particlesEM;
+    private IWeaponBehavior damage;
+
     // Use this for initialization
-    void Start () {
+    private void Start()
+    {
         particlesEM = transform.GetComponent<ParticleSystem>().emission;
         damage = transform.GetComponent<IWeaponBehavior>();
     }
-	
-	// Update is called once per frame
-	void Update () {
 
+    // Update is called once per frame
+    private void Update()
+    {
     }
 
     public void StartAttack()

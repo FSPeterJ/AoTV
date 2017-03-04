@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class menu : MonoBehaviour {
-
-    bool pausegame = false;
+public class menu : MonoBehaviour
+{
+    private bool pausegame = false;
 
     public CanvasGroup PauseMenu;
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    private void Start()
+    {
         //PauseMenu = GetComponent<CanvasGroup>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    private void Update()
+    {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             pausegame = !pausegame;
@@ -22,14 +24,13 @@ public class menu : MonoBehaviour {
                 PauseMenu.interactable = true;
 
                 Time.timeScale = 0;
-            }else
+            }
+            else
             {
                 Resume();
-                
             }
-            
         }
-	}
+    }
 
     public void Resume()
     {
@@ -37,12 +38,10 @@ public class menu : MonoBehaviour {
         PauseMenu.alpha = 0;
         PauseMenu.interactable = false;
         Time.timeScale = 1;
-
     }
 
     public void Quit()
     {
-
         Application.Quit();
     }
 }

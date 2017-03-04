@@ -1,20 +1,20 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour {
-
+public class SpawnManager : MonoBehaviour
+{
     public GameObject EnemyOne;
     public GameObject[] SpawnPoints;
     public Collider Trigger;
-   public bool EnemiesHaveSpawned = false;
-	// Use this for initialization
-	void Start ()
+    public bool EnemiesHaveSpawned = false;
+
+    // Use this for initialization
+    private void Start()
     {
         //StartCoroutine(EnemySpawn());
         Trigger = GetComponent<Collider>();
-	}
-	
+    }
+
     public IEnumerator EnemySpawn()
     {
         if (!EnemiesHaveSpawned)

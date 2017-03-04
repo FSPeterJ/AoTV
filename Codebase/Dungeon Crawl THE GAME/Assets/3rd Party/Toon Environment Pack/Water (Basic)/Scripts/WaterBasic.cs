@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace UnityStandardAssets.Water
@@ -6,7 +5,7 @@ namespace UnityStandardAssets.Water
     [ExecuteInEditMode]
     public class WaterBasic : MonoBehaviour
     {
-        void Update()
+        private void Update()
         {
             Renderer r = GetComponent<Renderer>();
             if (!r)

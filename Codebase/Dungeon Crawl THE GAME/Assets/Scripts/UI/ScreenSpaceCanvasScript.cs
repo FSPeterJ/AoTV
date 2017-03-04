@@ -1,17 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ScreenSpaceCanvasScript : MonoBehaviour {
+public class ScreenSpaceCanvasScript : MonoBehaviour
+{
+    private List<DepthUIScript> panels = new List<DepthUIScript>();
 
-    List<DepthUIScript> panels = new List<DepthUIScript>();
-
-    void Awake()
+    private void Awake()
     {
         panels.Clear();
     }
 
-    void Update()
+    private void Update()
     {
         Sort();
     }
@@ -21,12 +20,15 @@ public class ScreenSpaceCanvasScript : MonoBehaviour {
         panels.Add(objectToAdd.GetComponent<DepthUIScript>());
     }
 
-    void Sort()
+    private void Sort()
     {
         panels.Sort((x, y) => x.depth.CompareTo(y.depth));
         for (int i = 0; i < panels.Count; i++)
         {
-            panels[i].transform.SetSiblingIndex(i);
+            if (panels[i] != null)
+            {
+                panels[i].transform.SetSiblingIndex(i);
+            }
         }
     }
 }

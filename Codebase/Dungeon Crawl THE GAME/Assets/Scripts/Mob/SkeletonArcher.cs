@@ -1,22 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SkeletonArcher : MonoBehaviour
 {
-    StatePatternEnemy unitedStatePattern;
-    Animator anim;
+    private StatePatternEnemy unitedStatePattern;
+    private Animator anim;
     public GameObject arrow;
     public GameObject arrowSpawn;
-    Vector3 arrowPos;
-    Quaternion arrowQuat;
-    bool asleep;
-    float attackDistance = 15;
+    private Vector3 arrowPos;
+    private Quaternion arrowQuat;
+    private bool asleep;
+    private float attackDistance = 15;
     public int pointValue = 1;
-    Rigidbody body;
+    private Rigidbody body;
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         unitedStatePattern = GetComponent<StatePatternEnemy>();
         anim = GetComponent<Animator>();
@@ -25,7 +23,7 @@ public class SkeletonArcher : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         arrow.transform.rotation = arrowQuat;
         if (!asleep)
@@ -61,7 +59,7 @@ public class SkeletonArcher : MonoBehaviour
         }
     }
 
-    void CancelCurrentAnimation()
+    private void CancelCurrentAnimation()
     {
         if (unitedStatePattern.currentState.ToString() != "PatrolState")
         {
@@ -76,16 +74,15 @@ public class SkeletonArcher : MonoBehaviour
             anim.SetBool("Run", false);
         }
     }
+
     public void ShootArrow()
     {
         Vector3 towardsPlayer = unitedStatePattern.chaseTarget.position - gameObject.transform.position;
         arrowQuat = new Quaternion(-3.14f / 2, transform.rotation.y, gameObject.transform.rotation.z, transform.rotation.w);
 
-
         //AudioSource.PlayClipAtPoint(shootSound, transform.position, PlayerPrefs.GetFloat("SFXVolume"));
         GameObject tempBullet = Instantiate(arrow, arrowSpawn.transform.position, arrowQuat);
         tempBullet.GetComponent<Rigidbody>().velocity = towardsPlayer;
         tempBullet.GetComponent<Rigidbody>().AddForce(towardsPlayer, ForceMode.Acceleration);
-
     }
 }

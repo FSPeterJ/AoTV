@@ -1,21 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class TuskAttackTrigger : MonoBehaviour {
-    bool playerHit = false;
-  //pick one or the other can condition the stay around time flow smoother  
-//   void OnTriggerEnter(Collider col)
-//   {
-//
-//
-//       if (col.tag == "Player")
-//       {
-//           Debug.Log("Player Hit");
-//       }
-//     
-//   }
-    void OnTriggerStay(Collider col)
+public class TuskAttackTrigger : MonoBehaviour
+{
+    private bool playerHit = false;
+
+    //pick one or the other can condition the stay around time flow smoother
+    //   void OnTriggerEnter(Collider col)
+    //   {
+    //
+    //
+    //       if (col.tag == "Player")
+    //       {
+    //           Debug.Log("Player Hit");
+    //       }
+    //
+    //   }
+    private void OnTriggerStay(Collider col)
     {
         if (col.tag == "Player")
         {

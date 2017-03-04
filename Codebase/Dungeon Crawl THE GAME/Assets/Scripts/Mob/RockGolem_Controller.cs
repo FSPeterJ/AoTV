@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
 {
-
     public AI _cs;
-    AI currentState
+
+    private AI currentState
     {
         get { return _cs; }
         set
@@ -21,18 +19,21 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                     //You can prevent a state assignment with a check here
                     _cs = value;
                     break;
+
                 case AI.Wander:
                     anim.SetBool("Fly Forward", true);
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
+
                 case AI.Walk:
                     anim.SetBool("Fly Forward", true);
                     navAgent.enabled = true;
                     navAgent.speed = 4f;
                     _cs = value;
                     break;
+
                 case AI.Attack:
                     if (attack == 1)
                     {
@@ -46,10 +47,12 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                     navAgent.speed = 0;
                     _cs = value;
                     break;
+
                 case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
                     //_cs = value;
                     break;
+
                 case AI.Die:
                     EventSystem.ScoreIncrease(pointValue);
 
@@ -59,12 +62,12 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                     anim.SetBool("Die", true);
                     _cs = value;
                     break;
+
                 default:
                     _cs = value;
                     break;
             }
         }
-
     }
 
     public enum AI
@@ -72,59 +75,57 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         Idle, Wander, Walk, Jump, Run, CastSpell, Defend, TakeDamage, Die, Attack
     }
 
-
     //Variables
-    Vector3 targetPos;
-    float targetdistance;
-    bool dead = false;
+    private Vector3 targetPos;
 
+    private float targetdistance;
+    private bool dead = false;
 
     //Wandering variarables;
-    Vector3 originPos;
-    NavMeshHit navHitPos;
-    Vector3 wanderTarget;
-    bool wanderTargetSet = false;
+    private Vector3 originPos;
 
-
+    private NavMeshHit navHitPos;
+    private Vector3 wanderTarget;
+    private bool wanderTargetSet = false;
 
     //Stat variables
     public int health;
+
     public float idleTime = 0;
     public float aggroRange = 20f;
     public int pointValue = 1;
 
-
-
-
     //Component References
-    Animator anim;
-    NavMeshAgent navAgent;
-    BoxCollider bCollider;
+    private Animator anim;
+
+    private NavMeshAgent navAgent;
+    private BoxCollider bCollider;
+
     //This is a hack together way to get the weapon.
     public GameObject weaponR;
-    public GameObject weaponL;
-    IWeaponBehavior weaponScriptR;
-    IWeaponBehavior weaponScriptL;
 
-    int attack;
+    public GameObject weaponL;
+    private IWeaponBehavior weaponScriptR;
+    private IWeaponBehavior weaponScriptL;
+
+    private int attack;
     private string monsterName;
 
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
         EventSystem.onPlayerDeath += PlayerDied;
     }
+
     //unsubscribe from player movement
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         EventSystem.onPlayerDeath -= PlayerDied;
-
     }
 
-
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
@@ -132,17 +133,14 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         navAgent = GetComponent<NavMeshAgent>();
         weaponScriptR = weaponR.GetComponent<IWeaponBehavior>();
         weaponScriptL = weaponL.GetComponent<IWeaponBehavior>();
+        monsterName = "Rock Golem";
         currentState = AI.Idle;
         attack = Random.Range(0, 1);
     }
 
-
-
-
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
         //targetPos = //eventmanager passed pos
         targetdistance = Vector3.Distance(targetPos, transform.position);
 
@@ -170,13 +168,11 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                             idleTime = 0;
                         }
                     }
-
-
                 }
                 break;
+
             case AI.Wander:
                 {
-
                     if (wanderTargetSet == false)
                     {
                         float x = originPos.x + (-10 + Random.Range(0, 20));
@@ -193,6 +189,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                     }
                 }
                 break;
+
             case AI.Walk:
                 {
                     navAgent.SetDestination(targetPos);
@@ -214,31 +211,33 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                     //Probably not
                 }
                 break;
+
             case AI.Run:
                 {
-
                 }
                 break;
+
             case AI.CastSpell:
                 {
                     //Probably not
                 }
                 break;
+
             case AI.Defend:
                 {
-
                 }
                 break;
+
             case AI.TakeDamage:
                 {
-
                 }
                 break;
+
             case AI.Die:
                 {
-
                 }
                 break;
+
             case AI.Attack:
                 {
                     //Target Track
@@ -252,21 +251,20 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
                     }
                 }
                 break;
+
             default:
                 {
-
                 }
                 break;
         }
     }
-
 
     public void ResetToIdle()
     {
         currentState = AI.Idle;
     }
 
-    void UpdateTargetPosition(Vector3 pos)
+    private void UpdateTargetPosition(Vector3 pos)
     {
         targetPos = pos;
     }
@@ -292,11 +290,11 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
     {
         return health;
     }
+
     public void Kill()
     {
         AttackFinished();
         currentState = AI.Die;
-
     }
 
     public void AttackFinished()
@@ -331,8 +329,7 @@ public class RockGolem_Controller : MonoBehaviour, IEnemyBehavior
         }
     }
 
-
-    void PlayerDied()
+    private void PlayerDied()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);

@@ -1,19 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class UI_Ranged : UI_Cooldown
+﻿public class UI_Ranged : UI_Cooldown
 {
-
-
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onRangedCooldown += CooldownUpdate;
     }
+
     //unsubscribe
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onRangedCooldown -= CooldownUpdate;
-
     }
 }

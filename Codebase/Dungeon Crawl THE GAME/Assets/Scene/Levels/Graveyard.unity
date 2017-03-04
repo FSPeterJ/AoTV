@@ -6051,6 +6051,11 @@ Prefab:
       propertyPath: m_Layer
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 114978772514911588, guid: 05e7383833a57d74d8bfce996344d1ca,
+        type: 2}
+      propertyPath: Health
+      value: 25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 05e7383833a57d74d8bfce996344d1ca, type: 2}
   m_IsPrefabParent: 0
@@ -14060,6 +14065,26 @@ Transform:
   m_PrefabParentObject: {fileID: 4397645625725190, guid: 8df129153a3bce140b012580b26ebb32,
     type: 2}
   m_PrefabInternal: {fileID: 375768612}
+--- !u!1 &376325027 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1252191736417228, guid: 05e7383833a57d74d8bfce996344d1ca,
+    type: 2}
+  m_PrefabInternal: {fileID: 161095115}
+--- !u!114 &376325028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 376325027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!1 &378335691
 GameObject:
   m_ObjectHideFlags: 0
@@ -32165,6 +32190,47 @@ Prefab:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224267405059573616, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 175.62791
+      objectReference: {fileID: 0}
+    - target: {fileID: 224267405059573616, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224492002059273918, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 163.72093
+      objectReference: {fileID: 0}
+    - target: {fileID: 224492002059273918, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114618358858835706, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_Text
+      value: Hahahaha! Oh how far you have fallen reaper. You are now mortal? Surrender
+        now and I may spare you.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114080218890344902, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_Text
+      value: (1) Move aside.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114178606018175076, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: m_Text
+      value: (2) I don't have time for this. Give me the key or be reaped.
+      objectReference: {fileID: 0}
+    - target: {fileID: 114032317359963146, guid: 02dc20664816f25448e9caae42ab4000,
+        type: 2}
+      propertyPath: Mage
+      value: 
+      objectReference: {fileID: 376325027}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 02dc20664816f25448e9caae42ab4000, type: 2}
   m_IsPrefabParent: 0

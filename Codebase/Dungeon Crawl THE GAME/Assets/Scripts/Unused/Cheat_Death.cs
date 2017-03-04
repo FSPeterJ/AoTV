@@ -1,18 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Cheat_Death : MonoBehaviour
 {
-    Animator anim;
+    private Animator anim;
     public GameObject HealthPowerUp;
-    bool notOpen = true;
-    void Start()
+    private bool notOpen = true;
+
+    private void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetBool("Open", false);
     }
-    void OnTriggerStay(Collider Col)
+
+    private void OnTriggerStay(Collider Col)
     {
         if (Col.tag == "Player")
         {

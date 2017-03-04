@@ -491,6 +491,7 @@ GameObject:
   - component: {fileID: 65491897998793976}
   - component: {fileID: 54080141712130218}
   - component: {fileID: 82039752551698040}
+  - component: {fileID: 114202771006559558}
   m_Layer: 0
   m_Name: Toon Cobra - Green
   m_TagString: Enemy
@@ -874,7 +875,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1976317173384732}
-  m_LocalRotation: {x: 0.62553287, y: -0.3297101, z: -0.62553287, w: 0.32971}
+  m_LocalRotation: {x: 0.6255328, y: -0.32971007, z: -0.6255328, w: 0.32970998}
   m_LocalPosition: {x: 0.000000004756483, y: 0.15436462, z: 0.10881373}
   m_LocalScale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
   m_Children: []
@@ -1069,7 +1070,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1756189097604228}
-  m_LocalRotation: {x: 0.62553287, y: -0.3297101, z: -0.62553287, w: 0.32971}
+  m_LocalRotation: {x: 0.6255328, y: -0.32971007, z: -0.6255328, w: 0.32970998}
   m_LocalPosition: {x: 0.000000004756483, y: 0.15436462, z: 0.10881373}
   m_LocalScale: {x: 1.0000002, y: 1.0000002, z: 1.0000002}
   m_Children:
@@ -1388,6 +1389,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114202771006559558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1784785049761700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf88fd7da07b08f49b8d003a646258f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  healthPanelOffset: 0.35
+  healthPanel: {fileID: 0}
+  healthSlider: {fileID: 0}
 --- !u!114 &114905530495953766
 MonoBehaviour:
   m_ObjectHideFlags: 1

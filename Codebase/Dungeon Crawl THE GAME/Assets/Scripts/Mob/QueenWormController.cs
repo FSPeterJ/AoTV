@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class QueenWormController : MonoBehaviour, IEnemyBehavior
 {
-
-    enum AI
+    private enum AI
     {
         Idle,
         Move,
@@ -24,40 +20,45 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     }
 
     [SerializeField]
-    int maxHealth;
+    private int maxHealth = 15;
 
-    int health;
-    bool dead = false;
+    private int health = 15;
+    private bool dead = false;
 
-    Animator anim;
-    float PlayerDist;
-    Vector3 PlayerPos;
-    bool defendTime;
-    float idleTime;
-    NavMeshAgent navigate;
+    private Animator anim;
+    private float PlayerDist;
+    private Vector3 PlayerPos;
+    private bool defendTime;
+    private float idleTime;
+    private NavMeshAgent navigate;
+
     [SerializeField]
-    int pointValue = 1;
-    GameObject weapon;
-    IWeaponBehavior weaponScript;
+    private int pointValue = 1;
+
+    private GameObject weapon;
+    private IWeaponBehavior weaponScript;
     public AudioClip deathSFX;
 
+    [SerializeField]
+    private GameObject weaponBreath;
+
+    private BreathAttack Breath;
 
     [SerializeField]
-    GameObject weaponBreath;
-    BreathAttack Breath;
-    [SerializeField]
-    GameObject Exit;
+    private GameObject Exit;
 
     [SerializeField]
-    float BreathAttackTime = 888;
-    float BreathAttackCD = 15;
+    private float BreathAttackTime = 888;
+
+    private float BreathAttackCD = 15;
 
     [SerializeField]
-    int attackRange = 5;
+    private int attackRange = 5;
 
     [SerializeField]
-    AI cs;
-    AI currentState
+    private AI cs;
+
+    private AI currentState
     {
         get { return cs; }
         set
@@ -70,12 +71,14 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                     idleTime = 0;
                     cs = value;
                     break;
+
                 case AI.Move:
                     anim.SetBool("Move", true);
                     navigate.Resume();
                     navigate.speed = 10f;
                     cs = value;
                     break;
+
                 case AI.ClawAttack:
                     anim.SetBool("Claw Attack", true);
                     navigate.speed = 0;
@@ -83,6 +86,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                     idleTime = 0;
                     cs = value;
                     break;
+
                 case AI.BiteAttack:
                     anim.SetBool("Bite Attack", true);
                     navigate.speed = 0;
@@ -90,6 +94,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                     idleTime = 0;
                     cs = value;
                     break;
+
                 case AI.CastSpell:
                     anim.SetBool("Cast Spell", true);
                     navigate.speed = 0;
@@ -97,6 +102,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                     idleTime = 0;
                     cs = value;
                     break;
+
                 case AI.BreathAttackStart:
                     BreathAttackTime = 0;
                     anim.SetBool("Breath Attack", true);
@@ -105,13 +111,16 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                     idleTime = 0;
                     cs = value;
                     break;
+
                 case AI.BreathAttackLoop:
                     cs = value;
                     break;
+
                 case AI.BreathAttackEnd:
                     anim.SetBool("Bite Attack", false);
                     cs = value;
                     break;
+
                 case AI.Summon:
                     anim.SetBool("Summon", true);
                     navigate.speed = 0;
@@ -119,6 +128,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                     idleTime = 0;
                     cs = value;
                     break;
+
                 case AI.Defend:
                     anim.SetBool("Defend", true);
                     navigate.speed = 0;
@@ -126,9 +136,11 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                     idleTime = 0;
                     cs = value;
                     break;
+
                 case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
                     break;
+
                 case AI.Die:
                     EventSystem.ScoreIncrease(pointValue);
 
@@ -144,22 +156,23 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         anim = GetComponent<Animator>();
         navigate = GetComponent<NavMeshAgent>();
         currentState = AI.Idle;
-        health = maxHealth;
+        health = 15;
+
+        monsterName = "Queen Worm ABOMINATION";
 
         weapon = FindWeapon(transform).gameObject;
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
 
         Breath = weaponBreath.GetComponent<BreathAttack>();
-
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         BreathAttackTime += Time.deltaTime;
 
@@ -187,7 +200,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                         currentState = AI.BiteAttack;
                     else if (PlayerDist <= 30f)
                     {
-                        if (health <= 10 && AttackRangeCheck(9) && BreathAttackTime > BreathAttackCD )
+                        if (health <= 10 && AttackRangeCheck(9) && BreathAttackTime > BreathAttackCD)
                         {
                             currentState = AI.BreathAttackStart;
                         }
@@ -204,7 +217,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
 
             case AI.Move:
                 navigate.SetDestination(PlayerPos);
-                if (PlayerDist <= 12f )
+                if (PlayerDist <= 12f)
                 {
                     if (health <= 10 && AttackRangeCheck(11) && BreathAttackTime > BreathAttackCD)
                     {
@@ -216,7 +229,6 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
                         currentState = AI.BiteAttack;
                         anim.SetBool("Move", false);
                     }
-                        
                 }
                 else if (PlayerDist <= 5f && AttackRangeCheck(5))
                 {
@@ -228,30 +240,38 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
             case AI.ClawAttack:
 
                 break;
+
             case AI.BiteAttack:
 
                 break;
+
             case AI.CastSpell:
 
                 break;
+
             case AI.BreathAttackStart:
 
                 break;
+
             case AI.BreathAttackLoop:
 
                 break;
+
             case AI.BreathAttackEnd:
 
                 break;
+
             case AI.Summon:
                 break;
+
             case AI.Defend:
 
                 break;
+
             case AI.TakeDamage:
 
-
                 break;
+
             case AI.Die:
                 break;
         }
@@ -306,23 +326,23 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
             }
         }
     }
-    void OnEnable()
+
+    private void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosistion;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosistion;
     }
 
-    void UpdateTargetPosistion(Vector3 pos)
+    private void UpdateTargetPosistion(Vector3 pos)
     {
         PlayerPos = pos;
     }
 
-
-    GameObject FindWeapon(Transform obj)
+    private GameObject FindWeapon(Transform obj)
     {
         foreach (Transform tr in obj)
         {
@@ -341,12 +361,13 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
         }
         return null;
     }
-    Ray rangeForward;
-    Ray rangeLeft;
-    Ray rangeRight;
-    private string monsterName;
 
-    bool AttackRangeCheck(float range = 10f)
+    private Ray rangeForward;
+    private Ray rangeLeft;
+    private Ray rangeRight;
+    public string monsterName;
+
+    private bool AttackRangeCheck(float range = 10f)
     {
         Debug.DrawRay(transform.position + Vector3.up, transform.forward * range, Color.red);
         Debug.DrawRay(transform.position + Vector3.up, (transform.forward + transform.right * 0.25f) * range, Color.red);
@@ -367,6 +388,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
 
     public int RemainingHealth()
     {
+        //Debug.Log(health);
         return health;
     }
 
@@ -374,6 +396,7 @@ public class QueenWormController : MonoBehaviour, IEnemyBehavior
     {
         currentState = AI.Idle;
     }
+
     public string Name()
     {
         return monsterName;

@@ -1,27 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-public class Tutorial : MonoBehaviour {
 
+public class Tutorial : MonoBehaviour
+{
     public Text[] Info;
     public Image[] arrows;
 
-    bool firstItem = true;
-    bool secondItem = false;
-    bool thirdItem = false;
-
+    private bool firstItem = true;
+    private bool secondItem = false;
+    private bool thirdItem = false;
 
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
         Info[0].enabled = true;
         arrows[0].enabled = true;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
 
+    // Update is called once per frame
+    private void Update()
+    {
         if (firstItem)
         {
             if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.LeftShift))

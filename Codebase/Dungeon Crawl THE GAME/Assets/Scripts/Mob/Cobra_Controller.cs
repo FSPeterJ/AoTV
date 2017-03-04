@@ -1,25 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
-
-    
-
+public class Cobra_Controller : MonoBehaviour, IEnemyBehavior
+{
     public enum AI
     {
-        Idle, Slither, BiteAttack, ProjectileAttack, BreathAttackStart, BreathAttackEnd,BreathAttackLoop, CastSpell, TakeDamage, Die, Wander
-            
+        Idle, Slither, BiteAttack, ProjectileAttack, BreathAttackStart, BreathAttackEnd, BreathAttackLoop, CastSpell, TakeDamage, Die, Wander
     }
 
-   public AI _cs;
-   public AI currentState
+    public AI _cs;
+
+    public AI currentState
     {
         get { return _cs; }
         set
         {
-            switch(value)
+            switch (value)
             {
                 case AI.Idle:
                     idleTime = 0;
@@ -27,12 +23,14 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     //You can prevent a state assignment with a check here
                     _cs = value;
                     break;
+
                 case AI.Wander:
                     anim.SetBool("Slither", true);
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
+
                 case AI.BiteAttack:
                     anim.SetBool("Bite Attack", true);
                     navAgent.speed = 0;
@@ -41,13 +39,16 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     idleTime = 0;
                     _cs = value;
                     break;
+
                 case AI.BreathAttackEnd:
-                   
+
                     _cs = value;
                     break;
+
                 case AI.BreathAttackLoop:
                     _cs = value;
                     break;
+
                 case AI.BreathAttackStart:
                     idleTime = 0;
                     anim.SetBool("Breath Attack", true);
@@ -57,9 +58,11 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     idleTime = 0;
                     _cs = value;
                     break;
+
                 case AI.CastSpell:
                     _cs = value;
                     break;
+
                 case AI.Die:
                     EventSystem.ScoreIncrease(pointValue);
                     idleTime = 0;
@@ -71,11 +74,13 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     bCollider.enabled = false;
                     _cs = value;
                     break;
+
                 case AI.ProjectileAttack:
                     anim.SetBool("Projectile Attack", true);
-                   
+
                     _cs = value;
                     break;
+
                 case AI.Slither:
                     idleTime = 0;
                     anim.SetBool("Slither", true);
@@ -83,57 +88,61 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
+
                 case AI.TakeDamage:
                     anim.SetBool("Take Damage", true);
                     _cs = value;
                     break;
             }
         }
-
     }
+
     //variables
-    Animator anim;
-    Vector3 targetPos;
-    float targetdistance;
-    bool poisonBreathCreated = false;
+    private Animator anim;
+
+    private Vector3 targetPos;
+    private float targetdistance;
+    private bool poisonBreathCreated = false;
 
     //wandering variarables;
-    Vector3 wanderingSphere;
-    Vector3 originPos;
-    bool wanderTargetSet = false;
-    Vector3 wanderTarget;
+    private Vector3 wanderingSphere;
 
+    private Vector3 originPos;
+    private bool wanderTargetSet = false;
+    private Vector3 wanderTarget;
 
     //Stat variables
     public int health = 2;
-    public int pointValue = 1;
-    bool dead = false;
 
+    public int pointValue = 1;
+    private bool dead = false;
 
     //References
-    NavMeshAgent navAgent;
-    BoxCollider bCollider;
-    float idleTime = 0;
+    private NavMeshAgent navAgent;
+
+    private BoxCollider bCollider;
+    private float idleTime = 0;
     public Object projectile;
     public Object poisonbreath;
-    GameObject poisonBreath;
+    private GameObject poisonBreath;
     public AudioClip deathSFX;
-    IWeaponBehavior weaponScript;
-    private string monsterName;
+    private IWeaponBehavior weaponScript;
+    private string monsterName = "Cobra";
 
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
-       // weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
+        // weaponScript = mouthGizmo.transform.Find("Attack Collider").gameObject.transform.GetComponent<IWeaponBehavior>();
         bCollider = GetComponent<BoxCollider>();
         anim = GetComponent<Animator>();
         originPos = transform.position;
         navAgent = GetComponent<NavMeshAgent>();
+        monsterName = "Cobra";
         currentState = AI.Idle;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    private void Update()
     {
         idleTime += Time.deltaTime;
         targetdistance = Vector3.Distance(targetPos, transform.position);
@@ -147,16 +156,17 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                         {
                             currentState = AI.Slither;
                             idleTime = 0;
-                        }  
+                        }
                     }
                     if (idleTime > 3f)
                     {
                         currentState = AI.Wander;
                         navAgent.enabled = true;
                         idleTime = 0;
-                    }                  
+                    }
                 }
                 break;
+
             case AI.Slither:
                 {
                     navAgent.SetDestination(targetPos);
@@ -167,7 +177,7 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                             anim.SetBool("Slither", false);
                             currentState = AI.ProjectileAttack;
                         }
-                        if (targetdistance<5f)
+                        if (targetdistance < 5f)
                         {
                             anim.SetBool("Slither", false);
                             currentState = AI.BreathAttackStart;
@@ -175,22 +185,25 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                     }
                 }
                 break;
+
             case AI.BiteAttack:
                 currentState = AI.Idle;
 
                 break;
+
             case AI.ProjectileAttack:
-               navAgent.SetDestination(targetPos);
+                navAgent.SetDestination(targetPos);
                 Vector3 position = transform.position + transform.forward * 2f;
                 position.y = position.y + 2;
-                GameObject PoisonBall = Instantiate(projectile,position,Quaternion.identity) as GameObject;
+                GameObject PoisonBall = Instantiate(projectile, position, Quaternion.identity) as GameObject;
                 PoisonBall.GetComponent<Rigidbody>().AddForce(transform.forward * 700);
                 currentState = AI.Idle;
                 anim.SetBool("Projectile Attack", false);
-                //  
+                //
                 break;
+
             case AI.BreathAttackStart:
-                if (health<1)
+                if (health < 1)
                 {
                     currentState = AI.Die;
                     break;
@@ -199,8 +212,9 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                 poisonBreathCreated = false;
                 idleTime = 0;
                 break;
+
             case AI.BreathAttackEnd:
-                if(health <1)
+                if (health < 1)
                 {
                     Destroy(poisonBreath);
                     anim.SetBool("Breath Attack", false);
@@ -209,48 +223,53 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                 }
                 if (idleTime > 3f)
                 {
-                     Destroy(poisonBreath);
+                    Destroy(poisonBreath);
                     anim.SetBool("Breath Attack", false);
                     currentState = AI.Idle;
                 }
                 break;
+
             case AI.BreathAttackLoop:
-                if(health <1)
+                if (health < 1)
                 {
                     currentState = AI.BreathAttackEnd;
                     break;
                 }
-                if (idleTime >1f)
-                { 
+                if (idleTime > 1f)
+                {
                     Vector3 position1 = transform.position + transform.forward * 2f;
                     position1.y = position1.y + 2;
                     if (poisonBreathCreated == false)
                     {
                         poisonBreath = Instantiate(poisonbreath, position1, Quaternion.identity) as GameObject;
                         poisonBreath.transform.forward = transform.forward;
-                        ParticleSystem.EmissionModule PB =  poisonBreath.GetComponent<ParticleSystem>().emission;
+                        ParticleSystem.EmissionModule PB = poisonBreath.GetComponent<ParticleSystem>().emission;
                         PB.enabled = true;
                         poisonBreath.GetComponent<GenericMeleeDamage>().AttackStart();
 
                         poisonBreathCreated = true;
                     }
                     currentState = AI.BreathAttackEnd;
-               }
+                }
                 break;
+
             case AI.CastSpell:
                 break;
+
             case AI.TakeDamage:
                 anim.SetBool("Projectile Attack", false);
                 anim.SetBool("Slither", false);
                 anim.SetBool("Breath Attack", false);
                 currentState = AI.Idle;
                 break;
+
             case AI.Die:
                 if (idleTime > 2.5f)
                 {
                     Destroy(gameObject);
                 }
                 break;
+
             case AI.Wander:
                 {
                     if (wanderTargetSet == false)
@@ -268,26 +287,29 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                         currentState = AI.Idle;
                     }
                 }
-                
+
                 break;
         }
     }
-    void OnEnable()
+
+    private void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
         EventSystem.onPlayerDeath += PlayerDied;
     }
+
     //unsubscribe from player movement
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         EventSystem.onPlayerDeath -= PlayerDied;
     }
+
     public void ResetToIdle()
     {
         currentState = AI.Idle;
-
     }
+
     public void TakeDamage(int damage = 1)
     {
         GetComponent<AudioSource>().volume = PlayerPrefs.GetFloat("SFX Volume");
@@ -307,12 +329,13 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
                 currentState = AI.TakeDamage;
             }
         }
-        
     }
+
     public int RemainingHealth()
     {
         return health;
     }
+
     public void Kill()
     {
         anim.SetBool("Die", true);
@@ -331,15 +354,16 @@ public class Cobra_Controller : MonoBehaviour, IEnemyBehavior {
         weaponScript.AttackStart();
     }
 
-    void UpdateTargetPosition(Vector3 pos)
+    private void UpdateTargetPosition(Vector3 pos)
     {
         targetPos = pos;
     }
 
-    void PlayerDied()
+    private void PlayerDied()
     {
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
     }
+
     public string Name()
     {
         return monsterName;

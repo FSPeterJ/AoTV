@@ -1,52 +1,55 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class TreantController : MonoBehaviour, IEnemyBehavior
 {
-
-
     public GameObject levelExit;
-    Animator anim;
-    Vector3 targetPos;
-    float targetDis;
+    private Animator anim;
+    private Vector3 targetPos;
+    private float targetDis;
 
-    Vector3 wanderingSphere;
-    Vector3 origin;
+    private Vector3 wanderingSphere;
+    private Vector3 origin;
 
-    GameObject weapon;
-    IWeaponBehavior weaponScript;
+    private GameObject weapon;
+    private IWeaponBehavior weaponScript;
     public AudioClip deathSFX;
 
     [SerializeField]
-    int health;
-    [SerializeField]
-    int pointValue = 1;
-    float shockwaveTime = 0;
-    [SerializeField]
-    float shockwaveCooldown = 9;
-    float shotTime = 100;
-    [SerializeField]
-    float shotCooldown = 9;
-    GameObject Proj;
-    [SerializeField]
-    GameObject Shockwave;
-
-    NavMeshAgent navAgent;
-    Collider attackRangeCol;
-    bool navPos;
-    Vector3 targetDestination;
+    private int health;
 
     [SerializeField]
-    float attackRange = 20f;
+    private int pointValue = 1;
 
-    float idleTime = 0;
-    bool dead = false;
-    int Shots = 0;
-    int maxShots = 4;
+    private float shockwaveTime = 0;
 
-    enum AI
+    [SerializeField]
+    private float shockwaveCooldown = 9;
+
+    private float shotTime = 100;
+
+    [SerializeField]
+    private float shotCooldown = 9;
+
+    private GameObject Proj;
+
+    [SerializeField]
+    private GameObject Shockwave;
+
+    private NavMeshAgent navAgent;
+    private Collider attackRangeCol;
+    private bool navPos;
+    private Vector3 targetDestination;
+
+    [SerializeField]
+    private float attackRange = 20f;
+
+    private float idleTime = 0;
+    private bool dead = false;
+    private int Shots = 0;
+    private int maxShots = 4;
+
+    private enum AI
     {
         Idle,
         Wander,
@@ -59,11 +62,13 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
         Death,
         Aiming
     }
-    [SerializeField]
-    AI _cs;
-    private string monsterName;
 
-    AI currentState
+    [SerializeField]
+    private AI _cs;
+
+    private string monsterName = "Treant ABOMINATION";
+
+    private AI currentState
     {
         get { return _cs; }
         set
@@ -78,18 +83,21 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
 
                     _cs = value;
                     break;
+
                 case AI.Wander:
                     anim.SetBool("Walk", true);
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
+
                 case AI.Walk:
                     anim.SetBool("Walk", true);
                     navAgent.enabled = true;
                     navAgent.speed = 3.5f;
                     _cs = value;
                     break;
+
                 case AI.Bite:
                     attackRangeCol.enabled = true;
                     anim.SetBool("Bite Attack", true);
@@ -99,6 +107,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     idleTime = 0;
                     _cs = value;
                     break;
+
                 case AI.Projectile:
                     Shots++;
                     if (Shots > maxShots)
@@ -111,6 +120,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     navAgent.speed = .1f;
                     _cs = value;
                     break;
+
                 case AI.Shockwave:
                     shockwaveTime = 0;
                     attackRangeCol.enabled = true;
@@ -118,11 +128,12 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     idleTime = 0;
-                    
+
                     //ParticleSystem.EmissionModule temp = Shockwave.GetComponent<ParticleSystem.EmissionModule>();
                     //temp.enabled = true;
                     _cs = value;
                     break;
+
                 case AI.CastSpell:
                     attackRangeCol.enabled = true;
                     anim.SetBool("Cast Spell", true);
@@ -131,11 +142,13 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     idleTime = 0;
                     _cs = value;
                     break;
+
                 case AI.TakeDamage:
                     navAgent.speed = 0;
                     navAgent.enabled = false;
                     anim.SetBool("Take Damage", true);
                     break;
+
                 case AI.Death:
                     navAgent.speed = 0;
                     navAgent.enabled = false;
@@ -145,11 +158,13 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     EventSystem.ScoreIncrease(pointValue);
                     _cs = value;
                     break;
+
                 case AI.Aiming:
                     navAgent.angularSpeed = 1420;
                     navAgent.acceleration = 500;
                     _cs = value;
                     break;
+
                 default:
                     _cs = value;
                     break;
@@ -157,19 +172,19 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
         }
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
         EventSystem.onPlayerDeath += PlayerDied;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         EventSystem.onPlayerDeath -= PlayerDied;
     }
 
-    void Start()
+    private void Start()
     {
         Proj = (GameObject)Resources.Load("Prefabs/Projectiles/Worm Projectile");
         anim = GetComponent<Animator>();
@@ -177,12 +192,12 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
         navAgent = GetComponent<NavMeshAgent>();
         attackRangeCol = GetComponent<Collider>();
         currentState = AI.Idle;
+        monsterName = "Treant ABOMINATION";
         weapon = FindWeapon(transform);
         weaponScript = weapon.GetComponent<IWeaponBehavior>();
-       
     }
 
-    void Update()
+    private void Update()
     {
         shockwaveTime += Time.deltaTime;
         shotTime += Time.deltaTime;
@@ -204,6 +219,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     idleTime += Time.deltaTime;
                 }
                 break;
+
             case AI.Wander:
                 {
                     if (navPos == true)
@@ -224,12 +240,12 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     }
                 }
                 break;
+
             case AI.Walk:
                 {
                     navAgent.SetDestination(targetPos);
                     if (targetDis < 5.5f && AttackRangeCheck(6))
                     {
-
                         currentState = AI.Bite;
                         anim.SetBool("Walk", false);
                     }
@@ -241,14 +257,18 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     else if (targetDis < attackRange && shotTime > shotCooldown)
                     {
                         currentState = AI.Aiming;
-
                     }
                 }
                 break;
+
             case AI.Bite:
                 break;
+
             case AI.Aiming:
-                navAgent.SetDestination(targetPos);
+                if (navAgent.isActiveAndEnabled)
+                {
+                    navAgent.SetDestination(targetPos);
+                }
                 if (targetDis < 2.9f && AttackRangeCheck(3))
                 {
                     anim.SetBool("Walk", false);
@@ -264,14 +284,19 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                     currentState = AI.Projectile;
                 }
                 break;
+
             case AI.Shockwave:
                 break;
+
             case AI.CastSpell:
                 break;
+
             case AI.TakeDamage:
                 break;
+
             case AI.Death:
                 break;
+
             default:
                 break;
         }
@@ -298,7 +323,6 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
                 GetComponent<AudioSource>().Play();
                 currentState = AI.TakeDamage;
             }
-
         }
     }
 
@@ -316,7 +340,6 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
     {
         if (currentState == AI.Bite)
         {
-
             anim.SetBool("Bite Attack", false);
             weaponScript.AttackEnd();
             currentState = AI.Idle;
@@ -332,26 +355,25 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
 
         temp = Instantiate(Proj, weapon.transform.position, weapon.transform.rotation * Quaternion.Euler(-15, -10, 0));
         temp.transform.localScale = new Vector3(15, 15, 15);
-
     }
 
     public void AttackStart()
     {
-
         weaponScript.AttackStart();
     }
-    void UpdateTargetPosition(Vector3 pos)
+
+    private void UpdateTargetPosition(Vector3 pos)
     {
         targetPos = pos;
     }
 
-    void PlayerDied()
+    private void PlayerDied()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
         targetPos = new Vector3(targetPos.x, 999999, targetPos.z);
     }
 
-    GameObject FindWeapon(Transform obj)
+    private GameObject FindWeapon(Transform obj)
     {
         foreach (Transform tr in obj)
         {
@@ -371,7 +393,7 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
         return null;
     }
 
-    bool AttackRangeCheck(float range = 10f)
+    private bool AttackRangeCheck(float range = 10f)
     {
         Debug.DrawRay(transform.position + Vector3.up, transform.forward * range, Color.red);
         Ray attackRangeForward = new Ray(transform.position + Vector3.up, transform.forward * range);
@@ -383,15 +405,18 @@ public class TreantController : MonoBehaviour, IEnemyBehavior
             {
                 return true;
             }
-
         }
         return false;
     }
 
-    void ShockwaveAttack()
+    private void ShockwaveAttack()
     {
-        GameObject Obj = Instantiate(Shockwave, transform.position, Quaternion.Euler(-90, 0, 0));
-        Obj.transform.localScale = new Vector3(4, 4, 4);
+        if (Shockwave != null)
+        {
+            GameObject Obj = Instantiate(Shockwave, transform.position, Quaternion.Euler(-90, 0, 0));
+
+            Obj.transform.localScale = new Vector3(4, 4, 4);
+        }
     }
 
     public string Name()

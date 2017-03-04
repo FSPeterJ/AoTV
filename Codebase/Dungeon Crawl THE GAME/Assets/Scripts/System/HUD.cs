@@ -1,25 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class HUD : MonoBehaviour
-{ 
- 
-
-
+{
     // Use this for initialization
-    void Start()
+    private void Start()
     {
-        
         //Score.text = "I am not updating";
-	}
-
-
+    }
 
     public void UpdateHealth(int health)
     {
-        
         //healthslider.value = health;
     }
 

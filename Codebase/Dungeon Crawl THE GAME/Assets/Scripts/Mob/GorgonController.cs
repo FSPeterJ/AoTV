@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class GorgonController : MonoBehaviour
 {
-    enum AI
+    private enum AI
     {
         idle,
         slither,
@@ -19,23 +17,23 @@ public class GorgonController : MonoBehaviour
     }
 
     [SerializeField]
-    int maxHealth;
+    private int maxHealth;
 
     [SerializeField]
-    GameObject fxProj;
+    private GameObject fxProj;
 
-    int currentHealth;
-    Animator anim;
-    float PlayerDist;
-    Vector3 PlayerPos;
-    bool defendTime;
-    float idleTime;
-    NavMeshAgent navigate;
+    private int currentHealth;
+    private Animator anim;
+    private float PlayerDist;
+    private Vector3 PlayerPos;
+    private bool defendTime;
+    private float idleTime;
+    private NavMeshAgent navigate;
     public int pointValue = 1;
-    AI gs;
-    Vector3 wanderTarget;
+    private AI gs;
+    private Vector3 wanderTarget;
 
-    AI currentState
+    private AI currentState
     {
         get { return gs; }
         set
@@ -48,12 +46,14 @@ public class GorgonController : MonoBehaviour
                     idleTime = 0;
                     gs = value;
                     break;
+
                 case AI.slither:
                     anim.SetBool("Slither", true);
                     navigate.Resume();
                     navigate.speed = 8f;
                     gs = value;
                     break;
+
                 case AI.stab:
                     anim.SetTrigger("Stab Attack");
                     navigate.speed = 0;
@@ -61,6 +61,7 @@ public class GorgonController : MonoBehaviour
                     idleTime = 0;
                     gs = value;
                     break;
+
                 case AI.hairAttack:
                     anim.SetTrigger("Hair Snakes Attack");
                     navigate.speed = 0;
@@ -68,6 +69,7 @@ public class GorgonController : MonoBehaviour
                     idleTime = 0;
                     gs = value;
                     break;
+
                 case AI.projectile:
                     anim.SetTrigger("Projectile Attack");
                     navigate.speed = 0;
@@ -75,6 +77,7 @@ public class GorgonController : MonoBehaviour
                     idleTime = 0;
                     gs = value;
                     break;
+
                 case AI.castSpell:
                     anim.SetTrigger("Cast Spell");
                     navigate.speed = 0;
@@ -82,6 +85,7 @@ public class GorgonController : MonoBehaviour
                     idleTime = 0;
                     gs = value;
                     break;
+
                 case AI.defend:
                     anim.SetBool("Defend", true);
                     navigate.speed = 0;
@@ -89,10 +93,12 @@ public class GorgonController : MonoBehaviour
                     idleTime = 0;
                     gs = value;
                     break;
+
                 case AI.takeDamage:
                     anim.SetTrigger("Take Damage");
                     gs = value;
                     break;
+
                 case AI.die:
                     anim.SetTrigger("Die");
                     EventSystem.ScoreIncrease(pointValue);
@@ -104,10 +110,8 @@ public class GorgonController : MonoBehaviour
         }
     }
 
-
-
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         anim = GetComponent<Animator>();
         navigate = GetComponent<NavMeshAgent>();
@@ -116,7 +120,7 @@ public class GorgonController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         PlayerDist = Vector3.Distance(PlayerPos, transform.position);
 
@@ -152,6 +156,7 @@ public class GorgonController : MonoBehaviour
                     idleTime = 0;
                 idleTime += Time.deltaTime;
                 break;
+
             case AI.slither:
                 navigate.SetDestination(PlayerPos);
                 if (PlayerDist <= 4f)
@@ -165,31 +170,36 @@ public class GorgonController : MonoBehaviour
                     anim.SetBool("Move", false);
                 }
                 break;
+
             case AI.stab:
                 if (idleTime > 1f)
                     currentState = AI.idle;
                 else
                     idleTime += Time.deltaTime;
                 break;
+
             case AI.hairAttack:
                 if (idleTime > 1f)
                     currentState = AI.idle;
                 else
                     idleTime += Time.deltaTime;
                 break;
+
             case AI.projectile:
                 //Instantiate(fxProj);
-                if (idleTime > 1f)                
+                if (idleTime > 1f)
                     currentState = AI.idle;
                 else
                     idleTime += Time.deltaTime;
                 break;
+
             case AI.castSpell:
                 if (idleTime > 1f)
                     currentState = AI.idle;
                 else
                     idleTime += Time.deltaTime;
                 break;
+
             case AI.defend:
                 if (idleTime > 1f)
                 {
@@ -199,27 +209,29 @@ public class GorgonController : MonoBehaviour
                 else
                     idleTime += Time.deltaTime;
                 break;
+
             case AI.takeDamage:
                 currentHealth--;
                 if (currentHealth < 1)
                     currentState = AI.die;
                 break;
+
             case AI.die:
                 break;
         }
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdateTargetPosition;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdateTargetPosition;
     }
 
-    void UpdateTargetPosition(Vector3 Pos)
+    private void UpdateTargetPosition(Vector3 Pos)
     {
         PlayerPos = Pos;
     }

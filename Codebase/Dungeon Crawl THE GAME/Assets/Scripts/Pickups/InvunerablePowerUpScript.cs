@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class InvunerablePowerUpScript : MonoBehaviour {
-    Animator anim;
+public class InvunerablePowerUpScript : MonoBehaviour
+{
+    private Animator anim;
     public GameObject InvunerablePowerUp;
     public GameObject Gold;
     public GameObject GoldOne;
@@ -11,13 +10,15 @@ public class InvunerablePowerUpScript : MonoBehaviour {
     public GameObject GoldThree;
     public GameObject GoldFour;
     public GameObject GoldFive;
-    bool notOpen = true;
-    void Start()
+    private bool notOpen = true;
+
+    private void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetBool("Open", false);
     }
-    void OnTriggerStay(Collider Col)
+
+    private void OnTriggerStay(Collider Col)
     {
         if (Col.tag == "Player")
         {

@@ -1,47 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack {
-
-    float timePassed;
-    float turnspeed = 2f;
-    float speed = 20f;
-    Vector3 playerPos;
-    IWeaponBehavior weaponScript;
-    float scaleFactor;
+public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack
+{
+    private float timePassed;
+    private float turnspeed = 2f;
+    private float speed = 20f;
+    private Vector3 playerPos;
+    private IWeaponBehavior weaponScript;
+    private float scaleFactor;
 
     // Use this for initialization
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onPlayerPositionUpdate += UpdatePlayerPosition;
         EventSystem.onPlayerDeath += PlayerDeath;
     }
+
     //unsubscribe from player movement
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerPositionUpdate -= UpdatePlayerPosition;
         EventSystem.onPlayerDeath -= PlayerDeath;
     }
 
-    void Start () {
+    private void Start()
+    {
         weaponScript = FindWeapon(transform).GetComponent<IWeaponBehavior>();
         weaponScript.AttackStart();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    private void Update()
+    {
         transform.localPosition += transform.forward * speed * scaleFactor * Time.deltaTime;
 
         if (timePassed > .5 && timePassed < 1)
         {
             transform.Rotate(0, 40f * Time.deltaTime, 0);
         }
-        else if ( timePassed > 1)
+        else if (timePassed > 1)
         {
             RotateToFaceTarget(playerPos, turnspeed);
         }
-        if(timePassed > 4)
+        if (timePassed > 4)
         {
             turnspeed += 8f * Time.deltaTime;
             speed += 4f * scaleFactor * Time.deltaTime;
@@ -54,12 +55,12 @@ public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack {
         }
     }
 
-    void UpdatePlayerPosition(Vector3 _pos)
+    private void UpdatePlayerPosition(Vector3 _pos)
     {
         playerPos = _pos;
     }
 
-    GameObject FindWeapon(Transform obj)
+    private GameObject FindWeapon(Transform obj)
     {
         foreach (Transform tr in obj)
         {
@@ -78,7 +79,8 @@ public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack {
         }
         return null;
     }
-    void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
+
+    private void RotateToFaceTarget(Vector3 _TargetPosition, float _LerpSpeed = 4f, float _AngleAdjustment = -90f)
     {
         Vector3 lookPos = (transform.position - _TargetPosition);
         lookPos.y = 0;
@@ -91,6 +93,7 @@ public class Scythe_Ranged : MonoBehaviour, IRangedPlayerAttack {
     {
         weaponScript.ResetAttack();
     }
+
     public void PlayerDeath()
     {
         Destroy(this);

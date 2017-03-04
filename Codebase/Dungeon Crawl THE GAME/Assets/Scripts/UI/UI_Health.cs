@@ -1,31 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Health : MonoBehaviour {
+public class UI_Health : MonoBehaviour
+{
+    private Slider healthslider;
 
-    Slider healthslider;
-
-
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onPlayerHealthUpdate += UpdateHealth;
     }
+
     //unsubscribe
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onPlayerHealthUpdate -= UpdateHealth;
-
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         healthslider = GetComponent<Slider>();
     }
-
-
 
     public void UpdateHealth(int health, int healthmax)
     {

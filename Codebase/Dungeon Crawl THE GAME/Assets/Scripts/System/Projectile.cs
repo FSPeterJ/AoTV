@@ -1,19 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    float time = 0;
-    Rigidbody body;
+    private float time = 0;
+    private Rigidbody body;
+
     // Use this for initialization
-    void Start ()
+    private void Start()
     {
         body = gameObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update () {
+    private void Update()
+    {
         time += Time.deltaTime;
         body.AddForce(transform.forward);
         //body.freezeRotation = true;
@@ -21,12 +21,11 @@ public class Projectile : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-	}
+    }
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player") 
+        if (other.gameObject.tag == "Player")
         {
             other.gameObject.GetComponent<Player>().TakeDamage(2);
             other.gameObject.GetComponent<Animator>().SetTrigger("Take Damage");

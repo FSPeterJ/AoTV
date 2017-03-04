@@ -1,32 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Lives : MonoBehaviour {
+public class UI_Lives : MonoBehaviour
+{
+    private Text lives;
+    private int livesvalue;
 
-    Text lives;
-    int livesvalue;
-
-
-    void OnEnable()
+    private void OnEnable()
     {
         EventSystem.onLivesCount += UpdateLives;
     }
+
     //unsubscribe
-    void OnDisable()
+    private void OnDisable()
     {
         EventSystem.onLivesCount -= UpdateLives;
-
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         lives = GetComponent<Text>();
     }
-
-
 
     public void UpdateLives(int _lives)
     {
@@ -34,7 +29,7 @@ public class UI_Lives : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         lives.text = "Lives: " + livesvalue;
     }
